@@ -1,9 +1,9 @@
 package Constructs;
 
-public class Backslash implements Construct{
-    String mark;
+public class SpecialBackslash implements Construct{
+    private String mark;
 
-    public Backslash(String mark) {
+    public SpecialBackslash(String mark) {
         this.mark = mark;
         System.out.println(mark);
     }

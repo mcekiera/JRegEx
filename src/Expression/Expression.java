@@ -20,7 +20,7 @@ public class Expression {
         elements.add(construct);
     }
 
-    public void addAll(Expression expression) {
+    public void addAllConstructs(Expression expression) {
         elements.addAll(expression.getElements());
     }
 

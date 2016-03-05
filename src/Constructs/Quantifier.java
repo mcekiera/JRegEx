@@ -1,9 +1,10 @@
 package Constructs;
 
-public class Backslash implements Construct{
+public class Quantifier implements Construct {
+    private Construct construct;
     String mark;
 
-    public Backslash(String mark) {
+    public Quantifier(String mark) {
         this.mark = mark;
         System.out.println(mark);
     }
