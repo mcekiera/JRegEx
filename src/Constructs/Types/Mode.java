@@ -1,6 +1,8 @@
-package Constructs;
+package Constructs.Types;
 
-public class Mode implements Construct{
+import Constructs.Construct;
+
+public class Mode implements Construct {
     private String mark;
 
     public Mode(String mark) {

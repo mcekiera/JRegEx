@@ -1,4 +1,6 @@
-package Constructs;
+package Constructs.Types;
+
+import Constructs.Construct;
 
 import java.util.List;
 

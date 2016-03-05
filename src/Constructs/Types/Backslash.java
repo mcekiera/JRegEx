@@ -1,9 +1,11 @@
-package Constructs;
+package Constructs.Types;
 
-public class SimpleChar implements Construct{
+import Constructs.Construct;
+
+public class Backslash implements Construct {
     String mark;
 
-    public SimpleChar(String mark) {
+    public Backslash(String mark) {
         this.mark = mark;
         System.out.println(mark);
     }

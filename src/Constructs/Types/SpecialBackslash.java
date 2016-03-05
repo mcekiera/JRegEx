@@ -1,6 +1,8 @@
-package Constructs;
+package Constructs.Types;
 
-public class SpecialBackslash implements Construct{
+import Constructs.Construct;
+
+public class SpecialBackslash implements Construct {
     private String mark;
 
     public SpecialBackslash(String mark) {

@@ -1,4 +1,6 @@
-package Constructs;
+package Constructs.Types;
+
+import Constructs.Construct;
 
 public class Quantifier implements Construct {
     private Construct construct;

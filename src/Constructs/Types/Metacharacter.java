@@ -1,4 +1,6 @@
-package Constructs;
+package Constructs.Types;
+
+import Constructs.Construct;
 
 public class Metacharacter implements Construct {
     private String match;
