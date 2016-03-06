@@ -1,19 +1,18 @@
 package Constructs;
 
-import Expression.Expression;
-
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class test {
 
     public static void main(String[] args) {
-        Pattern pattern = Pattern.compile("[a-z&&[^grs]]?+\\p{Alnum}{2,5}|\\\\\\Qacvb\\Eabc");
-        Expression expression = new Expression(pattern,"a d");
-        int i = 0;
-        while(i < expression.getPattern().toString().length()) {
-            Construct construct = ConstructsFactory.getInstance().create(expression,i);
-            i += construct.size();
+        Matcher matcher = Pattern.compile("a").matcher("");
+        if(matcher.reset("aaa").find()) {
+            System.out.println(matcher.group());
+        } else if(matcher.reset("b").find()) {
+            System.out.println(matcher.group());
         }
+
 
 
     }
