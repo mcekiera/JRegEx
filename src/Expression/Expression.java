@@ -28,6 +28,10 @@ public class Expression {
         return pattern;
     }
 
+    public String getPatternAsString(int startIndex) {
+        return pattern.toString().substring(startIndex);
+    }
+
     public String getMatch() {
         return match;
     }
