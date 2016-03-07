@@ -1,19 +1,23 @@
 package Constructs;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import Constructs.Lib.MatcherLib;
+import Constructs.Types.Type;
 
 public class test {
 
     public static void main(String[] args) {
-        Matcher matcher = Pattern.compile("a").matcher("");
-        if(matcher.reset("aaa").find()) {
-            System.out.println(matcher.group());
-        } else if(matcher.reset("b").find()) {
-            System.out.println(matcher.group());
+        String str = "(\\d([a-z]))";
+        MatcherLib lib = MatcherLib.getInstance();
+        ConstructsFactory cf = ConstructsFactory.getInstance();
+
+        System.out.println(cf.extractGroup(str,3));
+
+        for(Type type : Type.values()) {
+            if(lib.getMatcher(type).reset(str).lookingAt()) {
+                //System.out.println(lib.getMatcher(type).group());
+
+            }
         }
-
-
 
     }
 }
