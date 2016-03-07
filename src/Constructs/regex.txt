@@ -1,6 +1,3 @@
-BACKSLASH
-
-
 .    any character
 ^    the beginning of a line. Negation of next statement
 $    the end of a line. Matching for character: $
@@ -33,19 +30,6 @@ $    the end of a line. Matching for character: $
 \G    the end of the previous match
 \Z    the end of the input but for the final terminator,if any
 \z    the end of the input
-\    the backslash escape character
-{    opening of interval
-}    closing of interval
-[    opening of a range
-]    closing of a range
-(    opening of a group
-)    closing of a group
-?=    Positive look ahead
-?!    Negative look ahead
-?<=    positive look behind
-?<!    negative look behind
-?>    atomic group
-?:    non-capturing group
 \p{Lower}    a lower-case alphabetic character: [a-z]
 \p{Upper}    an upper-case alphabetic character:[A-Z]
 \p{ASCII}    all ASCII:[\x00-\x7F]
@@ -82,4 +66,5 @@ $    the end of a line. Matching for character: $
 (?m)    multiline
 (?s)    dotall, dot matches all characters
 (?u)    Unicode case, enables Unicode-aware case folding
+(?U)
 (?d)    UNIX lines

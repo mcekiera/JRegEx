@@ -4,6 +4,9 @@ import Constructs.Lib.MatcherLib;
 import Constructs.Types.*;
 import Expression.Expression;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ConstructsFactory {
     private static final ConstructsFactory instance = new ConstructsFactory();
     private final GroupFactory groupFactory = GroupFactory.getInstance();
@@ -15,13 +18,19 @@ public class ConstructsFactory {
 
         if(regexMatch(Type.BOUNDARY,current)) {
             System.out.print(Type.BOUNDARY);
+            //System.out.print(patternGroupInjector(expression.getPatternAsString(0), patternIndex, patternIndex+lib.getMatcher(Type.BOUNDARY).group().length()) + "<<");
             return new Boundary(lib.getMatcher(Type.BOUNDARY).group(),"");
         } else if(regexMatch(Type.MODE,current)) {
             System.out.print(Type.MODE);
             return new Mode(lib.getMatcher(Type.MODE).group(),"");
         } else if(regexMatch(Type.CHAR_CLASS,current)) {
             System.out.print(Type.CHAR_CLASS);
-            return new CharClass(lib.getMatcher(Type.CHAR_CLASS).group(),"");
+            String pt = patternGroupInjector(expression.getPatternAsString(0), patternIndex, patternIndex+lib.getMatcher(Type.CHAR_CLASS).group().length());
+            Matcher matcher = Pattern.compile(pt).matcher(expression.getMatch());
+            System.out.println(pt);
+            matcher.find();
+            String match = matcher.group("temp");
+            return new CharClass(lib.getMatcher(Type.CHAR_CLASS).group(),match);
         } else if(regexMatch(Type.LOGICAL,current)) {
             System.out.print(Type.LOGICAL);
             return new Logical(lib.getMatcher(Type.LOGICAL).group(),"");
@@ -41,8 +50,14 @@ public class ConstructsFactory {
             String group = extractGroup(current);
             return groupFactory.create(group,"");
         } else {
+            regexMatch(Type.SIMPLE,current);
             System.out.print("SIMPLE ");
-            return new Construct(current.substring(0,1),"");
+            String pt = patternGroupInjector(expression.getPatternAsString(0), patternIndex, patternIndex+lib.getMatcher(Type.SIMPLE).group().length());
+            Matcher matcher = Pattern.compile(pt).matcher(expression.getMatch());
+            System.out.println(pt);
+            matcher.find();
+            String match = matcher.group("temp");
+            return new Construct(current.substring(0,1),match);
         }
     }
 
@@ -54,7 +69,7 @@ public class ConstructsFactory {
         return instance;
     }
 
-    public String extractGroup(String pattern) {
+    private String extractGroup(String pattern) {
         char[] strAsChar = pattern.toCharArray();
         int depth = 0;
         for(int index = 0; index < pattern.length(); index++) {
@@ -63,12 +78,15 @@ public class ConstructsFactory {
             } else if(strAsChar[index]==')') {
                 depth--;
             }
-
             if(depth==0){
                 return pattern.substring(0,index+1);
             }
-
         }
         return "";
     }
+
+    private String patternGroupInjector(String pattern, int start, int end) {
+        return pattern.substring(0, start) + "(?<temp>" + pattern.substring(start, end) + ")" + pattern.substring(end);
+    }
+
 }

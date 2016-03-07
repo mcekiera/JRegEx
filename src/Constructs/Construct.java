@@ -7,7 +7,7 @@ public class Construct {
     public Construct(String pattern, String match) {
         this.pattern = pattern;
         this.match = match;
-        System.out.println(pattern);
+        System.out.println("\"" + pattern + ":" + match + "\"");
     }
 
     public int size() {
