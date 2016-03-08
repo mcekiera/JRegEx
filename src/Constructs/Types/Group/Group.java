@@ -16,7 +16,7 @@ public class Group extends Construct {
         matcher.find();
         int i = matcher.end();
         while(i < pattern.length()-1) {
-            Construct construct = ConstructsFactory.getInstance().create(new Expression(Pattern.compile(pattern),""), i);
+            Construct construct = ConstructsFactory.getInstance().createConstruct(new Expression(Pattern.compile(pattern), match), i);
             i += construct.size();
         }
     }

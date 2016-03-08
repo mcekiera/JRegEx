@@ -2,6 +2,7 @@ package Constructs;
 
 import Constructs.Lib.MatcherLib;
 import Constructs.Types.*;
+import Constructs.Types.Group.Capturing;
 import Expression.Expression;
 
 import java.util.regex.Matcher;
@@ -13,51 +14,58 @@ public class ConstructsFactory {
     private final MatcherLib lib = MatcherLib.getInstance();
     private ConstructsFactory() {}
 
-    public Construct create(Expression expression, int patternIndex) {
+    public Construct createConstruct(Expression expression, int patternIndex) {
         String current = expression.getPatternAsString(patternIndex);
 
         if(regexMatch(Type.BOUNDARY,current)) {
-            System.out.print(Type.BOUNDARY);
-            //System.out.print(patternGroupInjector(expression.getPatternAsString(0), patternIndex, patternIndex+lib.getMatcher(Type.BOUNDARY).group().length()) + "<<");
-            return new Boundary(lib.getMatcher(Type.BOUNDARY).group(),"");
+            String match = getDirectMatch(expression,Type.BOUNDARY,patternIndex);
+            return new Boundary(lib.getMatcher(Type.BOUNDARY).group(),match);
         } else if(regexMatch(Type.MODE,current)) {
-            System.out.print(Type.MODE);
-            return new Mode(lib.getMatcher(Type.MODE).group(),"");
+            String match = getDirectMatch(expression,Type.MODE,patternIndex);
+            return new Mode(lib.getMatcher(Type.MODE).group(),match);
         } else if(regexMatch(Type.CHAR_CLASS,current)) {
-            System.out.print(Type.CHAR_CLASS);
-            String pt = patternGroupInjector(expression.getPatternAsString(0), patternIndex, patternIndex+lib.getMatcher(Type.CHAR_CLASS).group().length());
-            Matcher matcher = Pattern.compile(pt).matcher(expression.getMatch());
-            System.out.println(pt);
-            matcher.find();
-            String match = matcher.group("temp");
+            String match = getDirectMatch(expression,Type.CHAR_CLASS,patternIndex);
             return new CharClass(lib.getMatcher(Type.CHAR_CLASS).group(),match);
         } else if(regexMatch(Type.LOGICAL,current)) {
-            System.out.print(Type.LOGICAL);
-            return new Logical(lib.getMatcher(Type.LOGICAL).group(),"");
+            String match = getDirectMatch(expression,Type.LOGICAL,patternIndex);
+            return new Logical(lib.getMatcher(Type.LOGICAL).group(),match);
         } else if(regexMatch(Type.PREDEFINED,current)) {
-            System.out.print(Type.PREDEFINED);
-            return new Predefined(lib.getMatcher(Type.PREDEFINED).group(),"");
+            String match = getDirectMatch(expression,Type.PREDEFINED,patternIndex);
+            return new Predefined(lib.getMatcher(Type.PREDEFINED).group(),match);
         } else if(regexMatch(Type.QUANTIFIER,current)) {
-            System.out.print(Type.QUANTIFIER);
-            return new Quantifier(lib.getMatcher(Type.QUANTIFIER).group(),"");
+            String match = getDirectMatch(expression,Type.QUANTIFIER,patternIndex);
+            return new Quantifier(lib.getMatcher(Type.QUANTIFIER).group(),match);
         } else if(regexMatch(Type.QUOTATION,current)) {
-            System.out.print(Type.QUOTATION);
-            return new Quotation(lib.getMatcher(Type.QUOTATION).group(),"");
+            String match = getDirectMatch(expression,Type.QUOTATION,patternIndex);
+            return new Quotation(lib.getMatcher(Type.QUOTATION).group(),match);
         } else if(regexMatch(Type.SPECIFIC_CHAR,current)) {
-            System.out.print(Type.SPECIFIC_CHAR);
-            return new SpecificChar(lib.getMatcher(Type.SPECIFIC_CHAR).group(),"");
+            String match = getDirectMatch(expression,Type.SPECIFIC_CHAR,patternIndex);
+            return new SpecificChar(lib.getMatcher(Type.SPECIFIC_CHAR).group(),match);
         } else if(regexMatch(Type.GROUP,current)) {
-            String group = extractGroup(current);
-            return groupFactory.create(group,"");
+            return createGroup(expression,patternIndex);
         } else {
             regexMatch(Type.SIMPLE,current);
-            System.out.print("SIMPLE ");
-            String pt = patternGroupInjector(expression.getPatternAsString(0), patternIndex, patternIndex+lib.getMatcher(Type.SIMPLE).group().length());
-            Matcher matcher = Pattern.compile(pt).matcher(expression.getMatch());
-            System.out.println(pt);
-            matcher.find();
-            String match = matcher.group("temp");
+            String match = getDirectMatch(expression, Type.SIMPLE, patternIndex);
             return new Construct(current.substring(0,1),match);
+        }
+    }
+
+    public Construct createGroup(Expression expression, int patternIndex) {
+        String current = extractGroup(expression.getPatternAsString(patternIndex));
+        if (regexMatch(Type.LOOK_AROUND, current)) {
+            String match = getDirectMatch(expression, Type.LOOK_AROUND, patternIndex);
+            return new Boundary(lib.getMatcher(Type.LOOK_AROUND).group(), match);
+        } else if (regexMatch(Type.ATOMIC, current)) {
+            String match = getDirectMatch(expression, Type.ATOMIC, patternIndex);
+            return new Mode(lib.getMatcher(Type.ATOMIC).group(), match);
+        } else if (regexMatch(Type.NON_CAPTURING, current)) {
+            String match = getDirectMatch(expression, Type.NON_CAPTURING, patternIndex);
+            return new CharClass(lib.getMatcher(Type.NON_CAPTURING).group(), match);
+        } else {
+            regexMatch(Type.CAPTURING, current);
+            System.out.println(lib.getMatcher(Type.CAPTURING).group());
+            String match = getDirectMatch(expression, Type.CAPTURING, patternIndex);
+            return new Capturing(lib.getMatcher(Type.CAPTURING).group(), match);
         }
     }
 
@@ -85,8 +93,18 @@ public class ConstructsFactory {
         return "";
     }
 
-    private String patternGroupInjector(String pattern, int start, int end) {
+    private String injectGroup(String pattern, int start, int end) {
+        System.out.println(pattern);
         return pattern.substring(0, start) + "(?<temp>" + pattern.substring(start, end) + ")" + pattern.substring(end);
+    }
+
+    private String getDirectMatch(Expression expression, Type type, int index) {
+        System.out.println(type);
+        String pattern = injectGroup(expression.getPatternAsString(0), index, index + lib.getMatcher(type).group().length());
+        System.out.println(pattern);
+        Matcher matcher = Pattern.compile(pattern).matcher(expression.getMatch());
+        matcher.find();
+        return matcher.group("temp");
     }
 
 }
