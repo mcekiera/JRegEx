@@ -15,7 +15,8 @@ public enum Type {
     CAPTURING("^\\((\\?\\<[^>]*\\>)?.+\\)"),
     NON_CAPTURING("\\(\\?([imdsuxU]+(-[imdsuxU]+)?)?:.+\\)"),
     BACKREFERENCE("\\\\(?:(\\d+)|k\\<([^>]+)\\>)"),
-    SIMPLE(".");
+    SIMPLE("."),
+    RANGE("\\p{ASCII}-\\p{ASCII}|\\\\\\w+-\\\\\\w+");
 
 
     String regex;

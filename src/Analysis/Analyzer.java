@@ -1,7 +1,7 @@
 package Analysis;
 
 import Constructs.ConstructsFactory;
-import Expression.Expression;
+import Expressions.Expression;
 
 public class Analyzer {
     private Expression expression;
