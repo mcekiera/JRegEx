@@ -4,7 +4,7 @@ import Constructs.Construct;
 
 public class Mode  extends Construct {
 
-    public Mode(String pattern, String match) {
-        super(pattern,match);
+    public Mode(String pattern) {
+        super(pattern);
     }
 }

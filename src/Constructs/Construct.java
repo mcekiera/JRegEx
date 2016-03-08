@@ -2,12 +2,10 @@ package Constructs;
 
 public class Construct {
     protected String pattern;
-    protected String match;
 
-    public Construct(String pattern, String match) {
+    public Construct(String patter) {
         this.pattern = pattern;
-        this.match = match;
-        System.out.println("\"" + pattern + ":" + match + "\"");
+        System.out.println(pattern);
     }
 
     public int size() {

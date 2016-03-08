@@ -4,7 +4,7 @@ import Constructs.Construct;
 
 public class CharClass extends Construct {
 
-    public CharClass(String pattern, String match) {
-        super(pattern,match);
+    public CharClass(String pattern) {
+        super(pattern);
     }
 }

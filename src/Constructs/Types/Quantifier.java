@@ -4,7 +4,7 @@ import Constructs.Construct;
 
 public class Quantifier  extends Construct {
 
-    public Quantifier(String pattern, String match) {
-        super(pattern,match);
+    public Quantifier(String pattern) {
+        super(pattern);
     }
 }

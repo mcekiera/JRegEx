@@ -9,11 +9,9 @@ import java.util.regex.Pattern;
 public class Expression {
     private final List<Construct> elements = new ArrayList<Construct>();
     private final Pattern pattern;
-    private final String match;
 
-    public Expression(Pattern pattern, String match) {
+    public Expression(Pattern pattern) {
         this.pattern = pattern;
-        this.match = match;
     }
 
     public void addConstruct(Construct construct) {
@@ -30,10 +28,6 @@ public class Expression {
 
     public String getPatternAsString(int startIndex) {
         return pattern.toString().substring(startIndex);
-    }
-
-    public String getMatch() {
-        return match;
     }
 
     private List<Construct> getElements() {
