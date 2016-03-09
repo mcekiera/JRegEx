@@ -14,6 +14,11 @@ public class Quantifier  extends Construct {
     }
 
     @Override
+    public String getPattern() {
+        return construct.getPattern() + pattern;
+    }
+
+    @Override
     public String toString() {
         return construct.toString() + pattern;
     }

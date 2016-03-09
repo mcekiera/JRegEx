@@ -30,6 +30,6 @@ public class Group extends Construct {
         for(Construct construct : elements) {
             result += "\n\t" + construct.toString();
         }
-        return result;
+        return pattern;
     }
 }

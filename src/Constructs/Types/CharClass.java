@@ -27,6 +27,6 @@ public class CharClass extends Construct {
             string += "\n\t" + construct.toString();
         }
         string += "\n]";
-        return string;
+        return pattern;
     }
 }

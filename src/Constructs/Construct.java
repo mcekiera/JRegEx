@@ -15,6 +15,10 @@ public class Construct {
         return pattern;
     }
 
+    public String getAsSeparateGroup(String groupName) {
+        return "(?<" + groupName +">" + getPattern() + ")";
+    }
+
     @Override
     public String toString() {
         return pattern;
