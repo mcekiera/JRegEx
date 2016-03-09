@@ -4,7 +4,8 @@ import Constructs.Construct;
 
 public class Quotation  extends Construct {
 
-    public Quotation(String pattern) {
-        super(pattern);
+
+    public Quotation(String pattern, int start, int end) {
+        super(pattern, start, end);
     }
 }

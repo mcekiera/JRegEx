@@ -4,8 +4,8 @@ import Constructs.Construct;
 
 public class Boundary extends Construct{
 
-    public Boundary(String pattern) {
-        super(pattern);
-    }
 
+    public Boundary(String pattern, int start, int end) {
+        super(pattern, start, end);
+    }
 }

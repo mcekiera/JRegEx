@@ -14,28 +14,30 @@ public class ConstructsFactory {
         Construct construct;
 
         if(regexMatch(Type.BOUNDARY,current)) {
-            construct = new Boundary(lib.getMatcher(Type.BOUNDARY).group());
+            construct = new Boundary(pattern,startIndex,startIndex+lib.getMatcher(Type.BOUNDARY).end());
         } else if(regexMatch(Type.MODE,current)) {
-            construct =  new Mode(lib.getMatcher(Type.MODE).group());
+            construct =  new Mode(pattern,startIndex,startIndex+lib.getMatcher(Type.MODE ).end());
         } else if(regexMatch(Type.CHAR_CLASS,current)) {
-            construct =  new CharClass(lib.getMatcher(Type.CHAR_CLASS).group());
+            construct =  new CharClass(pattern,startIndex,startIndex+lib.getMatcher(Type.CHAR_CLASS).end());
         } else if(regexMatch(Type.LOGICAL,current)) {
-            construct =  new Logical(lib.getMatcher(Type.LOGICAL).group());
+            construct =  new Logical(pattern,startIndex,startIndex+lib.getMatcher(Type.LOGICAL).end());
         } else if(regexMatch(Type.PREDEFINED,current)) {
-            construct =  new Predefined(lib.getMatcher(Type.PREDEFINED).group());
+            construct =  new Predefined(pattern,startIndex,startIndex+lib.getMatcher(Type.PREDEFINED).end());
         } else if(regexMatch(Type.QUOTATION,current)) {
-            construct =  new Quotation(lib.getMatcher(Type.QUOTATION).group());
+            construct =  new Quotation(pattern,startIndex,startIndex+lib.getMatcher(Type.QUOTATION).end());
         } else if(regexMatch(Type.SPECIFIC_CHAR,current)) {
-            construct =  new SpecificChar(lib.getMatcher(Type.SPECIFIC_CHAR).group());
+            construct =  new SpecificChar(pattern,startIndex,startIndex+lib.getMatcher(Type.SPECIFIC_CHAR).end());
         } else if(regexMatch(Type.GROUP,current)) {
             construct =  createGroupConstruct(pattern, startIndex);
         } else {
             regexMatch(Type.SIMPLE,current);
-            construct =  new Construct(current.substring(0,1));
+            construct =  new Construct(pattern,startIndex,startIndex+lib.getMatcher(Type.SIMPLE).end());
         }
 
+
         if(regexMatch(Type.QUANTIFIER,current.substring(construct.size()))) {
-            Construct quantifier = new Quantifier(lib.getMatcher(Type.QUANTIFIER).group());
+            int index = startIndex + construct.size();
+            Construct quantifier = new Quantifier(pattern,index,index + lib.getMatcher(Type.QUANTIFIER).end());
             ((Quantifier) quantifier).setConstruct(construct);
             return quantifier;
         } else {
@@ -45,27 +47,28 @@ public class ConstructsFactory {
 
     public Construct createGroupConstruct(String pattern, int startIndex) {
         String current = extractGroup(pattern.substring(startIndex));
+
         if (regexMatch(Type.LOOK_AROUND, current)) {
-            return new Boundary(lib.getMatcher(Type.LOOK_AROUND).group());
+            return new Boundary(pattern,startIndex,startIndex+lib.getMatcher(Type.LOOK_AROUND).end());
         } else if (regexMatch(Type.ATOMIC, current)) {
-            return new Mode(lib.getMatcher(Type.ATOMIC).group());
+            return new Mode(pattern,startIndex,startIndex+lib.getMatcher(Type.ATOMIC).end());
         } else if (regexMatch(Type.NON_CAPTURING, current)) {
-            return new CharClass(lib.getMatcher(Type.NON_CAPTURING).group());
+            return new CharClass(pattern,startIndex,startIndex+lib.getMatcher(Type.NON_CAPTURING).end());
         } else {
             regexMatch(Type.CAPTURING, current);
-            return new Capturing(lib.getMatcher(Type.CAPTURING).group());
+            return new Capturing(pattern,startIndex,startIndex+lib.getMatcher(Type.CAPTURING).end());
         }
     }
 
     public Construct createConstructInCharClass(String pattern, int startIndex) {
         String current = pattern.substring(startIndex);
         if (regexMatch(Type.RANGE, current)) {
-            return new Range(lib.getMatcher(Type.RANGE).group());
+            return new Range(pattern,startIndex,startIndex+lib.getMatcher(Type.RANGE).end());
         } else if (regexMatch(Type.PREDEFINED, current)) {
-            return new Predefined(lib.getMatcher(Type.PREDEFINED).group());
+            return new Predefined(pattern,startIndex,startIndex+lib.getMatcher(Type.PREDEFINED).end());
         } else {
             regexMatch(Type.SIMPLE, current);
-            return new Construct(lib.getMatcher(Type.SIMPLE).group());
+            return new Construct(pattern,startIndex,startIndex+lib.getMatcher(Type.SIMPLE).end());
         }
     }
 

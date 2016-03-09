@@ -11,14 +11,17 @@ import java.util.regex.Pattern;
 public class Group extends Construct {
     protected final List<Construct> elements = new ArrayList<Construct>();
 
-    public Group(String pattern) {
+    public Group(String pattern, int start, int end) {
+        super(pattern, start, end);
+    }
 
-        super(pattern);
-        Matcher matcher = Pattern.compile("\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?").matcher(pattern);
+
+    public void read() {
+        Matcher matcher = Pattern.compile("\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?").matcher(asString);
         matcher.find();
         int i = matcher.end();
-        while(i < pattern.length()-1) {
-            Construct construct = ConstructsFactory.getInstance().createConstruct(pattern, i);
+        while(i < asString.length()-1) {
+            Construct construct = ConstructsFactory.getInstance().createConstruct(asString, i);
             i += construct.size();
             this.elements.add(construct);
         }
@@ -26,10 +29,6 @@ public class Group extends Construct {
 
     @Override
     public String toString() {
-        String result = pattern;
-        for(Construct construct : elements) {
-            result += "\n\t" + construct.toString();
-        }
-        return pattern;
+        return asString;
     }
 }
