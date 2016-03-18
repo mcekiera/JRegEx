@@ -32,7 +32,7 @@ public class InputTextField extends JTextField {
 
     private void highlightSingleBracket() {
         for(int i : parenthesisBalanceCheck(getText())) {
-            painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(255,100,100));
+            painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(255,65,65));
             try {
                 highlighter.addHighlight(i, i + 1, painter);
             }catch (BadLocationException ex) {
@@ -71,7 +71,7 @@ public class InputTextField extends JTextField {
                 "|" + Type.QUANTIFIER.getRegex() +
                 "|" + Type.SPECIFIC_CHAR.getRegex() +
                 "|" + "(?<!(\\\\\\\\){0,999}\\\\)\\|").matcher(text);
-        painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(100,200,255));
+        painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(100,100,255));
         while(m.find()) {
             try {
                 highlighter.addHighlight(m.start(), m.end(), painter);
@@ -161,9 +161,11 @@ public class InputTextField extends JTextField {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            int pos = 0;
             if(backslahBalance()) {
-                setText(getText().substring(0, getCaretPosition()) + "()" + getText().substring(getCaretPosition()));
-                setCaretPosition(getCaretPosition() - 1);
+                pos = getCaretPosition();
+                setText(getText().substring(0, pos) + "()" + getText().substring(pos));
+                setCaretPosition(pos+1);
             } else {
                 setText(getText().substring(0, getCaretPosition()) + "(" + getText().substring(getCaretPosition()));
             }

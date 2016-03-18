@@ -3,10 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="67fe1b98-faf3-4689-be3c-98e502a2e9bf" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Constructs/Lib/DescLib.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/GUI/InputTextField.java" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/GUI/Main.java" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Constructs/Lib/regex.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/richtextfx_0_6_10.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GUI/InputTextField.java" afterPath="$PROJECT_DIR$/src/GUI/InputTextField.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JRegEx.iml" afterPath="$PROJECT_DIR$/JRegEx.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -96,16 +96,16 @@
       <file leaf-file-name="InputTextField.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GUI/InputTextField.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.575179">
-              <caret line="72" column="49" selection-start-line="72" selection-start-column="49" selection-end-line="72" selection-end-column="49" />
+            <state vertical-scroll-proportion="0.5131265">
+              <caret line="167" column="38" selection-start-line="167" selection-start-column="38" selection-end-line="167" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1450#1459#0" expanded="true" />
-                <element signature="e#1501#1510#0" expanded="true" />
-                <element signature="e#6113#6114#0" expanded="true" />
-                <element signature="e#6143#6144#0" expanded="true" />
-                <element signature="e#6276#6277#0" expanded="true" />
-                <element signature="e#6306#6307#0" expanded="true" />
+                <element signature="e#1448#1457#0" expanded="true" />
+                <element signature="e#1499#1508#0" expanded="true" />
+                <element signature="e#6131#6132#0" expanded="true" />
+                <element signature="e#6161#6162#0" expanded="true" />
+                <element signature="e#6294#6295#0" expanded="true" />
+                <element signature="e#6324#6325#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1155,16 +1155,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GUI/InputTextField.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.575179">
-          <caret line="72" column="49" selection-start-line="72" selection-start-column="49" selection-end-line="72" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.5131265">
+          <caret line="167" column="38" selection-start-line="167" selection-start-column="38" selection-end-line="167" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1450#1459#0" expanded="true" />
-            <element signature="e#1501#1510#0" expanded="true" />
-            <element signature="e#6113#6114#0" expanded="true" />
-            <element signature="e#6143#6144#0" expanded="true" />
-            <element signature="e#6276#6277#0" expanded="true" />
-            <element signature="e#6306#6307#0" expanded="true" />
+            <element signature="e#1448#1457#0" expanded="true" />
+            <element signature="e#1499#1508#0" expanded="true" />
+            <element signature="e#6131#6132#0" expanded="true" />
+            <element signature="e#6161#6162#0" expanded="true" />
+            <element signature="e#6294#6295#0" expanded="true" />
+            <element signature="e#6324#6325#0" expanded="true" />
           </folding>
         </state>
       </provider>
