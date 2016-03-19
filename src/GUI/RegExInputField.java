@@ -16,33 +16,41 @@ import java.util.List;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
-public class InputTextField extends JTextField {
+public class RegExInputField extends JTextField {
     Highlighter highlighter;
     Highlighter.HighlightPainter painter;
 
-    public InputTextField() {
+    public RegExInputField() {
         highlighter = this.getHighlighter();
         getDocument().addDocumentListener(new TextListener());
-        registerKeyboardAction(new Backslash(), KeyStroke.getKeyStroke('('), JComponent.WHEN_FOCUSED);
-        setFont(new Font("Arial", Font.BOLD, 16));
-        setColumns(30);
+        registerKeyboardAction(new ParanthesisListener(), KeyStroke.getKeyStroke('('), JComponent.WHEN_FOCUSED);
+        registerKeyboardAction(new SquareBracketListener(), KeyStroke.getKeyStroke('['), JComponent.WHEN_FOCUSED);
+        setFont(new Font("Arial", Font.BOLD, 26));
+        setColumns(40);
 
     }
 
-    private void highlightSingleBracket() {
-        for(int i : parenthesisBalanceCheck(getText())) {
+    private void highlightUnbalancedBrackets() {
+        for(int index : getUnbalancedBrackets(getText())) {
             painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(255,65,65));
             try {
-                highlighter.addHighlight(i, i + 1, painter);
+                highlighter.addHighlight(index, index + 1, painter);
             }catch (BadLocationException ex) {
                 ex.printStackTrace();
             }
         }
-
     }
 
-    private List<Integer> parenthesisBalanceCheck(String str) {
+    private List<Integer> getUnbalancedBrackets(String str) {
+        List<Integer> result = new ArrayList<Integer>();
+        result.addAll(getUnbalancedParentheses(str));
+        result.addAll(getUnbalancedSquareBrackets(str));
+        return result;
+    }
+
+    private List<Integer> getUnbalancedParentheses(String str) {
         Stack<Integer> start = new Stack<Integer>();
         Stack<Integer> end = new Stack<Integer>();
         for (int i = 0; i < str.length(); i++) {
@@ -66,9 +74,33 @@ public class InputTextField extends JTextField {
         return result;
     }
 
+    private List<Integer> getUnbalancedSquareBrackets(String str) {
+        Stack<Integer> start = new Stack<Integer>();
+        Stack<Integer> end = new Stack<Integer>();
+        char ch;
+        for (int i = 0; i < str.length(); i++) {
+            ch = str.charAt(i);
+            if(ch == '\\') {
+                i++;
+                continue;
+            }
+            if(ch == '[') {
+                start.push(i);
+            }else if(ch == ']') {
+                if(start.size()!=0 && start.peek()!= i-1) {
+                    start.pop();
+                }else {
+                    end.push(i);
+                }
+            }
+        }
+        List<Integer> result = new ArrayList<>(start);
+        result.addAll(end);
+        return result;
+    }
+
     private void predefineCheck(String text) {
         Matcher m = Pattern.compile(Type.PREDEFINED.getRegex() +
-                "|" + Type.QUANTIFIER.getRegex() +
                 "|" + Type.SPECIFIC_CHAR.getRegex() +
                 "|" + "(?<!(\\\\\\\\){0,999}\\\\)\\|").matcher(text);
         painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(100,100,255));
@@ -118,7 +150,7 @@ public class InputTextField extends JTextField {
     }
 
     private void groupCheck(String text) {
-        Matcher m = Pattern.compile("\\((\\?(<\\w+>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|<))?|(?<!\\\\)\\)(" + Type.QUANTIFIER.getRegex() + ")?").matcher(text);
+        Matcher m = Pattern.compile("(?<!(\\\\\\\\){0,999}\\\\)(\\((\\?(<(\\w+>|=|!)|=|!|>|[idmsuxU-]*:))?|\\))(" + Type.QUANTIFIER.getRegex() + ")?").matcher(text);
         painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(100,255,100));
         while(m.find()) {
             try {
@@ -130,7 +162,7 @@ public class InputTextField extends JTextField {
     }
 
     private boolean backslahBalance() {
-        String temp = getText().substring(0,getCaretPosition() < getText().length() ? getCaretPosition() : getText().length());
+        String temp = getText().substring(0, getCaretPosition() < getText().length() ? getCaretPosition() : getText().length());
         int sum = 0;
         for(char ch : temp.toCharArray()) {
             if(ch=='\\') {
@@ -148,27 +180,48 @@ public class InputTextField extends JTextField {
     private void fire(){
         highlighter.removeAllHighlights();
         modeCheck(getText());
-        highlightSingleBracket();
+        highlightUnbalancedBrackets();
         chartClassCheck(getText());
-        groupCheck(getText());
+
         predefineCheck(getText());
         quotationCheck(getText());
+        groupCheck(getText());
+        try {
+            Pattern p = Pattern.compile(getText());
+        }catch (PatternSyntaxException ex) {
+            System.out.println(ex.getDescription());
+            System.out.println(ex.getIndex());
+            System.out.println(ex.getPattern());
+            System.out.println(ex.getMessage());
+            System.out.println(ex.toString());
 
+        }
 
     }
 
-    private class Backslash implements ActionListener {
+    private void completeBrackets(char openBracket) {
+        char closeBracket = openBracket == '(' ? ')' : ']';
+        int pos = 0;
+        if(backslahBalance()) {
+            pos = getCaretPosition();
+            setText(getText().substring(0, pos) + openBracket + closeBracket + getText().substring(pos));
+            setCaretPosition(pos+1);
+        } else {
+            setText(getText().substring(0, getCaretPosition()) + openBracket + getText().substring(getCaretPosition()));
+        }
+    }
 
+    private class ParanthesisListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int pos = 0;
-            if(backslahBalance()) {
-                pos = getCaretPosition();
-                setText(getText().substring(0, pos) + "()" + getText().substring(pos));
-                setCaretPosition(pos+1);
-            } else {
-                setText(getText().substring(0, getCaretPosition()) + "(" + getText().substring(getCaretPosition()));
-            }
+            completeBrackets('(');
+        }
+    }
+
+    private class SquareBracketListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            completeBrackets('[');
         }
     }
 
@@ -177,8 +230,7 @@ public class InputTextField extends JTextField {
          * Reacts on text insertion
          */
         @Override
-        public void insertUpdate(DocumentEvent e) {
-
+        public void insertUpdate(DocumentEvent e)  {
             fire();
         }
 

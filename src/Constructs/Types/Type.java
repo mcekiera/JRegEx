@@ -3,7 +3,7 @@ package Constructs.Types;
 public enum Type {
     BOUNDARY("\\\\[bBAGZz]|[\\^\\$]"),
     CHAR_CLASS("(\\[((?:\\\\\\[|\\\\\\]|[^\\[\\]])*(?:(?:&&\\[\\^|\\[)(?:\\\\\\[|\\\\\\]|[^\\[\\]])*\\])?(?:\\\\\\[|\\\\\\]|[^\\[\\]])*)+\\])"),
-    MODE("\\(\\?[imdsuxU]+(-[imdsuxU]+)?\\)"),
+    MODE("\\(\\?[imdsuxU]+-?([imdsuxU]+)?\\)"),
     LOGICAL("\\||&&"),
     PREDEFINED("\\\\[dDsSwWpP](\\{[^}]+\\})?|\\."),
     QUANTIFIER("([?*+][?+]?)|\\{\\d+(,(\\d+)?)?\\}"),
