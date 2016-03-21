@@ -1,4 +1,4 @@
-package GUI;
+package Processor;
 
 public interface TextObserver {
 

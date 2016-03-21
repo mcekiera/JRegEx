@@ -1,6 +1,6 @@
 package GUI;
 
-
+import Processor.TextObserver;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -13,26 +13,39 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HighlightingTextField extends JTextField{
+public class InputFieldWrapper{
+    private final JTextField field;
     private Highlighter highlighter;
     private DefaultHighlighter.DefaultHighlightPainter painter;
     private List<TextObserver> observers;
 
-    public HighlightingTextField() {
-        highlighter = getHighlighter();
+    public InputFieldWrapper() {
+        field = new JTextField();
+        highlighter = field.getHighlighter();
         observers = new ArrayList<>();
-        getDocument().addDocumentListener(new TextChanged());
-        addKeyListener(new ClosureListener());
-        setFont(new Font("Arial",Font.BOLD,20));
-        setColumns(35);
+        field.getDocument().addDocumentListener(new TextChanged());
+        field.addKeyListener(new ClosureListener());
+        field.setFont(new Font("Arial", Font.BOLD, 20));
+        field.setColumns(35);
     }
 
-    public void highlightFragment(int start, int end, Color color) {
-        painter = new DefaultHighlighter.DefaultHighlightPainter(color);
-        try {
-            highlighter.addHighlight(start, end, painter);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
+    public String getText() {
+        return field.getText();
+    }
+
+    public JComponent getField() {
+        return field;
+    }
+
+    public void highlightFragment(List<Highlight> highlights) {
+        for(Highlight h : highlights) {
+
+            painter = new DefaultHighlighter.DefaultHighlightPainter(h.getColor());
+            try {
+                highlighter.addHighlight(h.getStart(), h.getEnd(), painter);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -51,7 +64,7 @@ public class HighlightingTextField extends JTextField{
     }
 
     private boolean backslashesAreBalanced() {
-        String temp = getText().substring(0, getCaretPosition() < getText().length() ? getCaretPosition() : getText().length());
+        String temp = field.getText().substring(0, field.getCaretPosition() < field.getText().length() ? field.getCaretPosition() : field.getText().length());
         int sum = 0;
         for(char ch : temp.toCharArray()) {
             if(ch=='\\') {
@@ -66,13 +79,18 @@ public class HighlightingTextField extends JTextField{
 
     private void completeBrackets(char openBracket) {
         char closeBracket = getClosingBracket(openBracket);
-        int pos = getCaretPosition();
+        int pos = field.getCaretPosition();
         if(backslashesAreBalanced()) {
-            pos = getCaretPosition();
-            setText(getText().substring(0, pos) + closeBracket + getText().substring(pos));
-            setCaretPosition(pos + 1);
+            if(field.getSelectedText()==null) {
+                field.setText(field.getText().substring(0, pos) + closeBracket + field.getText().substring(pos));
+                field.setCaretPosition(pos + 1);
+            } else {
+                field.setText(field.getText().substring(0,field.getSelectionStart()) +
+                field.getSelectedText() + closeBracket + field.getText().substring(field.getSelectionEnd()));
+                field.setCaretPosition(field.getSelectionEnd());
+            }
         }
-        setCaretPosition(pos);
+        field.setCaretPosition(pos);
     }
 
     private char getClosingBracket(char opening) {
