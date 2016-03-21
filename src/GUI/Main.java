@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        RegExInputField field = new RegExInputField();
+        HighlightingTextField field = new HighlightingTextField();
         frame.add(field);
         frame.pack();
         frame.setVisible(true);
