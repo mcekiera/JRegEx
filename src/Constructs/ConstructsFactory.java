@@ -2,40 +2,41 @@ package Constructs;
 
 import Constructs.Lib.MatcherLib;
 import Constructs.Types.*;
-import Constructs.Types.Error.IncompleteConstruct;
-import Constructs.Types.Error.InvalidRange;
-import Constructs.Types.Error.UnbalancedStructure;
+import Constructs.Types.Error.Error;
+import Constructs.Types.Error.*;
 import Constructs.Types.Group.Capturing;
 import Constructs.Types.Group.LookAround;
 import Constructs.Types.Group.NonCapturing;
-import Constructs.Types.Error.Error;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ConstructsFactory {
     private static final ConstructsFactory instance = new ConstructsFactory();
     private final MatcherLib lib = MatcherLib.getInstance();
     private ConstructsFactory() {}
     private Construct previous;
+    private String currentPattern;
+    private int groupCount;
 
     public Construct createConstruct(String pattern, int startIndex) {
         String current = pattern.substring(startIndex);
-        Construct construct;
+        Construct construct = null;
+        updateGroupsCount(pattern);
 
         if(regexMatch(Type.BOUNDARY,current)) {
             construct = new Boundary(pattern,startIndex,startIndex+lib.getMatcher(Type.BOUNDARY).end());
         } else if(regexMatch(Type.MODE,current)) {
             construct =  new Mode(pattern,startIndex,startIndex+lib.getMatcher(Type.MODE ).end());
         } else if(regexMatch(Type.CHAR_CLASS,current)) {
-            construct =  new CharClass(pattern,startIndex,startIndex+lib.getMatcher(Type.CHAR_CLASS).end());
+            construct = createCharacterClass(pattern,startIndex);
         } else if(regexMatch(Type.LOGICAL,current)) {
             construct =  new Logical(pattern,startIndex,startIndex+lib.getMatcher(Type.LOGICAL).end());
         } else if(regexMatch(Type.PREDEFINED,current)) {
-            if(lib.getMatcher(Type.PREDEFINED).group().matches("\\\\[dDsSwW]|\\[pP](\\{[^}]+})|\\.")) {
-                construct = new Predefined(pattern, startIndex, startIndex + lib.getMatcher(Type.PREDEFINED).end());
-            } else {
-                regexMatch(Type.INCOMPLETE,current);
-                construct = new IncompleteConstruct(pattern, startIndex, startIndex + lib.getMatcher(Type.INCOMPLETE).end());
-            }
-       } else if(regexMatch(Type.QUOTATION,current)) {
+            createPredefined(pattern,startIndex);
+        }else if(regexMatch(Type.BACKREFERENCE,current)) {
+            construct = createBackreference(pattern,startIndex);
+        } else if(regexMatch(Type.QUOTATION,current)) {
             construct =  new Quotation(pattern,startIndex,startIndex+lib.getMatcher(Type.QUOTATION).end());
         } else if(regexMatch(Type.SPECIFIC_CHAR,current)) {
             construct =  new SpecificChar(pattern,startIndex,startIndex+lib.getMatcher(Type.SPECIFIC_CHAR).end());
@@ -45,7 +46,7 @@ public class ConstructsFactory {
             construct = createQuantifierConstruct(pattern, startIndex);
         } else {
             if(pattern.substring(startIndex,startIndex+1).matches("[\\[\\]\\(]")) {
-                return new UnbalancedStructure(pattern,startIndex,startIndex+1);
+                construct = new UnbalancedStructure(pattern,startIndex,startIndex+1);
             } else {
                 regexMatch(Type.SIMPLE, current);
                 construct = new Construct(pattern, startIndex, startIndex + lib.getMatcher(Type.SIMPLE).end());
@@ -92,7 +93,9 @@ public class ConstructsFactory {
     public Construct createQuantifierConstruct(String pattern, int startIndex) {
         String current = pattern.substring(startIndex);
         Construct construct = null;
-
+        if(previous == null) {
+            return new Error(pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
+        }
         if(previous instanceof Quantifier) {
             return new Error(pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
         } else if (previous instanceof Interval) {
@@ -107,11 +110,43 @@ public class ConstructsFactory {
                 construct = new Quantifier(pattern, startIndex, startIndex + lib.getMatcher(Type.TOKEN).end());
                 ((Quantifier) construct).setConstruct(previous);
             } else {
-                construct = new Interval(pattern, startIndex, startIndex + lib.getMatcher(Type.TOKEN).end());
-                ((Interval) construct).setConstruct(previous);
+                regexMatch(Type.INTERVAL,current);
+                if (isValidInterval(lib.getMatcher(Type.INTERVAL).group())) {
+                    construct = new Interval(pattern, startIndex, startIndex + lib.getMatcher(Type.INTERVAL).end());
+                    ((Interval) construct).setConstruct(previous);
+                } else {
+                    construct = new InvalidInterval(pattern, startIndex, startIndex + lib.getMatcher(Type.INTERVAL).end());
+                }
             }
         }
         return construct;
+    }
+
+    private Construct createBackreference(String pattern, int startIndex) {
+        int group = new Integer(lib.getMatcher(Type.BACKREFERENCE).group().substring(1));
+
+        if(group <= groupCount) {
+            return new Backreference(pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end());
+        } else {
+            return new InvalidBackreference(pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end());
+        }
+    }
+
+    private Construct createCharacterClass(String pattern, int startIndex) {
+        if(pattern.substring(startIndex).startsWith("[]")) {
+            return new IncompleteClass(pattern,startIndex,startIndex+lib.getMatcher(Type.CHAR_CLASS ).end());
+        } else {
+            return new CharClass(pattern, startIndex, startIndex + lib.getMatcher(Type.CHAR_CLASS).end());
+        }
+    }
+
+    private Construct createPredefined(String pattern, int startIndex) {
+        if (lib.getMatcher(Type.PREDEFINED).group().matches("\\\\[dDsSwW]|\\[pP](\\{[^}]+})|\\.")) {
+            return new Predefined(pattern, startIndex, startIndex + lib.getMatcher(Type.PREDEFINED).end());
+        } else {
+            regexMatch(Type.INCOMPLETE, pattern.substring(startIndex));
+            return new IncompleteConstruct(pattern, startIndex, startIndex + lib.getMatcher(Type.INCOMPLETE).end());
+        }
     }
 
     private boolean regexMatch(Type type, String patter) {
@@ -139,12 +174,42 @@ public class ConstructsFactory {
     }
 
     private boolean isValidRange(String range) {
-        System.out.println(range);
-            String[] elements = range.split("-");
-        for(String g : elements) {
-            System.out.println(g);
+        String[] elements = range.split("-");
+        return elements[0].compareTo(elements[1])<0;
+    }
+
+    private boolean isValidInterval(String interval) {
+        String temp = interval.substring(1,interval.length()-1);
+        String[] elements = temp.split(",");
+        return elements[0].compareTo(elements[1])<0;
+    }
+
+    private int countGroups(String pattern) {
+        String regex = "\\((\\\\\\)|\\\\\\(|[^()])*\\)";
+        Matcher m = Pattern.compile(regex).matcher(pattern);
+        int count = 0;
+        while (m.find()) {
+            pattern = m.replaceAll(getBlank(m.group().length()));
+            m.reset(pattern);
+            count++;
         }
-            return elements[0].compareTo(elements[1])<0;
+        return count;
+
+    }
+
+    private String getBlank(int length) {
+        String blank = "";
+        for(int i = 0; i < length; i++) {
+            blank += " ";
+        }
+        return blank;
+    }
+
+    private void updateGroupsCount(String pattern) {
+        if (!pattern.equals(currentPattern)) {
+            currentPattern = pattern;
+            groupCount = countGroups(pattern);
+        }
     }
 
 }

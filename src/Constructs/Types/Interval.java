@@ -21,7 +21,7 @@ public class Interval extends Construct implements Quantifiable{
 
     @Override
     public String toString() {
-        return construct.getPattern() + this.getPattern();
+        return getClass().getName() + ":" + asString + " with " + construct.toString();
     }
 
     @Override

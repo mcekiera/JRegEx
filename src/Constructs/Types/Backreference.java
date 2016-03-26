@@ -1,4 +1,9 @@
 package Constructs.Types;
 
-public class Backreference {
+import Constructs.Construct;
+
+public class Backreference extends Construct{
+    public Backreference(String pattern, int start, int end) {
+        super(pattern, start, end);
+    }
 }
