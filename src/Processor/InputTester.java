@@ -1,6 +1,6 @@
 package Processor;
 
-import Constructs.Types.Type;
+import Model.Constructs.Types.Type;
 
 import java.awt.*;
 import java.util.*;
