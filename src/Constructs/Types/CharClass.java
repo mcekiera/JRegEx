@@ -4,14 +4,15 @@ import Constructs.Construct;
 import Constructs.ConstructsFactory;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class CharClass extends Construct {
+public class CharClass extends Construct implements Iterable<Construct>{
     private final List<Construct> elements = new ArrayList<Construct>();
 
     public CharClass(String pattern, int start, int end) {
         super(pattern, start, end);
-        //read();
+        read();
     }
 
 
@@ -26,6 +27,16 @@ public class CharClass extends Construct {
 
     @Override
     public String toString() {
-        return asString;
+        String result = getClass().getName()  + ": " + asString;
+        for(Construct construct : this){
+            result += "\n" + construct.toString();
+        }
+
+        return result;
+    }
+
+    @Override
+    public Iterator<Construct> iterator() {
+        return elements.listIterator();
     }
 }

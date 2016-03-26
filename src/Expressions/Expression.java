@@ -2,6 +2,7 @@ package Expressions;
 
 import Constructs.Construct;
 import Constructs.ConstructsFactory;
+import Constructs.Types.Quantifiable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,10 +24,16 @@ public class Expression implements Iterable<Construct> {
 
     private void createConstructs(String pattern) {
         int i = 0;
+        Construct construct;
         while(i < pattern.length()) {
-            Construct construct = ConstructsFactory.getInstance().createConstruct(pattern, i);
+            construct = ConstructsFactory.getInstance().createConstruct(pattern, i);
             i += construct.size();
-            elements.add(construct);
+
+            if(construct instanceof Quantifiable) {
+                elements.set(elements.indexOf(((Quantifiable) construct).getConstruct()),construct);
+            } else {
+                elements.add(construct);
+            }
         }
     }
 

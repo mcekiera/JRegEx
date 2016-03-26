@@ -1,7 +1,6 @@
 package Processor;
 
 import Constructs.Types.Type;
-import GUI.Highlight;
 
 import java.awt.*;
 import java.util.*;

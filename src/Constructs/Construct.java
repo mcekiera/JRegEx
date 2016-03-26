@@ -14,6 +14,7 @@ public class Construct {
         this.start = start;
         this.end = end;
         asString = pattern.substring(start,end);
+
     }
 
     public int size() {
@@ -41,7 +42,7 @@ public class Construct {
 
     @Override
     public String toString() {
-        return asString;
+        return getClass().getName() +":"+ asString;
     }
 
     public String directMatch(String match) {

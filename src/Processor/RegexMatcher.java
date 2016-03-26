@@ -1,6 +1,5 @@
 package Processor;
 
-import GUI.Highlight;
 import GUI.InputFieldWrapper;
 import GUI.MatchingFieldWrapper;
 
@@ -25,15 +24,21 @@ public class RegexMatcher{
         List<Highlight> result = new ArrayList<>();
         try {
             matcher = Pattern.compile(pattern).matcher(text);
-            if (matcher.find()) {
+            while (matcher.find()) {
                  result.add(new Highlight(matcher.start(),matcher.end(),new Color(160,200,255)));
             }
-        } catch (PatternSyntaxException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        } catch (PatternSyntaxException | NullPointerException e) {
+           // e.printStackTrace();
         }
         return result;
+    }
+
+    public String getMAtch() {
+        if(matcher.group()!=null) {
+            return matcher.group();
+        }
+        else
+            return "";
     }
 
 

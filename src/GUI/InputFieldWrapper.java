@@ -1,5 +1,6 @@
 package GUI;
 
+import Processor.Highlight;
 import Processor.TextObserver;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -58,9 +59,7 @@ public class InputFieldWrapper{
     }
 
     private void notifyObservers() {
-        for(TextObserver o : observers) {
-            o.update();
-        }
+        observers.forEach(Processor.TextObserver::update);
     }
 
     private boolean backslashesAreBalanced() {
@@ -81,24 +80,26 @@ public class InputFieldWrapper{
         char closeBracket = getClosingBracket(openBracket);
         int pos = field.getCaretPosition();
         if(backslashesAreBalanced()) {
-            if(field.getSelectedText()==null) {
+            if(textIsSelected()) {
+                field.setText(field.getText().substring(0, field.getSelectionStart()) +
+                        field.getSelectedText() + closeBracket + field.getText().substring(field.getSelectionEnd()));
+                field.setCaretPosition(field.getSelectionEnd());
+            } else {
                 field.setText(field.getText().substring(0, pos) + closeBracket + field.getText().substring(pos));
                 field.setCaretPosition(pos + 1);
-            } else {
-                field.setText(field.getText().substring(0,field.getSelectionStart()) +
-                field.getSelectedText() + closeBracket + field.getText().substring(field.getSelectionEnd()));
-                field.setCaretPosition(field.getSelectionEnd());
             }
         }
         field.setCaretPosition(pos);
+    }
+
+    private boolean textIsSelected() {
+        return field.getSelectedText()!=null;
     }
 
     private char getClosingBracket(char opening) {
         switch (opening) {
             case '[':
                 return ']';
-            case '<':
-                return '>';
             case '{':
                 return '}';
             default:
@@ -129,7 +130,7 @@ public class InputFieldWrapper{
         @Override
         public void keyTyped(KeyEvent e) {
             char typed = e.getKeyChar();
-            if(typed == '(' || typed == '[' || typed == '<' || typed == '{') {
+            if(typed == '(' || typed == '[' || typed == '{') {
                 completeBrackets(typed);
             }
         }
