@@ -1,11 +1,12 @@
-package Model.Constructs.Types;
+package Model.Constructs.Types.Quantifiable;
 
 import Model.Constructs.Construct;
+import Model.Constructs.Types.Quantifiable.Quantifiable;
 
-public class Quantifier  extends Construct implements Quantifiable{
+public class Interval extends Construct implements Quantifiable {
     private Construct construct;
 
-    public Quantifier(String pattern, int start, int end) {
+    public Interval(String pattern, int start, int end) {
         super(pattern, start, end);
     }
 
@@ -26,7 +27,7 @@ public class Quantifier  extends Construct implements Quantifiable{
 
     @Override
     public int size() {
-        return asString.length();
+        System.out.println(asString.length());return  asString.length();
     }
 
     @Override

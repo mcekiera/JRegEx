@@ -1,46 +1,42 @@
 package Model;
 
+import Model.Constructs.Complex;
 import Model.Constructs.Construct;
-import Model.Constructs.ConstructsFactory;
-import Model.Constructs.Types.Quantifiable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Expression implements Iterable<Construct> {
+public class Expression implements Complex,Iterable<Construct> {
     private final List<Construct> elements = new ArrayList<Construct>();
     private String pattern;
     private String currentMatch;
 
     public Expression(String pattern) {
         this.pattern = pattern;
-        createConstructs(pattern);
     }
 
     public String getPattern() {
         return pattern;
     }
 
-    private void createConstructs(String pattern) {
-        int i = 0;
-        Construct construct;
-        while(i < pattern.length()) {
-            construct = ConstructsFactory.getInstance().createConstruct(pattern, i);
+    public void addConstruct(Construct construct) {
+        elements.add(construct);
+    }
 
-            i += construct.size();
+    public Construct getConstruct(int index) {
+        return elements.get(index);
+    }
 
-            if(construct instanceof Quantifiable) {
-                elements.set(elements.indexOf(((Quantifiable) construct).getConstruct()),construct);
-            } else {
-                elements.add(construct);
-            }
-        }
+    public void replaceConstruct(int index, Construct construct) {
+        elements.set(index,construct);
     }
 
     public void setCurrentMatch(String match) {
         currentMatch = match;
     }
+
+
 
     public String getCurrentMatch() {
         return currentMatch;

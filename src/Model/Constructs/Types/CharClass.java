@@ -12,22 +12,24 @@ public class CharClass extends Construct implements Iterable<Construct>{
 
     public CharClass(String pattern, int start, int end) {
         super(pattern, start, end);
-        read();
+        createConstructs();
     }
 
 
-    private void read() {
+    private void createConstructs() {
         int i = 1;
+        elements.add(new Component(asString,this,0,1));
         while(i < asString.length()-1) {
             Construct construct = ConstructsFactory.getInstance().createConstructInCharClass(asString, i);
             i += construct.size();
             this.elements.add(construct);
         }
+        elements.add(new Component(asString,this,i,i+1));
     }
 
     @Override
     public String toString() {
-        String result = getClass().getName()  + ": " + asString;
+        String result = "";
         for(Construct construct : this){
             result += "\n" + construct.toString();
         }

@@ -1,4 +1,4 @@
-package Model.Constructs.Types;
+package Model.Constructs;
 
 public enum Type {
     BOUNDARY("\\\\[bBAGZz]|[\\^\\$]"),

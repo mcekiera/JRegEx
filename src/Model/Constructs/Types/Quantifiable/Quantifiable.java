@@ -1,4 +1,4 @@
-package Model.Constructs.Types;
+package Model.Constructs.Types.Quantifiable;
 
 import Model.Constructs.Construct;
 

@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Construct {
+    protected Construct parent;
     protected String pattern;
     protected String asString;
     protected int start;
@@ -15,6 +16,14 @@ public class Construct {
         this.end = end;
         asString = pattern.substring(start,end);
 
+    }
+
+    public void setParent(Construct construct) {
+        this.parent = construct;
+    }
+
+    public Construct getParent() {
+        return parent;
     }
 
     public int size() {
@@ -42,7 +51,7 @@ public class Construct {
 
     @Override
     public String toString() {
-        return getClass().getName() +":"+ asString;
+        return asString;
     }
 
     public String directMatch(String match) {

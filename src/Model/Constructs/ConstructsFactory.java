@@ -2,11 +2,14 @@ package Model.Constructs;
 
 import Model.Constructs.Lib.MatcherLib;
 import Model.Constructs.Types.*;
+import Model.Constructs.Types.Alternation.Alternation;
 import Model.Constructs.Types.Error.Error;
 import Model.Constructs.Types.Error.*;
 import Model.Constructs.Types.Group.Capturing;
 import Model.Constructs.Types.Group.LookAround;
 import Model.Constructs.Types.Group.NonCapturing;
+import Model.Constructs.Types.Quantifiable.Interval;
+import Model.Constructs.Types.Quantifiable.Quantifier;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,7 +35,7 @@ public class ConstructsFactory {
         } else if(regexMatch(Type.CHAR_CLASS,current)) {
             construct = createCharacterClass(pattern,startIndex);
         } else if(regexMatch(Type.LOGICAL,current)) {
-            construct =  new Logical(pattern,startIndex,startIndex+lib.getMatcher(Type.LOGICAL).end());
+            construct =  new Alternation(pattern,startIndex,startIndex+lib.getMatcher(Type.LOGICAL).end());
         } else if(regexMatch(Type.PREDEFINED,current)) {
             construct = createPredefined(pattern,startIndex);
         }else if(regexMatch(Type.BACKREFERENCE,current)) {
