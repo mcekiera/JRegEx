@@ -27,6 +27,16 @@ public class Alternation extends Construct implements Complex, Iterable<Alternat
     }
 
     @Override
+    public int getInteriorStart() {
+        return getStart();
+    }
+
+    @Override
+    public int getInteriorEnd() {
+        return getEnd();
+    }
+
+    @Override
     public Iterator<Alternative> iterator() {
         return elements.listIterator();
     }

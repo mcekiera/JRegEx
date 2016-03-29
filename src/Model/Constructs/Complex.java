@@ -1,8 +1,11 @@
 package Model.Constructs;
 
-public interface Complex {
+public interface Complex{
     /**
      Interface for construct composed of different constructs
      */
     void addConstruct(Construct construct);
+
+    int getInteriorStart();
+    int getInteriorEnd();
 }

@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Construct {
-    protected Construct parent;
+    protected Complex parent;
     protected String pattern;
     protected String asString;
     protected int start;
@@ -18,11 +18,11 @@ public class Construct {
 
     }
 
-    public void setParent(Construct construct) {
+    public void setParent(Complex construct) {
         this.parent = construct;
     }
 
-    public Construct getParent() {
+    public Complex getParent() {
         return parent;
     }
 
@@ -67,4 +67,4 @@ public class Construct {
     }
 }
 
-//todo mozê najwy¿szy czas zrobiæ testy? tekstowo dzia³a, opisy do zbudowania, jak g³owna glasa m siê dobieraæ do pomniejszych? gui
+

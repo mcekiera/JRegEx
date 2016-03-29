@@ -37,7 +37,8 @@ public class ConstructsFactory {
         } else if(regexMatch(Type.LOGICAL,current)) {
             construct =  new Alternation(pattern,startIndex,startIndex+lib.getMatcher(Type.LOGICAL).end());
         } else if(regexMatch(Type.PREDEFINED,current)) {
-            construct = createPredefined(pattern,startIndex);
+            System.out.println(lib.getMatcher(Type.PREDEFINED).group());
+            construct = createPredefined(pattern,startIndex); //TODO error - daje incomplate structure
         }else if(regexMatch(Type.BACKREFERENCE,current)) {
             construct = createBackreference(pattern,startIndex);
         } else if(regexMatch(Type.QUOTATION,current)) {
@@ -135,6 +136,7 @@ public class ConstructsFactory {
     }
 
     private Construct createPredefined(String pattern, int startIndex) {
+        System.out.println(lib.getMatcher(Type.PREDEFINED).group());
         if (lib.getMatcher(Type.PREDEFINED).group().matches("\\\\[dDsSwW]|\\[pP](\\{[^}]+})|\\.")) {
             return new Predefined(pattern, startIndex, startIndex + lib.getMatcher(Type.PREDEFINED).end());
         } else {

@@ -90,7 +90,7 @@ public class MatchingFieldWrapper{
         public void mouseDragged(MouseEvent e) {
 
         }
-        //todo chyba nic z tego
+
         @Override
         public void mouseMoved(MouseEvent e) {
             int mousePosition = area.viewToModel(e.getPoint());

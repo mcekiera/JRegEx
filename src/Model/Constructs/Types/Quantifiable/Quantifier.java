@@ -1,7 +1,6 @@
 package Model.Constructs.Types.Quantifiable;
 
 import Model.Constructs.Construct;
-import Model.Constructs.Types.Quantifiable.Quantifiable;
 
 public class Quantifier  extends Construct implements Quantifiable {
     private Construct construct;
@@ -10,7 +9,7 @@ public class Quantifier  extends Construct implements Quantifiable {
         super(pattern, start, end);
     }
 
-
+    @Override
     public void setConstruct(Construct construct) {
         this.construct = construct;
     }

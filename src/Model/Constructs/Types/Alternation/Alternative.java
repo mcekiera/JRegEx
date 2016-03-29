@@ -22,4 +22,14 @@ public class Alternative extends Construct implements Complex, Iterable<Construc
     public void addConstruct(Construct construct) {
         elements.add(construct);
     }
+
+    @Override
+    public int getInteriorStart() {
+        return getStart();
+    }
+
+    @Override
+    public int getInteriorEnd() {
+        return getEnd();
+    }
 }
