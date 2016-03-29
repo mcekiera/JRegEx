@@ -37,14 +37,13 @@ public class ConstructsFactory {
         } else if(regexMatch(Type.LOGICAL,current)) {
             construct =  new Alternation(pattern,startIndex,startIndex+lib.getMatcher(Type.LOGICAL).end());
         } else if(regexMatch(Type.PREDEFINED,current)) {
-            System.out.println(lib.getMatcher(Type.PREDEFINED).group());
-            construct = createPredefined(pattern,startIndex); //TODO error - daje incomplate structure
+            construct = createPredefined(pattern,startIndex);
         }else if(regexMatch(Type.BACKREFERENCE,current)) {
             construct = createBackreference(pattern,startIndex);
-        } else if(regexMatch(Type.QUOTATION,current)) {
-            construct =  new Quotation(pattern,startIndex,startIndex+lib.getMatcher(Type.QUOTATION).end());
         } else if(regexMatch(Type.SPECIFIC_CHAR,current)) {
             construct =  new SpecificChar(pattern,startIndex,startIndex+lib.getMatcher(Type.SPECIFIC_CHAR).end());
+        } else if(regexMatch(Type.QUOTATION,current)) {
+            construct =  new Quotation(pattern,startIndex,startIndex+lib.getMatcher(Type.QUOTATION).end());
         } else if(regexMatch(Type.GROUP,current)) {
             construct = createGroupConstruct(pattern, startIndex);
         } else if(regexMatch(Type.QUANTIFIER,current)) {
@@ -136,8 +135,7 @@ public class ConstructsFactory {
     }
 
     private Construct createPredefined(String pattern, int startIndex) {
-        System.out.println(lib.getMatcher(Type.PREDEFINED).group());
-        if (lib.getMatcher(Type.PREDEFINED).group().matches("\\\\[dDsSwW]|\\[pP](\\{[^}]+})|\\.")) {
+        if (lib.getMatcher(Type.PREDEFINED).group().matches("\\\\[dDsSwW]|\\\\[pP](\\{[^}]+})|\\.")) {
             return new Predefined(pattern, startIndex, startIndex + lib.getMatcher(Type.PREDEFINED).end());
         } else {
             regexMatch(Type.INCOMPLETE, pattern.substring(startIndex));
@@ -162,8 +160,8 @@ public class ConstructsFactory {
         }
     }
 
-    private boolean regexMatch(Type type, String patter) {
-        return lib.getMatcher(type).reset(patter).lookingAt();
+    private boolean regexMatch(Type type, String pattern) {
+        return lib.getMatcher(type).reset(pattern).lookingAt();
     }
 
     public static ConstructsFactory getInstance() {
@@ -194,6 +192,9 @@ public class ConstructsFactory {
     private boolean isValidInterval(String interval) {
         String temp = interval.substring(1,interval.length()-1);
         String[] elements = temp.split(",");
+        if(interval.matches("\\{\\d,?\\}")) {
+            return true;
+        }
         return elements[0].compareTo(elements[1])<0;
     }
 
