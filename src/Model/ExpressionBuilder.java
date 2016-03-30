@@ -45,6 +45,28 @@ public class ExpressionBuilder  implements Iterable<Construct> {
         }
     }
 
+    public Complex divideIntoConstructs(Complex container, String pattern, int start, int end) {
+        int i = start;
+        Construct construct = null;
+        while (i < end) {
+
+            construct = container instanceof CharClass ? ConstructsFactory.getInstance().createConstructInCharClass(pattern,i) :
+                    ConstructsFactory.getInstance().createConstruct(pattern, i);
+            System.out.println("construct: " + construct.getClass().getName());
+            System.out.println("container:" + container.getClass().getName());
+            if(construct instanceof Complex) {
+                construct = (Construct)divideIntoConstructs((Complex)construct, pattern, ((Complex) construct).getInteriorStart(), ((Complex) construct).getInteriorEnd());
+                container.addConstruct(construct);
+            } else if(construct instanceof Quantifiable) {
+                ((Reversible)container).absorbLast((Quantifiable)construct);
+            } else {
+                container.addConstruct(construct);
+            }
+            i += construct.size();
+        }
+        return container;
+    }
+
 
     public Expression create(String pattern)  {
         int i = 0;

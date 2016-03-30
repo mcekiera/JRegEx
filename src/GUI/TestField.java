@@ -1,9 +1,11 @@
 package GUI;
 
+import Model.Constructs.Complex;
 import Model.Constructs.Construct;
 import Model.Constructs.Types.CharClass;
-import Model.Constructs.Types.Error.Error;
+import Model.Constructs.Types.Predefined;
 import Model.Expression;
+import Model.ExpressionBuilder;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -33,29 +35,56 @@ public class TestField {
     public void highlight() {
         h.removeAllHighlights();
         String pattern = field.getText();
-        Expression ex = new Expression(pattern);
+        Expression ex = (Expression)(new ExpressionBuilder()).divideIntoConstructs(new Expression(pattern),pattern,0,pattern.length());
+        dodo(ex);
 
-        for(Construct construct : ex) {
-            if(construct instanceof Error) {
+    }
+
+    public void dodo(Complex container) {
+        for(Construct construct : (Iterable<Construct>)container) {
+            if(construct instanceof Complex) {
+                dodo((Complex)construct);
+                continue;
+            }
+            if (construct instanceof Model.Constructs.Types.Error.Error) {
                 try {
                     DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.RED);
-                    h.addHighlight(construct.getStart(),construct.getEnd(),p);
+                    h.addHighlight(construct.getStart(), construct.getEnd(), p);
                 } catch (BadLocationException e) {
                     e.printStackTrace();
                 }
 
             }
-            if(construct instanceof CharClass) {
+            if (construct instanceof CharClass) {
                 try {
                     DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.ORANGE);
-                    h.addHighlight(construct.getStart(),construct.getEnd(),p);
+                    h.addHighlight(construct.getStart(), construct.getEnd(), p);
                 } catch (BadLocationException e) {
                     e.printStackTrace();
                 }
 
             }
 
-        }
+            if (construct instanceof Predefined) {
+                try {
+                    DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.BLUE);
+                    h.addHighlight(construct.getStart(), construct.getEnd(), p);
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            if (construct instanceof Model.Constructs.Types.Component) {
+                try {
+                    DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.GREEN);
+                    h.addHighlight(construct.getStart(), construct.getEnd(), p);
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }   //TODO cos nie dziala,
 
     }
 

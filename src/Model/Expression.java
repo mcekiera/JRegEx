@@ -37,14 +37,6 @@ public class Expression implements Complex,Iterable<Construct>, Reversible{
         return pattern.length();
     }
 
-    public Construct getConstruct(int index) {
-        return elements.get(index);
-    }
-
-    public void replaceConstruct(int index, Construct construct) {
-        elements.set(index,construct);
-    }
-
     public void setCurrentMatch(String match) {
         currentMatch = match;
     }

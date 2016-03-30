@@ -43,7 +43,7 @@ public class ConstructsFactory {
         } else if(regexMatch(Type.SPECIFIC_CHAR,current)) {
             construct =  new SpecificChar(pattern,startIndex,startIndex+lib.getMatcher(Type.SPECIFIC_CHAR).end());
         } else if(regexMatch(Type.QUOTATION,current)) {
-            construct =  new Quotation(pattern,startIndex,startIndex+lib.getMatcher(Type.QUOTATION).end());
+            construct = createQuotation(pattern,startIndex);
         } else if(regexMatch(Type.GROUP,current)) {
             construct = createGroupConstruct(pattern, startIndex);
         } else if(regexMatch(Type.QUANTIFIER,current)) {
@@ -59,19 +59,22 @@ public class ConstructsFactory {
     public Construct createGroupConstruct(String pattern, int startIndex) {
         String current = extractGroup(pattern.substring(startIndex));
         previous = null;
-
+        if(current == null) {
+            regexMatch(Type.UNBALANCED, pattern.substring(startIndex));
+            return new UnbalancedStructure(pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end());
+        }
         if (regexMatch(Type.LOOK_AROUND, current)) {
             return new LookAround(pattern,startIndex,startIndex+lib.getMatcher(Type.LOOK_AROUND).end());
         } else if (regexMatch(Type.ATOMIC, current)) {
             return new Mode(pattern,startIndex,startIndex+lib.getMatcher(Type.ATOMIC).end());
         } else if (regexMatch(Type.NON_CAPTURING, current)) {
             return new NonCapturing(pattern,startIndex,startIndex+lib.getMatcher(Type.NON_CAPTURING).end());
-        } else if (regexMatch(Type.CAPTURING, current)){
+        } else if(regexMatch(Type.CAPTURING, current)) {
             return new Capturing(pattern,startIndex,startIndex+lib.getMatcher(Type.CAPTURING).end());
         } else {
-            regexMatch(Type.UNBALANCED, current);
+            regexMatch(Type.UNBALANCED, pattern.substring(startIndex));
             return new UnbalancedStructure(pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end());
-        }
+    }
     }
 
     public Construct createConstructInCharClass(String pattern, int startIndex) {
@@ -119,7 +122,7 @@ public class ConstructsFactory {
     }
 
     private Construct createBackreference(String pattern, int startIndex) {
-        if(isValidBackreference(lib.getMatcher(Type.BACKREFERENCE).group())) {
+        if(isValidBackreference(lib.getMatcher(Type.BACKREFERENCE).group(),pattern)) {
             return new Backreference(pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end());
         } else {
             return new InvalidBackreference(pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end());
@@ -132,6 +135,13 @@ public class ConstructsFactory {
         } else {
             return new CharClass(pattern, startIndex, startIndex + lib.getMatcher(Type.CHAR_CLASS).end());
         }
+    }
+
+    private Construct createQuotation(String pattern, int startIndex) {
+        if(regexMatch(Type.INCOMPLETE,pattern)) {
+            return new IncompleteConstruct(pattern,startIndex,lib.getEndOfLastMatch(Type.INCOMPLETE));
+        }
+        return new Quotation(pattern,startIndex,startIndex+lib.getMatcher(Type.QUOTATION).end());
     }
 
     private Construct createPredefined(String pattern, int startIndex) {
@@ -177,11 +187,11 @@ public class ConstructsFactory {
             } else if(strAsChar[index]==')') {
                 depth--;
             }
-            if(depth==0){
+            if(index!=0 && depth==0){
                 return pattern.substring(0,index+1);
             }
         }
-        return pattern;
+        return null;
     }
 
     private boolean isValidRange(String range) {
@@ -198,8 +208,13 @@ public class ConstructsFactory {
         return elements[0].compareTo(elements[1])<0;
     }
 
-    private boolean isValidBackreference(String backreference) {
-        return new Integer(backreference.substring(1)) <= groupCount;
+    private boolean isValidBackreference(String backreference, String pattern) {
+        if(backreference.startsWith("\\k")){
+            Matcher m = Pattern.compile("\\(\\?" + backreference.substring(2)).matcher(pattern.substring(lib.getMatcher(Type.BACKREFERENCE).start()));
+            return m.find();
+        } else {
+            return new Integer(backreference.substring(1)) <= groupCount;
+        }
     }
 
     private int countGroups(String pattern) {

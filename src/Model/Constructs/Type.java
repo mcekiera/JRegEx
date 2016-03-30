@@ -17,14 +17,14 @@ public enum Type {
     GROUP("\\("),
     ATOMIC("\\(\\?\\>.+\\)"),
     LOOK_AROUND("\\(\\?[=!<][=!]?.+\\)"),
-    CAPTURING("^\\((?!\\?)(\\?\\<[^>]*\\>)?.+\\)"),
+    CAPTURING("(^\\((?!\\?)(\\?\\<[^>]*\\>)?.*\\))"),
     NON_CAPTURING("\\(\\?([imdsuxU]+(-[imdsuxU]+)?)?:.+\\)"),
     BACKREFERENCE("\\\\(?:(\\d+)|k\\<([^>]+)\\>)"),
     SIMPLE("."),
     RANGE("\\p{ASCII}-\\p{ASCII}|\\\\\\w+-\\\\\\w+"),
 
     UNBALANCED("\\((\\?(\\<(\\w+|[=!])?|[:=!>]|[\\w-]+:?)?)?"),
-    INCOMPLETE("\\\\[pxcu](\\{)?");
+    INCOMPLETE("\\\\([xcu]|p(\\{)?|k(<[^>]*)?)");
 
 
     String regex;
