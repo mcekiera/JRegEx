@@ -42,9 +42,9 @@ public class TestField {
 
     public void dodo(Complex container) {
         for(Construct construct : (Iterable<Construct>)container) {
+            System.out.println("#" + construct.getClass().getName() + "#" + construct.toString());
             if(construct instanceof Complex) {
                 dodo((Complex)construct);
-                continue;
             }
             if (construct instanceof Model.Constructs.Types.Error.Error) {
                 try {
@@ -78,6 +78,16 @@ public class TestField {
             if (construct instanceof Model.Constructs.Types.Component) {
                 try {
                     DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.GREEN);
+                    h.addHighlight(construct.getStart(), construct.getEnd(), p);
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            if (construct instanceof Model.Constructs.Types.Mode) {
+                try {
+                    DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.MAGENTA);
                     h.addHighlight(construct.getStart(), construct.getEnd(), p);
                 } catch (BadLocationException e) {
                     e.printStackTrace();

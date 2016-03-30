@@ -138,8 +138,9 @@ public class ConstructsFactory {
     }
 
     private Construct createQuotation(String pattern, int startIndex) {
-        if(regexMatch(Type.INCOMPLETE,pattern)) {
-            return new IncompleteConstruct(pattern,startIndex,lib.getEndOfLastMatch(Type.INCOMPLETE));
+
+        if(regexMatch(Type.INCOMPLETE,pattern.substring(startIndex))) {
+            return new IncompleteConstruct(pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.INCOMPLETE));
         }
         return new Quotation(pattern,startIndex,startIndex+lib.getMatcher(Type.QUOTATION).end());
     }

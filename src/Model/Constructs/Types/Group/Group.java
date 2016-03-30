@@ -30,8 +30,8 @@ public class Group extends Construct implements Complex,Iterable<Construct>,Reve
         matcher.find();
         int i = matcher.end();
         intStart = getStart() + i;
-        this.elements.add(new Component(asString,this,0,i));
-        this.elements.add(new Component(asString,this,asString.length()-1,asString.length()));
+        this.elements.add(new Component(pattern,this,getStart(),getStart()+i));
+        this.elements.add(new Component(pattern,this,getEnd()-1,getEnd()));
     }
 
     @Override

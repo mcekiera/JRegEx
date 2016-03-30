@@ -17,8 +17,8 @@ public class CharClass extends Construct implements Complex,Iterable<Construct>{
 
 
     private void createConstructs() {
-        elements.add(new Component(asString,this,0,1));
-        elements.add(new Component(asString,this,asString.length()-1,asString.length()));
+        this.elements.add(new Construct(pattern,getStart(),getStart()+1));
+        this.elements.add(new Construct(pattern,getEnd()-1,getEnd()));
     }
 
     @Override
