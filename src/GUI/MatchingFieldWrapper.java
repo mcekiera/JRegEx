@@ -1,7 +1,5 @@
-package GUI;
+/**package GUI;
 
-import Processor.Highlight;
-import Processor.TextObserver;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -19,7 +17,6 @@ public class MatchingFieldWrapper{
     private final JTextArea area;
     private DefaultHighlighter.DefaultHighlightPainter painter;
     private Highlighter highlighter;
-    private List<TextObserver> observers;
 
     public MatchingFieldWrapper() {
         area = new JTextArea();
@@ -120,3 +117,4 @@ public class MatchingFieldWrapper{
         }
     }
 }
+ */

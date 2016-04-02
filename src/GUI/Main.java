@@ -1,6 +1,4 @@
-package GUI;
-
-import Processor.InputProcessor;
+/**package GUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +12,7 @@ public class Main {
         InputFieldWrapper field = new InputFieldWrapper();
         MatchingFieldWrapper area = new MatchingFieldWrapper();
         JTextField f = new JTextField();
-        InputProcessor processor = new InputProcessor(field,area,f);
+
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(field.getField(), BorderLayout.NORTH);
@@ -55,3 +53,4 @@ public class Main {
 
     }
 }
+           */

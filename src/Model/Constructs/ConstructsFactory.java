@@ -1,10 +1,9 @@
 package Model.Constructs;
 
 import Model.Constructs.Lib.MatcherLib;
+import Model.Constructs.Types.Composition;
 import Model.Constructs.Types.Error;
-import Model.Constructs.Types.Group;
-import Model.Constructs.Types.Quantifiable.Interval;
-import Model.Constructs.Types.Quantifiable.Quantifier;
+import Model.Constructs.Types.Quantifier;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,13 +58,13 @@ public class ConstructsFactory {
             return new Error(Type.UNBALANCED,pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end());
         }
         if (regexMatch(Type.LOOK_AROUND, current)) {
-            return new Group(Type.LOOK_AROUND,pattern,startIndex,startIndex+lib.getMatcher(Type.LOOK_AROUND).end());
+            return new Composition(Type.LOOK_AROUND,pattern,startIndex,startIndex+lib.getMatcher(Type.LOOK_AROUND).end());
         } else if (regexMatch(Type.ATOMIC, current)) {
-            return new Group(Type.ATOMIC,pattern,startIndex,startIndex+lib.getMatcher(Type.ATOMIC).end());
+            return new Composition(Type.ATOMIC,pattern,startIndex,startIndex+lib.getMatcher(Type.ATOMIC).end());
         } else if (regexMatch(Type.NON_CAPTURING, current)) {
-            return new Group(Type.NON_CAPTURING,pattern,startIndex,startIndex+lib.getMatcher(Type.NON_CAPTURING).end());
+            return new Composition(Type.NON_CAPTURING,pattern,startIndex,startIndex+lib.getMatcher(Type.NON_CAPTURING).end());
         } else if(regexMatch(Type.CAPTURING, current)) {
-            return new Group(Type.CAPTURING,pattern,startIndex,startIndex+lib.getMatcher(Type.CAPTURING).end());
+            return new Composition(Type.CAPTURING,pattern,startIndex,startIndex+lib.getMatcher(Type.CAPTURING).end());
         } else {
             regexMatch(Type.UNBALANCED, pattern.substring(startIndex));
             return new Error(Type.UNBALANCED,pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end());
@@ -92,7 +91,7 @@ public class ConstructsFactory {
         }
         if(previous instanceof Quantifier) {
             return new Error(Type.ERROR,pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
-        } else if (previous instanceof Interval) {
+        } else if (previous.getType() == Type.INTERVAL) {
             if (regexMatch(Type.TOKEN,current)) {
                 construct = new Quantifier(Type.TOKEN,pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
                 ((Quantifier)construct).setConstruct(previous);
@@ -107,7 +106,7 @@ public class ConstructsFactory {
                 regexMatch(Type.INTERVAL,current);
                 if (isValidInterval(lib.getMatcher(Type.INTERVAL).group())) {
                     construct = new Quantifier(Type.INTERVAL,pattern, startIndex, startIndex + lib.getMatcher(Type.INTERVAL).end());
-                    ((Interval) construct).setConstruct(previous);
+                    ((Quantifier) construct).setConstruct(previous);
                 } else {
                     construct = new Error(Type.ERROR,pattern, startIndex, startIndex + lib.getMatcher(Type.INTERVAL).end());
                 }
@@ -128,7 +127,7 @@ public class ConstructsFactory {
         if(lib.getMatcher(Type.CHAR_CLASS).group().length()<=2) {
             return new Error(Type.INCOMPLETE,pattern,startIndex,startIndex+lib.getMatcher(Type.CHAR_CLASS ).end());
         } else {
-            return new Group(Type.CHAR_CLASS,pattern, startIndex, startIndex + lib.getMatcher(Type.CHAR_CLASS).end());
+            return new Composition(Type.CHAR_CLASS,pattern, startIndex, startIndex + lib.getMatcher(Type.CHAR_CLASS).end());
         }
     }
 

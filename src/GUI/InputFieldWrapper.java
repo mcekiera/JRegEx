@@ -1,4 +1,4 @@
-package GUI;
+/**package GUI;
 
 import Processor.Highlight;
 import Processor.TextObserver;
@@ -136,3 +136,4 @@ public class InputFieldWrapper{
         }
     }
 }
+ */

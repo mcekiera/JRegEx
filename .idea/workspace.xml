@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/Model/Constructs/Construct.java" description="        this.pattern = pattern;&#10;        this.start..." line="14" />
+    <bookmark url="file://$PROJECT_DIR$/src/Model/Constructs/Construct.java" description="        this.pattern = pattern;&#10;        this.start..." line="13" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67fe1b98-faf3-4689-be3c-98e502a2e9bf" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Model/Constructs/Types/Error.java" />
+      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Complex.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Expression.java" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Alternation\Alternation.java" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Alternation\Alternative.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Backreference.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Boundary.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\CharClass.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Component.java" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Error\Error.java" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Error\IncompleteClass.java" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Error\IncompleteConstruct.java" afterPath="" />
@@ -23,19 +20,23 @@
       <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Group\Capturing.java" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Group\LookAround.java" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Group\NonCapturing.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Mode.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Predefined.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Quotation.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Range.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\SpecificChar.java" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Expression.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/Expression.java" />
-      <change type="MOVED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\ExpressionBuilder.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/ExpressionBuilder.java" />
+      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Quantifiable\Interval.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Quantifiable\Quantifiable.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Reversible.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Processor\Highlight.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Processor\InputProcessor.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Processor\InputTester.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Processor\RegexMatcher.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Processor\Selection.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Processor\TextObserver.java" afterPath="" />
+      <change type="MOVED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Group.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/Types/Composition.java" />
+      <change type="MOVED" beforePath="C:\Users\Pacin\IdeaProjects\JRegEx\src\Model\Constructs\Types\Quantifiable\Quantifier.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/Types/Quantifier.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Constructs/Construct.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/Construct.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Constructs/ConstructsFactory.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/ConstructsFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Constructs/Types/Group.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/Types/Group.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Processor/InputProcessor.java" afterPath="$PROJECT_DIR$/src/Processor/InputProcessor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Constructs/Types/Quantifiable/Quantifier.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/Types/Quantifiable/Quantifier.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Constructs/Types/Reversible.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/Types/Reversible.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Constructs/ExpressionBuilder.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/ExpressionBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GUI/InputFieldWrapper.java" afterPath="$PROJECT_DIR$/src/GUI/InputFieldWrapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GUI/Main.java" afterPath="$PROJECT_DIR$/src/GUI/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GUI/MatchingFieldWrapper.java" afterPath="$PROJECT_DIR$/src/GUI/MatchingFieldWrapper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GUI/TestField.java" afterPath="$PROJECT_DIR$/src/GUI/TestField.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Constructs/Type.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/Type.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Constructs/test.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/test.java" />
@@ -66,9 +67,33 @@
         <entry file="file://$PROJECT_DIR$/src/GUI/TestField.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="40" column="69" selection-start-line="40" selection-start-column="69" selection-end-line="40" selection-end-column="69" />
+              <caret line="36" column="137" selection-start-line="36" selection-start-column="137" selection-end-line="36" selection-end-column="137" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MatchingFieldWrapper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/GUI/MatchingFieldWrapper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="119" column="3" selection-start-line="119" selection-start-column="3" selection-end-line="119" selection-end-column="3" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InputFieldWrapper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/GUI/InputFieldWrapper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="138" column="3" selection-start-line="138" selection-start-column="3" selection-end-line="138" selection-end-column="3" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -77,37 +102,25 @@
       <file leaf-file-name="ConstructsFactory.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Model/Constructs/ConstructsFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
+            <state vertical-scroll-proportion="-6.296296">
+              <caret line="16" column="3" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
               <folding>
-                <element signature="e#8728#8729#0" expanded="true" />
-                <element signature="e#8798#8799#0" expanded="true" />
+                <element signature="e#8707#8708#0" expanded="true" />
+                <element signature="e#8777#8778#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Expression.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Expression.java">
+      <file leaf-file-name="Quantifier.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Types/Quantifier.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="19" column="70" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+              <caret line="8" column="36" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
               <folding>
-                <element signature="e#426#437#0" expanded="true" />
-                <element signature="e#656#657#0" expanded="true" />
-                <element signature="e#686#687#0" expanded="true" />
-                <element signature="e#739#740#0" expanded="true" />
-                <element signature="e#778#779#0" expanded="true" />
-                <element signature="e#829#830#0" expanded="true" />
-                <element signature="e#853#854#0" expanded="true" />
-                <element signature="e#902#903#0" expanded="true" />
-                <element signature="e#941#942#0" expanded="true" />
-                <element signature="e#990#991#0" expanded="true" />
-                <element signature="e#1026#1027#0" expanded="true" />
-                <element signature="e#1067#1068#0" expanded="true" />
-                <element signature="e#1102#1103#0" expanded="true" />
-                <element signature="e#1537#1538#0" expanded="true" />
-                <element signature="e#1583#1584#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#930#931#0" expanded="true" />
+                <element signature="e#961#962#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -117,24 +130,14 @@
         <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Construct.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="42" column="81" selection-start-line="42" selection-start-column="33" selection-end-line="42" selection-end-column="33" />
+              <caret line="32" column="26" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
               <folding>
-                <element signature="e#741#742#0" expanded="true" />
-                <element signature="e#768#769#0" expanded="true" />
-                <element signature="e#943#944#0" expanded="true" />
-                <element signature="e#983#984#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MatcherLib.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Lib/MatcherLib.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-              <folding>
-                <element signature="e#749#750#0" expanded="true" />
+                <element signature="e#724#725#0" expanded="true" />
+                <element signature="e#751#752#0" expanded="true" />
+                <element signature="e#803#804#0" expanded="true" />
+                <element signature="e#842#843#0" expanded="true" />
+                <element signature="e#934#935#0" expanded="true" />
+                <element signature="e#974#975#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -144,48 +147,40 @@
         <entry file="file://$PROJECT_DIR$/src/Model/Constructs/ExpressionBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="55" column="54" selection-start-line="55" selection-start-column="54" selection-end-line="55" selection-end-column="54" />
+              <caret line="33" column="44" selection-start-line="33" selection-start-column="44" selection-end-line="33" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#542#543#0" expanded="true" />
-                <element signature="e#588#589#0" expanded="true" />
+                <element signature="e#387#388#0" expanded="true" />
+                <element signature="e#433#434#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Group.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Types/Group.java">
+      <file leaf-file-name="Composition.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Types/Composition.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="29" column="67" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.8229885">
+              <caret line="62" column="4" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+              <folding>
+                <element signature="e#428#439#0" expanded="true" />
+                <element signature="e#1434#1435#0" expanded="true" />
+                <element signature="e#1480#1481#0" expanded="true" />
+                <element signature="e#1723#1724#0" expanded="true" />
+                <element signature="e#1754#1755#0" expanded="true" />
+                <element signature="e#1789#1790#0" expanded="true" />
+                <element signature="e#1824#1825#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Type.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Type.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Type.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.35172415">
-              <caret line="9" column="31" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Error.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Types/Error.java">
-          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="41" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="41" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#190#191#0" expanded="true" />
-                <element signature="e#232#233#0" expanded="true" />
-                <element signature="e#299#300#0" expanded="true" />
-                <element signature="e#347#348#0" expanded="true" />
-              </folding>
+              <caret line="7" column="43" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -213,12 +208,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Model/Indices.java" />
-        <option value="$PROJECT_DIR$/src/Model/ElementType.java" />
-        <option value="$PROJECT_DIR$/src/Model/RegexInputInterpreter.java" />
-        <option value="$PROJECT_DIR$/src/Constructs/Types/Error.java" />
-        <option value="$PROJECT_DIR$/src/Constructs/Types/Error/Error.java" />
-        <option value="$PROJECT_DIR$/src/Constructs/Types/CharClass.java" />
         <option value="$PROJECT_DIR$/src/Constructs/Types/Error/InvalidRange.java" />
         <option value="$PROJECT_DIR$/src/Constructs/Types/Group/Group.java" />
         <option value="$PROJECT_DIR$/src/Constructs/Types/Error/Incomplete.java" />
@@ -248,22 +237,28 @@
         <option value="$PROJECT_DIR$/src/Model/Constructs/Types/Alternation/Alternation.java" />
         <option value="$PROJECT_DIR$/src/Model/Constructs/Types/Quantifiable/Quantifiable.java" />
         <option value="$PROJECT_DIR$/src/Model/Constructs/Types/Alternation/Alternative.java" />
-        <option value="$PROJECT_DIR$/src/Model/Constructs/Complex.java" />
         <option value="$PROJECT_DIR$/src/Model/Constructs/Types/Quantifiable/Interval.java" />
-        <option value="$PROJECT_DIR$/src/GUI/MatchingFieldWrapper.java" />
         <option value="$PROJECT_DIR$/src/Model/Constructs/Types/CharClass.java" />
-        <option value="$PROJECT_DIR$/src/Model/Constructs/test.java" />
-        <option value="$PROJECT_DIR$/src/Model/Constructs/Types/Reversible.java" />
         <option value="$PROJECT_DIR$/src/Model/Constructs/Types/Quantifiable/Quantifier.java" />
         <option value="$PROJECT_DIR$/src/Model/Constructs/Types/Error/Error.java" />
         <option value="$PROJECT_DIR$/src/Model/Constructs/Types/Group/Group.java" />
-        <option value="$PROJECT_DIR$/src/Model/Constructs/Construct.java" />
-        <option value="$PROJECT_DIR$/src/Model/Constructs/ConstructsFactory.java" />
         <option value="$PROJECT_DIR$/src/Model/Expression.java" />
-        <option value="$PROJECT_DIR$/src/GUI/TestField.java" />
-        <option value="$PROJECT_DIR$/src/Model/Constructs/Types/Group.java" />
         <option value="$PROJECT_DIR$/src/Model/ExpressionBuilder.java" />
         <option value="$PROJECT_DIR$/src/Model/Constructs/Type.java" />
+        <option value="$PROJECT_DIR$/src/Model/Constructs/Complex.java" />
+        <option value="$PROJECT_DIR$/src/Model/Constructs/Types/Group.java" />
+        <option value="$PROJECT_DIR$/src/Model/Constructs/Expression.java" />
+        <option value="$PROJECT_DIR$/src/Model/Constructs/Construct.java" />
+        <option value="$PROJECT_DIR$/src/Model/Constructs/test.java" />
+        <option value="$PROJECT_DIR$/src/GUI/TestField.java" />
+        <option value="$PROJECT_DIR$/src/GUI/MatchingFieldWrapper.java" />
+        <option value="$PROJECT_DIR$/src/GUI/InputFieldWrapper.java" />
+        <option value="$PROJECT_DIR$/src/GUI/Main.java" />
+        <option value="$PROJECT_DIR$/src/Model/Constructs/ConstructsFactory.java" />
+        <option value="$PROJECT_DIR$/src/Model/Constructs/Types/Quantifier.java" />
+        <option value="$PROJECT_DIR$/src/Model/Constructs/Types/Reversible.java" />
+        <option value="$PROJECT_DIR$/src/Model/Constructs/ExpressionBuilder.java" />
+        <option value="$PROJECT_DIR$/src/Model/Constructs/Types/Composition.java" />
       </list>
     </option>
   </component>
@@ -332,20 +327,6 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JRegEx" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JRegEx" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Constructs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
@@ -370,32 +351,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Types" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JRegEx" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JRegEx" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Constructs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Types" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Quantifiable" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -701,91 +656,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Processor/Highlight.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="21" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Processor/Selection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="52" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Processor/InputProcessor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36476868">
-          <caret line="43" column="54" selection-start-line="43" selection-start-column="54" selection-end-line="43" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Processor/RegexMatcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54626334">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Processor/InputTester.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="62" column="69" selection-start-line="62" selection-start-column="28" selection-end-line="62" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/GUI/RegexInputView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GUI/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Complex.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GUI/MatchingFieldWrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/test.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="9" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GUI/InputFieldWrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="134" column="44" selection-start-line="134" selection-start-column="13" selection-end-line="134" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Types/Reversible.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -813,23 +687,94 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Type.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="43" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Construct.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="26" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
+          <folding>
+            <element signature="e#724#725#0" expanded="true" />
+            <element signature="e#751#752#0" expanded="true" />
+            <element signature="e#803#804#0" expanded="true" />
+            <element signature="e#842#843#0" expanded="true" />
+            <element signature="e#934#935#0" expanded="true" />
+            <element signature="e#974#975#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/GUI/TestField.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="69" selection-start-line="40" selection-start-column="69" selection-end-line="40" selection-end-column="69" />
+          <caret line="36" column="137" selection-start-line="36" selection-start-column="137" selection-end-line="36" selection-end-column="137" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/ConstructsFactory.java">
+    <entry file="file://$PROJECT_DIR$/src/GUI/MatchingFieldWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
+          <caret line="119" column="3" selection-start-line="119" selection-start-column="3" selection-end-line="119" selection-end-column="3" />
           <folding>
-            <element signature="e#8728#8729#0" expanded="true" />
-            <element signature="e#8798#8799#0" expanded="true" />
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GUI/InputFieldWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="138" column="3" selection-start-line="138" selection-start-column="3" selection-end-line="138" selection-end-column="3" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GUI/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0574713">
+          <caret line="55" column="13" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.46896553">
+          <caret line="12" column="46" selection-start-line="12" selection-start-column="46" selection-end-line="12" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Types/Quantifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="36" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#930#931#0" expanded="true" />
+            <element signature="e#961#962#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/ConstructsFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.296296">
+          <caret line="16" column="3" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding>
+            <element signature="e#8707#8708#0" expanded="true" />
+            <element signature="e#8777#8778#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -837,65 +782,28 @@
     <entry file="file://$PROJECT_DIR$/src/Model/Constructs/ExpressionBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="55" column="54" selection-start-line="55" selection-start-column="54" selection-end-line="55" selection-end-column="54" />
+          <caret line="33" column="44" selection-start-line="33" selection-start-column="44" selection-end-line="33" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#542#543#0" expanded="true" />
-            <element signature="e#588#589#0" expanded="true" />
+            <element signature="e#387#388#0" expanded="true" />
+            <element signature="e#433#434#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Expression.java">
+    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Types/Composition.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="70" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.8229885">
+          <caret line="62" column="4" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
           <folding>
-            <element signature="e#426#437#0" expanded="true" />
-            <element signature="e#656#657#0" expanded="true" />
-            <element signature="e#686#687#0" expanded="true" />
-            <element signature="e#739#740#0" expanded="true" />
-            <element signature="e#778#779#0" expanded="true" />
-            <element signature="e#829#830#0" expanded="true" />
-            <element signature="e#853#854#0" expanded="true" />
-            <element signature="e#902#903#0" expanded="true" />
-            <element signature="e#941#942#0" expanded="true" />
-            <element signature="e#990#991#0" expanded="true" />
-            <element signature="e#1026#1027#0" expanded="true" />
-            <element signature="e#1067#1068#0" expanded="true" />
-            <element signature="e#1102#1103#0" expanded="true" />
-            <element signature="e#1537#1538#0" expanded="true" />
-            <element signature="e#1583#1584#0" expanded="true" />
+            <element signature="e#428#439#0" expanded="true" />
+            <element signature="e#1434#1435#0" expanded="true" />
+            <element signature="e#1480#1481#0" expanded="true" />
+            <element signature="e#1723#1724#0" expanded="true" />
+            <element signature="e#1754#1755#0" expanded="true" />
+            <element signature="e#1789#1790#0" expanded="true" />
+            <element signature="e#1824#1825#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Construct.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="81" selection-start-line="42" selection-start-column="33" selection-end-line="42" selection-end-column="33" />
-          <folding>
-            <element signature="e#741#742#0" expanded="true" />
-            <element signature="e#768#769#0" expanded="true" />
-            <element signature="e#943#944#0" expanded="true" />
-            <element signature="e#983#984#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Types/Group.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="29" column="67" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Type.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35172415">
-          <caret line="9" column="31" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>

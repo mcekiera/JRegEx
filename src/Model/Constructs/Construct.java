@@ -1,11 +1,10 @@
 package Model.Constructs;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import Model.Constructs.Types.Composition;
 
 public class Construct {
     private Type type;
-    protected Complex parent;
+    protected Composition parent;
     protected String pattern;
     protected String asString;
     protected int start;
@@ -31,11 +30,11 @@ public class Construct {
         return type;
     }
 
-    public void setParent(Complex construct) {
+    public void setParent(Composition construct) {
         this.parent = construct;
     }
 
-    public Complex getParent() {
+    public Composition getParent() {
         return parent;
     }
 
@@ -66,7 +65,7 @@ public class Construct {
     public String toString() {
         return asString;
     }
-
+    /**
     public String directMatch(String match) {
         Matcher matcher = Pattern.compile(getAsSeparateGroup("test")).matcher(match);
         matcher.find();
@@ -78,6 +77,7 @@ public class Construct {
         }
         return getPattern() + ":" + result;
     }
+     */
 }
 
 

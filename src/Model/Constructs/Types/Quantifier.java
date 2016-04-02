@@ -1,15 +1,19 @@
-package Model.Constructs.Types.Quantifiable;
+package Model.Constructs.Types;
 
 import Model.Constructs.Construct;
+import Model.Constructs.Type;
 
-public class Interval extends Construct implements Quantifiable {
+public class Quantifier  extends Construct{
     private Construct construct;
 
-    public Interval(String pattern, int start, int end) {
+    public Quantifier(String pattern, int start, int end) {
         super(pattern, start, end);
     }
 
-    @Override
+    public Quantifier(Type type, String pattern, int start, int end) {
+        super(type,pattern,start,end);
+    }
+
     public void setConstruct(Construct construct) {
         this.construct = construct;
     }
@@ -26,7 +30,7 @@ public class Interval extends Construct implements Quantifiable {
 
     @Override
     public int size() {
-        System.out.println(asString.length());return  asString.length();
+        return asString.length();
     }
 
     @Override
@@ -36,10 +40,5 @@ public class Interval extends Construct implements Quantifiable {
 
     public int getEnd() {
         return this.end;
-    }
-
-    @Override
-    public Construct getConstruct() {
-        return construct;
     }
 }

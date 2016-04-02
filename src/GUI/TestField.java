@@ -1,10 +1,9 @@
 package GUI;
 
-import Model.Constructs.Complex;
 import Model.Constructs.Construct;
-import Model.Constructs.Type;
-import Model.Constructs.Expression;
 import Model.Constructs.ExpressionBuilder;
+import Model.Constructs.Type;
+import Model.Constructs.Types.Composition;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -34,7 +33,8 @@ public class TestField {
     public void highlight() {
         h.removeAllHighlights();
         String pattern = field.getText();
-        Expression ex = (Expression)(new ExpressionBuilder()).divideIntoConstructs(new Expression(pattern),pattern,0,pattern.length());
+        Composition temp = new Composition(Type.EXPRESSION,pattern,0,pattern.length());
+        Composition ex = (Composition)(new ExpressionBuilder()).divideIntoConstructs(temp,temp.getPattern(),temp.getStart(),temp.getEnd());
         dodo(ex);
         System.out.println("----------------------------------");
         for(Construct construct : ex) {
@@ -43,11 +43,11 @@ public class TestField {
 
     }
 
-    public void dodo(Complex container) {
+    public void dodo(Composition container) {
         for(Construct construct : (Iterable<Construct>)container) {
             //System.out.println("#" + construct.getClass().getName() + "#" + construct.toString());
-            if(construct instanceof Complex) {
-                dodo((Complex)construct);
+            if(construct instanceof Composition) {
+                dodo((Composition)construct);
             }
             if (construct instanceof Model.Constructs.Types.Error) {
                 try {

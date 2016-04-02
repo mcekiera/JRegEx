@@ -1,11 +1,7 @@
 package Model.Constructs;
 
-import Model.Constructs.Complex;
-import Model.Constructs.Construct;
-import Model.Constructs.ConstructsFactory;
-import Model.Constructs.Type;
-import Model.Constructs.Types.Quantifiable.Quantifiable;
-import Model.Constructs.Types.Reversible;
+import Model.Constructs.Types.Composition;
+import Model.Constructs.Types.Quantifier;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,7 +15,7 @@ public class ExpressionBuilder  implements Iterable<Construct> {
         return elements.listIterator();
     }
 
-    public Complex divideIntoConstructs(Complex container, String pattern, int start, int end) {
+    public Composition divideIntoConstructs(Composition container, String pattern, int start, int end) {
         int i = start;
         Construct construct = null;
         boolean alternative = false;
@@ -31,11 +27,11 @@ public class ExpressionBuilder  implements Iterable<Construct> {
             System.out.println("container:" + ((Construct)container).getType());
 
             if (isGroup(construct)) {
-                construct = (Construct) divideIntoConstructs((Complex) construct, pattern, ((Complex) construct).getInteriorStart(), ((Complex) construct).getInteriorEnd());
+                construct = (Construct) divideIntoConstructs((Composition) construct, pattern, ((Composition) construct).getInteriorStart(), ((Composition) construct).getInteriorEnd());
                 System.out.println("in");
                 container.addConstruct(construct);
-            } else if (construct instanceof Quantifiable) {
-                ((Reversible) container).absorbLast((Quantifiable) construct);
+            } else if (construct instanceof Quantifier) {
+                ((Composition) container).absorbLast((Quantifier) construct);
             } else {
                 container.addConstruct(construct);
             }
@@ -45,7 +41,7 @@ public class ExpressionBuilder  implements Iterable<Construct> {
         return container;
     }
 
-    public Construct crateNewConstruct(Complex container, String pattern, int i) {
+    public Construct crateNewConstruct(Composition container, String pattern, int i) {
         return ((Construct)container).getType() == Type.CHAR_CLASS ? ConstructsFactory.getInstance().createConstructInCharClass(pattern, i) :
                 ConstructsFactory.getInstance().createConstruct(pattern, i);
     }
