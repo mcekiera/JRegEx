@@ -2,8 +2,7 @@ package GUI;
 
 import Model.Constructs.Complex;
 import Model.Constructs.Construct;
-import Model.Constructs.Types.CharClass;
-import Model.Constructs.Types.Predefined;
+import Model.Constructs.Type;
 import Model.Expression;
 import Model.ExpressionBuilder;
 
@@ -39,7 +38,7 @@ public class TestField {
         dodo(ex);
         System.out.println("----------------------------------");
         for(Construct construct : ex) {
-            System.out.println(construct.getClass().getName());
+            System.out.println(construct.getType());
         }
 
     }
@@ -50,7 +49,7 @@ public class TestField {
             if(construct instanceof Complex) {
                 dodo((Complex)construct);
             }
-            if (construct instanceof Model.Constructs.Types.Error.Error) {
+            if (construct instanceof Model.Constructs.Types.Error) {
                 try {
                     DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.RED);
                     h.addHighlight(construct.getStart(), construct.getEnd(), p);
@@ -59,7 +58,7 @@ public class TestField {
                 }
 
             }
-            if (construct instanceof CharClass) {
+            if (construct.getType() == Type.CHAR_CLASS) {
                 try {
                     DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.ORANGE);
                     h.addHighlight(construct.getStart(), construct.getEnd(), p);
@@ -69,7 +68,7 @@ public class TestField {
 
             }
 
-            if (construct instanceof Predefined) {
+            if (construct.getType() == Type.PREDEFINED) {
                 try {
                     DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.BLUE);
                     h.addHighlight(construct.getStart(), construct.getEnd(), p);
@@ -79,7 +78,7 @@ public class TestField {
 
             }
 
-            if (construct instanceof Model.Constructs.Types.Component) {
+        if (construct.getType() == Type.COMPONENT) {
                 try {
                     DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.GREEN);
                     h.addHighlight(construct.getStart(), construct.getEnd(), p);
@@ -89,7 +88,7 @@ public class TestField {
 
             }
 
-            if (construct instanceof Model.Constructs.Types.Mode) {
+            if (construct.getType() == Type.MODE) {
                 try {
                     DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.MAGENTA);
                     h.addHighlight(construct.getStart(), construct.getEnd(), p);

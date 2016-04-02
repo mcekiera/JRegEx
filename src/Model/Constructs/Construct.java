@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Construct {
+    private Type type;
     protected Complex parent;
     protected String pattern;
     protected String asString;
@@ -16,6 +17,15 @@ public class Construct {
         this.end = end;
         asString = pattern.substring(start,end);
 
+    }
+
+    public Construct(Type type, String pattern,int start, int end) {
+        this(pattern,start,end);
+        this.type = type;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     public void setParent(Complex construct) {

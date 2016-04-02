@@ -1,12 +1,8 @@
 package Model.Constructs;
 
 import Model.Constructs.Lib.MatcherLib;
-import Model.Constructs.Types.*;
-import Model.Constructs.Types.Error.Error;
-import Model.Constructs.Types.Error.*;
-import Model.Constructs.Types.Group.Capturing;
-import Model.Constructs.Types.Group.LookAround;
-import Model.Constructs.Types.Group.NonCapturing;
+import Model.Constructs.Types.Error;
+import Model.Constructs.Types.Group;
 import Model.Constructs.Types.Quantifiable.Interval;
 import Model.Constructs.Types.Quantifiable.Quantifier;
 
@@ -28,19 +24,19 @@ public class ConstructsFactory {
         updateGroupsCount(pattern);
 
         if(regexMatch(Type.BOUNDARY,current)) {
-            construct = new Boundary(pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.BOUNDARY));
+            construct = new Construct(Type.BOUNDARY,pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.BOUNDARY));
         } else if(regexMatch(Type.MODE,current)) {
-            construct =  new Mode(pattern,startIndex,startIndex+lib.getMatcher(Type.MODE ).end());
+            construct = new Construct(Type.MODE,pattern,startIndex,startIndex+lib.getMatcher(Type.MODE ).end());
         } else if(regexMatch(Type.CHAR_CLASS,current)) {
             construct = createCharacterClass(pattern,startIndex);
         } else if(regexMatch(Type.LOGICAL,current)) {
-            construct = new Component(pattern,startIndex,startIndex+lib.getMatcher(Type.LOGICAL).end());
+            construct = new Construct(Type.COMPONENT,pattern,startIndex,startIndex+lib.getMatcher(Type.LOGICAL).end());
         } else if(regexMatch(Type.PREDEFINED,current)) {
             construct = createPredefined(pattern,startIndex);
         }else if(regexMatch(Type.BACKREFERENCE,current)) {
             construct = createBackreference(pattern,startIndex);
         } else if(regexMatch(Type.SPECIFIC_CHAR,current)) {
-            construct =  new SpecificChar(pattern,startIndex,startIndex+lib.getMatcher(Type.SPECIFIC_CHAR).end());
+            construct = new Construct(Type.SPECIFIC_CHAR,pattern,startIndex,startIndex+lib.getMatcher(Type.SPECIFIC_CHAR).end());
         } else if(regexMatch(Type.QUOTATION,current)) {
             construct = createQuotation(pattern,startIndex);
         } else if(regexMatch(Type.GROUP,current)) {
@@ -60,19 +56,19 @@ public class ConstructsFactory {
         previous = null;
         if(current == null) {
             regexMatch(Type.UNBALANCED, pattern.substring(startIndex));
-            return new UnbalancedStructure(pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end());
+            return new Error(Type.UNBALANCED,pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end());
         }
         if (regexMatch(Type.LOOK_AROUND, current)) {
-            return new LookAround(pattern,startIndex,startIndex+lib.getMatcher(Type.LOOK_AROUND).end());
+            return new Group(Type.LOOK_AROUND,pattern,startIndex,startIndex+lib.getMatcher(Type.LOOK_AROUND).end());
         } else if (regexMatch(Type.ATOMIC, current)) {
-            return new Mode(pattern,startIndex,startIndex+lib.getMatcher(Type.ATOMIC).end());
+            return new Group(Type.ATOMIC,pattern,startIndex,startIndex+lib.getMatcher(Type.ATOMIC).end());
         } else if (regexMatch(Type.NON_CAPTURING, current)) {
-            return new NonCapturing(pattern,startIndex,startIndex+lib.getMatcher(Type.NON_CAPTURING).end());
+            return new Group(Type.NON_CAPTURING,pattern,startIndex,startIndex+lib.getMatcher(Type.NON_CAPTURING).end());
         } else if(regexMatch(Type.CAPTURING, current)) {
-            return new Capturing(pattern,startIndex,startIndex+lib.getMatcher(Type.CAPTURING).end());
+            return new Group(Type.CAPTURING,pattern,startIndex,startIndex+lib.getMatcher(Type.CAPTURING).end());
         } else {
             regexMatch(Type.UNBALANCED, pattern.substring(startIndex));
-            return new UnbalancedStructure(pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end());
+            return new Error(Type.UNBALANCED,pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end());
     }
     }
 
@@ -81,10 +77,10 @@ public class ConstructsFactory {
         if (regexMatch(Type.RANGE, current)) {
             return createRangeConstruct(pattern,startIndex);
         } else if (regexMatch(Type.PREDEFINED, current)) {
-            return new Predefined(pattern,startIndex,startIndex+lib.getMatcher(Type.PREDEFINED).end());
+            return new Construct(Type.PREDEFINED,pattern,startIndex,startIndex+lib.getMatcher(Type.PREDEFINED).end());
         } else {
             regexMatch(Type.SIMPLE, current);
-            return new Construct(pattern,startIndex,startIndex+lib.getMatcher(Type.SIMPLE).end());
+            return new Construct(Type.SIMPLE,pattern,startIndex,startIndex+lib.getMatcher(Type.SIMPLE).end());
         }
     }
 
@@ -95,25 +91,25 @@ public class ConstructsFactory {
             return new Error(pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
         }
         if(previous instanceof Quantifier) {
-            return new Error(pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
+            return new Error(Type.ERROR,pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
         } else if (previous instanceof Interval) {
             if (regexMatch(Type.TOKEN,current)) {
-                construct = new Quantifier(pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
+                construct = new Quantifier(Type.TOKEN,pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
                 ((Quantifier)construct).setConstruct(previous);
             } else {
-                return new Error(pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
+                return new Error(Type.ERROR,pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
             }
         } else {
             if (regexMatch(Type.TOKEN, current)) {
-                construct = new Quantifier(pattern, startIndex, startIndex + lib.getMatcher(Type.TOKEN).end());
+                construct = new Quantifier(Type.TOKEN,pattern, startIndex, startIndex + lib.getMatcher(Type.TOKEN).end());
                 ((Quantifier) construct).setConstruct(previous);
             } else {
                 regexMatch(Type.INTERVAL,current);
                 if (isValidInterval(lib.getMatcher(Type.INTERVAL).group())) {
-                    construct = new Interval(pattern, startIndex, startIndex + lib.getMatcher(Type.INTERVAL).end());
+                    construct = new Quantifier(Type.INTERVAL,pattern, startIndex, startIndex + lib.getMatcher(Type.INTERVAL).end());
                     ((Interval) construct).setConstruct(previous);
                 } else {
-                    construct = new InvalidInterval(pattern, startIndex, startIndex + lib.getMatcher(Type.INTERVAL).end());
+                    construct = new Error(Type.ERROR,pattern, startIndex, startIndex + lib.getMatcher(Type.INTERVAL).end());
                 }
             }
         }
@@ -122,51 +118,51 @@ public class ConstructsFactory {
 
     private Construct createBackreference(String pattern, int startIndex) {
         if(isValidBackreference(lib.getMatcher(Type.BACKREFERENCE).group(),pattern)) {
-            return new Backreference(pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end());
+            return new Construct(Type.BACKREFERENCE,pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end());
         } else {
-            return new InvalidBackreference(pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end());
+            return new Error(Type.ERROR,pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end());
         }
     }
 
     private Construct createCharacterClass(String pattern, int startIndex) {
         if(lib.getMatcher(Type.CHAR_CLASS).group().length()<=2) {
-            return new IncompleteClass(pattern,startIndex,startIndex+lib.getMatcher(Type.CHAR_CLASS ).end());
+            return new Error(Type.INCOMPLETE,pattern,startIndex,startIndex+lib.getMatcher(Type.CHAR_CLASS ).end());
         } else {
-            return new CharClass(pattern, startIndex, startIndex + lib.getMatcher(Type.CHAR_CLASS).end());
+            return new Group(Type.CHAR_CLASS,pattern, startIndex, startIndex + lib.getMatcher(Type.CHAR_CLASS).end());
         }
     }
 
     private Construct createQuotation(String pattern, int startIndex) {
 
         if(regexMatch(Type.INCOMPLETE,pattern.substring(startIndex))) {
-            return new IncompleteConstruct(pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.INCOMPLETE));
+            return new Error(Type.INCOMPLETE,pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.INCOMPLETE));
         }
-        return new Quotation(pattern,startIndex,startIndex+lib.getMatcher(Type.QUOTATION).end());
+        return new Construct(Type.QUOTATION,pattern,startIndex,startIndex+lib.getMatcher(Type.QUOTATION).end());
     }
 
     private Construct createPredefined(String pattern, int startIndex) {
         if (lib.getMatcher(Type.PREDEFINED).group().matches("\\\\[dDsSwW]|\\\\[pP](\\{[^}]+})|\\.")) {
-            return new Predefined(pattern, startIndex, startIndex + lib.getMatcher(Type.PREDEFINED).end());
+            return new Construct(Type.PREDEFINED,pattern, startIndex, startIndex + lib.getMatcher(Type.PREDEFINED).end());
         } else {
             regexMatch(Type.INCOMPLETE, pattern.substring(startIndex));
-            return new IncompleteConstruct(pattern, startIndex, startIndex + lib.getMatcher(Type.INCOMPLETE).end());
+            return new Error(Type.INCOMPLETE,pattern, startIndex, startIndex + lib.getMatcher(Type.INCOMPLETE).end());
         }
     }
 
     private Construct createSimpleConstruct(String pattern, int startIndex) {
         if(pattern.substring(startIndex, startIndex + 1).matches("[\\[\\(\\)]")) {
-            return new UnbalancedStructure(pattern,startIndex,startIndex+1);
+            return new Error(Type.UNBALANCED,pattern,startIndex,startIndex+1);
         } else {
             regexMatch(Type.SIMPLE, pattern.substring(startIndex));
-            return new Construct(pattern, startIndex, startIndex + lib.getMatcher(Type.SIMPLE).end());
+            return new Construct(Type.SIMPLE,pattern, startIndex, startIndex + lib.getMatcher(Type.SIMPLE).end());
         }
     }
 
     private Construct createRangeConstruct(String pattern, int startIndex) {
         if(isValidRange(lib.getMatcher(Type.RANGE).group())) {
-            return new Range(pattern, startIndex, startIndex + lib.getMatcher(Type.RANGE).end());
+            return new Construct(Type.RANGE,pattern, startIndex, startIndex + lib.getMatcher(Type.RANGE).end());
         } else {
-            return new InvalidRange(pattern,startIndex,startIndex + lib.getMatcher(Type.RANGE).end());
+            return new Error(Type.ERROR,pattern,startIndex,startIndex + lib.getMatcher(Type.RANGE).end());
         }
     }
 

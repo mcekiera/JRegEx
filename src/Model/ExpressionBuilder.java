@@ -27,7 +27,7 @@ public class ExpressionBuilder  implements Iterable<Construct> {
 
             construct = crateNewConstruct(container, pattern, i);
 
-            //System.out.println("construct: " + construct.getClass().getName());
+            System.out.println("construct: " + construct.toString());
             //System.out.println("container:" + container.getClass().getName());
 
             if (construct instanceof Complex) {
@@ -38,7 +38,7 @@ public class ExpressionBuilder  implements Iterable<Construct> {
             } else {
                 container.addConstruct(construct);
             }
-            i += construct.size();
+            i += construct.size() == 0 ? 1 : construct.size();
         }
 
         return container;

@@ -1,10 +1,9 @@
-package Model.Constructs.Types.Group;
+package Model.Constructs.Types;
 
 import Model.Constructs.Complex;
 import Model.Constructs.Construct;
-import Model.Constructs.Types.Component;
+import Model.Constructs.Type;
 import Model.Constructs.Types.Quantifiable.Quantifiable;
-import Model.Constructs.Types.Reversible;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,14 +23,19 @@ public class Group extends Construct implements Complex,Iterable<Construct>,Reve
         crateConstructs();
     }
 
+    public Group(Type type, String patter, int start, int end) {
+        super(type,patter,start,end);
+        crateConstructs();
+    }
+
 
     public void crateConstructs() {
-        Matcher matcher = Pattern.compile("\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?").matcher(asString);
+        Matcher matcher = Pattern.compile("\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?|\\[").matcher(asString);
         matcher.find();
         int i = matcher.end();
         intStart = getStart() + i;
-        this.elements.add(new Component(pattern,this,getStart(),getStart()+i));
-        this.elements.add(new Component(pattern,this,getEnd()-1,getEnd()));
+        this.elements.add(new Construct(Type.COMPONENT,pattern,getStart(),getStart()+i));
+        this.elements.add(new Construct(Type.COMPONENT,pattern,getEnd()-1,getEnd()));
     }
 
     @Override

@@ -24,7 +24,9 @@ public enum Type {
     RANGE("\\p{ASCII}-\\p{ASCII}|\\\\\\w+-\\\\\\w+"),
 
     UNBALANCED("\\((\\?(\\<(\\w+|[=!])?|[:=!>]|[\\w-]+:?)?)?"),
-    INCOMPLETE("\\\\([xcu]|p(\\{)?|k(<[^>]*)?)");
+    INCOMPLETE("\\\\([xcu]|p(\\{)?|k(<[^>]*)?)"),
+    ERROR(""),
+    COMPONENT("");
 
 
     String regex;
