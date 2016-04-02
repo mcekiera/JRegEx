@@ -13,7 +13,6 @@ public class test {
         for(Construct construct : (Expression)expression) {
             System.out.println(construct.toString());
         }
-        //TODO potrzebna rekursja
     }
 
 }

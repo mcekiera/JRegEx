@@ -2,7 +2,6 @@ package Model.Constructs;
 
 import Model.Constructs.Lib.MatcherLib;
 import Model.Constructs.Types.*;
-import Model.Constructs.Types.Alternation.Alternation;
 import Model.Constructs.Types.Error.Error;
 import Model.Constructs.Types.Error.*;
 import Model.Constructs.Types.Group.Capturing;
@@ -25,7 +24,7 @@ public class ConstructsFactory {
 
     public Construct createConstruct(String pattern, int startIndex) {
         String current = pattern.substring(startIndex);
-        Construct construct = null;
+        Construct construct;
         updateGroupsCount(pattern);
 
         if(regexMatch(Type.BOUNDARY,current)) {
@@ -35,7 +34,7 @@ public class ConstructsFactory {
         } else if(regexMatch(Type.CHAR_CLASS,current)) {
             construct = createCharacterClass(pattern,startIndex);
         } else if(regexMatch(Type.LOGICAL,current)) {
-            construct =  new Alternation(pattern,startIndex,startIndex+lib.getMatcher(Type.LOGICAL).end());
+            construct = new Component(pattern,startIndex,startIndex+lib.getMatcher(Type.LOGICAL).end());
         } else if(regexMatch(Type.PREDEFINED,current)) {
             construct = createPredefined(pattern,startIndex);
         }else if(regexMatch(Type.BACKREFERENCE,current)) {
@@ -91,7 +90,7 @@ public class ConstructsFactory {
 
     public Construct createQuantifierConstruct(String pattern, int startIndex) {
         String current = pattern.substring(startIndex);
-        Construct construct = null;
+        Construct construct;
         if(previous == null) {
             return new Error(pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
         }
@@ -201,12 +200,9 @@ public class ConstructsFactory {
     }
 
     private boolean isValidInterval(String interval) {
-        String temp = interval.substring(1,interval.length()-1);
+        String temp = interval.substring(1, interval.length() - 1);
         String[] elements = temp.split(",");
-        if(interval.matches("\\{\\d,?\\}")) {
-            return true;
-        }
-        return elements[0].compareTo(elements[1])<0;
+        return interval.matches("\\{\\d,?\\}") || elements[0].compareTo(elements[1]) < 0;
     }
 
     private boolean isValidBackreference(String backreference, String pattern) {

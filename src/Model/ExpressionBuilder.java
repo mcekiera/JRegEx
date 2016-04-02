@@ -19,95 +19,33 @@ public class ExpressionBuilder  implements Iterable<Construct> {
         return elements.listIterator();
     }
 
-    public Expression toExpression(String pattern) {
-        createConstructs(pattern);
-        Expression expression = new Expression(pattern);
-        for(Construct construct : this) {
-            expression.addConstruct(construct);
-        }
-        return expression;
-    }
-
-    private void createConstructs(String pattern) {
-        int i = 0;
-        Construct construct;
-        Complex current;
-        while(i < pattern.length()) {
-            construct = ConstructsFactory.getInstance().createConstruct(pattern, i);
-
-            i += construct.size();
-
-            if(construct instanceof Quantifiable) {
-                elements.set(elements.indexOf(((Quantifiable) construct).getConstruct()),construct);
-            } else {
-                elements.add(construct);
-            }
-        }
-    }
-
     public Complex divideIntoConstructs(Complex container, String pattern, int start, int end) {
         int i = start;
         Construct construct = null;
+        boolean alternative = false;
         while (i < end) {
 
-            construct = container instanceof CharClass ? ConstructsFactory.getInstance().createConstructInCharClass(pattern,i) :
-                    ConstructsFactory.getInstance().createConstruct(pattern, i);
-            System.out.println("construct: " + construct.getClass().getName());
-            System.out.println("container:" + container.getClass().getName());
-            if(construct instanceof Complex) {
-                construct = (Construct)divideIntoConstructs((Complex)construct, pattern, ((Complex) construct).getInteriorStart(), ((Complex) construct).getInteriorEnd());
+            construct = crateNewConstruct(container, pattern, i);
+
+            //System.out.println("construct: " + construct.getClass().getName());
+            //System.out.println("container:" + container.getClass().getName());
+
+            if (construct instanceof Complex) {
+                construct = (Construct) divideIntoConstructs((Complex) construct, pattern, ((Complex) construct).getInteriorStart(), ((Complex) construct).getInteriorEnd());
                 container.addConstruct(construct);
-            } else if(construct instanceof Quantifiable) {
-                ((Reversible)container).absorbLast((Quantifiable)construct);
+            } else if (construct instanceof Quantifiable) {
+                ((Reversible) container).absorbLast((Quantifiable) construct);
             } else {
                 container.addConstruct(construct);
             }
             i += construct.size();
         }
+
         return container;
     }
 
-
-    public Expression create(String pattern)  {
-        int i = 0;
-        Construct construct;
-        Expression expression = new Expression(pattern);
-        Complex container = expression;
-
-        while(i < pattern.length()) {
-
-            construct = container instanceof CharClass ? ConstructsFactory.getInstance().createConstructInCharClass(pattern,i) :
-                    ConstructsFactory.getInstance().createConstruct(pattern, i);
-
-            if(construct instanceof Quantifiable) {
-                ((Reversible)container).absorbLast((Quantifiable) construct);
-            }
-
-
-            container.addConstruct(construct);
-            i = construct.getEnd();
-            System.out.println(construct.getClass().getName());
-
-
-            if(construct instanceof Complex) {
-                construct.setParent(container);
-                container = (Complex)construct;
-                i = container.getInteriorStart();
-            }
-
-
-
-            if(container instanceof Expression && i == container.getInteriorEnd()){
-                return expression;
-            }
-
-            if(i == container.getInteriorEnd()) {
-                i = ((Construct)container).getEnd();
-                container = ((Construct)container).getParent();
-
-            }
-
-        }
-        return expression;
+    public Construct crateNewConstruct(Complex container, String pattern, int i) {
+        return container instanceof CharClass ? ConstructsFactory.getInstance().createConstructInCharClass(pattern, i) :
+                ConstructsFactory.getInstance().createConstruct(pattern, i);
     }
 }

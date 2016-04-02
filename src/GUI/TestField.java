@@ -37,12 +37,16 @@ public class TestField {
         String pattern = field.getText();
         Expression ex = (Expression)(new ExpressionBuilder()).divideIntoConstructs(new Expression(pattern),pattern,0,pattern.length());
         dodo(ex);
+        System.out.println("----------------------------------");
+        for(Construct construct : ex) {
+            System.out.println(construct.getClass().getName());
+        }
 
     }
 
     public void dodo(Complex container) {
         for(Construct construct : (Iterable<Construct>)container) {
-            System.out.println("#" + construct.getClass().getName() + "#" + construct.toString());
+            //System.out.println("#" + construct.getClass().getName() + "#" + construct.toString());
             if(construct instanceof Complex) {
                 dodo((Complex)construct);
             }
@@ -94,7 +98,7 @@ public class TestField {
                 }
 
             }
-        }   //TODO cos nie dziala,
+        }
 
     }
 

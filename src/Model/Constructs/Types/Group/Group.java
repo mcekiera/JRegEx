@@ -2,7 +2,6 @@ package Model.Constructs.Types.Group;
 
 import Model.Constructs.Complex;
 import Model.Constructs.Construct;
-import Model.Constructs.Types.Alternation.Alternation;
 import Model.Constructs.Types.Component;
 import Model.Constructs.Types.Quantifiable.Quantifiable;
 import Model.Constructs.Types.Reversible;
@@ -15,6 +14,7 @@ import java.util.regex.Pattern;
 
 public class Group extends Construct implements Complex,Iterable<Construct>,Reversible {
     private int intStart;
+    private Complex parent;
 
     protected final List<Construct> elements = new ArrayList<Construct>();
 
@@ -67,10 +67,5 @@ public class Group extends Construct implements Complex,Iterable<Construct>,Reve
     public void absorbLast(Quantifiable construct) {
         construct.setConstruct(elements.get(elements.size()-2));
         elements.remove(elements.size()-2);
-    }
-
-    @Override
-    public void absorbAll(Alternation construct) {
-
     }
 }

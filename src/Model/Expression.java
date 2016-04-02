@@ -2,7 +2,6 @@ package Model;
 
 import Model.Constructs.Complex;
 import Model.Constructs.Construct;
-import Model.Constructs.Types.Alternation.Alternation;
 import Model.Constructs.Types.Quantifiable.Quantifiable;
 import Model.Constructs.Types.Reversible;
 
@@ -73,8 +72,4 @@ public class Expression implements Complex,Iterable<Construct>, Reversible{
         elements.set(elements.size()-1,(Construct)construct);
     }
 
-    @Override
-    public void absorbAll(Alternation construct) {
-
-    }
 }
