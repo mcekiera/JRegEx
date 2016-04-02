@@ -4,7 +4,7 @@ public enum Type {
     BOUNDARY("\\\\[bBAGZz]|[\\^\\$]"),
     CHAR_CLASS("\\[\\]\\]|(\\[((?:\\\\\\[|\\\\\\]|[^\\[\\]])*(?:(?:&&\\[\\^|\\[)(?:\\\\\\[|\\\\\\]|[^\\[\\]])*\\])?(?:\\\\\\[|\\\\\\]|[^\\[\\]])*)+\\])"),
     MODE("\\(\\?[imdsuxU]+-?([imdsuxU]+)?\\)"),
-    LOGICAL("\\|"),
+    LOGICAL("\\||&&?"),
     PREDEFINED("\\\\[dDsSwWpP](\\{[^}]*\\}?+)?+|\\."),
     QUANTIFIER("([?*+][?+]?)|\\{\\d+(,(\\d+)?)?\\}"),
 
@@ -26,7 +26,8 @@ public enum Type {
     UNBALANCED("\\((\\?(\\<(\\w+|[=!])?|[:=!>]|[\\w-]+:?)?)?"),
     INCOMPLETE("\\\\([xcu]|p(\\{)?|k(<[^>]*)?)"),
     ERROR(""),
-    COMPONENT("");
+    COMPONENT(""),
+    EXPRESSION(".*");
 
 
     String regex;

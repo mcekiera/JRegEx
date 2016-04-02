@@ -20,8 +20,11 @@ public class Construct {
     }
 
     public Construct(Type type, String pattern,int start, int end) {
-        this(pattern,start,end);
+        this.pattern = pattern;
+        this.start = start;
+        this.end = end;
         this.type = type;
+        asString = pattern.substring(start,end);
     }
 
     public Type getType() {

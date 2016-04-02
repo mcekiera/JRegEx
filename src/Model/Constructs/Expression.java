@@ -1,4 +1,4 @@
-package Model;
+package Model.Constructs;
 
 import Model.Constructs.Complex;
 import Model.Constructs.Construct;
@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Expression implements Complex,Iterable<Construct>, Reversible{
+public class Expression extends Construct implements Complex,Iterable<Construct>, Reversible{
     private final List<Construct> elements = new ArrayList<Construct>();
     private String pattern;
     private String currentMatch;
 
     public Expression(String pattern) {
+        super(pattern,0,pattern.length());
         this.pattern = pattern;
     }
 

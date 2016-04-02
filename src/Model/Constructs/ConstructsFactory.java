@@ -160,6 +160,7 @@ public class ConstructsFactory {
 
     private Construct createRangeConstruct(String pattern, int startIndex) {
         if(isValidRange(lib.getMatcher(Type.RANGE).group())) {
+
             return new Construct(Type.RANGE,pattern, startIndex, startIndex + lib.getMatcher(Type.RANGE).end());
         } else {
             return new Error(Type.ERROR,pattern,startIndex,startIndex + lib.getMatcher(Type.RANGE).end());
@@ -192,6 +193,7 @@ public class ConstructsFactory {
 
     private boolean isValidRange(String range) {
         String[] elements = range.split("-");
+        System.out.println(elements[0].compareTo(elements[1])<0);
         return elements[0].compareTo(elements[1])<0;
     }
 

@@ -54,6 +54,7 @@ public class Group extends Construct implements Complex,Iterable<Construct>,Reve
 
     @Override
     public void addConstruct(Construct construct) {
+        System.out.println("in: " + construct.toString());
         elements.add(elements.size()-1,construct);
     }
 

@@ -1,7 +1,7 @@
 package Processor;
 
 import Model.Constructs.Construct;
-import Model.Expression;
+import Model.Constructs.Expression;
 import GUI.InputFieldWrapper;
 import GUI.MatchingFieldWrapper;
 

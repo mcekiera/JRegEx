@@ -3,8 +3,8 @@ package GUI;
 import Model.Constructs.Complex;
 import Model.Constructs.Construct;
 import Model.Constructs.Type;
-import Model.Expression;
-import Model.ExpressionBuilder;
+import Model.Constructs.Expression;
+import Model.Constructs.ExpressionBuilder;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -38,7 +38,7 @@ public class TestField {
         dodo(ex);
         System.out.println("----------------------------------");
         for(Construct construct : ex) {
-            System.out.println(construct.getType());
+            System.out.println(construct.toString() +"\n" + construct.size());
         }
 
     }
