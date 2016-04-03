@@ -16,4 +16,9 @@ public class Matched {
     public int getEndIndex() {
         return endIndex;
     }
+
+    @Override
+    public String toString() {
+        return "matched: " + startIndex + "," + endIndex;
+    }
 }

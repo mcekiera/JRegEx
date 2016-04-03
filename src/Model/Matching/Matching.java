@@ -1,6 +1,7 @@
 package Model.Matching;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -16,6 +17,8 @@ public class Matching {
     private Map<Integer,List<Matched>> groupsMatch;
 
     public Matching(String pattern, String text) {
+        this.pattern = pattern;
+        groupsMatch = new HashMap<>();
         match(text);
         prepareMap();
         getMatches();
@@ -25,16 +28,18 @@ public class Matching {
         try {
             while (matcher.find()) {
                 for (int i = 0; i <= matcher.groupCount(); i++) {
-                    groupsMatch.get(i).add(new Matched(matcher.start(i), matcher.end(i)));
+                    Matched f = new Matched(matcher.start(i), matcher.end(i));
+                    groupsMatch.get(i).add(f);
+                    System.out.println(f);
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
     private void prepareMap() {
-        for(int i = 0; i <= matcher.groupCount(); i++) {
+        for(int i = 0; i <= 9; i++) {
             groupsMatch.put(i,new ArrayList<Matched>());
         }
     }
@@ -43,7 +48,20 @@ public class Matching {
         try {
             matcher = Pattern.compile(pattern).matcher(text);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+        }
+    }
+
+    public List<Matched> getMatchers(int group) {
+        return groupsMatch.get(group);
+    }
+
+    public int groupCount() {
+        try {
+            return matcher.groupCount();
+        } catch (Exception e) {
+            System.out.println("exe!");
+            return 0;
         }
     }
 

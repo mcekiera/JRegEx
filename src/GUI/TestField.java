@@ -1,6 +1,11 @@
 package GUI;
 
-import Model.Constructs.*;
+import Model.Constructs.Composition;
+import Model.Constructs.CompositionBuilder;
+import Model.Constructs.Construct;
+import Model.Constructs.Type;
+import Model.Matching.Matched;
+import Model.Matching.Matching;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -9,29 +14,59 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestField {
     JTextField field;
     Highlighter h;
+    JTextArea area;
+    Highlighter h2;
+    List<Color> col = new ArrayList<>();
 
     public TestField() {
         JFrame f = new JFrame();
         field = new JTextField();
         field.getDocument().addDocumentListener(new DocList());
         h = field.getHighlighter();
+        area = new JTextArea(10,20);
+        h2 = area.getHighlighter();
+        f.add(area, BorderLayout.CENTER);
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        f.add(field);
+        f.add(field, BorderLayout.NORTH);
         f.pack();
         f.setVisible(true);
+        col.add(Color.cyan);
+        col.add(Color.blue);
+        col.add(Color.GREEN);
+        col.add(Color.gray);
+        col.add(Color.magenta);
+        col.add(Color.orange);
+        col.add(Color.ORANGE);
+        col.add(Color.red);
+        col.add(Color.pink);
 
 
     }
 
     public void highlight() {
         h.removeAllHighlights();
+        h2.removeAllHighlights();
         String pattern = field.getText();
-        Composition ex = CompositionBuilder.getInstance().toComposition(pattern,Type.EXPRESSION);
+        Composition ex = CompositionBuilder.getInstance().toComposition(pattern, Type.EXPRESSION);
         dodo(ex);
+        Matching m = new Matching(pattern,area.getText());
+        for(int i = m.groupCount(); i >=0; i--) {
+            for (Matched n : m.getMatchers(i)) {
+
+                try {
+                    h2.addHighlight(n.getStartIndex(), n.getEndIndex(), new DefaultHighlighter.DefaultHighlightPainter(col.get(i)));
+                    System.out.println(n.getStartIndex() + "      " + n.getEndIndex());
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         System.out.println("----------------------------------");
         for(Construct construct : ex) {
             System.out.println(construct.getType());
