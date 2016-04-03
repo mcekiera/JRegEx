@@ -10,7 +10,7 @@ public class Composition extends Construct implements Iterable<Construct>{
     private int intStart;
     private int intEnd;
 
-    protected final List<Construct> elements = new ArrayList<Construct>();
+    private final List<Construct> elements = new ArrayList<Construct>();
 
     public Composition(Type type, String patter, int start, int end) {
         super(type,patter,start,end);

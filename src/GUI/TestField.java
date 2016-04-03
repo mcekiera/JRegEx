@@ -30,11 +30,15 @@ public class TestField {
     public void highlight() {
         h.removeAllHighlights();
         String pattern = field.getText();
-        Composition ex = new CompositionBuilder().toComposition(pattern);
+        Composition ex = CompositionBuilder.getInstance().toComposition(pattern,Type.EXPRESSION);
         dodo(ex);
         System.out.println("----------------------------------");
+        System.out.println("gc" + CompositionBuilder.getInstance().groupCount());
         for(Construct construct : ex) {
             System.out.println(construct.toString() +"\n" + construct.size());
+        }
+        for(Composition composition : CompositionBuilder.getInstance().getGroups()) {
+            System.out.println("index: " + CompositionBuilder.getInstance().getGroups().indexOf(composition) + " " + composition.toString());
         }
 
     }
