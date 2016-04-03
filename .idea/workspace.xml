@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67fe1b98-faf3-4689-be3c-98e502a2e9bf" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Model/Matching/Matched.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Model/Matching/Matching.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Model/Expression/Expression.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Constructs/Composition.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/Composition.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Constructs/CompositionBuilder.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/CompositionBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Matching/Matched.java" afterPath="$PROJECT_DIR$/src/Model/Matching/Matched.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Constructs/Lib/MatcherLib.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/Lib/MatcherLib.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Matching/Matching.java" afterPath="$PROJECT_DIR$/src/Model/Matching/Matching.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Constructs/Quantifier.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/Quantifier.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GUI/TestField.java" afterPath="$PROJECT_DIR$/src/GUI/TestField.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Constructs/Type.java" afterPath="$PROJECT_DIR$/src/Model/Constructs/Type.java" />
@@ -39,9 +41,15 @@
         <entry file="file://$PROJECT_DIR$/src/GUI/TestField.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="40" column="43" selection-start-line="40" selection-start-column="43" selection-end-line="40" selection-end-column="43" />
+              <caret line="34" column="65" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#3735#3736#0" expanded="true" />
+                <element signature="e#3771#3772#0" expanded="true" />
+                <element signature="e#3842#3843#0" expanded="true" />
+                <element signature="e#3878#3879#0" expanded="true" />
+                <element signature="e#3950#3951#0" expanded="true" />
+                <element signature="e#3985#3986#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -51,7 +59,7 @@
         <entry file="file://$PROJECT_DIR$/src/Model/Constructs/ConstructsFactory.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="14" column="52" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
+              <caret line="59" column="42" selection-start-line="59" selection-start-column="42" selection-end-line="59" selection-end-column="42" />
               <folding>
                 <element signature="e#8663#8664#0" expanded="true" />
                 <element signature="e#8733#8734#0" expanded="true" />
@@ -73,15 +81,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Matching.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Matching.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Model/Matching/Matching.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="67" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
+            <state vertical-scroll-proportion="1.6252874">
+              <caret line="44" column="27" selection-start-line="44" selection-start-column="27" selection-end-line="44" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#375#376#0" expanded="true" />
-                <element signature="e#440#441#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -91,30 +97,62 @@
         <entry file="file://$PROJECT_DIR$/src/Model/Matching/Matched.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <caret line="4" column="31" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
               <folding>
-                <element signature="e#248#249#0" expanded="true" />
-                <element signature="e#281#282#0" expanded="true" />
-                <element signature="e#313#314#0" expanded="true" />
-                <element signature="e#344#345#0" expanded="true" />
+                <element signature="e#246#247#0" expanded="true" />
+                <element signature="e#279#280#0" expanded="true" />
+                <element signature="e#311#312#0" expanded="true" />
+                <element signature="e#342#343#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CompositionBuilder.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CompositionBuilder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Model/Constructs/CompositionBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.37471265">
-              <caret line="16" column="42" selection-start-line="16" selection-start-column="42" selection-end-line="16" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="81" column="52" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#320#321#0" expanded="true" />
-                <element signature="e#351#352#0" expanded="true" />
-                <element signature="e#2365#2366#0" expanded="true" />
-                <element signature="e#2394#2395#0" expanded="true" />
-                <element signature="e#2425#2426#0" expanded="true" />
-                <element signature="e#2461#2462#0" expanded="true" />
+                <element signature="e#359#360#0" expanded="true" />
+                <element signature="e#390#391#0" expanded="true" />
+                <element signature="e#2619#2620#0" expanded="true" />
+                <element signature="e#2648#2649#0" expanded="true" />
+                <element signature="e#2679#2680#0" expanded="true" />
+                <element signature="e#2717#2718#0" expanded="true" />
+                <element signature="e#2758#2759#0" expanded="true" />
+                <element signature="e#2819#2820#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Expression.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Model/Expression/Expression.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="11" column="37" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MatcherLib.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Lib/MatcherLib.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="35" column="14" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
+              <folding>
+                <element signature="e#261#276#0" expanded="true" />
+                <element signature="e#546#547#0" expanded="true" />
+                <element signature="e#577#578#0" expanded="true" />
+                <element signature="e#621#622#0" expanded="true" />
+                <element signature="e#657#658#0" expanded="true" />
+                <element signature="e#704#705#0" expanded="true" />
+                <element signature="e#749#750#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -124,12 +162,12 @@
         <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Type.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="19" column="51" selection-start-line="19" selection-start-column="51" selection-end-line="19" selection-end-column="51" />
+              <caret line="18" column="40" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
               <folding>
-                <element signature="e#1263#1264#0" expanded="true" />
-                <element signature="e#1297#1298#0" expanded="true" />
-                <element signature="e#1311#1312#0" expanded="true" />
-                <element signature="e#1337#1338#0" expanded="true" />
+                <element signature="e#1274#1275#0" expanded="true" />
+                <element signature="e#1308#1309#0" expanded="true" />
+                <element signature="e#1322#1323#0" expanded="true" />
+                <element signature="e#1348#1349#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -158,8 +196,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Constructs/Types/Error/UnbalancedStructure.java" />
-        <option value="$PROJECT_DIR$/src/Constructs/Construct.java" />
         <option value="$PROJECT_DIR$/src/Constructs/Types/Quantifiable.java" />
         <option value="$PROJECT_DIR$/src/Constructs/Types/Quantifier.java" />
         <option value="$PROJECT_DIR$/src/Constructs/Types/Error/Lonely.java" />
@@ -201,14 +237,16 @@
         <option value="$PROJECT_DIR$/src/Model/Constructs/ErrorType.java" />
         <option value="$PROJECT_DIR$/src/Model/Constructs/ExpressionBuilder.java" />
         <option value="$PROJECT_DIR$/src/Model/Constructs/Construct.java" />
-        <option value="$PROJECT_DIR$/src/Model/Constructs/ConstructsFactory.java" />
         <option value="$PROJECT_DIR$/src/Model/Matching/Match.java" />
-        <option value="$PROJECT_DIR$/src/Model/Matching/Matched.java" />
-        <option value="$PROJECT_DIR$/src/Model/Matching/Matching.java" />
         <option value="$PROJECT_DIR$/src/Model/Constructs/Composition.java" />
-        <option value="$PROJECT_DIR$/src/GUI/TestField.java" />
+        <option value="$PROJECT_DIR$/src/Model/Constructs/Lib/MatcherLib.java" />
+        <option value="$PROJECT_DIR$/src/Model/Constructs/ConstructsFactory.java" />
         <option value="$PROJECT_DIR$/src/Model/Constructs/Type.java" />
+        <option value="$PROJECT_DIR$/src/GUI/TestField.java" />
+        <option value="$PROJECT_DIR$/src/Model/Matching/Matched.java" />
         <option value="$PROJECT_DIR$/src/Model/Constructs/CompositionBuilder.java" />
+        <option value="$PROJECT_DIR$/src/Model/Expression/Expression.java" />
+        <option value="$PROJECT_DIR$/src/Model/Matching/Matching.java" />
       </list>
     </option>
   </component>
@@ -303,6 +341,10 @@
               <option name="myItemId" value="Model" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Expression" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -319,10 +361,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Model" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Constructs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -657,14 +695,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Lib/MatcherLib.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/GUI/InputFieldWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.0183908">
@@ -700,40 +730,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Quantifier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="36" selection-start-line="5" selection-start-column="36" selection-end-line="5" selection-end-column="36" />
-          <folding>
-            <element signature="e#858#859#0" expanded="true" />
-            <element signature="e#889#890#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/ConstructsFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="52" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
-          <folding>
-            <element signature="e#8663#8664#0" expanded="true" />
-            <element signature="e#8733#8734#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Matching/Matching.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="67" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#375#376#0" expanded="true" />
-            <element signature="e#440#441#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Composition.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -747,25 +743,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Matching/Matched.java">
+    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Lib/MatcherLib.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <caret line="35" column="14" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
           <folding>
-            <element signature="e#248#249#0" expanded="true" />
-            <element signature="e#281#282#0" expanded="true" />
-            <element signature="e#313#314#0" expanded="true" />
-            <element signature="e#344#345#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GUI/TestField.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="43" selection-start-line="40" selection-start-column="43" selection-end-line="40" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#261#276#0" expanded="true" />
+            <element signature="e#546#547#0" expanded="true" />
+            <element signature="e#577#578#0" expanded="true" />
+            <element signature="e#621#622#0" expanded="true" />
+            <element signature="e#657#658#0" expanded="true" />
+            <element signature="e#704#705#0" expanded="true" />
+            <element signature="e#749#750#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -773,28 +762,101 @@
     <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Type.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="51" selection-start-line="19" selection-start-column="51" selection-end-line="19" selection-end-column="51" />
+          <caret line="18" column="40" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
           <folding>
-            <element signature="e#1263#1264#0" expanded="true" />
-            <element signature="e#1297#1298#0" expanded="true" />
-            <element signature="e#1311#1312#0" expanded="true" />
-            <element signature="e#1337#1338#0" expanded="true" />
+            <element signature="e#1274#1275#0" expanded="true" />
+            <element signature="e#1308#1309#0" expanded="true" />
+            <element signature="e#1322#1323#0" expanded="true" />
+            <element signature="e#1348#1349#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/ConstructsFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="59" column="42" selection-start-line="59" selection-start-column="42" selection-end-line="59" selection-end-column="42" />
+          <folding>
+            <element signature="e#8663#8664#0" expanded="true" />
+            <element signature="e#8733#8734#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Constructs/Quantifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="36" selection-start-line="5" selection-start-column="36" selection-end-line="5" selection-end-column="36" />
+          <folding>
+            <element signature="e#858#859#0" expanded="true" />
+            <element signature="e#889#890#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GUI/TestField.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="65" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3735#3736#0" expanded="true" />
+            <element signature="e#3771#3772#0" expanded="true" />
+            <element signature="e#3842#3843#0" expanded="true" />
+            <element signature="e#3878#3879#0" expanded="true" />
+            <element signature="e#3950#3951#0" expanded="true" />
+            <element signature="e#3985#3986#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Matching/Matched.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="31" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
+          <folding>
+            <element signature="e#246#247#0" expanded="true" />
+            <element signature="e#279#280#0" expanded="true" />
+            <element signature="e#311#312#0" expanded="true" />
+            <element signature="e#342#343#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/Constructs/CompositionBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37471265">
-          <caret line="16" column="42" selection-start-line="16" selection-start-column="42" selection-end-line="16" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="81" column="52" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#320#321#0" expanded="true" />
-            <element signature="e#351#352#0" expanded="true" />
-            <element signature="e#2365#2366#0" expanded="true" />
-            <element signature="e#2394#2395#0" expanded="true" />
-            <element signature="e#2425#2426#0" expanded="true" />
-            <element signature="e#2461#2462#0" expanded="true" />
+            <element signature="e#359#360#0" expanded="true" />
+            <element signature="e#390#391#0" expanded="true" />
+            <element signature="e#2619#2620#0" expanded="true" />
+            <element signature="e#2648#2649#0" expanded="true" />
+            <element signature="e#2679#2680#0" expanded="true" />
+            <element signature="e#2717#2718#0" expanded="true" />
+            <element signature="e#2758#2759#0" expanded="true" />
+            <element signature="e#2819#2820#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Expression/Expression.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="37" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Matching/Matching.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.6252874">
+          <caret line="44" column="27" selection-start-line="44" selection-start-column="27" selection-end-line="44" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

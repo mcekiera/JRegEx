@@ -28,4 +28,22 @@ public class MatcherLib {
     public int getEndOfLastMatch(Type type) {
         return getMatcher(type).end();
     }
+
+    public String getGroup(Type type, String key) {
+        try {
+            return lib.get(type).group(key);
+        }catch (IllegalStateException e) {
+            //e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getGroup(Type type, int key) {
+        try {
+            return lib.get(type).group(key);
+        }catch (IllegalStateException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

@@ -1,11 +1,13 @@
 package Model.Constructs;
 
-import java.util.ArrayList;
-import java.util.List;
+import Model.Constructs.Lib.MatcherLib;
+
+import java.util.*;
 
 public class CompositionBuilder {
     private static final CompositionBuilder INSTANCE = new CompositionBuilder();
-    private List<Composition> groups;
+    private Map<String,Composition> groups;
+    private int count;
 
     private CompositionBuilder(){}
 
@@ -15,7 +17,8 @@ public class CompositionBuilder {
 
     public Composition toComposition(String pattern, Type type) {
         Composition composition = new Composition(type,pattern,0,pattern.length());
-        groups = new ArrayList<Composition>();
+        groups = new LinkedHashMap<>();
+        count = 0;
         divideIntoConstructs(composition);
         return composition;
     }
@@ -52,7 +55,9 @@ public class CompositionBuilder {
 
     private void addGroup(Composition composition) {
         if(composition.getType() == Type.EXPRESSION || composition.getType() == Type.CAPTURING) {
-                groups.add(composition);
+                groups.put((MatcherLib.getInstance().getGroup(Type.CAPTURING,"name") == null ?
+                        Integer.toString(count) : MatcherLib.getInstance().getGroup(Type.CAPTURING,"name")),composition);
+            count++;
         }
     }
 
@@ -62,11 +67,15 @@ public class CompositionBuilder {
                 construct.getType() == Type.CHAR_CLASS);
     }
 
-    public List<Composition> getGroups() {
+    public Map<String,Composition> getGroups() {
         return groups;
     }
 
     public int groupCount() {
-        return groups.size();
+        return groups.size()-1;
+    }
+
+    public List<String> getGroupsId() {
+        return new ArrayList<String>(groups.keySet());
     }
 }

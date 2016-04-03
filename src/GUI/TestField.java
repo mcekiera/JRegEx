@@ -33,12 +33,8 @@ public class TestField {
         Composition ex = CompositionBuilder.getInstance().toComposition(pattern,Type.EXPRESSION);
         dodo(ex);
         System.out.println("----------------------------------");
-        System.out.println("gc" + CompositionBuilder.getInstance().groupCount());
         for(Construct construct : ex) {
-            System.out.println(construct.toString() +"\n" + construct.size());
-        }
-        for(Composition composition : CompositionBuilder.getInstance().getGroups()) {
-            System.out.println("index: " + CompositionBuilder.getInstance().getGroups().indexOf(composition) + " " + composition.toString());
+            System.out.println(construct.getType());
         }
 
     }

@@ -16,8 +16,8 @@ public enum Type {
 
     GROUP("\\("),
     ATOMIC("\\(\\?\\>.+\\)"),
-    LOOK_AROUND("\\(\\?[=!<][=!]?.+\\)"),
-    CAPTURING("^\\(((?!\\?)|(\\?\\<[^>]*\\>)?).*\\)"),
+    LOOK_AROUND("\\(\\?([=!]|<[=!]).+\\)"),
+    CAPTURING("^\\((?:(?!\\?)|\\?\\<(?<name>[^>]*)\\>)?.*\\)"),
     NON_CAPTURING("\\(\\?([imdsuxU]+(-[imdsuxU]+)?)?:.+\\)"),
     BACKREFERENCE("\\\\(?:(\\d+)|k\\<([^>]+)\\>)"),
     SIMPLE("."),
