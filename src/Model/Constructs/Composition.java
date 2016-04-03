@@ -1,7 +1,4 @@
-package Model.Constructs.Types;
-
-import Model.Constructs.Construct;
-import Model.Constructs.Type;
+package Model.Constructs;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,7 +19,6 @@ public class Composition extends Construct implements Iterable<Construct>{
         if(type != Type.EXPRESSION) crateComponents();
     }
 
-
     public void crateComponents() {
         Matcher matcher = Pattern.compile("\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?|\\[").matcher(asString);
         if(matcher.find()) {
@@ -32,6 +28,24 @@ public class Composition extends Construct implements Iterable<Construct>{
             this.elements.add(new Construct(Type.COMPONENT, pattern, getStart(), getStart() + i));
             this.elements.add(new Construct(Type.COMPONENT, pattern, getEnd() - 1, getEnd()));
         }
+    }
+
+    public void addConstruct(Construct construct) {
+        System.out.println("in: " + construct.toString());
+        elements.add(elements.size()-(getType() == Type.EXPRESSION ? 0 : 1),construct);
+    }
+
+    public int getInteriorStart() {
+        return intStart;
+    }
+
+    public int getInteriorEnd() {
+        return intEnd;
+    }
+
+    public void absorbLast(Quantifier construct) {
+        construct.setConstruct(elements.get(elements.size()-(getType() == Type.EXPRESSION ? 1 : 2)));
+        elements.remove(elements.size()-(getType() == Type.EXPRESSION ? 1 : 2));
     }
 
     @Override
@@ -46,23 +60,5 @@ public class Composition extends Construct implements Iterable<Construct>{
     @Override
     public Iterator<Construct> iterator() {
         return elements.listIterator();
-    }
-
-    public void addConstruct(Construct construct) {
-        System.out.println("in: " + construct.toString());
-        elements.add(elements.size()-(getType() == Type.EXPRESSION ? 0 : 1),construct);
-    }
-
-    public int getInteriorStart() {
-        return intStart;
-    }
-
-    public int getInteriorEnd() {
-        return getEnd() - 1;
-    }
-
-    public void absorbLast(Quantifier construct) {
-        construct.setConstruct(elements.get(elements.size()-(getType() == Type.EXPRESSION ? 1 : 2)));
-        elements.remove(elements.size()-(getType() == Type.EXPRESSION ? 1 : 2));
     }
 }

@@ -1,9 +1,6 @@
 package Model.Constructs;
 
 import Model.Constructs.Lib.MatcherLib;
-import Model.Constructs.Types.Composition;
-import Model.Constructs.Types.Error;
-import Model.Constructs.Types.Quantifier;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,9 +48,9 @@ public class ConstructsFactory {
     }
 
     public Construct createGroupConstruct(String pattern, int startIndex) {
-        String current = extractGroup(pattern.substring(startIndex));
+        String current = extractGroup(pattern.substring(startIndex),'(',')');
         previous = null;
-        if(current == null) {
+        if(current.equals("")) {
             regexMatch(Type.UNBALANCED, pattern.substring(startIndex));
             return new Error(Type.UNBALANCED,pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end());
         }
@@ -108,7 +105,7 @@ public class ConstructsFactory {
                     construct = new Quantifier(Type.INTERVAL,pattern, startIndex, startIndex + lib.getMatcher(Type.INTERVAL).end());
                     ((Quantifier) construct).setConstruct(previous);
                 } else {
-                    construct = new Error(Type.ERROR,pattern, startIndex, startIndex + lib.getMatcher(Type.INTERVAL).end());
+                    construct = new Error(Type.INVALID_INTERVAL,pattern, startIndex, startIndex + lib.getMatcher(Type.INTERVAL).end());
                 }
             }
         }
@@ -119,15 +116,17 @@ public class ConstructsFactory {
         if(isValidBackreference(lib.getMatcher(Type.BACKREFERENCE).group(),pattern)) {
             return new Construct(Type.BACKREFERENCE,pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end());
         } else {
-            return new Error(Type.ERROR,pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end());
+            return new Error(Type.INVALID_BACKREFERENCE,pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end());
         }
     }
 
     private Construct createCharacterClass(String pattern, int startIndex) {
-        if(lib.getMatcher(Type.CHAR_CLASS).group().length()<=2) {
-            return new Error(Type.INCOMPLETE,pattern,startIndex,startIndex+lib.getMatcher(Type.CHAR_CLASS ).end());
+        String current = extractGroup(pattern.substring(startIndex),'[',']');
+        int end = startIndex + (current.length() == 0 ? 1 : current.length());
+        if(current.length()<=2) {
+            return new Error(Type.INCOMPLETE,pattern,startIndex,end);
         } else {
-            return new Composition(Type.CHAR_CLASS,pattern, startIndex, startIndex + lib.getMatcher(Type.CHAR_CLASS).end());
+            return new Composition(Type.CHAR_CLASS,pattern, startIndex, end);
         }
     }
 
@@ -162,7 +161,7 @@ public class ConstructsFactory {
 
             return new Construct(Type.RANGE,pattern, startIndex, startIndex + lib.getMatcher(Type.RANGE).end());
         } else {
-            return new Error(Type.ERROR,pattern,startIndex,startIndex + lib.getMatcher(Type.RANGE).end());
+            return new Error(Type.INVALID_RANGE,pattern,startIndex,startIndex + lib.getMatcher(Type.RANGE).end());
         }
     }
 
@@ -174,20 +173,20 @@ public class ConstructsFactory {
         return INSTANCE;
     }
 
-    private String extractGroup(String pattern) {
+    private String extractGroup(String pattern, char start, char end) {
         char[] strAsChar = pattern.toCharArray();
         int depth = 0;
         for(int index = 0; index < pattern.length(); index++) {
-            if(strAsChar[index]=='(') {
+            if(strAsChar[index]==start) {
                 depth++;
-            } else if(strAsChar[index]==')') {
+            } else if(strAsChar[index]==end) {
                 depth--;
             }
             if(index!=0 && depth==0){
                 return pattern.substring(0,index+1);
             }
         }
-        return null;
+        return "";
     }
 
     private boolean isValidRange(String range) {

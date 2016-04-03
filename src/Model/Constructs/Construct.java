@@ -1,7 +1,5 @@
 package Model.Constructs;
 
-import Model.Constructs.Types.Composition;
-
 public class Construct {
     private Type type;
     protected Composition parent;
@@ -51,7 +49,7 @@ public class Construct {
     }
 
     public String getPattern() {
-        return asString;
+        return pattern;
     }
 
     public String getAsSeparateGroup(String groupName) {

@@ -2,9 +2,9 @@ package Model.Constructs;
 
 public enum Type {
     BOUNDARY("\\\\[bBAGZz]|[\\^\\$]"),
-    CHAR_CLASS("\\[\\]\\]|(\\[((?:\\\\\\[|\\\\\\]|[^\\[\\]])*(?:(?:&&\\[\\^|\\[)(?:\\\\\\[|\\\\\\]|[^\\[\\]])*\\])?(?:\\\\\\[|\\\\\\]|[^\\[\\]])*)+\\])"),
+    CHAR_CLASS("\\["),//"\\[\\]\\]|(\\[((?:\\\\\\[|\\\\\\]|[^\\[\\]])*(?:(?:&&\\[\\^|\\[)(?:\\\\\\[|\\\\\\]|[^\\[\\]])*\\])?(?:\\\\\\[|\\\\\\]|[^\\[\\]])*)+\\])"),
     MODE("\\(\\?[imdsuxU]+-?([imdsuxU]+)?\\)"),
-    LOGICAL("\\||&&?"),
+    LOGICAL("\\|"),
     PREDEFINED("\\\\[dDsSwWpP](\\{[^}]*\\}?+)?+|\\."),
     QUANTIFIER("([?*+][?+]?)|\\{\\d+(,(\\d+)?)?\\}"),
 
@@ -22,18 +22,24 @@ public enum Type {
     BACKREFERENCE("\\\\(?:(\\d+)|k\\<([^>]+)\\>)"),
     SIMPLE("."),
     RANGE("\\p{ASCII}-\\p{ASCII}|\\\\\\w+-\\\\\\w+"),
+    COMPONENT(),
+    EXPRESSION(),
 
     UNBALANCED("\\((\\?(\\<(\\w+|[=!])?|[:=!>]|[\\w-]+:?)?)?"),
     INCOMPLETE("\\\\([xcu]|p(\\{)?|k(<[^>]*)?)"),
-    ERROR(""),
-    COMPONENT(""),
-    EXPRESSION(".*");
-
+    INVALID_RANGE(),
+    INVALID_INTERVAL(),
+    INVALID_BACKREFERENCE(),
+    ERROR();
 
     String regex;
+
     Type(String regex) {
         this.regex = regex;
+    }
 
+    Type() {
+        regex = "";
     }
 
     public String getRegex() {

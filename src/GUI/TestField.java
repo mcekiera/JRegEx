@@ -1,9 +1,6 @@
 package GUI;
 
-import Model.Constructs.Construct;
-import Model.Constructs.ExpressionBuilder;
-import Model.Constructs.Type;
-import Model.Constructs.Types.Composition;
+import Model.Constructs.*;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -33,8 +30,7 @@ public class TestField {
     public void highlight() {
         h.removeAllHighlights();
         String pattern = field.getText();
-        Composition temp = new Composition(Type.EXPRESSION,pattern,0,pattern.length());
-        Composition ex = (Composition)(new ExpressionBuilder()).divideIntoConstructs(temp,temp.getPattern(),temp.getStart(),temp.getEnd());
+        Composition ex = new CompositionBuilder().toComposition(pattern);
         dodo(ex);
         System.out.println("----------------------------------");
         for(Construct construct : ex) {
@@ -49,7 +45,7 @@ public class TestField {
             if(construct instanceof Composition) {
                 dodo((Composition)construct);
             }
-            if (construct instanceof Model.Constructs.Types.Error) {
+            if (construct instanceof Model.Constructs.Error) {
                 try {
                     DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.RED);
                     h.addHighlight(construct.getStart(), construct.getEnd(), p);
@@ -78,7 +74,7 @@ public class TestField {
 
             }
 
-        if (construct.getType() == Type.COMPONENT) {
+        if (construct.getType() == Type.COMPONENT && (construct.getParent() == null || construct.getParent().getType() != Type.CHAR_CLASS)) {
                 try {
                     DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.GREEN);
                     h.addHighlight(construct.getStart(), construct.getEnd(), p);
@@ -98,6 +94,7 @@ public class TestField {
 
             }
         }
+        return;
 
     }
 
