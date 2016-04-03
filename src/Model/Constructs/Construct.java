@@ -1,5 +1,8 @@
 package Model.Constructs;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Construct {
     private Type type;
     protected Composition parent;
@@ -63,7 +66,7 @@ public class Construct {
     public String toString() {
         return asString;
     }
-    /**
+
     public String directMatch(String match) {
         Matcher matcher = Pattern.compile(getAsSeparateGroup("test")).matcher(match);
         matcher.find();
@@ -75,7 +78,7 @@ public class Construct {
         }
         return getPattern() + ":" + result;
     }
-     */
+
 }
 
 

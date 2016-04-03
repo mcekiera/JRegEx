@@ -80,20 +80,20 @@ public class ConstructsFactory {
         }
     }
 
-    public Construct createQuantifierConstruct(String pattern, int startIndex) {
+    public Construct createQuantifierConstruct(String pattern, int startIndex) {      //TODO empty intervals!!
         String current = pattern.substring(startIndex);
         Construct construct;
         if(previous == null) {
             return new Error(pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
         }
-        if(previous instanceof Quantifier) {
-            return new Error(Type.ERROR,pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
+        if(previous.getType() == Type.TOKEN) {
+                return new Error(Type.ERROR,pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
         } else if (previous.getType() == Type.INTERVAL) {
             if (regexMatch(Type.TOKEN,current)) {
+                return new Error(Type.ERROR,pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
+            } else {
                 construct = new Quantifier(Type.TOKEN,pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
                 ((Quantifier)construct).setConstruct(previous);
-            } else {
-                return new Error(Type.ERROR,pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
             }
         } else {
             if (regexMatch(Type.TOKEN, current)) {

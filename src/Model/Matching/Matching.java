@@ -26,11 +26,21 @@ public class Matching {
 
     private void getMatches() {
         try {
-            while (matcher.find()) {
-                for (int i = 0; i <= matcher.groupCount(); i++) {
-                    Matched f = new Matched(matcher.start(i), matcher.end(i));
-                    groupsMatch.get(i).add(f);
-                    System.out.println(f);
+            if(global) {
+                while (matcher.find()) {
+                    for (int i = 0; i <= matcher.groupCount(); i++) {
+                        Matched f = new Matched(matcher.start(i), matcher.end(i));
+                        groupsMatch.get(i).add(f);
+                        System.out.println(f);
+                    }
+                }
+            } else {
+                if (matcher.find()) {
+                    for (int i = 0; i <= matcher.groupCount(); i++) {
+                        Matched f = new Matched(matcher.start(i), matcher.end(i));
+                        groupsMatch.get(i).add(f);
+                        System.out.println(f);
+                    }
                 }
             }
         } catch (Exception e) {
