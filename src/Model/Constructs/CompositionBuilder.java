@@ -31,7 +31,6 @@ public class CompositionBuilder {
         while (i < container.getInteriorEnd()) {
 
             construct = crateNewConstruct(container, container.getPattern(), i);
-
             if (isGroup(construct)) {
 
                 construct = (divideIntoConstructs((Composition) construct));
@@ -40,10 +39,15 @@ public class CompositionBuilder {
 
                 if(isValidQuantifire(construct,previous)) {
                     if(previous == null || previous.getType() == Type.QUANTIFIER || previous.getType() == Type.INTERVAL) {
-                        // here interval code and quantifire code
+                        ((Quantifier)construct).setConstruct(new Construct(Type.SIMPLE,container.getPattern(),i,i));
+                        container.addConstruct(construct);
+                    } else {
+                        ((Quantifier)construct).setConstruct(previous);
+                        container.removeLastAdded();
+                        container.addConstruct(construct);
                     }
                 } else {
-                    container.addConstruct(new Error(Type.ERROR,container.getPattern(),construct.getStart(),construct.getEnd()));
+                    container.addConstruct(new Error(Type.ERROR,container.getPattern(),i,construct.getEnd()));
                 }
 
             } else {

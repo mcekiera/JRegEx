@@ -5,6 +5,7 @@ public class Quantifier  extends Construct{
 
     public Quantifier(Type type, String pattern, int start, int end) {
         super(type,pattern,start,end);
+        System.out.println(type + "," + pattern + "," + start + "," + end);
     }
 
     public void setConstruct(Construct construct) {

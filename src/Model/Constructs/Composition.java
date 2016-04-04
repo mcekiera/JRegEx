@@ -59,7 +59,7 @@ public class Composition extends Construct implements Iterable<Construct>{
     public int getInsertionIndex() {
         try {
             System.out.println(getType());
-            return elements.size() - (elements.size() == 0 ? 0 : (getType() == Type.EXPRESSION ? 1 : 2));
+            return elements.size() - (elements.size() == 0 ? 0 : (getType() == Type.EXPRESSION ? 0 : 1));
         } catch (IndexOutOfBoundsException e) {
             return 0;
         }
