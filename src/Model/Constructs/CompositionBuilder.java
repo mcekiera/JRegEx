@@ -35,8 +35,6 @@ public class CompositionBuilder {
 
                 construct = (divideIntoConstructs((Composition) construct));
                 container.addConstruct(construct);
-            } else if (construct instanceof Quantifier) {
-                (container).absorbLast((Quantifier) construct);
             } else {
                 container.addConstruct(construct);
             }

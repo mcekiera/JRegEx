@@ -31,8 +31,21 @@ public class Composition extends Construct implements Iterable<Construct>{
     }
 
     public void addConstruct(Construct construct) {
-        System.out.println("in: " + construct.toString());
-        elements.add(elements.size()-(getType() == Type.EXPRESSION ? 0 : 1),construct);
+        System.out.println(elements.size());
+        if(elements.size() > 0 && (construct.getType() == Type.QUANTIFIER || construct.getType() == Type.INTERVAL)){
+            System.out.println(elements.get(getInsertionIndex()).asString);
+            System.out.println(((Quantifier)construct).getConstruct());
+            if(elements.get(getInsertionIndex()).equals(((Quantifier)construct).getConstruct())) {
+                elements.set(getInsertionIndex(),construct);
+                System.out.println(">> 1");
+            } else {
+                elements.add(getInsertionIndex(),construct);
+                System.out.println(">> 2");
+            }
+        } else {
+            elements.add(getInsertionIndex(), construct);
+            System.out.println(">> 3");
+        }
     }
 
     public int getInteriorStart() {
@@ -43,9 +56,13 @@ public class Composition extends Construct implements Iterable<Construct>{
         return intEnd;
     }
 
-    public void absorbLast(Quantifier construct) {
-        construct.setConstruct(elements.get(elements.size()-(getType() == Type.EXPRESSION ? 1 : 2)));
-        elements.remove(elements.size()-(getType() == Type.EXPRESSION ? 1 : 2));
+    public int getInsertionIndex() {
+        try {
+            System.out.println(getType());
+            return elements.size() - (elements.size() == 0 ? 0 : (getType() == Type.EXPRESSION ? 1 : 2));
+        } catch (IndexOutOfBoundsException e) {
+            return 0;
+        }
     }
 
     @Override

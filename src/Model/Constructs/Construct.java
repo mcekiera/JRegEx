@@ -11,14 +11,6 @@ public class Construct {
     protected int start;
     protected int end;
 
-    public Construct(String pattern, int start, int end) {
-        this.pattern = pattern;
-        this.start = start;
-        this.end = end;
-        asString = pattern.substring(start,end);
-
-    }
-
     public Construct(Type type, String pattern,int start, int end) {
         this.pattern = pattern;
         this.start = start;
@@ -77,6 +69,13 @@ public class Construct {
             result = "empty";
         }
         return getPattern() + ":" + result;
+    }
+
+
+    public boolean equals(Construct c) {
+        return this.getType() == c.getType() && this.getPattern() == c.getPattern()
+                && this.getStart() == c.getStart() && this.getEnd() == c.getEnd();
+
     }
 
 }

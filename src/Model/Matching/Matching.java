@@ -29,7 +29,9 @@ public class Matching {
             if(global) {
                 while (matcher.find()) {
                     for (int i = 0; i <= matcher.groupCount(); i++) {
-                        Matched f = new Matched(matcher.start(i), matcher.end(i));
+                        int start = matcher.start(i) == -1 ? 0 : matcher.start(i);
+                        int end = matcher.end(i) == -1 ? 0 : matcher.end(i);
+                        Matched f = new Matched(start, end);
                         groupsMatch.get(i).add(f);
                         System.out.println(f);
                     }
@@ -37,7 +39,9 @@ public class Matching {
             } else {
                 if (matcher.find()) {
                     for (int i = 0; i <= matcher.groupCount(); i++) {
-                        Matched f = new Matched(matcher.start(i), matcher.end(i));
+                        int start = matcher.start(i) == -1 ? 0 : matcher.start(i);
+                        int end = matcher.end(i) == -1 ? 0 : matcher.end(i);
+                        Matched f = new Matched(start, end);
                         groupsMatch.get(i).add(f);
                         System.out.println(f);
                     }

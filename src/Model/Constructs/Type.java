@@ -6,9 +6,9 @@ public enum Type {
     MODE("\\(\\?[imdsuxU]+-?([imdsuxU]+)?\\)"),
     LOGICAL("\\|"),
     PREDEFINED("\\\\[dDsSwWpP](\\{[^}]*\\}?+)?+|\\."),
-    QUANTIFIER("([?*+][?+]?)|\\{\\d+(,(\\d+)?)?\\}"),
+    QUANTIFIER("([?*+][?+]?)"),
 
-    TOKEN("([?*+][?+]?)"),
+    //TOKEN("([?*+][?+]?)"),
     INTERVAL("\\{\\d+(,(\\d+)?)?\\}[+?]?"),
 
     SPECIFIC_CHAR("\\\\(0[0-3]?[0-7]?[0-7]|x([1-9A-F]{2}|\\{[^}]+\\})|u[1-9A-F]{4}|\\\\|[tnrfae]|c\\w)"),

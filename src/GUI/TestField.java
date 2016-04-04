@@ -61,9 +61,9 @@ public class TestField {
 
                 try {
                     h2.addHighlight(n.getStartIndex(), n.getEndIndex(), new DefaultHighlighter.DefaultHighlightPainter(col.get(i)));
-                    System.out.println(n.getStartIndex() + "      " + n.getEndIndex());
+                    //System.out.println(n.getStartIndex() + "      " + n.getEndIndex());
                 } catch (BadLocationException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             }
         }

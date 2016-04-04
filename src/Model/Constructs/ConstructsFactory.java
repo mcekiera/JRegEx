@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class ConstructsFactory {
     private static final ConstructsFactory INSTANCE = new ConstructsFactory();
     private final MatcherLib lib = MatcherLib.getInstance();
-    private Construct previous;
+    //private Construct previous;
     private String currentPattern;
     private int groupCount;
 
@@ -38,7 +38,9 @@ public class ConstructsFactory {
         } else if(regexMatch(Type.GROUP,current)) {
             construct = createGroupConstruct(pattern, startIndex);
         } else if(regexMatch(Type.QUANTIFIER,current)) {
-            construct = createQuantifierConstruct(pattern, startIndex);
+            construct = createQuantifier(pattern, startIndex);
+        } else if(regexMatch(Type.INTERVAL,current)) {
+            construct = createInterval(pattern,startIndex);
         } else {
             construct = createSimpleConstruct(pattern,startIndex);
         }
@@ -48,7 +50,7 @@ public class ConstructsFactory {
     }
 
     public Construct createGroupConstruct(String pattern, int startIndex) {
-        String current = extractGroup(pattern.substring(startIndex),'(',')');
+        String current = extractGroup(pattern.substring(startIndex), '(', ')');
         previous = null;
         if(current.equals("")) {
             regexMatch(Type.UNBALANCED, pattern.substring(startIndex));
@@ -79,7 +81,7 @@ public class ConstructsFactory {
             return new Construct(Type.SIMPLE,pattern,startIndex,startIndex+lib.getMatcher(Type.SIMPLE).end());
         }
     }
-
+    /*
     public Construct createQuantifierConstruct(String pattern, int startIndex) {      //TODO empty intervals!!
         String current = pattern.substring(startIndex);
         Construct construct;
@@ -110,6 +112,30 @@ public class ConstructsFactory {
             }
         }
         return construct;
+    }
+    */
+    private Construct createQuantifier(String pattern, int startIndex) {
+        Quantifier construct;
+        if(previous == null || previous.getType() == Type.QUANTIFIER || previous.getType() == Type.INTERVAL) {
+            return new Error(Type.ERROR, pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER));
+        } else {
+            construct = new Quantifier(Type.QUANTIFIER, pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER));
+            construct.setConstruct(previous);
+            return construct;
+        }
+    }
+
+    private Construct createInterval(String pattern, int startIndex) {
+        Quantifier construct;
+        if(previous == null || previous.getType() == Type.QUANTIFIER || previous.getType() == Type.INTERVAL) {
+            construct = new Quantifier(Type.INTERVAL, pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.INTERVAL));
+            construct.setConstruct(new Construct(Type.SIMPLE, pattern, startIndex, startIndex));
+            return construct;
+        } else {
+            construct = new Quantifier(Type.INTERVAL, pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.INTERVAL));
+            construct.setConstruct(previous);
+            return construct;
+        }
     }
 
     private Construct createBackreference(String pattern, int startIndex) {
