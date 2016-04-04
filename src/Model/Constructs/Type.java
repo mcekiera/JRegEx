@@ -21,7 +21,7 @@ public enum Type {
     NON_CAPTURING("\\(\\?([imdsuxU]+(-[imdsuxU]+)?)?:.+\\)"),
     BACKREFERENCE("\\\\(?:(\\d+)|k\\<([^>]+)\\>)"),
     SIMPLE("."),
-    RANGE("\\p{ASCII}-\\p{ASCII}|\\\\\\w+-\\\\\\w+"),
+    RANGE("\\p{ASCII}-[\\p{ASCII}&&[^]]]|\\\\\\w+-\\\\\\w+"),
     COMPONENT(),
     EXPRESSION(),
 

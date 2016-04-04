@@ -1,9 +1,6 @@
 package GUI;
 
-import Model.Constructs.Composition;
-import Model.Constructs.CompositionBuilder;
-import Model.Constructs.Construct;
-import Model.Constructs.Type;
+import Model.Constructs.*;
 import Model.Matching.Matched;
 import Model.Matching.Matching;
 
@@ -68,10 +65,26 @@ public class TestField {
             }
         }
         System.out.println("----------------------------------");
-        for(Construct construct : ex) {
-            System.out.println(construct.getType());
-        }
+        printt(ex);
 
+    }
+
+    public void printt(Composition composition) {
+        for (Construct construct : composition) {
+            print(construct);
+        }
+    }
+
+    public void print(Construct construct) {
+        if(construct instanceof Quantifier) {
+            print(((Quantifier) construct).getConstruct());
+            System.out.println(construct.getType() + " " + construct.toString());
+        } else if (construct instanceof Composition) {
+            printt((Composition) construct);
+        }else{
+            System.out.println(construct.getType() + construct.toString());
+
+        }
     }
 
     public void dodo(Composition container) {

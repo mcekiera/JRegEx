@@ -31,21 +31,7 @@ public class Composition extends Construct implements Iterable<Construct>{
     }
 
     public void addConstruct(Construct construct) {
-        System.out.println(elements.size());
-        if(elements.size() > 0 && (construct.getType() == Type.QUANTIFIER || construct.getType() == Type.INTERVAL)){
-            System.out.println(elements.get(getInsertionIndex()).asString);
-            System.out.println(((Quantifier)construct).getConstruct());
-            if(elements.get(getInsertionIndex()).equals(((Quantifier)construct).getConstruct())) {
-                elements.set(getInsertionIndex(),construct);
-                System.out.println(">> 1");
-            } else {
-                elements.add(getInsertionIndex(),construct);
-                System.out.println(">> 2");
-            }
-        } else {
             elements.add(getInsertionIndex(), construct);
-            System.out.println(">> 3");
-        }
     }
 
     public int getInteriorStart() {
@@ -71,11 +57,7 @@ public class Composition extends Construct implements Iterable<Construct>{
 
     @Override
     public String toString() {
-        String result = "";
-        for(Construct construct : this){
-            result += "\n" + construct.toString();
-        }
-        return result;
+        return asString;
     }
 
     @Override

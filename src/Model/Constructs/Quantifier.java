@@ -21,7 +21,7 @@ public class Quantifier  extends Construct{
 
     @Override
     public String toString() {
-        return getClass().getName() + ":" + asString + " with " + construct.toString();
+        return asString;
     }
 
     @Override
