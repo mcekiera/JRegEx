@@ -27,6 +27,7 @@ public class CompositionBuilder {
         int i = container.getInteriorStart();
         addGroup(container);
         Construct construct;
+        Construct previous = null;
         while (i < container.getInteriorEnd()) {
 
             construct = crateNewConstruct(container, container.getPattern(), i);
@@ -35,10 +36,21 @@ public class CompositionBuilder {
 
                 construct = (divideIntoConstructs((Composition) construct));
                 container.addConstruct(construct);
+            } else if(isQuantifier(construct)) {
+
+                if(isValidQuantifire(construct,previous)) {
+                    if(previous == null || previous.getType() == Type.QUANTIFIER || previous.getType() == Type.INTERVAL) {
+                        // here interval code and quantifire code
+                    }
+                } else {
+                    container.addConstruct(new Error(Type.ERROR,container.getPattern(),construct.getStart(),construct.getEnd()));
+                }
+
             } else {
                 container.addConstruct(construct);
             }
             i += construct.size() == 0 ? 1 : construct.size();
+            previous = construct;
         }
 
         return container;
@@ -59,10 +71,26 @@ public class CompositionBuilder {
         }
     }
 
+    private boolean isValidQuantifire(Construct quantifier, Construct previous) {
+        if(quantifier.getType() == Type.QUANTIFIER) {
+              if(previous == null || previous.getType() == Type.QUANTIFIER || previous.getType() == Type.INTERVAL) {
+                  return false;
+              } else {
+                  return true;
+              }
+        } else {
+              return true;
+        }
+    }
+
     private boolean isGroup(Construct construct) {
         return (construct.getType() == Type.ATOMIC || construct.getType() == Type.CAPTURING ||
                 construct.getType() == Type.NON_CAPTURING || construct.getType() == Type.LOOK_AROUND ||
                 construct.getType() == Type.CHAR_CLASS);
+    }
+
+    private boolean isQuantifier(Construct construct) {
+        return (construct.getType() == Type.QUANTIFIER || construct.getType() == Type.INTERVAL);
     }
 
     public Map<String,Composition> getGroups() {

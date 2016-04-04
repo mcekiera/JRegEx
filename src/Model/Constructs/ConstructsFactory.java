@@ -38,20 +38,18 @@ public class ConstructsFactory {
         } else if(regexMatch(Type.GROUP,current)) {
             construct = createGroupConstruct(pattern, startIndex);
         } else if(regexMatch(Type.QUANTIFIER,current)) {
-            construct = createQuantifier(pattern, startIndex);
+            construct = new Quantifier(Type.QUANTIFIER, pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER));
         } else if(regexMatch(Type.INTERVAL,current)) {
-            construct = createInterval(pattern,startIndex);
+            construct = new Quantifier(Type.INTERVAL, pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.INTERVAL));
         } else {
             construct = createSimpleConstruct(pattern,startIndex);
         }
 
-        previous = construct;
         return construct;
     }
 
     public Construct createGroupConstruct(String pattern, int startIndex) {
         String current = extractGroup(pattern.substring(startIndex), '(', ')');
-        previous = null;
         if(current.equals("")) {
             regexMatch(Type.UNBALANCED, pattern.substring(startIndex));
             return new Error(Type.UNBALANCED,pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end());
@@ -113,7 +111,7 @@ public class ConstructsFactory {
         }
         return construct;
     }
-    */
+
     private Construct createQuantifier(String pattern, int startIndex) {
         Quantifier construct;
         if(previous == null || previous.getType() == Type.QUANTIFIER || previous.getType() == Type.INTERVAL) {
@@ -137,7 +135,7 @@ public class ConstructsFactory {
             return construct;
         }
     }
-
+    */
     private Construct createBackreference(String pattern, int startIndex) {
         if(isValidBackreference(lib.getMatcher(Type.BACKREFERENCE).group(),pattern)) {
             return new Construct(Type.BACKREFERENCE,pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end());

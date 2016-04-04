@@ -65,6 +65,10 @@ public class Composition extends Construct implements Iterable<Construct>{
         }
     }
 
+    public void removeLastAdded() {
+        elements.remove(getInsertionIndex()-1);
+    }
+
     @Override
     public String toString() {
         String result = "";
