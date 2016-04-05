@@ -29,7 +29,6 @@ public class Expression {
     public void getSeparateConstructsMatches(String matched, Composition composition) {
            for(Construct construct : composition) {
                if(construct instanceof Composition && construct.getType() != Type.CHAR_CLASS){
-                   Matched m = construct.directMatch(matched);
                    getSeparateConstructsMatches(matched,(Composition)construct);
                } else if(construct.getType() != Type.COMPONENT && construct.getType() != Type.QUANTIFIER) {
                        currentMatching.add(construct.directMatch(matched));
