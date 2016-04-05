@@ -1,7 +1,11 @@
 package Model.Expression;
 
 import Model.Constructs.Composition;
+import Model.Constructs.Construct;
+import Model.Constructs.Type;
+import Model.Matching.Matched;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,4 +14,31 @@ public class Expression {
     private Composition composition;
     private Map<String,Composition> groups;
     private List<String> groupsNames;
+    private List<Matched> currentMatching;
+
+    public Expression(Composition composition){
+        this.composition = composition;
+
+    }
+
+    public void reset() {
+        currentMatching = new ArrayList<>();
+    }
+
+
+    public void getSeparateConstructsMatches(String matched, Composition composition) {
+           for(Construct construct : composition) {
+               if(construct instanceof Composition && construct.getType() != Type.CHAR_CLASS){
+                   Matched m = construct.directMatch(matched);
+                   getSeparateConstructsMatches(matched,(Composition)construct);
+               } else if(construct.getType() != Type.COMPONENT && construct.getType() != Type.QUANTIFIER) {
+                       currentMatching.add(construct.directMatch(matched));
+               }
+           }
+    }
+
+    public List<Matched> getCurrentMatching() {
+        return currentMatching;
+    }
+
 }

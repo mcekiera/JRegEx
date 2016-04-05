@@ -1,6 +1,7 @@
 package GUI;
 
 import Model.Constructs.*;
+import Model.Expression.Expression;
 import Model.Matching.Matched;
 import Model.Matching.Matching;
 
@@ -66,6 +67,15 @@ public class TestField {
         }
         System.out.println("----------------------------------");
         printt(ex);
+        Expression expression = new Expression(ex);
+        String input = area.getText();
+        expression.reset();
+        expression.getSeparateConstructsMatches(input,ex);
+
+        for (Matched k : expression.getCurrentMatching()) {
+            System.out.println(input.substring(k.getStartIndex(), k.getEndIndex()));
+        }
+
 
     }
 

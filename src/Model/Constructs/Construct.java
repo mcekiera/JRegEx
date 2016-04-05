@@ -1,7 +1,10 @@
 package Model.Constructs;
 
+import Model.Matching.Matched;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class Construct {
     private Type type;
@@ -51,7 +54,9 @@ public class Construct {
         String begin = pattern.substring(0,getStart());
         String mid = pattern.substring(getStart(),getEnd());
         String finish = pattern.substring(getEnd());
-        return begin + "(?<" + groupName + ">" + mid + ")" + finish;
+        String re = begin + "(?<" + groupName + ">" + mid + ")" + finish;
+        System.out.println(re);
+        return re;
     }
 
     @Override
@@ -59,16 +64,19 @@ public class Construct {
         return asString;
     }
 
-    public String directMatch(String match) {
-        Matcher matcher = Pattern.compile(getAsSeparateGroup("test")).matcher(match);
-        matcher.find();
-        String result;
+    public Matched directMatch(String match) {
         try {
-            result = matcher.group("test");
-        }catch (Exception ex) {
-            result = "empty";
+            Matcher matcher = Pattern.compile(getAsSeparateGroup("test")).matcher(match);
+
+            if (matcher.find()) {
+                return new Matched(matcher.start("test"), matcher.end("test"));
+            } else {
+                return new Matched(0,0);
+            }
+        } catch (PatternSyntaxException e) {
+            return new Matched(0,0);
         }
-        return getPattern() + ":" + result;
+
     }
 
 
