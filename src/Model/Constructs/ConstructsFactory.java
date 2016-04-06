@@ -79,63 +79,7 @@ public class ConstructsFactory {
             return new Construct(Type.SIMPLE,pattern,startIndex,startIndex+lib.getMatcher(Type.SIMPLE).end());
         }
     }
-    /*
-    public Construct createQuantifierConstruct(String pattern, int startIndex) {      //TODO empty intervals!!
-        String current = pattern.substring(startIndex);
-        Construct construct;
-        if(previous == null) {
-            return new Error(pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
-        }
-        if(previous.getType() == Type.TOKEN) {
-                return new Error(Type.ERROR,pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
-        } else if (previous.getType() == Type.INTERVAL) {
-            if (regexMatch(Type.TOKEN,current)) {
-                return new Error(Type.ERROR,pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
-            } else {
-                construct = new Quantifier(Type.TOKEN,pattern,startIndex,startIndex + lib.getMatcher(Type.QUANTIFIER).end());
-                ((Quantifier)construct).setConstruct(previous);
-            }
-        } else {
-            if (regexMatch(Type.TOKEN, current)) {
-                construct = new Quantifier(Type.TOKEN,pattern, startIndex, startIndex + lib.getMatcher(Type.TOKEN).end());
-                ((Quantifier) construct).setConstruct(previous);
-            } else {
-                regexMatch(Type.INTERVAL,current);
-                if (isValidInterval(lib.getMatcher(Type.INTERVAL).group())) {
-                    construct = new Quantifier(Type.INTERVAL,pattern, startIndex, startIndex + lib.getMatcher(Type.INTERVAL).end());
-                    ((Quantifier) construct).setConstruct(previous);
-                } else {
-                    construct = new Error(Type.INVALID_INTERVAL,pattern, startIndex, startIndex + lib.getMatcher(Type.INTERVAL).end());
-                }
-            }
-        }
-        return construct;
-    }
 
-    private Construct createQuantifier(String pattern, int startIndex) {
-        Quantifier construct;
-        if(previous == null || previous.getType() == Type.QUANTIFIER || previous.getType() == Type.INTERVAL) {
-            return new Error(Type.ERROR, pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER));
-        } else {
-            construct = new Quantifier(Type.QUANTIFIER, pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER));
-            construct.setConstruct(previous);
-            return construct;
-        }
-    }
-
-    private Construct createInterval(String pattern, int startIndex) {
-        Quantifier construct;
-        if(previous == null || previous.getType() == Type.QUANTIFIER || previous.getType() == Type.INTERVAL) {
-            construct = new Quantifier(Type.INTERVAL, pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.INTERVAL));
-            construct.setConstruct(new Construct(Type.SIMPLE, pattern, startIndex, startIndex));
-            return construct;
-        } else {
-            construct = new Quantifier(Type.INTERVAL, pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.INTERVAL));
-            construct.setConstruct(previous);
-            return construct;
-        }
-    }
-    */
     private Construct createBackreference(String pattern, int startIndex) {
         if(isValidBackreference(lib.getMatcher(Type.BACKREFERENCE).group(),pattern)) {
             return new Construct(Type.BACKREFERENCE,pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end());

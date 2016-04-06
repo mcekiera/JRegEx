@@ -2,6 +2,7 @@ package Model.Expression;
 
 import Model.Constructs.Composition;
 import Model.Constructs.Construct;
+import Model.Constructs.Quantifier;
 import Model.Constructs.Type;
 import Model.Matching.Matched;
 
@@ -28,9 +29,12 @@ public class Expression {
 
     public void getSeparateConstructsMatches(String matched, Composition composition) {
            for(Construct construct : composition) {
-               if(construct instanceof Composition && construct.getType() != Type.CHAR_CLASS){
-                   getSeparateConstructsMatches(matched,(Composition)construct);
-               } else if(construct.getType() != Type.COMPONENT && construct.getType() != Type.QUANTIFIER) {
+               if(construct instanceof Composition && construct.getType() != Type.CHAR_CLASS) {
+                   getSeparateConstructsMatches(matched, (Composition) construct);
+               } else if (construct.getType() == Type.QUANTIFIER) {
+                   currentMatching.add(((Quantifier)construct).getConstruct().directMatch(matched));
+                   currentMatching.add(construct.directMatch(matched));
+               } else if(construct.getType() != Type.COMPONENT) {
                        currentMatching.add(construct.directMatch(matched));
                }
            }
