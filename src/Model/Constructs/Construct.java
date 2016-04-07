@@ -13,6 +13,7 @@ public class Construct {
     protected String asString;
     protected int start;
     protected int end;
+    protected Matched current;
 
     public Construct(Type type, String pattern,int start, int end) {
         this.pattern = pattern;
@@ -64,19 +65,24 @@ public class Construct {
         return asString;
     }
 
-    public Matched directMatch(String match) {
+    public void directMatch(String match) {
         try {
             Matcher matcher = Pattern.compile(getAsSeparateGroup("test")).matcher(match);
 
             if (matcher.find()) {
-                return new Matched(matcher.start("test"), matcher.end("test"));
+                current = new Matched(matcher.start("test"), matcher.end("test"));
             } else {
-                return new Matched(0,0);
+                current = new Matched(0,0);
             }
         } catch (PatternSyntaxException e) {
-            return new Matched(0,0);
+            current = new Matched(0,0);
         }
 
+    }
+
+    public Matched getCurrentMatch(String text) {
+        directMatch(text);
+        return current;
     }
 
 

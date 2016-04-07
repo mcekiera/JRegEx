@@ -1,4 +1,4 @@
-package GUI;
+package View;
 
 import Model.Constructs.*;
 import Model.Expression.Expression;

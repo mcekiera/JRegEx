@@ -19,7 +19,13 @@ public class Expression {
 
     public Expression(Composition composition){
         this.composition = composition;
+        this.pattern = composition.getPattern();
 
+    }
+
+    public void setGroups(Map<String,Composition> groups) {
+        this.groups = groups;
+        this.groupsNames = new ArrayList<>(groups.keySet());
     }
 
     public void reset() {
@@ -32,10 +38,10 @@ public class Expression {
                if(construct instanceof Composition && construct.getType() != Type.CHAR_CLASS) {
                    getSeparateConstructsMatches(matched, (Composition) construct);
                } else if (construct.getType() == Type.QUANTIFIER) {
-                   currentMatching.add(((Quantifier)construct).getConstruct().directMatch(matched));
-                   currentMatching.add(construct.directMatch(matched));
+                   currentMatching.add(((Quantifier)construct).getConstruct().getCurrentMatch(matched));
+                   currentMatching.add(construct.getCurrentMatch(matched));
                } else if(construct.getType() != Type.COMPONENT) {
-                       currentMatching.add(construct.directMatch(matched));
+                       currentMatching.add(construct.getCurrentMatch(matched));
                }
            }
     }

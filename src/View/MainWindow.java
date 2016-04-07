@@ -1,4 +1,4 @@
-package GUI;
+package View;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -49,11 +49,16 @@ public class MainWindow implements Observed{
         frame.setVisible(true);
     }
 
-    private JScrollPane buildInputField() {
+    private JPanel buildInputField() {
+        JPanel panel = new JPanel(new GridLayout(2,1));
+        JLabel label = new JLabel("Regular expression:");
+        label.setFont(new Font("Arial",Font.BOLD,25));
         JScrollPane inputPane = new JScrollPane(inputField);
         inputPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         inputPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        return inputPane;
+        panel.add(label);
+        panel.add(inputPane);
+        return panel;
     }
 
     private JScrollPane buildMatchingArea() {

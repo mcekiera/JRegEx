@@ -1,4 +1,4 @@
-/**package GUI;
+/**package View;
 
 import Processor.Highlight;
 import Processor.TextObserver;
