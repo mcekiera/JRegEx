@@ -1,8 +1,8 @@
 package Model.Expression;
 
+import Model.Constructs.Construct;
 import Model.Constructs.Sequence;
 import Model.Constructs.SequenceBuilder;
-import Model.Constructs.Construct;
 import Model.Constructs.Type;
 import Model.Matching.Matched;
 import Model.Matching.Matching;
@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class Expression implements Iterable<Construct>{
     private String pattern;
@@ -24,12 +26,18 @@ public class Expression implements Iterable<Construct>{
 
     private final SequenceBuilder cBuilder = SequenceBuilder.getInstance();
 
-    public void use(String pattern, String testString) {
-        this.pattern = pattern;
-        this.sequence = cBuilder.toComposition(pattern, Type.EXPRESSION);
-        this.matching = new Matching(pattern,testString);
-        this.groups = cBuilder.getGroups();
-        this.groupsNames = new ArrayList<>(groups.keySet());
+    public boolean use(String pattern, String testString) {
+        try {
+            Pattern test = Pattern.compile(pattern);
+            this.pattern = pattern;
+            this.sequence = cBuilder.toComposition(pattern, Type.EXPRESSION);
+            this.matching = new Matching(pattern, testString);
+            this.groups = cBuilder.getGroups();
+            this.groupsNames = new ArrayList<>(groups.keySet());
+            return true;
+        } catch (PatternSyntaxException e) {
+            return false;
+        }
     }
 
     public String getPattern() {
@@ -63,6 +71,10 @@ public class Expression implements Iterable<Construct>{
                    construct.getCurrentMatch(matched);
                }
            }
+    }
+
+    public void setGlobalMode(boolean mode) {
+        matching.setGlobalMode(mode);
     }
 
 

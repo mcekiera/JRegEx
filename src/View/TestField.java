@@ -69,14 +69,7 @@ public class TestField {
         printt(ex);
         Expression expression = new Expression();
         String input = area.getText();         //ex
-        expression.reset();
         expression.getSeparateConstructsMatches(input,ex);
-
-        for (Matched k : expression.getCurrentMatching()) {
-            System.out.println(input.substring(k.getStartIndex(), k.getEndIndex()));
-        }
-
-
     }
 
     public void printt(Sequence sequence) {

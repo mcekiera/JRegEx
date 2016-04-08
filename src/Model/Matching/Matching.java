@@ -12,7 +12,6 @@ public class Matching {
     private Matcher matcher;
     private boolean global = true;
 
-    private List<String> groupsID;
     private Map<Integer,List<Matched>> groupsMatch;
 
     public Matching(String pattern, String text) {
@@ -43,33 +42,33 @@ public class Matching {
 
 
     private void getMatches() {
-        if(global) {
-            while (matcher.find()) {
-                findMatches();
+        try {
+            if (global) {
+                while (matcher.find()) {
+                    findMatches();
+                }
+            } else {
+                if (matcher.find()) {
+                    findMatches();
+                }
             }
-        } else {
-            if (matcher.find()) {
-                findMatches();
-            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
     private void findMatches() {
-        try {
-            for (int i = 0; i <= matcher.groupCount(); i++) {
-                int start = matcher.start(i) == -1 ? 0 : matcher.start(i);
-                int end = matcher.end(i) == -1 ? 0 : matcher.end(i);
-                Matched m = new Matched(start, end);
-                groupsMatch.get(i).add(m);
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
+        for (int i = 0; i <= matcher.groupCount(); i++) {
+            int start = matcher.start(i) == -1 ? 0 : matcher.start(i);
+            int end = matcher.end(i) == -1 ? 0 : matcher.end(i);
+            Matched m = new Matched(start, end);
+            groupsMatch.get(i).add(m);
         }
     }
 
     private void prepareMap() {
         for(int i = 0; i <= 9; i++) {
-            groupsMatch.put(i,new ArrayList<Matched>());
+            groupsMatch.put(i,new ArrayList<>());
         }
     }
 
