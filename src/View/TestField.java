@@ -55,7 +55,7 @@ public class TestField {
         dodo(ex);
         Matching m = new Matching(pattern,area.getText());
         for(int i = m.groupCount(); i >=0; i--) {
-            for (Matched n : m.getMatchers(i)) {
+            for (Matched n : m.getMatches(i)) {
 
                 try {
                     h2.addHighlight(n.getStartIndex(), n.getEndIndex(), new DefaultHighlighter.DefaultHighlightPainter(col.get(i)));
@@ -67,8 +67,8 @@ public class TestField {
         }
         System.out.println("----------------------------------");
         printt(ex);
-        Expression expression = new Expression(ex);
-        String input = area.getText();
+        Expression expression = new Expression();
+        String input = area.getText();         //ex
         expression.reset();
         expression.getSeparateConstructsMatches(input,ex);
 

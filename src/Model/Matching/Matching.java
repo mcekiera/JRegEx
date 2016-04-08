@@ -66,7 +66,7 @@ public class Matching {
         }
     }
 
-    public List<Matched> getMatchers(int group) {
+    public List<Matched> getMatches(int group) {
         return groupsMatch.get(group);
     }
 

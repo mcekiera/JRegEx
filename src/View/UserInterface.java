@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainWindow implements Observed{
+public class UserInterface implements Observed{
     private final JFrame frame;
     private final JTextField inputField;
     private final JTextField upperField;
@@ -19,7 +19,7 @@ public class MainWindow implements Observed{
 
     private final List<Observer> observerList;
 
-    public MainWindow() {
+    public UserInterface() {
         frame = new JFrame();
 
         InputListener listener = new InputListener();
@@ -165,9 +165,5 @@ public class MainWindow implements Observed{
         public void changedUpdate(DocumentEvent e) {
             notifyObservers();
         }
-    }
-
-    public static void main(String[] args) {
-        MainWindow window = new MainWindow();
     }
 }

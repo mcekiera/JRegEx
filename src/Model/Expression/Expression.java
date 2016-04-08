@@ -1,26 +1,39 @@
 package Model.Expression;
 
 import Model.Constructs.Composition;
+import Model.Constructs.CompositionBuilder;
 import Model.Constructs.Construct;
-import Model.Constructs.Quantifier;
 import Model.Constructs.Type;
 import Model.Matching.Matched;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 
-public class Expression {
+public class Expression implements Iterable<Construct>{
     private String pattern;
     private Composition composition;
     private Map<String,Composition> groups;
     private List<String> groupsNames;
     private List<Matched> currentMatching;
+    private Matcher matcher;
 
-    public Expression(Composition composition){
+    private final CompositionBuilder cBuilder = CompositionBuilder.getInstance();
+
+    public Expression(){
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
+        Composition composition = cBuilder.toComposition(pattern, Type.EXPRESSION);
         this.composition = composition;
-        this.pattern = composition.getPattern();
+        setGroups(cBuilder.getGroups());
+    }
 
+    public String getPattern() {
+        return pattern;
     }
 
     public void setGroups(Map<String,Composition> groups) {
@@ -32,16 +45,21 @@ public class Expression {
         currentMatching = new ArrayList<>();
     }
 
+    public void getSeparateConstructsMatches(String matched) {
+        getSeparateConstructsMatches(matched,composition);
+
+    }
+
 
     public void getSeparateConstructsMatches(String matched, Composition composition) {
            for(Construct construct : composition) {
                if(construct instanceof Composition && construct.getType() != Type.CHAR_CLASS) {
                    getSeparateConstructsMatches(matched, (Composition) construct);
                } else if (construct.getType() == Type.QUANTIFIER) {
-                   currentMatching.add(((Quantifier)construct).getConstruct().getCurrentMatch(matched));
-                   currentMatching.add(construct.getCurrentMatch(matched));
+                   //currentMatching.add(((Quantifier)construct).getConstruct().getCurrentMatch(matched));
+                   construct.getCurrentMatch(matched);
                } else if(construct.getType() != Type.COMPONENT) {
-                       currentMatching.add(construct.getCurrentMatch(matched));
+                   construct.getCurrentMatch(matched);
                }
            }
     }
@@ -50,4 +68,8 @@ public class Expression {
         return currentMatching;
     }
 
+    @Override
+    public Iterator<Construct> iterator() {
+        return composition.iterator();
+    }
 }
