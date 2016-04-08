@@ -13,7 +13,6 @@ public class Matching {
     private boolean global;
 
     private List<String> groupsID;
-    private Map<Integer, Matched> regexMatch;
     private Map<Integer,List<Matched>> groupsMatch;
 
     public Matching(String pattern, String text) {

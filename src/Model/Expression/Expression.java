@@ -5,12 +5,12 @@ import Model.Constructs.CompositionBuilder;
 import Model.Constructs.Construct;
 import Model.Constructs.Type;
 import Model.Matching.Matched;
+import Model.Matching.Matching;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 
 public class Expression implements Iterable<Construct>{
     private String pattern;
@@ -18,7 +18,7 @@ public class Expression implements Iterable<Construct>{
     private Map<String,Composition> groups;
     private List<String> groupsNames;
     private List<Matched> currentMatching;
-    private Matcher matcher;
+    private Matching matching;
 
     private final CompositionBuilder cBuilder = CompositionBuilder.getInstance();
 
@@ -36,9 +36,21 @@ public class Expression implements Iterable<Construct>{
         return pattern;
     }
 
+    public void setMatch(String match) {
+        matching = new Matching(pattern,match);
+    }
+
+    public List<Matched> getMatch(int group) {
+        return matching.getMatches(group);
+    }
+
     public void setGroups(Map<String,Composition> groups) {
         this.groups = groups;
         this.groupsNames = new ArrayList<>(groups.keySet());
+    }
+
+    public int groupCount() {
+        return matching.groupCount();
     }
 
     public void reset() {
