@@ -51,7 +51,7 @@ public class TestField {
         h.removeAllHighlights();
         h2.removeAllHighlights();
         String pattern = field.getText();
-        Composition ex = CompositionBuilder.getInstance().toComposition(pattern, Type.EXPRESSION);
+        Sequence ex = SequenceBuilder.getInstance().toComposition(pattern, Type.EXPRESSION);
         dodo(ex);
         Matching m = new Matching(pattern,area.getText());
         for(int i = m.groupCount(); i >=0; i--) {
@@ -79,8 +79,8 @@ public class TestField {
 
     }
 
-    public void printt(Composition composition) {
-        for (Construct construct : composition) {
+    public void printt(Sequence sequence) {
+        for (Construct construct : sequence) {
             print(construct);
         }
     }
@@ -89,19 +89,19 @@ public class TestField {
         if(construct instanceof Quantifier) {
             print(((Quantifier) construct).getConstruct());
             System.out.println(construct.getType() + " " + construct.toString());
-        } else if (construct instanceof Composition) {
-            printt((Composition) construct);
+        } else if (construct instanceof Sequence) {
+            printt((Sequence) construct);
         }else{
             System.out.println(construct.getType() + construct.toString());
 
         }
     }
 
-    public void dodo(Composition container) {
+    public void dodo(Sequence container) {
         for(Construct construct : (Iterable<Construct>)container) {
             //System.out.println("#" + construct.getClass().getName() + "#" + construct.toString());
-            if(construct instanceof Composition) {
-                dodo((Composition)construct);
+            if(construct instanceof Sequence) {
+                dodo((Sequence)construct);
             }
             if (construct instanceof Model.Constructs.Error) {
                 try {

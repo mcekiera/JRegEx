@@ -1,7 +1,7 @@
 package Model.Expression;
 
-import Model.Constructs.Composition;
-import Model.Constructs.CompositionBuilder;
+import Model.Constructs.Sequence;
+import Model.Constructs.SequenceBuilder;
 import Model.Constructs.Construct;
 import Model.Constructs.Type;
 import Model.Matching.Matched;
@@ -14,59 +14,48 @@ import java.util.Map;
 
 public class Expression implements Iterable<Construct>{
     private String pattern;
-    private Composition composition;
-    private Map<String,Composition> groups;
-    private List<String> groupsNames;
-    private List<Matched> currentMatching;
+    private Sequence sequence;
     private Matching matching;
 
-    private final CompositionBuilder cBuilder = CompositionBuilder.getInstance();
 
-    public Expression(){
-    }
+    private Map<String,Sequence> groups;
+    private List<String> groupsNames;
 
-    public void setPattern(String pattern) {
+
+    private final SequenceBuilder cBuilder = SequenceBuilder.getInstance();
+
+    public void use(String pattern, String testString) {
         this.pattern = pattern;
-        Composition composition = cBuilder.toComposition(pattern, Type.EXPRESSION);
-        this.composition = composition;
-        setGroups(cBuilder.getGroups());
+        this.sequence = cBuilder.toComposition(pattern, Type.EXPRESSION);
+        this.matching = new Matching(pattern,testString);
+        this.groups = cBuilder.getGroups();
+        this.groupsNames = new ArrayList<>(groups.keySet());
     }
 
     public String getPattern() {
         return pattern;
     }
 
-    public void setMatch(String match) {
-        matching = new Matching(pattern,match);
-    }
-
     public List<Matched> getMatch(int group) {
         return matching.getMatches(group);
     }
 
-    public void setGroups(Map<String,Composition> groups) {
-        this.groups = groups;
-        this.groupsNames = new ArrayList<>(groups.keySet());
+    public String getGroupID(int group) {
+        return groupsNames.get(group);
     }
 
     public int groupCount() {
         return matching.groupCount();
     }
 
-    public void reset() {
-        currentMatching = new ArrayList<>();
-    }
-
     public void getSeparateConstructsMatches(String matched) {
-        getSeparateConstructsMatches(matched,composition);
-
+        getSeparateConstructsMatches(matched, sequence);
     }
 
-
-    public void getSeparateConstructsMatches(String matched, Composition composition) {
-           for(Construct construct : composition) {
-               if(construct instanceof Composition && construct.getType() != Type.CHAR_CLASS) {
-                   getSeparateConstructsMatches(matched, (Composition) construct);
+    public void getSeparateConstructsMatches(String matched, Sequence sequence) {
+           for(Construct construct : sequence) {
+               if(construct instanceof Sequence && construct.getType() != Type.CHAR_CLASS) {
+                   getSeparateConstructsMatches(matched, (Sequence) construct);
                } else if (construct.getType() == Type.QUANTIFIER) {
                    //currentMatching.add(((Quantifier)construct).getConstruct().getCurrentMatch(matched));
                    construct.getCurrentMatch(matched);
@@ -76,12 +65,9 @@ public class Expression implements Iterable<Construct>{
            }
     }
 
-    public List<Matched> getCurrentMatching() {
-        return currentMatching;
-    }
 
     @Override
     public Iterator<Construct> iterator() {
-        return composition.iterator();
+        return sequence.iterator();
     }
 }

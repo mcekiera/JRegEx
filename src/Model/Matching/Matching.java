@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class Matching {
     private String pattern;
     private Matcher matcher;
-    private boolean global;
+    private boolean global = true;
 
     private List<String> groupsID;
     private Map<Integer,List<Matched>> groupsMatch;
@@ -23,31 +23,47 @@ public class Matching {
         getMatches();
     }
 
-    private void getMatches() {
+    public void setGlobalMode(boolean mode) {
+        global = mode;
+    }
+
+
+    public List<Matched> getMatches(int group) {
+        return groupsMatch.get(group);
+    }
+
+    public int groupCount() {
         try {
-            if(global) {
-                while (matcher.find()) {
-                    for (int i = 0; i <= matcher.groupCount(); i++) {
-                        int start = matcher.start(i) == -1 ? 0 : matcher.start(i);
-                        int end = matcher.end(i) == -1 ? 0 : matcher.end(i);
-                        Matched f = new Matched(start, end);
-                        groupsMatch.get(i).add(f);
-                        System.out.println(f);
-                    }
-                }
-            } else {
-                if (matcher.find()) {
-                    for (int i = 0; i <= matcher.groupCount(); i++) {
-                        int start = matcher.start(i) == -1 ? 0 : matcher.start(i);
-                        int end = matcher.end(i) == -1 ? 0 : matcher.end(i);
-                        Matched f = new Matched(start, end);
-                        groupsMatch.get(i).add(f);
-                        System.out.println(f);
-                    }
-                }
-            }
+            return matcher.groupCount();
         } catch (Exception e) {
-            //e.printStackTrace();
+            System.out.println("exe!");
+            return 0;
+        }
+    }
+
+
+    private void getMatches() {
+        if(global) {
+            while (matcher.find()) {
+                findMatches();
+            }
+        } else {
+            if (matcher.find()) {
+                findMatches();
+            }
+        }
+    }
+
+    private void findMatches() {
+        try {
+            for (int i = 0; i <= matcher.groupCount(); i++) {
+                int start = matcher.start(i) == -1 ? 0 : matcher.start(i);
+                int end = matcher.end(i) == -1 ? 0 : matcher.end(i);
+                Matched m = new Matched(start, end);
+                groupsMatch.get(i).add(m);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -62,19 +78,6 @@ public class Matching {
             matcher = Pattern.compile(pattern).matcher(text);
         } catch (Exception e) {
             //e.printStackTrace();
-        }
-    }
-
-    public List<Matched> getMatches(int group) {
-        return groupsMatch.get(group);
-    }
-
-    public int groupCount() {
-        try {
-            return matcher.groupCount();
-        } catch (Exception e) {
-            System.out.println("exe!");
-            return 0;
         }
     }
 

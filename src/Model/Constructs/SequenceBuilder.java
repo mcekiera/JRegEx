@@ -4,26 +4,26 @@ import Model.Constructs.Lib.MatcherLib;
 
 import java.util.*;
 
-public class CompositionBuilder {
-    private static final CompositionBuilder INSTANCE = new CompositionBuilder();
-    private Map<String,Composition> groups;
+public class SequenceBuilder {
+    private static final SequenceBuilder INSTANCE = new SequenceBuilder();
+    private Map<String,Sequence> groups;
     private int count;
 
-    private CompositionBuilder(){}
+    private SequenceBuilder(){}
 
-    public static CompositionBuilder getInstance() {
+    public static SequenceBuilder getInstance() {
         return INSTANCE;
     }
 
-    public Composition toComposition(String pattern, Type type) {
-        Composition composition = new Composition(type,pattern,0,pattern.length());
+    public Sequence toComposition(String pattern, Type type) {
+        Sequence sequence = new Sequence(type,pattern,0,pattern.length());
         groups = new LinkedHashMap<>();
         count = 0;
-        divideIntoConstructs(composition);
-        return composition;
+        divideIntoConstructs(sequence);
+        return sequence;
     }
 
-    private Composition divideIntoConstructs(Composition container) {
+    private Sequence divideIntoConstructs(Sequence container) {
         int i = container.getInteriorStart();
         addGroup(container);
         Construct construct;
@@ -33,11 +33,11 @@ public class CompositionBuilder {
             construct = crateNewConstruct(container, container.getPattern(), i);
             if (isGroup(construct)) {
 
-                construct = (divideIntoConstructs((Composition) construct));
+                construct = (divideIntoConstructs((Sequence) construct));
                 container.addConstruct(construct);
             } else if(isQuantifier(construct)) {
 
-                if(isValidQuantifire(construct,previous)) {
+                if(isValidQuantifier(construct, previous)) {
                     if(previous == null || previous.getType() == Type.QUANTIFIER || previous.getType() == Type.INTERVAL) {
                         ((Quantifier)construct).setConstruct(new Construct(Type.SIMPLE,container.getPattern(),i,i));
                         container.addConstruct(construct);
@@ -60,22 +60,22 @@ public class CompositionBuilder {
         return container;
     }
 
-    private Construct crateNewConstruct(Composition container, String pattern, int i) {
+    private Construct crateNewConstruct(Sequence container, String pattern, int i) {
         Construct construct = (container).getType() == Type.CHAR_CLASS ? ConstructsFactory.getInstance().createConstructInCharClass(pattern, i) :
                 ConstructsFactory.getInstance().createConstruct(pattern, i);
         construct.setParent(container);
         return construct;
     }
 
-    private void addGroup(Composition composition) {
-        if(composition.getType() == Type.EXPRESSION || composition.getType() == Type.CAPTURING) {
+    private void addGroup(Sequence sequence) {
+        if(sequence.getType() == Type.EXPRESSION || sequence.getType() == Type.CAPTURING) {
                 groups.put((MatcherLib.getInstance().getGroup(Type.CAPTURING,"name") == null ?
-                        Integer.toString(count) : MatcherLib.getInstance().getGroup(Type.CAPTURING,"name")),composition);
+                        Integer.toString(count) : MatcherLib.getInstance().getGroup(Type.CAPTURING,"name")), sequence);
             count++;
         }
     }
 
-    private boolean isValidQuantifire(Construct quantifier, Construct previous) {
+    private boolean isValidQuantifier(Construct quantifier, Construct previous) {
         if(quantifier.getType() == Type.QUANTIFIER) {
               if(previous == null || previous.getType() == Type.QUANTIFIER || previous.getType() == Type.INTERVAL) {
                   return false;
@@ -97,7 +97,7 @@ public class CompositionBuilder {
         return (construct.getType() == Type.QUANTIFIER || construct.getType() == Type.INTERVAL);
     }
 
-    public Map<String,Composition> getGroups() {
+    public Map<String,Sequence> getGroups() {
         return groups;
     }
 

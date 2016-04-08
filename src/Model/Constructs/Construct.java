@@ -8,7 +8,7 @@ import java.util.regex.PatternSyntaxException;
 
 public class Construct {
     private Type type;
-    protected Composition parent;
+    protected Sequence parent;
     protected String pattern;
     protected String asString;
     protected int start;
@@ -27,11 +27,11 @@ public class Construct {
         return type;
     }
 
-    public void setParent(Composition construct) {
+    public void setParent(Sequence construct) {
         this.parent = construct;
     }
 
-    public Composition getParent() {
+    public Sequence getParent() {
         return parent;
     }
 

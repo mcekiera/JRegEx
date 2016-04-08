@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Composition extends Construct implements Iterable<Construct>{
+public class Sequence extends Construct implements Iterable<Construct>{
     private int intStart;
     private int intEnd;
 
     private final List<Construct> elements = new ArrayList<Construct>();
 
-    public Composition(Type type, String patter, int start, int end) {
+    public Sequence(Type type, String patter, int start, int end) {
         super(type,patter,start,end);
         intStart = start;
         intEnd = end;

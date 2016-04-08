@@ -55,13 +55,13 @@ public class ConstructsFactory {
             return new Error(Type.UNBALANCED,pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end());
         }
         if (regexMatch(Type.LOOK_AROUND, current)) {
-            return new Composition(Type.LOOK_AROUND,pattern,startIndex,startIndex+lib.getMatcher(Type.LOOK_AROUND).end());
+            return new Sequence(Type.LOOK_AROUND,pattern,startIndex,startIndex+lib.getMatcher(Type.LOOK_AROUND).end());
         } else if (regexMatch(Type.ATOMIC, current)) {
-            return new Composition(Type.ATOMIC,pattern,startIndex,startIndex+lib.getMatcher(Type.ATOMIC).end());
+            return new Sequence(Type.ATOMIC,pattern,startIndex,startIndex+lib.getMatcher(Type.ATOMIC).end());
         } else if (regexMatch(Type.NON_CAPTURING, current)) {
-            return new Composition(Type.NON_CAPTURING,pattern,startIndex,startIndex+lib.getMatcher(Type.NON_CAPTURING).end());
+            return new Sequence(Type.NON_CAPTURING,pattern,startIndex,startIndex+lib.getMatcher(Type.NON_CAPTURING).end());
         } else if(regexMatch(Type.CAPTURING, current)) {
-            return new Composition(Type.CAPTURING,pattern,startIndex,startIndex+lib.getMatcher(Type.CAPTURING).end());
+            return new Sequence(Type.CAPTURING,pattern,startIndex,startIndex+lib.getMatcher(Type.CAPTURING).end());
         } else {
             regexMatch(Type.UNBALANCED, pattern.substring(startIndex));
             return new Error(Type.UNBALANCED,pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end());
@@ -94,7 +94,7 @@ public class ConstructsFactory {
         if(current.length()<=2) {
             return new Error(Type.INCOMPLETE,pattern,startIndex,end);
         } else {
-            return new Composition(Type.CHAR_CLASS,pattern, startIndex, end);
+            return new Sequence(Type.CHAR_CLASS,pattern, startIndex, end);
         }
     }
 

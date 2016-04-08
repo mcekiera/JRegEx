@@ -28,7 +28,7 @@ public class Main implements Observer {
         System.out.println("+");
         expression.reset();
         expression.setPattern(userInterface.getInputText());
-        expression.setMatch(userInterface.getMatchingText());
+        expression.setTestString(userInterface.getMatchingText());
         expression.getSeparateConstructsMatches(userInterface.getMatchingText());
         highlightMatches();
     }
