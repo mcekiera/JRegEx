@@ -3,19 +3,24 @@ package View;
 import java.awt.*;
 
 public enum HLColor {
-    ERROR(new Color(255,0,0)),
-    CHAR_CLASS(new Color(255,200,100)),
 
-    MATCH_ONE(new Color(75,150,255)),
-    MATCH_TWO(new Color(100,200,255));
+    GROUP1(new Color(75,255,75),new Color(150,255,150)),
+    MATCH_ONE(new Color(75,150,255),new Color(100,200,255));
 
-    Color color;
+    Color c1;
+    Color c2;
+    boolean clock;
 
-    HLColor(Color color) {
-        this.color = color;
+    HLColor(Color c1, Color c2) {
+        this.c1 = c1;
+        this.c2 = c2;
     }
 
-    public static Color getColor(HLColor hl) {
-        return hl.color;
+    public static Color getColor(HLColor hl, boolean ver) {
+        if (ver) {
+            return hl.c1;
+        } else {
+            return hl.c2;
+        }
     }
 }
