@@ -1,7 +1,9 @@
 package Controller;
 
 import Model.Constructs.Construct;
+import Model.Constructs.Quantifier;
 import Model.Constructs.Sequence;
+import Model.Constructs.Type;
 import Model.Expression.Expression;
 import Model.Matching.Matched;
 import View.*;
@@ -45,7 +47,14 @@ public class Main implements Observer {
         for(Construct construct : sequence) {
             if(Construct.isComposed(construct)) {
                 level++;
-                highlightPattern((Sequence)construct);
+                highlightPattern((Sequence) construct);
+            } else if (construct.getType() == Type.QUANTIFIER || construct.getType() == Type.INTERVAL) {
+                if(Construct.isComposed(((Quantifier) construct).getConstruct())){
+                    highlightPattern((Sequence)((Quantifier) construct).getConstruct());
+                } else {
+                    highlightByType(((Quantifier) construct).getConstruct());
+                    highlightByType(construct);
+                }
             } else {
                  highlightByType(construct);
             }
@@ -79,7 +88,7 @@ public class Main implements Observer {
                 highlightType(construct, painter);
                 break;
             case COMPONENT:
-                painter = new DefaultHighlighter.DefaultHighlightPainter(palette.getMatchingColor(level,false));
+                painter = new DefaultHighlighter.DefaultHighlightPainter(palette.getInputColor(level));
                 highlightType(construct, painter);
         }
     }
@@ -99,7 +108,7 @@ public class Main implements Observer {
             DefaultHighlighter.DefaultHighlightPainter painter;
             for(int i = expression.groupCount(); i >= 0; i--){
                 for(Matched matched : expression.getMatch(i)) {
-                    painter = new DefaultHighlighter.DefaultHighlightPainter(palette.getMatchingColor(i,true));
+                    painter = new DefaultHighlighter.DefaultHighlightPainter(palette.getMatchingColor(i));
                     h.addHighlight(matched.getStartIndex(),matched.getEndIndex(),painter);
                 }
             }

@@ -21,23 +21,36 @@ public class ColorPalette {
         System.out.println("ui");
     }
 
-    public Color getMatchingColor(int i, boolean mix){
+    public Color getMatchingColor(int i){
 
         switch (i) {
             case 0:
-                if(mix) {matching = !matching;}
+                matching = !matching;
                 return HLColor.getColor(HLColor.MATCH_ONE,matching);
             case 1:
-                if(mix) {groups.set(i,!groups.get(i));}
+                groups.set(i,!groups.get(i));
                 return HLColor.getColor(HLColor.GROUP1,groups.get(i));
             case 2:
-                if(mix) {groups.set(i,!groups.get(i));}
+                groups.set(i,!groups.get(i));
                 return HLColor.getColor(HLColor.GROUP2,groups.get(i));
             case 3:
-                if(mix) {groups.set(i,!groups.get(i)); }
+                groups.set(i,!groups.get(i));
                 return HLColor.getColor(HLColor.GROUP3,groups.get(i));
             default:
                 return HLColor.getColor(HLColor.GROUP1,groups.get(i));
+        }
+    }
+
+    public Color getInputColor(int i) {
+        switch (i) {
+            case 0:
+                return HLColor.getColor(HLColor.MATCH_ONE);
+            case 1:
+                return HLColor.getColor(HLColor.GROUP1);
+            case 2:
+                return HLColor.getColor(HLColor.GROUP2);
+            default:
+                return HLColor.getColor(HLColor.GROUP3);
         }
     }
 
