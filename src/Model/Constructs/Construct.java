@@ -92,6 +92,13 @@ public class Construct {
 
     }
 
+    public static boolean isComposed(Construct construct) {
+        return construct.getType() == Type.LOOK_AROUND ||
+                construct.getType() == Type.ATOMIC ||
+                construct.getType() == Type.CAPTURING ||
+                construct.getType() == Type.NON_CAPTURING;
+    }
+
 }
 
 

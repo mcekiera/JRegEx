@@ -36,6 +36,7 @@ public class Expression implements Iterable<Construct>{
             this.groupsNames = new ArrayList<>(groups.keySet());
             return true;
         } catch (PatternSyntaxException e) {
+            this.sequence = cBuilder.toComposition(pattern, Type.EXPRESSION);
             return false;
         }
     }
@@ -44,6 +45,9 @@ public class Expression implements Iterable<Construct>{
         return pattern;
     }
 
+    public Sequence getSequence() {
+        return sequence;
+    }
     public List<Matched> getMatch(int group) {
         return matching.getMatches(group);
     }

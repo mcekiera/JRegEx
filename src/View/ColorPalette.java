@@ -21,20 +21,20 @@ public class ColorPalette {
         System.out.println("ui");
     }
 
-    public Color getMatchingColor(int i){
+    public Color getMatchingColor(int i, boolean mix){
 
         switch (i) {
             case 0:
-                matching = !matching;
+                if(mix) {matching = !matching;}
                 return HLColor.getColor(HLColor.MATCH_ONE,matching);
             case 1:
-                groups.set(i,!groups.get(i));
+                if(mix) {groups.set(i,!groups.get(i));}
                 return HLColor.getColor(HLColor.GROUP1,groups.get(i));
             case 2:
-                groups.set(i,!groups.get(i));
+                if(mix) {groups.set(i,!groups.get(i));}
                 return HLColor.getColor(HLColor.GROUP2,groups.get(i));
             case 3:
-                groups.set(i,!groups.get(i));
+                if(mix) {groups.set(i,!groups.get(i)); }
                 return HLColor.getColor(HLColor.GROUP3,groups.get(i));
             default:
                 return HLColor.getColor(HLColor.GROUP1,groups.get(i));
