@@ -20,7 +20,7 @@ import java.util.regex.PatternSyntaxException;
 public class Main implements Observer {
     private final ColorPalette palette = ColorPalette.getInstance();
     private static int level = 0;
-
+    private Construct selected;
     private Expression expression;
     private UserInterface ui;
 
@@ -29,7 +29,8 @@ public class Main implements Observer {
         expression = new Expression();
         ui = new UserInterface();
         ui.addObserver(this);
-        ui.setCaretListener(new MousePointer());
+        ui.setMatchCaretListener(new MatchCaretListener());
+        ui.setInputCaretListener(new InputCaretListener());
     }
 
 
@@ -99,7 +100,13 @@ public class Main implements Observer {
                     painter = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
                     highlightType(construct, painter);
                 } else {
-                    painter = new DefaultHighlighter.DefaultHighlightPainter(palette.getInputColor(level));
+                    Color color;
+                    if(selected != null && construct.getParent() == selected.getParent()) {
+                         color = Color.CYAN;
+                    } else {
+                         color = palette.getInputColor(level);
+                    }
+                    painter = new DefaultHighlighter.DefaultHighlightPainter(color);
                     highlightType(construct, painter);
                 }
             default:
@@ -144,6 +151,15 @@ public class Main implements Observer {
         }
     }
 
+    public void changeSelectedConstructColor(int position) {
+        try {
+            selected = expression.getSequence().getConstructByPosition(position);
+            highlightInput();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+    }
+
     public void displayMatchingAnalysis(Matched selected) {
         expression.getSeparateConstructsMatches(selected);
         ui.setUpperText(expression.getPattern());
@@ -163,10 +179,14 @@ public class Main implements Observer {
                 Color color = getRandomColor();
                 DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(color);
                 try {
-                    ui.getUpperHighlighter().addHighlight(construct.getStart(), construct.getEnd(), p);
                     ui.getLowerHighlighter().addHighlight(construct.getCurrentMatchStart(), construct.getCurrentMatchEnd(), p);
+                    ui.getUpperHighlighter().addHighlight(construct.getStart(), construct.getEnd(), p);
                 }catch (BadLocationException e) {
-                    e.printStackTrace();
+                    try {
+                        ui.getUpperHighlighter().addHighlight(construct.getStart(), construct.getEnd(), new DefaultHighlighter.DefaultHighlightPainter(Color.GRAY));
+                    } catch (BadLocationException e1) {
+                        e1.printStackTrace();
+                    }
                 }
 
             }
@@ -186,13 +206,21 @@ public class Main implements Observer {
         Main main = new Main();
     }
 
-    public class MousePointer implements CaretListener {
+    public class MatchCaretListener implements CaretListener {
 
         @Override
         public void caretUpdate(CaretEvent e) {
             int position = e.getDot();
-            System.out.println(position);
             caretInMatch(position);
+        }
+    }
+
+    public class InputCaretListener implements CaretListener {
+
+        @Override
+        public void caretUpdate(CaretEvent e) {
+            int position = e.getDot();
+            changeSelectedConstructColor(position);
         }
     }
 

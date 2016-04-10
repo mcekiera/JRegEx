@@ -44,7 +44,21 @@ public class Sequence extends Construct implements Iterable<Construct>{
         return intEnd;
     }
 
-    public int getInsertionIndex() {
+    public Construct getConstructByPosition(int index) {
+        Construct result = null;
+        for(Construct c : this) {
+            if(index >= c.getStart() && index < c.getEnd()) {
+                result = c;
+            }
+        }
+        if(isComposed(result)) {
+            return ((Sequence)result).getConstructByPosition(index);
+        } else {
+            return result;
+        }
+    }
+
+    private int getInsertionIndex() {
         try {
             System.out.println(getType());
             return elements.size() - (elements.size() == 0 ? 0 : (getType() == Type.EXPRESSION ? 0 : 1));

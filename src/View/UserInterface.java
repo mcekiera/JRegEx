@@ -81,13 +81,6 @@ public class UserInterface implements Observed {
 
     private JScrollPane buildComparingFields() {
         doubleField = new JPanel(new GridLayout(2, 1, 2, 2));
-        //JScrollPane upperPane = new JScrollPane(upperField);
-        //upperPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        //upperPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        //upperPane.setViewportBorder(new EmptyBorder(0,0,10,0));
-        //JScrollPane lowerPane = new JScrollPane(lowerField);
-        //lowerPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        //lowerPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         JScrollPane pane = new JScrollPane(doubleField);
         pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -108,8 +101,12 @@ public class UserInterface implements Observed {
         return area;
     }
 
-    public void setCaretListener(CaretListener listener) {
+    public void setMatchCaretListener(CaretListener listener) {
         matchingArea.addCaretListener(listener);
+    }
+
+    public void setInputCaretListener(CaretListener listener) {
+        inputField.addCaretListener(listener);
     }
 
     private JTextField buildComparingField() {
