@@ -3,6 +3,7 @@ package View;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Highlighter;
@@ -87,6 +88,10 @@ public class UserInterface implements Observed {
 
         area.setWrapStyleWord(true);
         return area;
+    }
+
+    public void setCaretListener(CaretListener listener) {
+        matchingArea.addCaretListener(listener);
     }
 
     private JTextField buildComparingField() {

@@ -74,7 +74,7 @@ public class Matching {
 
     private void prepareMap() {
         for(int i = 0; i <= 9; i++) {
-            groupsMatch.put(i,new ArrayList<>());
+            groupsMatch.put(i, new ArrayList<>());
         }
     }
 
@@ -86,7 +86,7 @@ public class Matching {
         }
     }
 
-    public Matched getMatchByIndex(int index) {
+    public Matched getMatchByIndex(int index) throws NullPointerException{
         for(Matched matched : groupsMatch.get(0)) {
             if(index >= matched.getStartIndex() && index < matched.getEndIndex()) {
                 return matched;

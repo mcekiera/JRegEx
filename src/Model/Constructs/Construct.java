@@ -85,6 +85,14 @@ public class Construct {
         return current;
     }
 
+    public int getCurrentMatchStart() {
+        return current.getStartIndex();
+    }
+
+    public int getCurrentMatchEnd() {
+        return current.getEndIndex();
+    }
+
 
     public boolean equals(Construct c) {
         return this.getType() == c.getType() && this.getPattern() == c.getPattern()

@@ -13,6 +13,8 @@ import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
+import java.awt.*;
+import java.util.Random;
 import java.util.regex.PatternSyntaxException;
 
 public class Main implements Observer {
@@ -27,6 +29,7 @@ public class Main implements Observer {
         expression = new Expression();
         ui = new UserInterface();
         ui.addObserver(this);
+        ui.setCaretListener(new MousePointer());
     }
 
 
@@ -133,7 +136,9 @@ public class Main implements Observer {
     }
 
     public void caretInMatch(int position) {
+        System.out.println("in");
         if(expression.getMatchByIndex(position) != null) {
+            System.out.println("in");
             displayMatchingAnalysis(expression.getMatchByIndex(position));
         }
     }
@@ -141,7 +146,38 @@ public class Main implements Observer {
     public void displayMatchingAnalysis(Matched selected) {
         expression.getSeparateConstructsMatches(selected);
         ui.setUpperText(expression.getPattern());
-        ui.setLowerText(expression.);
+        ui.setLowerText(expression.getSelectedMatch());
+        highlightAnalysis(expression.getSequence());
+    }
+
+    private void highlightAnalysis(Sequence sequence) {
+        for(Construct construct : sequence) {
+
+            if(Construct.isComposed(construct)) {
+                highlightAnalysis((Sequence) construct);
+            }else if(construct.getType() == Type.COMPONENT){
+                continue;
+            }else {
+                Color color = getRandomColor();
+                DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(color);
+                try {
+                    ui.getUpperHighlighter().addHighlight(construct.getStart(), construct.getEnd(), p);
+                    ui.getLowerHighlighter().addHighlight(construct.getCurrentMatchStart(), construct.getCurrentMatchEnd(), p);
+                }catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+
+    }
+
+    private Color getRandomColor() {
+        int r = new Random().nextInt(255);
+        int g = new Random().nextInt(255);
+        int b = new Random().nextInt(255);
+        return new Color(r,g,b);
     }
 
     public static void main(String[] args) {
@@ -152,7 +188,9 @@ public class Main implements Observer {
 
         @Override
         public void caretUpdate(CaretEvent e) {
-             int position = e.getDot();
+            int position = e.getDot();
+            System.out.println(position);
+            caretInMatch(position);
         }
     }
 

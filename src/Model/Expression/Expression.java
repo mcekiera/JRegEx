@@ -18,6 +18,7 @@ public class Expression implements Iterable<Construct>{
     private String pattern;
     private Sequence sequence;
     private Matching matching;
+    private String selectedMatch = "";
 
 
     private Map<String,Sequence> groups;
@@ -48,6 +49,11 @@ public class Expression implements Iterable<Construct>{
     public Sequence getSequence() {
         return sequence;
     }
+
+    public String getSelectedMatch() {
+        return selectedMatch;
+    }
+
     public List<Matched> getMatch(int group) {
         return matching.getMatches(group);
     }
@@ -88,7 +94,16 @@ public class Expression implements Iterable<Construct>{
 
     /** throws null if didn't find any */
     public Matched getMatchByIndex(int index) {
-        return matching.getMatchByIndex(index);
+        try {
+            if (matching.getMatchByIndex(index) != null) {
+                Matched selected = matching.getMatchByIndex(index);
+                selectedMatch = matching.getTestString().substring(selected.getStartIndex(), selected.getEndIndex());
+                return selected;
+            }
+            return null;
+        }catch (NullPointerException e) {
+            return null;
+        }
     }
 
 
