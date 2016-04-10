@@ -73,7 +73,11 @@ public class ConstructsFactory {
         if (regexMatch(Type.RANGE, current)) {
             return createRangeConstruct(pattern,startIndex);
         } else if (regexMatch(Type.PREDEFINED, current)) {
-            return new Construct(Type.PREDEFINED,pattern,startIndex,startIndex+lib.getMatcher(Type.PREDEFINED).end());
+            return createPredefined(pattern,startIndex);
+        } else if (regexMatch(Type.SPECIFIC_CHAR, current)) {
+            return new Construct(Type.SPECIFIC_CHAR, pattern, startIndex, startIndex + lib.getMatcher(Type.SPECIFIC_CHAR).end());
+        } else if (regexMatch(Type.INCOMPLETE, current)) {
+            return new Error(Type.INCOMPLETE, pattern, startIndex, startIndex + lib.getMatcher(Type.INCOMPLETE).end());
         } else {
             regexMatch(Type.SIMPLE, current);
             return new Construct(Type.SIMPLE,pattern,startIndex,startIndex+lib.getMatcher(Type.SIMPLE).end());
@@ -126,7 +130,6 @@ public class ConstructsFactory {
 
     private Construct createRangeConstruct(String pattern, int startIndex) {
         if(isValidRange(lib.getMatcher(Type.RANGE).group())) {
-
             return new Construct(Type.RANGE,pattern, startIndex, startIndex + lib.getMatcher(Type.RANGE).end());
         } else {
             return new Error(Type.INVALID_RANGE,pattern,startIndex,startIndex + lib.getMatcher(Type.RANGE).end());

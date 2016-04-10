@@ -73,7 +73,7 @@ public class Main implements Observer {
             case INVALID_INTERVAL:
             case INVALID_RANGE:
                 painter = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.ERROR));
-                highlightType(construct,painter);
+                highlightType(construct, painter);
                 break;
             case CHAR_CLASS:
                 painter = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
@@ -81,15 +81,34 @@ public class Main implements Observer {
                 break;
             case MODE:
                 painter = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.MODE));
-                highlightType(construct,painter);
+                highlightType(construct, painter);
                 break;
             case PREDEFINED:
+            case SPECIFIC_CHAR:
                 painter = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.PREDEFINED));
                 highlightType(construct, painter);
                 break;
             case COMPONENT:
-                painter = new DefaultHighlighter.DefaultHighlightPainter(palette.getInputColor(level));
-                highlightType(construct, painter);
+                switch (construct.getParent().getType()) {
+                    case CHAR_CLASS:
+                        painter = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
+                        highlightType(construct, painter);
+                        break;
+                    default:
+                        painter = new DefaultHighlighter.DefaultHighlightPainter(palette.getInputColor(level));
+                        highlightType(construct, painter);
+                        break;
+                }
+            default:
+                switch (construct.getParent().getType()) {
+                    case CHAR_CLASS:
+                        painter = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
+                        highlightType(construct, painter);
+                        break;
+                    default:
+                        break;
+                }
+
         }
     }
 

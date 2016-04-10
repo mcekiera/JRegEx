@@ -9,16 +9,18 @@ import java.util.regex.Pattern;
 
 public class MatcherLib {
     private static final Map<Type,Matcher> lib = new TreeMap<Type, Matcher>();
-    private static final MatcherLib instance = new MatcherLib();
+    private static final MatcherLib INSTANCE = new MatcherLib();
 
     private MatcherLib() {
         for(Type type : Type.values()) {
-            lib.put(type,Pattern.compile(type.getRegex()).matcher(""));
+            if(RegexLib.getInstance().contains(type)) {
+                lib.put(type, Pattern.compile(RegexLib.getInstance().getRegEx(type)).matcher(""));
+            }
         }
     }
 
     public static MatcherLib getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     public Matcher getMatcher(Type type) {

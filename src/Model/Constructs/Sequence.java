@@ -27,6 +27,8 @@ public class Sequence extends Construct implements Iterable<Construct>{
             intEnd = getEnd() - 1;
             this.elements.add(new Construct(Type.COMPONENT, pattern, getStart(), getStart() + i));
             this.elements.add(new Construct(Type.COMPONENT, pattern, getEnd() - 1, getEnd()));
+            elements.get(0).setParent(this);
+            elements.get(1).setParent(this);
         }
     }
 

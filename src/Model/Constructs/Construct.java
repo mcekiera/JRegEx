@@ -96,7 +96,8 @@ public class Construct {
         return construct.getType() == Type.LOOK_AROUND ||
                 construct.getType() == Type.ATOMIC ||
                 construct.getType() == Type.CAPTURING ||
-                construct.getType() == Type.NON_CAPTURING;
+                construct.getType() == Type.NON_CAPTURING ||
+                construct.getType() == Type.CHAR_CLASS;
     }
 
 }
