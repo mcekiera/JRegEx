@@ -149,6 +149,7 @@ public class Main implements Observer {
         ui.setUpperText(expression.getPattern());
         ui.setLowerText(expression.getSelectedMatch());
         highlightAnalysis(expression.getSequence());
+        ui.refresh();
     }
 
     private void highlightAnalysis(Sequence sequence) {

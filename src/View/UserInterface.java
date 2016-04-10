@@ -20,24 +20,29 @@ public class UserInterface implements Observed {
     private final JTextField upperField;
     private final JTextField lowerField;
     private final JTextArea matchingArea;
+    JPanel doubleField;
+    Border border;
 
     private final List<Observer> observerList;
 
     public UserInterface() {
         frame = new JFrame();
+        BorderAdder focusListener = new BorderAdder();
 
         InputListener listener = new InputListener();
 
         inputField = new InputField().getField();
         inputField.getDocument().addDocumentListener(listener);
-        inputField.addFocusListener(new BorderAdder());
+        inputField.addFocusListener(focusListener);
 
         matchingArea = buildTextArea();
         matchingArea.getDocument().addDocumentListener(listener);
-        matchingArea.addFocusListener(new BorderAdder());
+        matchingArea.addFocusListener(focusListener);
 
         upperField = buildComparingField();
+        upperField.addFocusListener(focusListener);
         lowerField = buildComparingField();
+        lowerField.addFocusListener(focusListener);
 
         observerList = new ArrayList<>();
 
@@ -74,21 +79,29 @@ public class UserInterface implements Observed {
         return matchingPane;
     }
 
-    private JPanel buildComparingFields() {
-        JScrollPane upperPane = new JScrollPane(upperField);
-        upperPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        JScrollPane lowerPane = new JScrollPane(lowerField);
-        lowerPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        JPanel doubleField = new JPanel(new GridLayout(2, 1, 2, 2));
-        doubleField.add(upperPane);
-        doubleField.add(lowerPane);
-        return doubleField;
+    private JScrollPane buildComparingFields() {
+        doubleField = new JPanel(new GridLayout(2, 1, 2, 2));
+        //JScrollPane upperPane = new JScrollPane(upperField);
+        //upperPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        //upperPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        //upperPane.setViewportBorder(new EmptyBorder(0,0,10,0));
+        //JScrollPane lowerPane = new JScrollPane(lowerField);
+        //lowerPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        //lowerPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        JScrollPane pane = new JScrollPane(doubleField);
+        pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        pane.setViewportBorder(new EmptyBorder(1,1,1,1));
+        doubleField.add(upperField);
+        doubleField.add(lowerField);
+        return pane;
     }
 
     private JTextArea buildTextArea() {
         JTextArea area = new JTextArea(15, 40);
         area.setFont(new Font("Arial", Font.PLAIN, 20));
-        Border border = new EmptyBorder(5, 5, 5, 5);
+        Border border = new EmptyBorder(5,5,5,5);
         area.setBorder(border);
 
         area.setWrapStyleWord(true);
@@ -102,6 +115,7 @@ public class UserInterface implements Observed {
     private JTextField buildComparingField() {
         JTextField field = new JTextField();
         field.setEditable(false);
+        field.setBorder(BorderFactory.createCompoundBorder(new JTextField().getBorder(), new EmptyBorder(3,3,3,3)));
         Font font = new Font("Arial", Font.BOLD, 35);
         field.setFont(font);
         return field;
@@ -147,6 +161,9 @@ public class UserInterface implements Observed {
         return lowerField.getHighlighter();
     }
 
+    public void refresh() {
+        doubleField.revalidate();
+    }
     @Override
     public void notifyObservers() {
         for (Observer observer : observerList) {
@@ -182,14 +199,17 @@ public class UserInterface implements Observed {
         @Override
         public void focusGained(FocusEvent e) {
             JComponent component = (JComponent) e.getSource();
-            Border border = BorderFactory.createCompoundBorder(new LineBorder(Color.cyan,1), new EmptyBorder(4,4,4,4));
+            border = component.getBorder();
+            Border border = BorderFactory.createCompoundBorder(new LineBorder(Color.cyan, 1), new EmptyBorder(4,4,4,4));
             component.setBorder(border);
+            component.revalidate();
         }
 
         @Override
         public void focusLost(FocusEvent e) {
             JComponent component = (JComponent) e.getSource();
-            component.setBorder(new EmptyBorder(5,5,5,5));
+            component.setBorder(border);
+            component.revalidate();
         }
     }
 
