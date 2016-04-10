@@ -89,24 +89,18 @@ public class Main implements Observer {
                 highlightType(construct, painter);
                 break;
             case COMPONENT:
-                switch (construct.getParent().getType()) {
-                    case CHAR_CLASS:
-                        painter = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
-                        highlightType(construct, painter);
-                        break;
-                    default:
-                        painter = new DefaultHighlighter.DefaultHighlightPainter(palette.getInputColor(level));
-                        highlightType(construct, painter);
-                        break;
+                if(construct.getParent().getType() == Type.CHAR_CLASS) {
+                    painter = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
+                    highlightType(construct, painter);
+                } else {
+                    painter = new DefaultHighlighter.DefaultHighlightPainter(palette.getInputColor(level));
+                    highlightType(construct, painter);
                 }
             default:
-                switch (construct.getParent().getType()) {
-                    case CHAR_CLASS:
-                        painter = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
-                        highlightType(construct, painter);
-                        break;
-                    default:
-                        break;
+                if(construct.getParent().getType() == Type.CHAR_CLASS) {
+                    painter = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
+                    highlightType(construct, painter);
+
                 }
 
         }

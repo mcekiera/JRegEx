@@ -1,4 +1,4 @@
-package Model.Constructs.Lib;
+package Lib;
 
 import Model.Constructs.Type;
 

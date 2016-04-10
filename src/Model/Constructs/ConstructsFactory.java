@@ -1,6 +1,6 @@
 package Model.Constructs;
 
-import Model.Constructs.Lib.MatcherLib;
+import Lib.MatcherLib;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
