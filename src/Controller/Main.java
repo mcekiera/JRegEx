@@ -8,6 +8,8 @@ import Model.Expression.Expression;
 import Model.Matching.Matched;
 import View.*;
 
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
@@ -130,7 +132,30 @@ public class Main implements Observer {
         }
     }
 
+    public void caretInMatch(int position) {
+        if(expression.getMatchByIndex(position) != null) {
+            displayMatchingAnalysis(expression.getMatchByIndex(position));
+        }
+    }
+
+    public void displayMatchingAnalysis(Matched selected) {
+        expression.getSeparateConstructsMatches(selected);
+        ui.setUpperText(expression.getPattern());
+        ui.setLowerText(expression.);
+    }
+
     public static void main(String[] args) {
         Main main = new Main();
     }
+
+    public class MousePointer implements CaretListener {
+
+        @Override
+        public void caretUpdate(CaretEvent e) {
+             int position = e.getDot();
+        }
+    }
+
 }
+
+

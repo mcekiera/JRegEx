@@ -10,12 +10,14 @@ import java.util.regex.Pattern;
 public class Matching {
     private String pattern;
     private Matcher matcher;
+    private String testString;
     private boolean global = true;
 
     private Map<Integer,List<Matched>> groupsMatch;
 
     public Matching(String pattern, String text) {
         this.pattern = pattern;
+        this.testString = text;
         groupsMatch = new HashMap<>();
         match(text);
         prepareMap();
@@ -24,6 +26,10 @@ public class Matching {
 
     public void setGlobalMode(boolean mode) {
         global = mode;
+    }
+
+    public String getTestString() {
+        return testString;
     }
 
 
@@ -78,6 +84,15 @@ public class Matching {
         } catch (Exception e) {
             //e.printStackTrace();
         }
+    }
+
+    public Matched getMatchByIndex(int index) {
+        for(Matched matched : groupsMatch.get(0)) {
+            if(index >= matched.getStartIndex() && index < matched.getEndIndex()) {
+                return matched;
+            }
+        }
+        return null;
     }
 
 }

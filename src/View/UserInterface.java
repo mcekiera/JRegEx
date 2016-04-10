@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserInterface implements Observed{
+public class UserInterface implements Observed {
     private final JFrame frame;
     private final JTextField inputField;
     private final JTextField upperField;
@@ -43,16 +43,16 @@ public class UserInterface implements Observed{
 
         frame.add(buildInputField(), BorderLayout.PAGE_START);
         frame.add(buildMatchingArea(), BorderLayout.CENTER);
-        frame.add(buildComparingFields(),BorderLayout.PAGE_END);
+        frame.add(buildComparingFields(), BorderLayout.PAGE_END);
 
         frame.pack();
         frame.setVisible(true);
     }
 
     private JPanel buildInputField() {
-        JPanel panel = new JPanel(new GridLayout(2,1));
+        JPanel panel = new JPanel(new GridLayout(2, 1));
         JLabel label = new JLabel("Regular expression:");
-        label.setFont(new Font("Arial",Font.BOLD,25));
+        label.setFont(new Font("Arial", Font.BOLD, 25));
         JScrollPane inputPane = new JScrollPane(inputField);
         inputPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         inputPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -73,16 +73,16 @@ public class UserInterface implements Observed{
         upperPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         JScrollPane lowerPane = new JScrollPane(lowerField);
         lowerPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        JPanel doubleField = new JPanel(new GridLayout(2,1,2,2));
+        JPanel doubleField = new JPanel(new GridLayout(2, 1, 2, 2));
         doubleField.add(upperPane);
         doubleField.add(lowerPane);
         return doubleField;
     }
 
     private JTextArea buildTextArea() {
-        JTextArea area = new JTextArea(15,40);
+        JTextArea area = new JTextArea(15, 40);
         area.setFont(new Font("Arial", Font.PLAIN, 20));
-        Border border = new EmptyBorder(5,5,5,5);
+        Border border = new EmptyBorder(5, 5, 5, 5);
         area.setBorder(border);
 
         area.setWrapStyleWord(true);
@@ -139,14 +139,14 @@ public class UserInterface implements Observed{
 
     @Override
     public void notifyObservers() {
-        for(Observer observer : observerList) {
+        for (Observer observer : observerList) {
             observer.update(this);
         }
     }
 
     @Override
     public void addObserver(Observer observer) {
-         observerList.add(observer);
+        observerList.add(observer);
     }
 
     public class InputListener implements DocumentListener {
@@ -166,4 +166,6 @@ public class UserInterface implements Observed{
             notifyObservers();
         }
     }
+
+
 }

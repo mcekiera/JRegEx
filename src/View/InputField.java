@@ -1,6 +1,8 @@
 package View;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Highlighter;
@@ -23,6 +25,8 @@ public class InputField {
         field.setFont(basic);
         field.setColumns(40);
         field.addKeyListener(new ClosureListener());
+        Border border = new EmptyBorder(5,5,5,5);
+        field.setBorder(border);
     }
 
     public JTextField getField() {

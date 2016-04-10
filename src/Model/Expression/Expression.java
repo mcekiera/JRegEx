@@ -64,6 +64,11 @@ public class Expression implements Iterable<Construct>{
         getSeparateConstructsMatches(matched, sequence);
     }
 
+    public void getSeparateConstructsMatches(Matched matched) {
+        String m = matching.getTestString().substring(matched.getStartIndex(),matched.getEndIndex());
+        getSeparateConstructsMatches(m, sequence);
+    }
+
     public void getSeparateConstructsMatches(String matched, Sequence sequence) {
            for(Construct construct : sequence) {
                if(construct instanceof Sequence && construct.getType() != Type.CHAR_CLASS) {
@@ -79,6 +84,11 @@ public class Expression implements Iterable<Construct>{
 
     public void setGlobalMode(boolean mode) {
         matching.setGlobalMode(mode);
+    }
+
+    /** throws null if didn't find any */
+    public Matched getMatchByIndex(int index) {
+        return matching.getMatchByIndex(index);
     }
 
 
