@@ -51,7 +51,7 @@ public class Sequence extends Construct implements Iterable<Construct>{
                 result = c;
             }
         }
-        if(isComposed(result)) {
+        if(result != null && isComposed(result)) {
             return ((Sequence)result).getConstructByPosition(index);
         } else {
             return result;

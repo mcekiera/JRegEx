@@ -97,7 +97,13 @@ public class Main implements Observer {
                 break;
             case COMPONENT:
                 if(construct.getParent().getType() == Type.CHAR_CLASS) {
-                    painter = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
+                    Color color;
+                    if(selected != null && construct.getParent() == selected.getParent()) {
+                        color = Color.CYAN;
+                    } else {
+                        color = HLColor.getColor(HLColor.CLASS);
+                    }
+                    painter = new DefaultHighlighter.DefaultHighlightPainter(color);
                     highlightType(construct, painter);
                 } else {
                     Color color;
@@ -146,7 +152,6 @@ public class Main implements Observer {
     public void caretInMatch(int position) {
         System.out.println("in");
         if(expression.getMatchByIndex(position) != null) {
-            System.out.println("in");
             displayMatchingAnalysis(expression.getMatchByIndex(position));
         }
     }
@@ -157,6 +162,7 @@ public class Main implements Observer {
             highlightInput();
         }catch (NullPointerException e){
             e.printStackTrace();
+            highlightInput();
         }
     }
 
@@ -171,7 +177,7 @@ public class Main implements Observer {
     private void highlightAnalysis(Sequence sequence) {
         for(Construct construct : sequence) {
 
-            if(Construct.isComposed(construct) && construct.getType() != Type.CHAR_CLASS) {
+            if(Construct.isComposed(construct)) {
                 highlightAnalysis((Sequence) construct);
             }else if(construct.getType() == Type.COMPONENT){
                 continue;
