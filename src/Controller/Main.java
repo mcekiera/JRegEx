@@ -90,6 +90,7 @@ public class Main implements Observer {
                 break;
             case PREDEFINED:
             case SPECIFIC_CHAR:
+            case BOUNDARY:
                 painter = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.PREDEFINED));
                 highlightType(construct, painter);
                 break;
@@ -153,7 +154,7 @@ public class Main implements Observer {
     private void highlightAnalysis(Sequence sequence) {
         for(Construct construct : sequence) {
 
-            if(Construct.isComposed(construct)) {
+            if(Construct.isComposed(construct) && construct.getType() != Type.CHAR_CLASS) {
                 highlightAnalysis((Sequence) construct);
             }else if(construct.getType() == Type.COMPONENT){
                 continue;
