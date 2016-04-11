@@ -5,6 +5,7 @@ import Model.Constructs.Quantifier;
 import Model.Constructs.Sequence;
 import Model.Constructs.Type;
 import Model.Expression.Expression;
+import Model.Matching.InClassMatching;
 import Model.Matching.Matched;
 import View.*;
 
@@ -23,10 +24,12 @@ public class Main implements Observer {
     private Construct selected;
     private Expression expression;
     private UserInterface ui;
+    private InClassMatching classMatching;
 
 
     public Main() {
         expression = new Expression();
+        classMatching = new InClassMatching();
         ui = new UserInterface();
         ui.addObserver(this);
         ui.setMatchCaretListener(new MatchCaretListener());
@@ -184,8 +187,37 @@ public class Main implements Observer {
         for(Construct construct : sequence) {
 
             if(Construct.isComposed(construct)) {
-                level++;
-                highlightAnalysis((Sequence) construct);
+                if(construct.getType() == Type.CHAR_CLASS) {
+                    if(classMatching.setSequence((Sequence)construct,
+                    expression.getSelectedMatch())) {
+                        for(Construct interior : (Sequence)construct) {
+                            System.out.println("???" + interior.toString());
+                            Color color = getRandomColor();
+                            DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(color);
+                            try {
+                                ui.getUpperHighlighter().addHighlight(interior.getStart(),interior.getEnd(),p);
+                                if(interior.getType()!=Type.COMPONENT) {
+                                    for (Matched m : classMatching.getMatched(interior)) {
+
+                                        ui.getLowerHighlighter().addHighlight(m.getStartIndex(), m.getEndIndex(), p);
+
+                                    }
+                                }
+                            } catch (BadLocationException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        DefaultHighlighter.DefaultHighlightPainter r = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
+                       // try {
+                            //ui.getUpperHighlighter().addHighlight(construct.getStart(),construct.getEnd(),r);
+                       // } catch (BadLocationException e) {
+                       //     e.printStackTrace();
+                       // }
+                    }
+                } else {
+                    level++;
+                    highlightAnalysis((Sequence) construct);
+                }
             }else if(construct.getType() == Type.COMPONENT){
                 DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(palette.getInputColor(level));
                 try {

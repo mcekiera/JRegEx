@@ -4,6 +4,7 @@ import Model.Constructs.Construct;
 import Model.Constructs.Sequence;
 import Model.Constructs.SequenceBuilder;
 import Model.Constructs.Type;
+import Model.Matching.InClassMatching;
 import Model.Matching.Matched;
 import Model.Matching.Matching;
 
@@ -11,13 +12,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 public class Expression implements Iterable<Construct>{
     private String pattern;
     private Sequence sequence;
     private Matching matching;
+    private InClassMatching classMatching;
     private String selectedMatch = "";
 
 
@@ -29,7 +30,6 @@ public class Expression implements Iterable<Construct>{
 
     public boolean use(String pattern, String testString) {
         try {
-            Pattern test = Pattern.compile(pattern);
             this.pattern = pattern;
             this.sequence = cBuilder.toComposition(pattern, Type.EXPRESSION);
             this.matching = new Matching(pattern, testString);

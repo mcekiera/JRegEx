@@ -93,8 +93,9 @@ public class Construct {
         return current.getEndIndex();
     }
 
-
-    public boolean equals(Construct c) {
+    @Override
+    public boolean equals(Object object) {
+        Construct c = (Construct)object;
         return this.getType() == c.getType() && this.getPattern() == c.getPattern()
                 && this.getStart() == c.getStart() && this.getEnd() == c.getEnd();
 
@@ -107,6 +108,7 @@ public class Construct {
                 construct.getType() == Type.NON_CAPTURING ||
                 construct.getType() == Type.CHAR_CLASS;
     }
+
 
 }
 
