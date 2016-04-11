@@ -167,27 +167,39 @@ public class Main implements Observer {
     }
 
     public void displayMatchingAnalysis(Matched selected) {
-        expression.getSeparateConstructsMatches(selected);
-        ui.setUpperText(expression.getPattern());
-        ui.setLowerText(expression.getSelectedMatch());
-        highlightAnalysis(expression.getSequence());
-        ui.refresh();
+        if(!isSameData()) {
+            expression.getSeparateConstructsMatches(selected);
+            ui.setUpperText(expression.getPattern());
+            ui.setLowerText(expression.getSelectedMatch());
+            highlightAnalysis(expression.getSequence());
+            ui.refresh();
+        }
+    }
+
+    public boolean isSameData() {
+        return ui.getUpperText().equals(expression.getPattern()) && ui.getLowerText().equals(expression.getSelectedMatch()) ;
     }
 
     private void highlightAnalysis(Sequence sequence) {
         for(Construct construct : sequence) {
 
             if(Construct.isComposed(construct)) {
+                level++;
                 highlightAnalysis((Sequence) construct);
             }else if(construct.getType() == Type.COMPONENT){
-                continue;
+                DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(palette.getInputColor(level));
+                try {
+                    ui.getUpperHighlighter().addHighlight(construct.getStart(),construct.getEnd(),p);
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
             }else {
                 Color color = getRandomColor();
                 DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(color);
                 try {
                     ui.getLowerHighlighter().addHighlight(construct.getCurrentMatchStart(), construct.getCurrentMatchEnd(), p);
                     ui.getUpperHighlighter().addHighlight(construct.getStart(), construct.getEnd(), p);
-                }catch (BadLocationException e) {
+                }catch (BadLocationException e) {            //TODO different rules for charclass
                     try {
                         ui.getUpperHighlighter().addHighlight(construct.getStart(), construct.getEnd(), new DefaultHighlighter.DefaultHighlightPainter(Color.GRAY));
                     } catch (BadLocationException e1) {
@@ -198,6 +210,7 @@ public class Main implements Observer {
             }
 
         }
+        if(level>0) level--;
 
     }
 

@@ -126,6 +126,14 @@ public class UserInterface implements Observed {
         return matchingArea.getText();
     }
 
+    public String getLowerText() {
+        return lowerField.getText();
+    }
+
+    public String getUpperText() {
+        return upperField.getText();
+    }
+
     public void setInputText(String text) {
         inputField.setText(text);
     }
