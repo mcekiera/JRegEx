@@ -41,14 +41,13 @@ public class InClassMatching {
     private void match() {
         Matcher matcher;
         for(Construct construct : interiorMatch.keySet()) {
-            System.out.println(construct.toString() + ">><<");
             matcher = Pattern.compile("[" + construct.toString() + "]").matcher(matched);
-            System.out.println(matcher.pattern() + ">><<" + matched);
+            matcher.region(sequence.getCurrentMatchStart(),sequence.getCurrentMatchEnd());
             while (matcher.find()) {
                 interiorMatch.get(construct).add(new Matched(matcher.start(), matcher.end()));
-                System.out.println(matcher.start() + ">><<" + matcher.end());
-
+                System.out.println(matched + " - " + matcher.start() + "," + matcher.end());
             }
+
         }
     }
 

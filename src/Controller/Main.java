@@ -191,7 +191,6 @@ public class Main implements Observer {
                     if(classMatching.setSequence((Sequence)construct,
                     expression.getSelectedMatch())) {
                         for(Construct interior : (Sequence)construct) {
-                            System.out.println("???" + interior.toString());
                             Color color = getRandomColor();
                             DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(color);
                             try {
