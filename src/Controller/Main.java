@@ -185,63 +185,97 @@ public class Main implements Observer {
 
     private void highlightAnalysis(Sequence sequence) {
         for(Construct construct : sequence) {
-
             if(Construct.isComposed(construct)) {
-                if(construct.getType() == Type.CHAR_CLASS) {
-                    if(classMatching.setSequence((Sequence)construct,
-                    expression.getSelectedMatch())) {
-                        for(Construct interior : (Sequence)construct) {
-                            Color color = getRandomColor();
-                            DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(color);
-                            try {
-                                ui.getUpperHighlighter().addHighlight(interior.getStart(),interior.getEnd(),p);
-                                if(interior.getType()!=Type.COMPONENT) {
-                                    for (Matched m : classMatching.getMatched(interior)) {
-
-                                        ui.getLowerHighlighter().addHighlight(m.getStartIndex(), m.getEndIndex(), p);
-
-                                    }
-                                }
-                            } catch (BadLocationException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        DefaultHighlighter.DefaultHighlightPainter r = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
-                       // try {
-                            //ui.getUpperHighlighter().addHighlight(construct.getStart(),construct.getEnd(),r);
-                       // } catch (BadLocationException e) {
-                       //     e.printStackTrace();
-                       // }
-                    }
-                } else {
-                    level++;
-                    highlightAnalysis((Sequence) construct);
-                }
-            }else if(construct.getType() == Type.COMPONENT){
-                DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(palette.getInputColor(level));
-                try {
-                    ui.getUpperHighlighter().addHighlight(construct.getStart(),construct.getEnd(),p);
-                } catch (BadLocationException e) {
-                    e.printStackTrace();
-                }
+                inComposedCase(construct);
+            }else if(construct.getType() == Type.COMPONENT) {
+                inComponentCase(construct);
+            }else if(construct.getType() == Type.QUANTIFIER) {
+                inQuantifireCase(construct);
             }else {
+                inSimpleCase(construct);
+            }
+        }
+        decrementLevel();
+    }
+
+    public void incrementLevel() {
+        level++;
+    }
+
+    public void decrementLevel() {
+        if(level>0) level--;
+    }
+
+    private void inComponentCase(Construct construct) {
+        DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(palette.getInputColor(level));
+        try {
+            ui.getUpperHighlighter().addHighlight(construct.getStart(),construct.getEnd(),p);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void inComposedCase(Construct construct) {
+        if(construct.getType() == Type.CHAR_CLASS) {
+            inCharacterClassCase(construct);
+        } else {
+            incrementLevel();
+            highlightAnalysis((Sequence) construct);
+        }
+    }
+
+    private void inSimpleCase(Construct construct) {
+        Color color = getRandomColor();
+        DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(color);
+        try {
+            ui.getLowerHighlighter().addHighlight(construct.getCurrentMatchStart(), construct.getCurrentMatchEnd(), p);
+            ui.getUpperHighlighter().addHighlight(construct.getStart(), construct.getEnd(), p);
+        }catch (BadLocationException e) {
+            try {
+                ui.getUpperHighlighter().addHighlight(construct.getStart(), construct.getEnd(), new DefaultHighlighter.DefaultHighlightPainter(Color.GRAY));
+            } catch (BadLocationException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    private void inCharacterClassCase(Construct construct) {
+        if(classMatching.setSequence((Sequence)construct,
+                expression.getSelectedMatch())) {
+            for(Construct interior : (Sequence)construct) {
                 Color color = getRandomColor();
                 DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(color);
                 try {
-                    ui.getLowerHighlighter().addHighlight(construct.getCurrentMatchStart(), construct.getCurrentMatchEnd(), p);
-                    ui.getUpperHighlighter().addHighlight(construct.getStart(), construct.getEnd(), p);
-                }catch (BadLocationException e) {            //TODO different rules for charclass
-                    try {
-                        ui.getUpperHighlighter().addHighlight(construct.getStart(), construct.getEnd(), new DefaultHighlighter.DefaultHighlightPainter(Color.GRAY));
-                    } catch (BadLocationException e1) {
-                        e1.printStackTrace();
-                    }
-                }
 
+                    if(interior.getType()!=Type.COMPONENT) {
+                        for (Matched m : classMatching.getMatched(interior)) {
+                            ui.getUpperHighlighter().addHighlight(interior.getStart(),interior.getEnd(),p);
+                            ui.getLowerHighlighter().addHighlight(m.getStartIndex(), m.getEndIndex(), p);
+
+                        }
+                    }
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
             }
+            DefaultHighlighter.DefaultHighlightPainter r = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
+            // try {
+            //ui.getUpperHighlighter().addHighlight(construct.getStart(),construct.getEnd(),r);
+            // } catch (BadLocationException e) {
+            //     e.printStackTrace();
+            // }
 
         }
-        if(level>0) level--;
+    }
+
+    private void inQuantifireCase(Construct construct) {
+        Construct interior = ((Quantifier)construct).getConstruct();
+        if(Construct.isComposed(construct)) {
+            inComposedCase(interior);
+        } else {
+            inSimpleCase(interior);
+        }
+        inSimpleCase(construct);
 
     }
 

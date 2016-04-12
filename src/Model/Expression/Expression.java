@@ -1,9 +1,6 @@
 package Model.Expression;
 
-import Model.Constructs.Construct;
-import Model.Constructs.Sequence;
-import Model.Constructs.SequenceBuilder;
-import Model.Constructs.Type;
+import Model.Constructs.*;
 import Model.Matching.InClassMatching;
 import Model.Matching.Matched;
 import Model.Matching.Matching;
@@ -80,7 +77,7 @@ public class Expression implements Iterable<Construct>{
                if(construct instanceof Sequence && construct.getType() != Type.CHAR_CLASS) {
                    getSeparateConstructsMatches(matched, (Sequence) construct);
                } else if (construct.getType() == Type.QUANTIFIER) {
-                   //currentMatching.add(((Quantifier)construct).getConstruct().getCurrentMatch(matched));
+                   ((Quantifier)construct).getConstruct().getCurrentMatch(matched);
                    construct.getCurrentMatch(matched);
                } else if(construct.getType() != Type.COMPONENT) {
                    construct.getCurrentMatch(matched);
