@@ -74,10 +74,15 @@ public class Expression implements Iterable<Construct>{
 
     public void getSeparateConstructsMatches(String matched, Sequence sequence) {
            for(Construct construct : sequence) {
-               if(construct instanceof Sequence && construct.getType() != Type.CHAR_CLASS) {
+               if(Construct.isComposed(construct) && construct.getType() != Type.CHAR_CLASS) {
                    getSeparateConstructsMatches(matched, (Sequence) construct);
                } else if (construct.getType() == Type.QUANTIFIER) {
-                   ((Quantifier)construct).getConstruct().getCurrentMatch(matched);
+                   Construct interior = ((Quantifier) construct).getConstruct();
+                   if(Construct.isComposed(interior)) {
+                       getSeparateConstructsMatches(matched,(Sequence)interior);
+                   } else {
+                       interior.getCurrentMatch(matched);
+                   }
                    construct.getCurrentMatch(matched);
                } else if(construct.getType() != Type.COMPONENT) {
                    construct.getCurrentMatch(matched);

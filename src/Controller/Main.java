@@ -187,12 +187,10 @@ public class Main implements Observer {
         for(Construct construct : sequence) {
             if(Construct.isComposed(construct)) {
                 inComposedCase(construct);
-            }else if(construct.getType() == Type.COMPONENT) {
-                inComponentCase(construct);
             }else if(construct.getType() == Type.QUANTIFIER) {
-                inQuantifireCase(construct);
-            }else {
-                inSimpleCase(construct);
+                inQuantifierCase(construct);
+            }else{
+                inCommonCase(construct);
             }
         }
         decrementLevel();
@@ -204,6 +202,14 @@ public class Main implements Observer {
 
     public void decrementLevel() {
         if(level>0) level--;
+    }
+
+    public void inCommonCase(Construct construct){
+        if(construct.getType() == Type.COMPONENT) {
+            inComponentCase(construct);
+        }else {
+            inSimpleCase(construct);
+        }
     }
 
     private void inComponentCase(Construct construct) {
@@ -268,12 +274,12 @@ public class Main implements Observer {
         }
     }
 
-    private void inQuantifireCase(Construct construct) {
+    private void inQuantifierCase(Construct construct) {
         Construct interior = ((Quantifier)construct).getConstruct();
-        if(Construct.isComposed(construct)) {
-            inComposedCase(interior);
+        if(Construct.isComposed(interior)) {
+            highlightAnalysis((Sequence)interior);
         } else {
-            inSimpleCase(interior);
+            inCommonCase(interior);
         }
         inSimpleCase(construct);
 
