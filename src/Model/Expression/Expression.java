@@ -78,12 +78,12 @@ public class Expression implements Iterable<Construct>{
                    getSeparateConstructsMatches(matched, (Sequence) construct);
                } else if (construct.getType() == Type.QUANTIFIER) {
                    Construct interior = ((Quantifier) construct).getConstruct();
+                   construct.getCurrentMatch(matched);
                    if(Construct.isComposed(interior)) {
                        getSeparateConstructsMatches(matched,(Sequence)interior);
                    } else {
                        interior.getCurrentMatch(matched);
                    }
-                   construct.getCurrentMatch(matched);
                } else if(construct.getType() != Type.COMPONENT) {
                    construct.getCurrentMatch(matched);
                }

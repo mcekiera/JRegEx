@@ -188,6 +188,9 @@ public class Main implements Observer {
             if(Construct.isComposed(construct)) {
                 inComposedCase(construct);
             }else if(construct.getType() == Type.QUANTIFIER) {
+                //TODO kwantifikatory bezpoœrednie dopasowani mog¹ dopasowywaæ na z³apanym fragmencie, nie ca³ym wyra¿eniem na pew³nym dopasowanym tekœcie
+                //TODO maybe create construct for part of regex (not whole) and then correct star nad end indices?
+                //TODO create new Expression object for regex part, then copy direct matches and correct matches
                 inQuantifierCase(construct);
             }else{
                 inCommonCase(construct);
