@@ -5,8 +5,8 @@ import Model.Constructs.Quantifier;
 import Model.Constructs.Sequence;
 import Model.Constructs.Type;
 import Model.Expression.Expression;
+import Model.Matching.Fragment;
 import Model.Matching.InClassMatching;
-import Model.Matching.Matched;
 import View.*;
 
 import javax.swing.event.CaretEvent;
@@ -41,7 +41,7 @@ public class Main implements Observer {
     public void update(Observed source) {
         palette.reset();
         if(expression.use(ui.getInputText(), ui.getMatchingText())) {
-            expression.getSeparateConstructsMatches(ui.getMatchingText());
+            expression.getConstructsDirectMatch(ui.getMatchingText());
             highlightMatches();
         }
         highlightInput();
@@ -142,9 +142,9 @@ public class Main implements Observer {
             Highlighter h = ui.getMatchingHighlighter();
             DefaultHighlighter.DefaultHighlightPainter painter;
             for(int i = expression.groupCount(); i >= 0; i--){
-                for(Matched matched : expression.getMatch(i)) {
+                for(Fragment fragment : expression.getMatch(i)) {
                     painter = new DefaultHighlighter.DefaultHighlightPainter(palette.getMatchingColor(i));
-                    h.addHighlight(matched.getStartIndex(),matched.getEndIndex(),painter);
+                    h.addHighlight(fragment.getStart(), fragment.getEnd(),painter);
                 }
             }
         }catch (BadLocationException | PatternSyntaxException e) {
@@ -153,7 +153,7 @@ public class Main implements Observer {
     }
 
     public void caretInMatch(int position) {
-        System.out.println("in");
+
         if(expression.getMatchByIndex(position) != null) {
             displayMatchingAnalysis(expression.getMatchByIndex(position));
         }
@@ -169,9 +169,9 @@ public class Main implements Observer {
         }
     }
 
-    public void displayMatchingAnalysis(Matched selected) {
+    public void displayMatchingAnalysis(Fragment selected) {
         if(!isSameData()) {
-            expression.getSeparateConstructsMatches(selected);
+            expression.getConstructsDirectMatch(selected.getFragment());
             ui.setUpperText(expression.getPattern());
             ui.setLowerText(expression.getSelectedMatch());
             highlightAnalysis(expression.getSequence());
@@ -257,9 +257,9 @@ public class Main implements Observer {
                 try {
 
                     if(interior.getType()!=Type.COMPONENT) {
-                        for (Matched m : classMatching.getMatched(interior)) {
+                        for (Fragment m : classMatching.getMatched(interior)) {
                             ui.getUpperHighlighter().addHighlight(interior.getStart(),interior.getEnd(),p);
-                            ui.getLowerHighlighter().addHighlight(m.getStartIndex(), m.getEndIndex(), p);
+                            ui.getLowerHighlighter().addHighlight(m.getStart(), m.getEnd(), p);
 
                         }
                     }
@@ -285,7 +285,6 @@ public class Main implements Observer {
             inCommonCase(interior);
         }
         inSimpleCase(construct);
-
     }
 
     private Color getRandomColor() {

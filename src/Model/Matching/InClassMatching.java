@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InClassMatching {
-    private Map<Construct,List<Matched>> interiorMatch;
+    private Map<Construct,List<Fragment>> interiorMatch;
     private Sequence sequence;
     private String matched;
 
@@ -30,7 +30,7 @@ public class InClassMatching {
         for(Construct construct : sequence) {
 
             if(construct.getType() != Type.COMPONENT) {
-                interiorMatch.put(construct, new ArrayList<Matched>());
+                interiorMatch.put(construct, new ArrayList<Fragment>());
             }
         }
         for(Construct c : interiorMatch.keySet()) {
@@ -44,14 +44,14 @@ public class InClassMatching {
             matcher = Pattern.compile("[" + construct.toString() + "]").matcher(matched);
             matcher.region(sequence.getCurrentMatchStart(),sequence.getCurrentMatchEnd());
             while (matcher.find()) {
-                interiorMatch.get(construct).add(new Matched(matcher.start(), matcher.end()));
+                interiorMatch.get(construct).add(new Fragment(matcher.start(), matcher.end(),matcher.group()));
                 System.out.println(matched + " - " + matcher.start() + "," + matcher.end());
             }
 
         }
     }
 
-    public List<Matched> getMatched(Construct construct) {
+    public List<Fragment> getMatched(Construct construct) {
         return interiorMatch.get(construct);
     }
 }

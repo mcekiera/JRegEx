@@ -1,8 +1,8 @@
-package View;
+/**package View;
 
 import Model.Constructs.*;
 import Model.Expression.Expression;
-import Model.Matching.Matched;
+import Model.Matching.Fragment;
 import Model.Matching.Matching;
 
 import javax.swing.*;
@@ -55,11 +55,11 @@ public class TestField {
         dodo(ex);
         Matching m = new Matching(pattern,area.getText());
         for(int i = m.groupCount(); i >=0; i--) {
-            for (Matched n : m.getMatches(i)) {
+            for (Fragment n : m.getMatches(i)) {
 
                 try {
-                    h2.addHighlight(n.getStartIndex(), n.getEndIndex(), new DefaultHighlighter.DefaultHighlightPainter(col.get(i)));
-                    //System.out.println(n.getStartIndex() + "      " + n.getEndIndex());
+                    h2.addHighlight(n.getStart(), n.getEnd(), new DefaultHighlighter.DefaultHighlightPainter(col.get(i)));
+                    //System.out.println(n.getStart() + "      " + n.getEnd());
                 } catch (BadLocationException e) {
                     //e.printStackTrace();
                 }
@@ -170,4 +170,4 @@ public class TestField {
     public static void main(String[] args) {
         TestField f = new TestField();
     }
-}
+}     */

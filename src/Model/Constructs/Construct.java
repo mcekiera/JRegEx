@@ -1,26 +1,18 @@
 package Model.Constructs;
 
-import Model.Matching.Matched;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import Model.Matching.Fragment;
 
 public class Construct {
     private Type type;
-    protected Sequence parent;
-    protected String pattern;
-    protected String asString;
-    protected int start;
-    protected int end;
-    protected Matched current;
+    private Sequence parent;
+    private String pattern;
+    private Fragment inPattern;
+    private Fragment inText;
 
     public Construct(Type type, String pattern,int start, int end) {
+        inPattern = new Fragment(start,end,pattern.substring(start,end));
         this.pattern = pattern;
-        this.start = start;
-        this.end = end;
         this.type = type;
-        asString = pattern.substring(start,end);
     }
 
     public Type getType() {
@@ -36,61 +28,41 @@ public class Construct {
     }
 
     public int size() {
-        return asString.length();
+        return inPattern.getFragment().length();
     }
 
     public int getStart() {
-        return start;
+        return inPattern.getStart();
     }
 
     public int getEnd() {
-        return end;
+        return inPattern.getEnd();
     }
 
     public String getPattern() {
         return pattern;
     }
 
-    public String getAsSeparateGroup(String groupName) {
-        String begin = pattern.substring(0,getStart());
-        String mid = pattern.substring(getStart(),getEnd());
-        String finish = pattern.substring(getEnd());
-        String re = begin + "(?<" + groupName + ">" + mid + ")" + finish;
-        System.out.println(re);
-        return re;
-    }
-
     @Override
     public String toString() {
-        return asString;
+        return inPattern.getFragment();
     }
 
-    public void directMatch(String match) {
-        try {
-            Matcher matcher = Pattern.compile(getAsSeparateGroup("test")).matcher(match);
 
-            if (matcher.find()) {
-                current = new Matched(matcher.start("test"), matcher.end("test"));
-            } else {
-                current = new Matched(0,0);
-            }
-        } catch (PatternSyntaxException e) {
-            current = new Matched(0,0);
-        }
-
+    public void setCurrentMatch(Fragment fragment) {
+        this.inText = fragment;
     }
 
-    public Matched getCurrentMatch(String text) {
-        directMatch(text);
-        return current;
+    public Fragment getCurrentMatch() {
+        return inText;
     }
 
     public int getCurrentMatchStart() {
-        return current.getStartIndex();
+        return inText.getStart();
     }
 
     public int getCurrentMatchEnd() {
-        return current.getEndIndex();
+        return inText.getEnd();
     }
 
     @Override

@@ -15,26 +15,7 @@ public class Quantifier  extends Construct{
     public Construct getConstruct() {return construct;}
 
     @Override
-    public String getPattern() {
-        return construct.getPattern() + this.asString;
-    }
-
-    @Override
-    public String toString() {
-        return asString;
-    }
-
-    @Override
-    public int size() {
-        return asString.length();
-    }
-
-    @Override
     public int getStart() {
         return construct.getStart();
-    }
-
-    public int getEnd() {
-        return this.end;
     }
 }

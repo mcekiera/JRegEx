@@ -162,7 +162,7 @@ public class ConstructsFactory {
 
     private boolean isValidRange(String range) {
         String[] elements = range.split("-");
-        System.out.println(elements[0].compareTo(elements[1])<0);
+
         return elements[0].compareTo(elements[1])<0;
     }
 

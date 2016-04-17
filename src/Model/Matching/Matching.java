@@ -13,7 +13,7 @@ public class Matching {
     private String testString;
     private boolean global = true;
 
-    private Map<Integer,List<Matched>> groupsMatch;
+    private Map<Integer,List<Fragment>> groupsMatch;
 
     public Matching(String pattern, String text) {
         this.pattern = pattern;
@@ -33,7 +33,7 @@ public class Matching {
     }
 
 
-    public List<Matched> getMatches(int group) {
+    public List<Fragment> getMatches(int group) {
         return groupsMatch.get(group);
     }
 
@@ -67,7 +67,7 @@ public class Matching {
         for (int i = 0; i <= matcher.groupCount(); i++) {
             int start = matcher.start(i) == -1 ? 0 : matcher.start(i);
             int end = matcher.end(i) == -1 ? 0 : matcher.end(i);
-            Matched m = new Matched(start, end);
+            Fragment m = new Fragment(start, end,matcher.group(i));
             groupsMatch.get(i).add(m);
         }
     }
@@ -86,10 +86,10 @@ public class Matching {
         }
     }
 
-    public Matched getMatchByIndex(int index) throws NullPointerException{
-        for(Matched matched : groupsMatch.get(0)) {
-            if(index >= matched.getStartIndex() && index < matched.getEndIndex()) {
-                return matched;
+    public Fragment getMatchByIndex(int index) throws NullPointerException{
+        for(Fragment fragment : groupsMatch.get(0)) {
+            if(index >= fragment.getStart() && index < fragment.getEnd()) {
+                return fragment;
             }
         }
         return null;
