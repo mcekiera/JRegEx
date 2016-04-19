@@ -1,24 +1,26 @@
 package Model.Matching;
 
 public class Matched {
-    private final int startIndex;
-    private final int endIndex;
+    private final int start;
+    private final int end;
+    private final String fragment;
 
-    public Matched(int start, int end) {
-        startIndex = start;
-        endIndex = end;
+    public Matched(int start, int end, String fragment) {
+        this.start = start;
+        this.end = end;
+        this.fragment = fragment;
     }
 
-    public int getStartIndex() {
-        return startIndex;
+    public int getStart() {
+        return start;
     }
 
-    public int getEndIndex() {
-        return endIndex;
+    public int getEnd() {
+        return end;
     }
 
     @Override
     public String toString() {
-        return "matched: " + startIndex + "," + endIndex;
+        return fragment;
     }
 }

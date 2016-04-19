@@ -144,7 +144,7 @@ public class Main implements Observer {
             for(int i = expression.groupCount(); i >= 0; i--){
                 for(Matched matched : expression.getMatch(i)) {
                     painter = new DefaultHighlighter.DefaultHighlightPainter(palette.getMatchingColor(i));
-                    h.addHighlight(matched.getStartIndex(),matched.getEndIndex(),painter);
+                    h.addHighlight(matched.getStart(),matched.getEnd(),painter);
                 }
             }
         }catch (BadLocationException | PatternSyntaxException e) {
@@ -256,7 +256,7 @@ public class Main implements Observer {
                     if(interior.getType()!=Type.COMPONENT) {
                         for (Matched m : classMatching.getMatched(interior)) {
                             ui.getUpperHighlighter().addHighlight(interior.getStart(),interior.getEnd(),p);
-                            ui.getLowerHighlighter().addHighlight(m.getStartIndex(), m.getEndIndex(), p);
+                            ui.getLowerHighlighter().addHighlight(m.getStart(), m.getEnd(), p);
 
                         }
                     }

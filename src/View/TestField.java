@@ -58,8 +58,8 @@ public class TestField {
             for (Matched n : m.getMatches(i)) {
 
                 try {
-                    h2.addHighlight(n.getStartIndex(), n.getEndIndex(), new DefaultHighlighter.DefaultHighlightPainter(col.get(i)));
-                    //System.out.println(n.getStartIndex() + "      " + n.getEndIndex());
+                    h2.addHighlight(n.getStart(), n.getEnd(), new DefaultHighlighter.DefaultHighlightPainter(col.get(i)));
+                    //System.out.println(n.getStart() + "      " + n.getEnd());
                 } catch (BadLocationException e) {
                     //e.printStackTrace();
                 }

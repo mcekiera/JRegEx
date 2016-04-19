@@ -67,7 +67,7 @@ public class Matching {
         for (int i = 0; i <= matcher.groupCount(); i++) {
             int start = matcher.start(i) == -1 ? 0 : matcher.start(i);
             int end = matcher.end(i) == -1 ? 0 : matcher.end(i);
-            Matched m = new Matched(start, end);
+            Matched m = new Matched(start, end, matcher.group());
             groupsMatch.get(i).add(m);
         }
     }
@@ -88,7 +88,7 @@ public class Matching {
 
     public Matched getMatchByIndex(int index) throws NullPointerException{
         for(Matched matched : groupsMatch.get(0)) {
-            if(index >= matched.getStartIndex() && index < matched.getEndIndex()) {
+            if(index >= matched.getStart() && index < matched.getEnd()) {
                 return matched;
             }
         }

@@ -70,27 +70,30 @@ public class Construct {
             Matcher matcher = Pattern.compile(getAsSeparateGroup("test")).matcher(match);
 
             if (matcher.find()) {
-                current = new Matched(matcher.start("test"), matcher.end("test"));
+                current = new Matched(matcher.start("test"), matcher.end("test"),matcher.group());
             } else {
-                current = new Matched(0,0);
+                current = new Matched(0,0,"");
             }
         } catch (PatternSyntaxException e) {
-            current = new Matched(0,0);
+            current = new Matched(0,0,"");
         }
 
     }
 
-    public Matched getCurrentMatch(String text) {
-        directMatch(text);
+    public Matched getCurrentMatch() {
         return current;
     }
 
+    public void setCurrentMatch(Matched matched) {
+        this.current = matched;
+    }
+
     public int getCurrentMatchStart() {
-        return current.getStartIndex();
+        return current.getStart();
     }
 
     public int getCurrentMatchEnd() {
-        return current.getEndIndex();
+        return current.getEnd();
     }
 
     @Override
@@ -108,8 +111,6 @@ public class Construct {
                 construct.getType() == Type.NON_CAPTURING ||
                 construct.getType() == Type.CHAR_CLASS;
     }
-
-
 }
 
 

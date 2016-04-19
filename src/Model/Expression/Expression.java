@@ -68,7 +68,7 @@ public class Expression implements Iterable<Construct>{
     }
 
     public void getSeparateConstructsMatches(Matched matched) {
-        String m = matching.getTestString().substring(matched.getStartIndex(),matched.getEndIndex());
+        String m = matching.getTestString().substring(matched.getStart(),matched.getEnd());
         getSeparateConstructsMatches(m, sequence);
     }
 
@@ -99,7 +99,7 @@ public class Expression implements Iterable<Construct>{
         try {
             if (matching.getMatchByIndex(index) != null) {
                 Matched selected = matching.getMatchByIndex(index);
-                selectedMatch = matching.getTestString().substring(selected.getStartIndex(), selected.getEndIndex());
+                selectedMatch = matching.getTestString().substring(selected.getStart(), selected.getEnd());
                 return selected;
             }
             return null;
