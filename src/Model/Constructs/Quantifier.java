@@ -16,7 +16,7 @@ public class Quantifier  extends Construct{
 
     @Override
     public String getPattern() {
-        return construct.getPattern() + this.asString;
+        return pattern;
     }
 
     @Override
@@ -32,9 +32,5 @@ public class Quantifier  extends Construct{
     @Override
     public int getStart() {
         return construct.getStart();
-    }
-
-    public int getEnd() {
-        return this.end;
     }
 }

@@ -17,7 +17,6 @@ public class SequenceBuilder {
 
     public Sequence toComposition(String pattern, Type type) {
         Sequence sequence = new Sequence(type,pattern,0,pattern.length());
-        sequence.setParent(sequence);
         groups = new LinkedHashMap<>();
         count = 0;
         divideIntoConstructs(sequence);

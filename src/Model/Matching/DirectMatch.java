@@ -31,20 +31,29 @@ public class DirectMatch {
     }
 
     public void match(Construct construct,String fragment) {
-            if (isInQuantifier(construct)) {
-                directMatchInQuantifier(construct,construct.getParent().getCurrentMatch().toString());
-            } else if (isCharacterClass(construct)) {
-                directMatch(construct,fragment);
-                new InClassMatching().setSequence((Sequence)construct,construct.getCurrentMatch().toString());
-            } else if(isGroup(construct)) {
-                directMatch(construct,fragment);
-                process((Sequence) construct, construct.getCurrentMatch().toString());
-            } else if(isQuantifier(construct)) {
-                directMatch(construct,fragment);
-                match(((Quantifier)construct).getConstruct(),construct.getCurrentMatch().toString());
-            } else {
-                directMatch(construct, fragment);
-            }
+        directMatch(construct);
+        System.out.println(construct.getType() + ";" + fragment + ";" + construct.getCurrentMatch());
+        if (isCharacterClass(construct)) {
+            new InClassMatching().setSequence((Sequence) construct, construct.getCurrentMatch().toString());
+        } else if(isGroup(construct)) {
+            process((Sequence) construct, construct.getCurrentMatch().toString());
+        } else if(isQuantifier(construct)) {
+            System.out.println("isQuantifire");
+            matchInQuantifier(construct,((Quantifier) construct).getConstruct());
+        } else {
+            directMatch(construct);
+        }
+    }
+
+    public void matchInQuantifier(Construct quantifier, Construct construct) {
+        directMatchInQuantifier(quantifier,construct);
+        if(isGroup(construct)) {
+            process((Sequence)construct,construct.getCurrentMatch().toString());
+        } else if (isQuantifier(construct)) {
+            matchInQuantifier(((Quantifier) construct).getConstruct(), construct);
+        } else if(isCharacterClass(construct)) {
+            new InClassMatching().setSequence((Sequence) construct, construct.getCurrentMatch().toString());
+        }
     }
 
     public boolean isCharacterClass(Construct construct) {
@@ -53,10 +62,6 @@ public class DirectMatch {
 
     public boolean isQuantifier(Construct construct) {
         return construct.getType() == Type.INTERVAL || construct.getType() == Type.QUANTIFIER;
-    }
-
-    public boolean isInQuantifier(Construct construct) {
-        return isQuantifier(construct.getParent());
     }
 
     public boolean isGroup(Construct construct) {
@@ -72,17 +77,16 @@ public class DirectMatch {
         String mid = construct.getPattern().substring(construct.getStart(), construct.getEnd());
         String finish = construct.getPattern().substring(construct.getEnd());
         String re = begin + "(?<" + groupName + ">" + mid + ")" + finish;
-        System.out.println(re);
         return re;
     }
 
-    public void directMatch(Construct construct, String match) {
+    public void directMatch(Construct construct) {
         try {
-            Matcher matcher = Pattern.compile(getAsSeparateGroup(construct,"test")).matcher(match);
-            System.out.println(matcher.pattern() + " ... " + match);
+            Matcher matcher = Pattern.compile(getAsSeparateGroup(construct,"test")).matcher(text);
+            System.out.println(matcher.pattern() + " ... " + text + " ... " + construct.toString());
 
             if (matcher.find()) {
-                construct.setCurrentMatch(new Matched(matcher.start("test"), matcher.end("test"),matcher.group()));
+                construct.setCurrentMatch(new Matched(matcher.start("test"), matcher.end("test"),matcher.group("test")));
             }
 
         } catch (PatternSyntaxException e) {
@@ -90,10 +94,14 @@ public class DirectMatch {
         }
     }
 
-    public void directMatchInQuantifier(Construct construct, String match) {
+    public void directMatchInQuantifier(Construct quantifier, Construct construct) {
+        System.out.println(construct.toString() + " <<< " + quantifier.getCurrentMatch().toString());
         try{
-            Matcher matcher = Pattern.compile(construct.toString()).matcher(match);
+            Matcher matcher = Pattern.compile(construct.toString()).matcher(text);
+            matcher.region(quantifier.getCurrentMatchStart(),quantifier.getCurrentMatchEnd());
+
             if(matcher.lookingAt()) {
+                System.out.println(matcher.pattern() + " >>> " + quantifier.getCurrentMatch().toString() + " >>> " + matcher.group());
                 construct.setCurrentMatch(new Matched(matcher.start(),matcher.end(),matcher.group()));
             }
         } catch (PatternSyntaxException e) {
