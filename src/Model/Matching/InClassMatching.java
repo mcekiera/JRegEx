@@ -42,9 +42,9 @@ public class InClassMatching {
         Matcher matcher;
         for(Construct construct : interiorMatch.keySet()) {
             matcher = Pattern.compile("[" + construct.toString() + "]").matcher(matched);
-            matcher.region(sequence.getCurrentMatchStart(),sequence.getCurrentMatchEnd());
+            //matcher.region(sequence.getCurrentMatchStart(), sequence.getCurrentMatchEnd());
             while (matcher.find()) {
-                interiorMatch.get(construct).add(new Matched(matcher.start(), matcher.end()));
+                interiorMatch.get(construct).add(new Matched(matcher.start(), matcher.end(),matcher.group()));
                 System.out.println(matched + " - " + matcher.start() + "," + matcher.end());
             }
 

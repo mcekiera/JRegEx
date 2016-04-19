@@ -1,6 +1,10 @@
 package Model.Expression;
 
-import Model.Constructs.*;
+import Model.Constructs.Construct;
+import Model.Constructs.Sequence;
+import Model.Constructs.SequenceBuilder;
+import Model.Constructs.Type;
+import Model.Matching.DirectMatch;
 import Model.Matching.InClassMatching;
 import Model.Matching.Matched;
 import Model.Matching.Matching;
@@ -73,21 +77,7 @@ public class Expression implements Iterable<Construct>{
     }
 
     public void getSeparateConstructsMatches(String matched, Sequence sequence) {
-           for(Construct construct : sequence) {
-               if(Construct.isComposed(construct) && construct.getType() != Type.CHAR_CLASS) {
-                   getSeparateConstructsMatches(matched, (Sequence) construct);
-               } else if (construct.getType() == Type.QUANTIFIER) {
-                   Construct interior = ((Quantifier) construct).getConstruct();
-                   if(Construct.isComposed(interior)) {
-                       getSeparateConstructsMatches(matched,(Sequence)interior);
-                   } else {
-                       interior.getCurrentMatch(matched);
-                   }
-                   construct.getCurrentMatch(matched);
-               } else if(construct.getType() != Type.COMPONENT) {
-                   construct.getCurrentMatch(matched);
-               }
-           }
+           new DirectMatch(sequence,matched);
     }
 
     public void setGlobalMode(boolean mode) {

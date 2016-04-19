@@ -2,10 +2,6 @@ package Model.Constructs;
 
 import Model.Matching.Matched;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-
 public class Construct {
     private Type type;
     protected Sequence parent;
@@ -21,6 +17,7 @@ public class Construct {
         this.end = end;
         this.type = type;
         asString = pattern.substring(start,end);
+        current = new Matched(0,0,"");
     }
 
     public Type getType() {
@@ -51,34 +48,12 @@ public class Construct {
         return pattern;
     }
 
-    public String getAsSeparateGroup(String groupName) {
-        String begin = pattern.substring(0,getStart());
-        String mid = pattern.substring(getStart(),getEnd());
-        String finish = pattern.substring(getEnd());
-        String re = begin + "(?<" + groupName + ">" + mid + ")" + finish;
-        System.out.println(re);
-        return re;
-    }
-
     @Override
     public String toString() {
         return asString;
     }
 
-    public void directMatch(String match) {
-        try {
-            Matcher matcher = Pattern.compile(getAsSeparateGroup("test")).matcher(match);
 
-            if (matcher.find()) {
-                current = new Matched(matcher.start("test"), matcher.end("test"),matcher.group());
-            } else {
-                current = new Matched(0,0,"");
-            }
-        } catch (PatternSyntaxException e) {
-            current = new Matched(0,0,"");
-        }
-
-    }
 
     public Matched getCurrentMatch() {
         return current;
