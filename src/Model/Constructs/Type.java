@@ -1,5 +1,9 @@
 package Model.Constructs;
 
+/**
+ * Enum class which classify common types of constructs and errors in regular expression. The classification is
+ * simplified, and capture just general structures.
+ */
 public enum Type {
     BOUNDARY(),
     CHAR_CLASS(),

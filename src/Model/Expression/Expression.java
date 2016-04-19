@@ -116,27 +116,29 @@ public class Expression implements Iterable<Construct>{
     }
 
     public void getConstructsDirectMatch(String testString) {
-        getConstructsDirectMatch(sequence,testString);
+        getConstructsDirectMatch(sequence,testString, 0);
     }
-    public void getConstructsDirectMatch(Sequence sequence, String text) {
+    public void getConstructsDirectMatch(Sequence sequence, String text, int corr) {
         for(Construct construct : sequence) {
-            getDMatch(construct, text);
+            if(construct.getType() != Type.COMPONENT)   getDMatch(construct, text, corr);
         }
     }
 
-    public void getDMatch(Construct construct, String test){
-
-            directMatch(construct, test);
+    public void getDMatch(Construct construct, String test, int corr){
+        directMatch(construct, test, corr);
+        System.out.println(construct.getCurrentMatch().toString());
         try {
-            if (Construct.isComposed(construct)) {
-                getConstructsDirectMatch((Sequence) construct, construct.getCurrentMatch().getFragment());
+            if (Construct.isComposed(construct) && construct.getType() != Type.CHAR_CLASS) {
+                getConstructsDirectMatch((Sequence) construct, construct.getCurrentMatch().getFragment(), construct.getCurrentMatchStart());
             } else if (construct instanceof Quantifier) {
+
                 Construct interior = ((Quantifier) construct).getConstruct();
-                System.out.println(interior);
-                getCMatch(interior, construct.getCurrentMatch().getFragment());
+                getCMatch(interior, construct.getCurrentMatch().getFragment(),construct.getCurrentMatchStart());
                 if (Construct.isComposed(interior)) {
-                    getDMatch(interior, interior.getCurrentMatch().getFragment());
+                    getDMatch(interior, interior.getCurrentMatch().getFragment(),construct.getCurrentMatchStart());
                 }
+            } else if (construct.getType() == Type.CHAR_CLASS) {
+                new InClassMatching().setSequence((Sequence)construct,construct.getCurrentMatch().getFragment());
             }
         }catch (NullPointerException e) {
             e.printStackTrace();
@@ -144,38 +146,40 @@ public class Expression implements Iterable<Construct>{
         }
     }
 
-    public void getCMatch(Construct construct, String test) {
+    public void getCMatch(Construct construct, String test, int correction) {
         Matcher matcher;
-        int i = 0;
         System.out.println("!!!" + test);
         try {
-            matcher = Pattern.compile(construct.toString()).matcher(test.substring(i));
+            matcher = Pattern.compile(construct.toString()).matcher(test);
             if(matcher.lookingAt()) {
                 System.out.println(matcher.group() + "," + matcher.start() + "," + matcher.end() + "," + matcher.pattern());
-                construct.setCurrentMatch(new Fragment(matcher.start(),matcher.end(),matcher.group()));
+                construct.setCurrentMatch(new Fragment(correction+matcher.start(),correction+matcher.end(),matcher.group()));
             }
         } catch (PatternSyntaxException e) {
             e.printStackTrace();
+            System.out.println("CM null");
         }
     }
 
 
 
     public String getAsSeparateGroup(Construct construct, String groupName) {
-        String begin = pattern.substring(sequence.getStart(),construct.getStart());
-        String mid = pattern.substring(construct.getStart(),construct.getEnd());
-        String finish = pattern.substring(construct.getEnd());
+        Construct parent = construct.getParent();
+        String regex = construct.getParent().toString();
+        String begin = regex.substring(sequence.getStart(),construct.getStart()-parent.getStart());
+        String mid = regex.substring(construct.getStart()-parent.getStart(),construct.getEnd()-parent.getStart());
+        String finish = regex.substring(construct.getEnd()-parent.getStart());
         String result = begin + "(?<" + groupName + ">" + mid + ")" + finish;
         System.out.println(result);
         return result;
     }
-
-    public void directMatch(Construct construct, String match) {
+           //TODO   WYMIESZANIE START POITÓW
+    public void directMatch(Construct construct, String match, int correct) {
         try {
             Matcher matcher = Pattern.compile(getAsSeparateGroup(construct,"test")).matcher(match);
 
             if (matcher.find()) {
-                construct.setCurrentMatch(new Fragment(matcher.start("test"), matcher.end("test"),matcher.group()));
+                construct.setCurrentMatch(new Fragment(correct+matcher.start("test"), correct+matcher.end("test"),matcher.group("test")));
             } else {
                 construct.setCurrentMatch(new Fragment(0, 0,""));
             }
@@ -184,4 +188,6 @@ public class Expression implements Iterable<Construct>{
         }
 
     }
+
+
 }

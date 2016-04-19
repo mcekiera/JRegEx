@@ -50,6 +50,7 @@ public class Matching {
     private void getMatches() {
         try {
             if (global) {
+                System.out.println(matcher.pattern() + " <>");
                 while (matcher.find()) {
                     findMatches();
                 }

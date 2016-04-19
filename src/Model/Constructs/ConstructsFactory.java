@@ -5,6 +5,11 @@ import Lib.MatcherLib;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+/**
+ * Factory class which creates the specific Construct (and its subclasses) object with given data. It creates
+ * Constructs, Error, Quantifier and Sequence objects, further diversified with Type enum parameter.
+ */
 public class ConstructsFactory {
     private static final ConstructsFactory INSTANCE = new ConstructsFactory();
     private final MatcherLib lib = MatcherLib.getInstance();

@@ -44,6 +44,7 @@ public class SequenceBuilder {
                         container.addConstruct(construct);
                     } else {
                         ((Quantifier)construct).setConstruct(previous);
+                        previous.setParent(construct);
                         container.removeLastAdded();
                         container.addConstruct(construct);
                     }

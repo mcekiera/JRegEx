@@ -6,4 +6,9 @@ public class Error extends Construct{
         super(type, pattern, start, end);
         System.out.println(type);
     }
+
+    @Override
+    public boolean isError() {
+        return true;
+    }
 }

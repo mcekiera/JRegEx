@@ -45,7 +45,7 @@ public class InClassMatching {
             matcher.region(sequence.getCurrentMatchStart(),sequence.getCurrentMatchEnd());
             while (matcher.find()) {
                 interiorMatch.get(construct).add(new Fragment(matcher.start(), matcher.end(),matcher.group()));
-                System.out.println(matched + " - " + matcher.start() + "," + matcher.end());
+                System.out.println(matched + " - " + matcher.start() + "," + matcher.end() + "hohoho");
             }
 
         }

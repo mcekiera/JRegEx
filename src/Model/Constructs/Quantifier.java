@@ -18,4 +18,9 @@ public class Quantifier  extends Construct{
     public int getStart() {
         return construct.getStart();
     }
+
+    @Override
+    public boolean isQuantifier() {
+        return true;
+    }
 }

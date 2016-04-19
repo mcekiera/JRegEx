@@ -4,7 +4,7 @@ import Model.Matching.Fragment;
 
 public class Construct {
     private Type type;
-    private Sequence parent;
+    private Construct parent;
     private String pattern;
     private Fragment inPattern;
     private Fragment inText;
@@ -19,11 +19,11 @@ public class Construct {
         return type;
     }
 
-    public void setParent(Sequence construct) {
+    public void setParent(Construct construct) {
         this.parent = construct;
     }
 
-    public Sequence getParent() {
+    public Construct getParent() {
         return parent;
     }
 
@@ -58,11 +58,11 @@ public class Construct {
     }
 
     public int getCurrentMatchStart() {
-        return inText.getStart();
+        return  inText.getStart();
     }
 
     public int getCurrentMatchEnd() {
-        return inText.getEnd();
+        return   inText.getEnd();
     }
 
     @Override
@@ -74,12 +74,21 @@ public class Construct {
     }
 
     public static boolean isComposed(Construct construct) {
-        return construct.getType() == Type.LOOK_AROUND ||
-                construct.getType() == Type.ATOMIC ||
-                construct.getType() == Type.CAPTURING ||
-                construct.getType() == Type.NON_CAPTURING ||
-                construct.getType() == Type.CHAR_CLASS;
+        return construct instanceof Sequence;
     }
+
+    public boolean isSequence() {
+        return false;
+    }
+
+    public boolean isQuantifier() {
+        return false;
+    }
+
+    public boolean isError() {
+        return false;
+    }
+
 
 
 }

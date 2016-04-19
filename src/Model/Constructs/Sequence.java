@@ -75,4 +75,9 @@ public class Sequence extends Construct implements Iterable<Construct>{
     public Iterator<Construct> iterator() {
         return elements.listIterator();
     }
+
+    @Override
+    public boolean isSequence() {
+        return true;
+    }
 }
