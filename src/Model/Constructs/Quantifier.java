@@ -5,7 +5,6 @@ public class Quantifier  extends Construct{
 
     public Quantifier(Type type, String pattern, int start, int end) {
         super(type,pattern,start,end);
-        System.out.println(type + "," + pattern + "," + start + "," + end);
     }
 
     public void setConstruct(Construct construct) {
@@ -16,17 +15,17 @@ public class Quantifier  extends Construct{
 
     @Override
     public String getPattern() {
-        return pattern;
+        return super.getPattern();
     }
 
     @Override
     public String toString() {
-        return asString;
+        return super.toString();
     }
 
     @Override
     public int size() {
-        return asString.length();
+        return toString().length();
     }
 
     @Override

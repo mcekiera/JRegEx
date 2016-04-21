@@ -19,14 +19,19 @@ public class Sequence extends Construct implements Iterable<Construct>{
         if(type != Type.EXPRESSION) crateComponents();
     }
 
+    @Override
+    public int size() {
+        return 0;
+    }
+
     public void crateComponents() {
-        Matcher matcher = Pattern.compile("\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?|\\[").matcher(asString);
+        Matcher matcher = Pattern.compile("\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?|\\[").matcher(toString());
         if(matcher.find()) {
             int i = matcher.end();
             intStart = getStart() + i;
             intEnd = getEnd() - 1;
-            this.elements.add(new Construct(Type.COMPONENT, pattern, getStart(), getStart() + i));
-            this.elements.add(new Construct(Type.COMPONENT, pattern, getEnd() - 1, getEnd()));
+            this.elements.add(new Singular(Type.COMPONENT, getPattern(), getStart(), getStart() + i));
+            this.elements.add(new Singular(Type.COMPONENT, getPattern(), getEnd() - 1, getEnd()));
             elements.get(0).setParent(this);
             elements.get(1).setParent(this);
         }
@@ -69,11 +74,6 @@ public class Sequence extends Construct implements Iterable<Construct>{
 
     public void removeLastAdded() {
         elements.remove(getInsertionIndex()-1);
-    }
-
-    @Override
-    public String toString() {
-        return asString;
     }
 
     @Override

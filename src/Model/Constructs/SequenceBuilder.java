@@ -39,7 +39,7 @@ public class SequenceBuilder {
 
                 if(isValidQuantifier(construct, previous)) {
                     if(previous == null || previous.getType() == Type.QUANTIFIER || previous.getType() == Type.INTERVAL) {
-                        ((Quantifier)construct).setConstruct(new Construct(Type.SIMPLE,container.getPattern(),i,i));
+                        ((Quantifier)construct).setConstruct(new Singular(Type.SIMPLE, container.getPattern(), i, i));
                         container.addConstruct(construct);
                     } else {
                         ((Quantifier)construct).setConstruct(previous);
@@ -54,6 +54,7 @@ public class SequenceBuilder {
                 container.addConstruct(construct);
             }
             i += construct.size() == 0 ? 1 : construct.size();
+            construct.setParent(container);
             previous = construct;
         }
 

@@ -4,7 +4,7 @@ import Model.Constructs.Construct;
 import Model.Constructs.Sequence;
 import Model.Constructs.SequenceBuilder;
 import Model.Constructs.Type;
-import Model.Matching.DirectMatch;
+//import Model.Matching.DirectMatch;
 import Model.Matching.InClassMatching;
 import Model.Matching.Matched;
 import Model.Matching.Matching;
@@ -77,7 +77,7 @@ public class Expression implements Iterable<Construct>{
     }
 
     public void getSeparateConstructsMatches(String matched, Sequence sequence) {
-           new DirectMatch(sequence,matched);
+           //new DirectMatch(sequence,matched);
     }
 
     public void setGlobalMode(boolean mode) {

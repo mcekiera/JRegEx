@@ -1,37 +1,35 @@
 package Model.Constructs;
 
-import Model.Matching.Matched;
+public abstract class Construct {
+    private final Type type;
+    private Construct parent;
+    private final String pattern;
+    private final String asString;
+    private final int start;
+    private final int end;
 
-public class Construct {
-    private Type type;
-    protected Sequence parent;
-    protected String pattern;
-    protected String asString;
-    protected int start;
-    protected int end;
-    protected Matched current;
-
-    public Construct(Type type, String pattern,int start, int end) {
-        this.pattern = pattern;
+    public Construct(Type type, String pattern, int start, int end){
+        //this.parent = parent;
         this.start = start;
         this.end = end;
         this.type = type;
+        this.pattern = pattern;
         asString = pattern.substring(start,end);
-        current = new Matched(0,0,"");
+        System.out.println("Constructor: " + type + "," + pattern + "," + start + "," + end);
     }
 
     public Type getType() {
         return type;
     }
 
-    public void setParent(Sequence construct) {
-        this.parent = construct;
-    }
-
-    public Sequence getParent() {
+    public Construct getParent() {
         return parent;
     }
 
+    public void setParent(Construct construct) {
+        System.out.println("setParent: " + construct.getType());
+        this.parent = construct;
+    }
     public int size() {
         return asString.length();
     }
@@ -39,7 +37,6 @@ public class Construct {
     public int getStart() {
         return start;
     }
-
     public int getEnd() {
         return end;
     }
@@ -53,39 +50,19 @@ public class Construct {
         return asString;
     }
 
-
-
-    public Matched getCurrentMatch() {
-        return current;
-    }
-
-    public void setCurrentMatch(Matched matched) {
-        this.current = matched;
-    }
-
-    public int getCurrentMatchStart() {
-        return current.getStart();
-    }
-
-    public int getCurrentMatchEnd() {
-        return current.getEnd();
-    }
-
     @Override
     public boolean equals(Object object) {
-        Construct c = (Construct)object;
+        Singular c = (Singular)object;
         return this.getType() == c.getType() && this.getPattern() == c.getPattern()
                 && this.getStart() == c.getStart() && this.getEnd() == c.getEnd();
 
     }
 
-    public static boolean isComposed(Construct construct) {
-        return construct.getType() == Type.LOOK_AROUND ||
-                construct.getType() == Type.ATOMIC ||
-                construct.getType() == Type.CAPTURING ||
-                construct.getType() == Type.NON_CAPTURING ||
-                construct.getType() == Type.CHAR_CLASS;
+    public static boolean isComposed(Construct singular) {
+        return singular.getType() == Type.LOOK_AROUND ||
+                singular.getType() == Type.ATOMIC ||
+                singular.getType() == Type.CAPTURING ||
+                singular.getType() == Type.NON_CAPTURING ||
+                singular.getType() == Type.CHAR_CLASS;
     }
 }
-
-

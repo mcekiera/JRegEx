@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Constructs.Construct;
-import Model.Constructs.Quantifier;
-import Model.Constructs.Sequence;
-import Model.Constructs.Type;
+import Model.Constructs.*;
 import Model.Expression.Expression;
 import Model.Matching.InClassMatching;
 import Model.Matching.Matched;
@@ -53,19 +50,19 @@ public class Main implements Observer {
     }
 
     private void highlightPattern(Sequence sequence) {
-        for(Construct construct : sequence) {
-            if(Construct.isComposed(construct)) {
+        for(Construct singular : sequence) {
+            if(Construct.isComposed(singular)) {
                 level++;
-                highlightPattern((Sequence) construct);
-            } else if (construct.getType() == Type.QUANTIFIER || construct.getType() == Type.INTERVAL) {
-                if(Construct.isComposed(((Quantifier) construct).getConstruct())){
-                    highlightPattern((Sequence)((Quantifier) construct).getConstruct());
+                highlightPattern((Sequence) singular);
+            } else if (singular.getType() == Type.QUANTIFIER || singular.getType() == Type.INTERVAL) {
+                if(Construct.isComposed(((Quantifier) singular).getConstruct())){
+                    highlightPattern((Sequence)((Quantifier) singular).getConstruct());
                 } else {
-                    highlightByType(((Quantifier) construct).getConstruct());
-                    highlightByType(construct);
+                    highlightByType(((Quantifier) singular).getConstruct());
+                    highlightByType(singular);
                 }
             } else {
-                 highlightByType(construct);
+                 highlightByType(singular);
             }
         }
         if (level > 0) level--;
@@ -75,6 +72,8 @@ public class Main implements Observer {
         Highlighter h = ui.getInputHighlighter();
         DefaultHighlighter.DefaultHighlightPainter painter;
         switch (construct.getType()) {
+            case EXPRESSION:
+                break;
             case ERROR:
             case INCOMPLETE:
             case UNBALANCED:
@@ -119,6 +118,8 @@ public class Main implements Observer {
                     highlightType(construct, painter);
                 }
             default:
+                System.out.println(construct.getType());
+                System.out.println(construct.getParent().toString());
                 if(construct.getParent().getType() == Type.CHAR_CLASS) {
                     painter = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
                     highlightType(construct, painter);
@@ -184,13 +185,13 @@ public class Main implements Observer {
     }
 
     private void highlightAnalysis(Sequence sequence) {
-        for(Construct construct : sequence) {
-            if(Construct.isComposed(construct)) {
-                inComposedCase(construct);
-            }else if(construct.getType() == Type.QUANTIFIER) {
-                inQuantifierCase(construct);
+        for(Construct c : sequence) {
+            if(Singular.isComposed(c)) {
+                inComposedCase(c);
+            }else if(c.getType() == Type.QUANTIFIER) {
+                inQuantifierCase(c);
             }else{
-                inCommonCase(construct);
+                inCommonCase(c);
             }
         }
         decrementLevel();
@@ -204,51 +205,51 @@ public class Main implements Observer {
         if(level>0) level--;
     }
 
-    public void inCommonCase(Construct construct){
-        if(construct.getType() == Type.COMPONENT) {
-            inComponentCase(construct);
+    public void inCommonCase(Construct singular){
+        if(singular.getType() == Type.COMPONENT) {
+            inComponentCase(singular);
         }else {
-            inSimpleCase(construct);
+            inSimpleCase(singular);
         }
     }
 
-    private void inComponentCase(Construct construct) {
+    private void inComponentCase(Construct singular) {
         DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(palette.getInputColor(level));
         try {
-            ui.getUpperHighlighter().addHighlight(construct.getStart(),construct.getEnd(),p);
+            ui.getUpperHighlighter().addHighlight(singular.getStart(), singular.getEnd(),p);
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
     }
 
-    private void inComposedCase(Construct construct) {
-        if(construct.getType() == Type.CHAR_CLASS) {
-            inCharacterClassCase(construct);
+    private void inComposedCase(Construct singular) {
+        if(singular.getType() == Type.CHAR_CLASS) {
+            inCharacterClassCase(singular);
         } else {
             incrementLevel();
-            highlightAnalysis((Sequence) construct);
+            highlightAnalysis((Sequence) singular);
         }
     }
 
-    private void inSimpleCase(Construct construct) {
+    private void inSimpleCase(Construct singular) {
         Color color = getRandomColor();
         DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(color);
         try {
-            ui.getLowerHighlighter().addHighlight(construct.getCurrentMatchStart(), construct.getCurrentMatchEnd(), p);
-            ui.getUpperHighlighter().addHighlight(construct.getStart(), construct.getEnd(), p);
+            //ui.getLowerHighlighter().addHighlight(singular.getCurrentMatchStart(), singular.getCurrentMatchEnd(), p);
+            ui.getUpperHighlighter().addHighlight(singular.getStart(), singular.getEnd(), p);
         }catch (BadLocationException e) {
             try {
-                ui.getUpperHighlighter().addHighlight(construct.getStart(), construct.getEnd(), new DefaultHighlighter.DefaultHighlightPainter(Color.GRAY));
+                ui.getUpperHighlighter().addHighlight(singular.getStart(), singular.getEnd(), new DefaultHighlighter.DefaultHighlightPainter(Color.GRAY));
             } catch (BadLocationException e1) {
                 e1.printStackTrace();
             }
         }
     }
 
-    private void inCharacterClassCase(Construct construct) {
-        if(classMatching.setSequence((Sequence)construct,
+    private void inCharacterClassCase(Construct singular) {
+        if(classMatching.setSequence((Sequence) singular,
                 expression.getSelectedMatch())) {
-            for(Construct interior : (Sequence)construct) {
+            for(Construct interior : (Sequence) singular) {
                 Color color = getRandomColor();
                 DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(color);
                 try {
@@ -266,7 +267,7 @@ public class Main implements Observer {
             }
             DefaultHighlighter.DefaultHighlightPainter r = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
             // try {
-            //ui.getUpperHighlighter().addHighlight(construct.getStart(),construct.getEnd(),r);
+            //ui.getUpperHighlighter().addHighlight(singular.getStart(),singular.getEnd(),r);
             // } catch (BadLocationException e) {
             //     e.printStackTrace();
             // }
@@ -274,14 +275,14 @@ public class Main implements Observer {
         }
     }
 
-    private void inQuantifierCase(Construct construct) {
-        Construct interior = ((Quantifier)construct).getConstruct();
-        if(Construct.isComposed(interior)) {
+    private void inQuantifierCase(Construct singular) {
+        Construct interior = ((Quantifier) singular).getConstruct();
+        if(Singular.isComposed(interior)) {
             highlightAnalysis((Sequence)interior);
         } else {
             inCommonCase(interior);
         }
-        inSimpleCase(construct);
+        inSimpleCase(singular);
 
     }
 
