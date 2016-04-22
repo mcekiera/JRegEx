@@ -1,4 +1,4 @@
-package Controller;
+/**package Controller;
 
 import Model.Constructs.*;
 import Model.Expression.Expression;
@@ -173,7 +173,7 @@ public class Main implements Observer {
     public void displayMatchingAnalysis(Matched selected) {
         if(!isSameData()) {
             expression.getSeparateConstructsMatches(selected);
-            ui.setUpperText(expression.getPattern());
+            ui.setUpperText(expression.getContent());
             ui.setLowerText(expression.getSelectedMatch());
             highlightAnalysis(expression.getSequence());
             ui.refresh();
@@ -181,7 +181,7 @@ public class Main implements Observer {
     }
 
     public boolean isSameData() {
-        return ui.getUpperText().equals(expression.getPattern()) && ui.getLowerText().equals(expression.getSelectedMatch()) ;
+        return ui.getUpperText().equals(expression.getContent()) && ui.getLowerText().equals(expression.getSelectedMatch()) ;
     }
 
     private void highlightAnalysis(Sequence sequence) {
@@ -315,6 +315,6 @@ public class Main implements Observer {
         }
     }
 
-}
+}      */
 
 

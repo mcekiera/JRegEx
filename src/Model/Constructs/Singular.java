@@ -10,11 +10,6 @@ public class Singular extends Construct{
         current = new Matched(0,0,"");
     }
 
-    @Override
-    public Matched matchDirectly(String match) {
-        return null;
-    }
-
 }
 
 

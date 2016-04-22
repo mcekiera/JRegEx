@@ -17,9 +17,4 @@ public class Error extends Construct{
     @Override
     public void addMatched(Matched matched) {
     }
-
-    @Override
-    public void matchDirectly(String match) {
-
-    }
 }
