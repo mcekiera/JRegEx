@@ -235,7 +235,7 @@ public class Main implements Observer {
         Color color = getRandomColor();
         DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(color);
         try {
-            //ui.getLowerHighlighter().addHighlight(singular.getCurrentMatchStart(), singular.getCurrentMatchEnd(), p);
+            ui.getLowerHighlighter().addHighlight(((Singular)singular).getCurrentMatchStart(),((Singular)singular).getCurrentMatchEnd(), p);
             ui.getUpperHighlighter().addHighlight(singular.getStart(), singular.getEnd(), p);
         }catch (BadLocationException e) {
             try {
@@ -266,11 +266,11 @@ public class Main implements Observer {
                 }
             }
             DefaultHighlighter.DefaultHighlightPainter r = new DefaultHighlighter.DefaultHighlightPainter(HLColor.getColor(HLColor.CLASS));
-            // try {
-            //ui.getUpperHighlighter().addHighlight(singular.getStart(),singular.getEnd(),r);
-            // } catch (BadLocationException e) {
-            //     e.printStackTrace();
-            // }
+            try {
+            ui.getUpperHighlighter().addHighlight(singular.getStart(),singular.getEnd(),r);
+             } catch (BadLocationException e) {
+                 e.printStackTrace();
+             }
 
         }
     }

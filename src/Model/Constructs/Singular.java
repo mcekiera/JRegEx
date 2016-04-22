@@ -10,21 +10,11 @@ public class Singular extends Construct{
         current = new Matched(0,0,"");
     }
 
-    public Matched getCurrentMatch() {
-        return current;
+    @Override
+    public Matched matchDirectly(String match) {
+        return null;
     }
 
-    public void setCurrentMatch(Matched matched) {
-        this.current = matched;
-    }
-
-    public int getCurrentMatchStart() {
-        return current.getStart();
-    }
-
-    public int getCurrentMatchEnd() {
-        return current.getEnd();
-    }
 }
 
 

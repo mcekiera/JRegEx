@@ -1,4 +1,4 @@
-/**package Model.Matching;
+/**package Model.GlobalMatching;
 
 import Model.Constructs.Construct;
 import Model.Constructs.Quantifier;
@@ -38,7 +38,7 @@ public class DirectMatch {
         } else if(isGroup(construct)) {
             process((Sequence) construct, construct.getCurrentMatch().toString());
         } else if(isQuantifier(construct)) {
-            System.out.println("isQuantifire");
+            System.out.println("isQuantifier");
             matchInQuantifier(construct,((Quantifier) construct).getConstruct());
         } else {
             directMatch(construct);

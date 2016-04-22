@@ -110,3 +110,5 @@ public class SequenceBuilder {
         return new ArrayList<String>(groups.keySet());
     }
 }
+
+//TODO - characterClass class for using in method as parameter

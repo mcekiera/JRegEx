@@ -1,5 +1,7 @@
 package Model.Constructs;
 
+import Model.Matching.Matched;
+
 public class Quantifier  extends Construct{
     private Construct construct;
 
@@ -7,29 +9,14 @@ public class Quantifier  extends Construct{
         super(type,pattern,start,end);
     }
 
+    @Override
+    public Matched matchDirectly(String match) {
+        return null;
+    }
+
     public void setConstruct(Construct construct) {
         this.construct = construct;
     }
 
     public Construct getConstruct() {return construct;}
-
-    @Override
-    public String getPattern() {
-        return super.getPattern();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
-    @Override
-    public int size() {
-        return toString().length();
-    }
-
-    @Override
-    public int getStart() {
-        return construct.getStart();
-    }
 }

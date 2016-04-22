@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Matching {
+public class GlobalMatching {
     private String pattern;
     private Matcher matcher;
     private String testString;
@@ -15,7 +15,7 @@ public class Matching {
 
     private Map<Integer,List<Matched>> groupsMatch;
 
-    public Matching(String pattern, String text) {
+    public GlobalMatching(String pattern, String text) {
         this.pattern = pattern;
         this.testString = text;
         groupsMatch = new HashMap<>();

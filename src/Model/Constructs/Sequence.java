@@ -19,11 +19,6 @@ public class Sequence extends Construct implements Iterable<Construct>{
         if(type != Type.EXPRESSION) crateComponents();
     }
 
-    @Override
-    public int size() {
-        return 0;
-    }
-
     public void crateComponents() {
         Matcher matcher = Pattern.compile("\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?|\\[").matcher(toString());
         if(matcher.find()) {

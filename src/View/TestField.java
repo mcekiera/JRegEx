@@ -2,8 +2,8 @@ package View;
 
 import Model.Constructs.*;
 import Model.Expression.Expression;
+import Model.Matching.GlobalMatching;
 import Model.Matching.Matched;
-import Model.Matching.Matching;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -53,7 +53,7 @@ public class TestField {
         String pattern = field.getText();
         Sequence ex = SequenceBuilder.getInstance().toComposition(pattern, Type.EXPRESSION);
         dodo(ex);
-        Matching m = new Matching(pattern,area.getText());
+        GlobalMatching m = new GlobalMatching(pattern,area.getText());
         for(int i = m.groupCount(); i >=0; i--) {
             for (Matched n : m.getMatches(i)) {
 

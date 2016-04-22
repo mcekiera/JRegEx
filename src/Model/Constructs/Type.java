@@ -33,5 +33,23 @@ public enum Type {
 
     Type() {
     }
+
+    public boolean isQuantifier() {
+        return this == QUANTIFIER || this == INTERVAL;
+    }
+
+    public boolean isError() {
+        return this == INVALID_RANGE || this == INVALID_BACKREFERENCE || this == INVALID_INTERVAL ||
+                this == INCOMPLETE || this == UNBALANCED || this == ERROR;
+    }
+
+    public boolean isSequence() {
+        return this == CHAR_CLASS || this == CAPTURING || this == NON_CAPTURING || this == ATOMIC ||
+                this == LOOK_AROUND || this == GROUP;
+    }
+
+    public boolean isSingular() {
+        return (!(isError() || isQuantifier() || isSequence()));
+    }
 }
 

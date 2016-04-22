@@ -4,10 +4,10 @@ import Model.Constructs.Construct;
 import Model.Constructs.Sequence;
 import Model.Constructs.SequenceBuilder;
 import Model.Constructs.Type;
-//import Model.Matching.DirectMatch;
+//import Model.GlobalMatching.DirectMatch;
+import Model.Matching.GlobalMatching;
 import Model.Matching.InClassMatching;
 import Model.Matching.Matched;
-import Model.Matching.Matching;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,7 +18,7 @@ import java.util.regex.PatternSyntaxException;
 public class Expression implements Iterable<Construct>{
     private String pattern;
     private Sequence sequence;
-    private Matching matching;
+    private GlobalMatching globalMatching;
     private InClassMatching classMatching;
     private String selectedMatch = "";
 
@@ -33,7 +33,7 @@ public class Expression implements Iterable<Construct>{
         try {
             this.pattern = pattern;
             this.sequence = cBuilder.toComposition(pattern, Type.EXPRESSION);
-            this.matching = new Matching(pattern, testString);
+            this.globalMatching = new GlobalMatching(pattern, testString);
             this.groups = cBuilder.getGroups();
             this.groupsNames = new ArrayList<>(groups.keySet());
             return true;
@@ -56,7 +56,7 @@ public class Expression implements Iterable<Construct>{
     }
 
     public List<Matched> getMatch(int group) {
-        return matching.getMatches(group);
+        return globalMatching.getMatches(group);
     }
 
     public String getGroupID(int group) {
@@ -64,7 +64,7 @@ public class Expression implements Iterable<Construct>{
     }
 
     public int groupCount() {
-        return matching.groupCount();
+        return globalMatching.groupCount();
     }
 
     public void getSeparateConstructsMatches(String matched) {
@@ -72,7 +72,7 @@ public class Expression implements Iterable<Construct>{
     }
 
     public void getSeparateConstructsMatches(Matched matched) {
-        String m = matching.getTestString().substring(matched.getStart(),matched.getEnd());
+        String m = globalMatching.getTestString().substring(matched.getStart(),matched.getEnd());
         getSeparateConstructsMatches(m, sequence);
     }
 
@@ -81,15 +81,15 @@ public class Expression implements Iterable<Construct>{
     }
 
     public void setGlobalMode(boolean mode) {
-        matching.setGlobalMode(mode);
+        globalMatching.setGlobalMode(mode);
     }
 
     /** throws null if didn't find any */
     public Matched getMatchByIndex(int index) {
         try {
-            if (matching.getMatchByIndex(index) != null) {
-                Matched selected = matching.getMatchByIndex(index);
-                selectedMatch = matching.getTestString().substring(selected.getStart(), selected.getEnd());
+            if (globalMatching.getMatchByIndex(index) != null) {
+                Matched selected = globalMatching.getMatchByIndex(index);
+                selectedMatch = globalMatching.getTestString().substring(selected.getStart(), selected.getEnd());
                 return selected;
             }
             return null;
