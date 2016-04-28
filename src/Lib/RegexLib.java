@@ -15,7 +15,7 @@ public class RegexLib {
         lib.put(BOUNDARY, "\\\\[bBAGZz]|[\\^\\$]");
         lib.put(CHAR_CLASS, "\\[");
         lib.put(MODE, "\\(\\?[imdsuxU]+-?([imdsuxU]+)?\\)");
-        lib.put(LOGICAL, "\\|");
+        lib.put(COMPONENT, "\\||\\)");
         lib.put(PREDEFINED, "\\\\[dDsSwWpP](\\{[^}]*\\}?+)?+|\\.");
         lib.put(QUANTIFIER, "([?*+][?+]?)");
         lib.put(INTERVAL, "\\{\\d+(,(\\d+)?)?\\}[+?]?");

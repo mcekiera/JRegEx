@@ -21,6 +21,11 @@ public class Quantifier extends Construct implements Complex, Iterable<Construct
     }
 
     @Override
+    public int getStart() {
+        return elements.get(0).getStart();
+    }
+
+    @Override
     public boolean isComplex() {
         return true;
     }

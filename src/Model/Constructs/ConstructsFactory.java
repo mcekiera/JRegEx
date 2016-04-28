@@ -20,7 +20,6 @@ public class ConstructsFactory {
         updateGroupsCount(pattern);
 
         if(regexMatch(Type.BOUNDARY,current)) {
-
             construct = new Singular(Type.BOUNDARY,pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.BOUNDARY));
         } else if(regexMatch(Type.MODE,current)) {
             construct = new Singular(Type.MODE,pattern,startIndex,startIndex+lib.getMatcher(Type.MODE ).end());

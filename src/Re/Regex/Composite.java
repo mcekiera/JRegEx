@@ -9,14 +9,12 @@ import java.util.List;
 
 public class Composite extends Construct implements Complex, Iterable<Construct> {
     private final List<Construct> elements;
+    private int insertPosition;
 
     public Composite(Construct parent, Type type, Segment segment) {
         super(parent,type,segment);
         elements = new ArrayList<>();
-    }
-
-    public void replaceElement(Construct replacing, Construct replaced) {
-        elements.set(elements.indexOf(replaced),replacing);
+        insertPosition = 0;
     }
 
     @Override
@@ -37,6 +35,12 @@ public class Composite extends Construct implements Complex, Iterable<Construct>
     @Override
     public void addConstruct(Construct construct) {
         elements.add(construct);
+    }
+
+    public void addConstruct(Quantifier construct, Construct previous) {
+        int index = elements.indexOf(previous);
+        construct.addConstruct(previous);
+        elements.set(index,construct);
     }
 
     @Override
