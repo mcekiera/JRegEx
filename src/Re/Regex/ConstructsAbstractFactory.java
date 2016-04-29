@@ -96,6 +96,8 @@ public class ConstructsAbstractFactory {
             return new Single(parent, Type.COMPONENT, new Segment(pattern, startIndex, startIndex + 1));
         } else if(isLogicalAndConstruct(pattern,startIndex)) {
             return new Single(parent, Type.COMPONENT, new Segment(pattern, startIndex, startIndex + 2));
+        } else if (isLogicalNotConstruct(pattern,startIndex)) {
+            return new Single(parent, Type.COMPONENT, new Segment(pattern, startIndex, startIndex + 1));
         } else if (regexMatch(Type.RANGE, current)) {
             return createRangeConstruct(parent,pattern,startIndex);
         } else if (regexMatch(Type.PREDEFINED, current)) {
@@ -218,6 +220,10 @@ public class ConstructsAbstractFactory {
 
     private boolean isLogicalAndConstruct(String pattern,int startIndex) {
         return pattern.substring(startIndex).startsWith("&&");
+    }
+
+    private boolean isLogicalNotConstruct(String pattern, int startIndex) {
+        return pattern.charAt(startIndex) == '^' && pattern.charAt(startIndex-1) == '[';
     }
 
     private boolean isValidBackreference(String backreference, String pattern) {

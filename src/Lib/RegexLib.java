@@ -6,6 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static Model.Constructs.Type.*;
+
+/**
+ * Provide regular expression for recognition of particular pattern elements in given String.
+ */
+
 public class RegexLib {
     private final static RegexLib INSTANCE = new RegexLib();
     private final Map<Type,String> lib;
@@ -38,10 +43,18 @@ public class RegexLib {
         return lib.get(type);
     }
 
+    /**
+     * @return only one available instance of class
+     */
     public static RegexLib getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Checks if set of regular expression contains a pattern of given type.
+     * @param type enum representing regular expression constructs types
+     * @return true if set contains pattern of given type
+     */
     public boolean contains(Type type) {
         return lib.containsKey(type);
     }

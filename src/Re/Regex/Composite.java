@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Represents divisible Construct object, that acts as container and could contain multiple other Construct objects.
+ */
+
 public class Composite extends Construct implements Complex, Iterable<Construct> {
     private final List<Construct> elements;
 
@@ -53,6 +57,21 @@ public class Composite extends Construct implements Complex, Iterable<Construct>
             }
         }
         return this;
+    }
+
+    @Override
+    public Construct getConstruct(int i) {
+        return elements.get(i);
+    }
+
+    @Override
+    public int getConstructIndex(Construct construct) {
+        return elements.indexOf(construct);
+    }
+
+    @Override
+    public int size() {
+        return elements.size();
     }
 
     public boolean equals(Composite composite) {

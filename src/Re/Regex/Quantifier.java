@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Represents single Construct object that wraps another Construct objects, multiplying its range.
+ */
+
 public class Quantifier extends Construct implements Complex, Iterable<Construct> {
     private final List<Construct> elements;
 
@@ -42,6 +46,21 @@ public class Quantifier extends Construct implements Complex, Iterable<Construct
         } else {
             return this;
         }
+    }
+
+    @Override
+    public Construct getConstruct(int i) {
+        return elements.get(i);
+    }
+
+    @Override
+    public int getConstructIndex(Construct construct) {
+        return elements.indexOf(construct);
+    }
+
+    @Override
+    public int size() {
+        return elements.size();
     }
 
     @Override
