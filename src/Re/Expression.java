@@ -9,7 +9,7 @@ public class Expression {
 
     public static void main(String[] args) {
         ConstructsAbstractFactory factory = ConstructsAbstractFactory.getInstance();
-        String pattern = "(\\d(\\s|a))[a1-9]";
+        String pattern = "(?i)(\\d(\\s|a))[a1-9&&[^jk]]";
         CompositeBuilder builder = CompositeBuilder.getInstance();
         Composite composite = builder.toComposite(pattern);
 

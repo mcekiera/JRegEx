@@ -9,11 +9,11 @@ public class Segment {
     private final int end;
     private final String content;
 
-    public Segment(String text, int start, int end, int corr) {
+    public Segment(String text, int start, int end) {
         this.start = start;
         this.end = end;
         this.content = text;
-        System.out.println(text + "," + start + "," + end +"," + corr);
+        System.out.println(text + "," + start + "," + end);
     }
 
     /**

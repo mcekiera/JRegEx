@@ -31,27 +31,27 @@ public class ConstructsAbstractFactory {
         if(isBeginningOfGroup(parent, startIndex)) {
             construct = createInGroupConstruct(parent,pattern,startIndex);
         }else if(regexMatch(Type.BOUNDARY,current)) {
-            construct = new Single(parent, Type.BOUNDARY, new Segment(pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.BOUNDARY),startIndex));
+            construct = new Single(parent, Type.BOUNDARY, new Segment(pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.BOUNDARY)));
         } else if(regexMatch(Type.MODE,current)) {
-            construct = new Single(parent, Type.MODE,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.MODE ).end(),startIndex));
+            construct = new Single(parent, Type.MODE,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.MODE ).end()));
         } else if(regexMatch(Type.CHAR_CLASS,current)) {
             construct = createCharacterClass(parent, pattern,startIndex);
         } else if(regexMatch(Type.COMPONENT,current)) {
-            construct = new Single(parent, Type.COMPONENT,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.COMPONENT).end(),startIndex));
+            construct = new Single(parent, Type.COMPONENT,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.COMPONENT).end()));
         } else if(regexMatch(Type.PREDEFINED,current)) {
             construct = createPredefined(parent,pattern,startIndex);
         }else if(regexMatch(Type.BACKREFERENCE,current)) {
             construct = createBackreference(parent, pattern,startIndex);
         } else if(regexMatch(Type.SPECIFIC_CHAR,current)) {
-            construct = new Single(parent, Type.SPECIFIC_CHAR,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.SPECIFIC_CHAR).end(),startIndex));
+            construct = new Single(parent, Type.SPECIFIC_CHAR,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.SPECIFIC_CHAR).end()));
         } else if(regexMatch(Type.QUOTATION,current)) {
             construct = createQuotation(parent,pattern,startIndex);
         } else if(regexMatch(Type.GROUP,current)) {
             construct = createGroupConstruct(parent,pattern, startIndex);
         } else if(regexMatch(Type.QUANTIFIER,current)) {
-            construct = new Quantifier(parent, Type.QUANTIFIER, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER),startIndex));
+            construct = new Quantifier(parent, Type.QUANTIFIER, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER)));
         } else if(regexMatch(Type.INTERVAL,current)) {
-            construct = new Quantifier(parent, Type.INTERVAL, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.INTERVAL),startIndex));
+            construct = createInterval(parent,pattern,startIndex);
         } else {
             construct = createSimpleConstruct(parent,pattern,startIndex);
         }
@@ -64,19 +64,19 @@ public class ConstructsAbstractFactory {
         String current = extractGroup(pattern.substring(startIndex), '(', ')');
         if(current.equals("")) {
             regexMatch(Type.UNBALANCED, pattern.substring(startIndex));
-            return new Single(parent, Type.UNBALANCED,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end(),startIndex));
+            return new Single(parent, Type.UNBALANCED,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end()));
         }
         if (regexMatch(Type.LOOK_AROUND, current)) {
-            return new Composite(parent, Type.LOOK_AROUND,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.LOOK_AROUND).end(),startIndex));
+            return new Composite(parent, Type.LOOK_AROUND,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.LOOK_AROUND).end()));
         } else if (regexMatch(Type.ATOMIC, current)) {
-            return new Composite(parent, Type.ATOMIC,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.ATOMIC).end(),startIndex));
+            return new Composite(parent, Type.ATOMIC,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.ATOMIC).end()));
         } else if (regexMatch(Type.NON_CAPTURING, current)) {
-            return new Composite(parent, Type.NON_CAPTURING,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.NON_CAPTURING).end(),startIndex));
+            return new Composite(parent, Type.NON_CAPTURING,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.NON_CAPTURING).end()));
         } else if(regexMatch(Type.CAPTURING, current)) {
-            return new Composite(parent, Type.CAPTURING,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.CAPTURING).end(),startIndex));
+            return new Composite(parent, Type.CAPTURING,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.CAPTURING).end()));
         } else {
             regexMatch(Type.UNBALANCED, pattern.substring(startIndex));
-            return new Single(parent, Type.UNBALANCED,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end(),startIndex));
+            return new Single(parent, Type.UNBALANCED,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end()));
         }
     }
 
@@ -84,37 +84,44 @@ public class ConstructsAbstractFactory {
         Matcher matcher = Pattern.compile("\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?|\\[").matcher(parent.toString());
         matcher.find();
         int i = matcher.end();
-        Segment matched = new Segment(pattern,parent.getStart() + matcher.start(),parent.getStart() + matcher.end(),startIndex);
+        Segment matched = new Segment(pattern,parent.getStart() + matcher.start(),parent.getStart() + matcher.end());
         return new Single(parent, Type.COMPONENT, matched);
     }
 
     public boolean isBeginningOfGroup(Construct parent, int index) {
         return parent.getType() != Type.EXPRESSION && parent.isComplex() && index == parent.getStart();
-
+    }
+    
+    public boolean isEndOfGroup(Construct parent, int index) {
+        return parent.getType() != Type.EXPRESSION && parent.isComplex() && index == parent.getEnd()-1;
     }
 
 
     public Construct createConstructInCharClass(Construct parent, String pattern, int startIndex) {
         String current = pattern.substring(startIndex);
-        if (regexMatch(Type.RANGE, current)) {
+        if(isBeginningOfGroup(parent, startIndex)) {
+            return createInGroupConstruct(parent, pattern, startIndex);
+        } else if(isEndOfGroup(parent, startIndex)){
+            return new Single(parent,Type.COMPONENT,new Segment(pattern,startIndex,startIndex+1));
+        } else if (regexMatch(Type.RANGE, current)) {
             return createRangeConstruct(parent,pattern,startIndex);
         } else if (regexMatch(Type.PREDEFINED, current)) {
             return createPredefined(parent,pattern,startIndex);
         } else if (regexMatch(Type.SPECIFIC_CHAR, current)) {
-            return new Single(parent, Type.SPECIFIC_CHAR, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SPECIFIC_CHAR).end(),startIndex));
+            return new Single(parent, Type.SPECIFIC_CHAR, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SPECIFIC_CHAR).end()));
         } else if (regexMatch(Type.INCOMPLETE, current)) {
-            return new Single(parent, Type.INCOMPLETE, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.INCOMPLETE).end(),startIndex));
+            return new Single(parent, Type.INCOMPLETE, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.INCOMPLETE).end()));
         } else {
             regexMatch(Type.SIMPLE, current);
-            return new Single(parent, Type.SIMPLE,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.SIMPLE).end(),startIndex));
+            return new Single(parent, Type.SIMPLE,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.SIMPLE).end()));
         }
     }
 
     private Construct createBackreference(Construct parent, String pattern, int startIndex) {
         if(isValidBackreference(lib.getMatcher(Type.BACKREFERENCE).group(), pattern)) {
-            return new Single(parent, Type.BACKREFERENCE,new Segment(pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end(),startIndex));
+            return new Single(parent, Type.BACKREFERENCE,new Segment(pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end()));
         } else {
-            return new Single(parent, Type.INVALID_BACKREFERENCE,new Segment(pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end(),startIndex));
+            return new Single(parent, Type.INVALID_BACKREFERENCE,new Segment(pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end()));
         }
     }
 
@@ -122,52 +129,51 @@ public class ConstructsAbstractFactory {
         String current = extractGroup(pattern.substring(startIndex),'[',']');
         int end = startIndex + (current.length() == 0 ? 1 : current.length());
         if(current.length()<=2) {
-            return new Single(parent, Type.INCOMPLETE,new Segment(pattern,startIndex,end,startIndex));
+            return new Single(parent, Type.INCOMPLETE,new Segment(pattern,startIndex,end));
         } else {
-            return new Composite(parent, Type.CHAR_CLASS,new Segment(pattern, startIndex, end,startIndex));
+            return new Composite(parent, Type.CHAR_CLASS,new Segment(pattern, startIndex, end));
+        }
+    }
+
+    private Construct createInterval(Construct parent, String pattern, int startIndex) {
+        if(isValidInterval(lib.getMatcher(Type.INTERVAL).group())) {
+            return new Quantifier(parent, Type.INTERVAL, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.INTERVAL)));
+        } else {
+            return new Single(parent,Type.INVALID_INTERVAL,new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.INTERVAL)));
         }
     }
 
     private Construct createQuotation(Construct parent,String pattern, int startIndex) {
 
         if(regexMatch(Type.INCOMPLETE,pattern.substring(startIndex))) {
-            return new Single(parent, Type.INCOMPLETE,new Segment(pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.INCOMPLETE),startIndex));
+            return new Single(parent, Type.INCOMPLETE,new Segment(pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.INCOMPLETE)));
         }
-        return new Single(parent, Type.QUOTATION,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.QUOTATION).end(),startIndex));
+        return new Single(parent, Type.QUOTATION,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.QUOTATION).end()));
     }
 
     private Construct createPredefined(Construct parent, String pattern, int startIndex) {
         if (lib.getMatcher(Type.PREDEFINED).group().matches("\\\\[dDsSwW]|\\\\[pP](\\{[^}]+})|\\.")) {
-            return new Single(parent, Type.PREDEFINED,new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.PREDEFINED).end(),startIndex));
+            return new Single(parent, Type.PREDEFINED,new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.PREDEFINED).end()));
         } else {
             regexMatch(Type.INCOMPLETE, pattern.substring(startIndex));
-            return new Single(parent, Type.INCOMPLETE,new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.INCOMPLETE).end(),startIndex));
+            return new Single(parent, Type.INCOMPLETE,new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.INCOMPLETE).end()));
         }
     }
 
     private Construct createSimpleConstruct(Construct parent, String pattern, int startIndex) {
         if(pattern.substring(startIndex, startIndex + 1).matches("[\\[\\(\\)]")) {
-            return new Single(parent, Type.UNBALANCED,new Segment(pattern,startIndex,startIndex+1,startIndex));
+            return new Single(parent, Type.UNBALANCED,new Segment(pattern,startIndex,startIndex+1));
         } else {
             regexMatch(Type.SIMPLE, pattern.substring(startIndex));
-            return new Single(parent, Type.SIMPLE,new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SIMPLE).end(),startIndex));
+            return new Single(parent, Type.SIMPLE,new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SIMPLE).end()));
         }
     }
 
     private Construct createRangeConstruct(Construct parent, String pattern, int startIndex) {
         if(isValidRange(lib.getMatcher(Type.RANGE).group())) {
-            return new Single(parent, Type.RANGE,new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.RANGE).end(),startIndex));
+            return new Single(parent, Type.RANGE,new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.RANGE).end()));
         } else {
-            return new Single(parent, Type.INVALID_RANGE,new Segment(pattern,startIndex,startIndex + lib.getMatcher(Type.RANGE).end(),startIndex));
-        }
-    }
-
-    private void extractComponents(Composite composite) {
-        Matcher matcher = Pattern.compile("^\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?|\\[|\\)$|\\]$").matcher(composite.toString());
-        while (matcher.find()) {
-            composite.addConstruct(new Single(composite,Type.COMPONENT,
-                    new Segment(composite.getPattern(),matcher.start() + composite.getStart(),
-                            matcher.end() + composite.getStart(),composite.getStart())));
+            return new Single(parent, Type.INVALID_RANGE,new Segment(pattern,startIndex,startIndex + lib.getMatcher(Type.RANGE).end()));
         }
     }
 

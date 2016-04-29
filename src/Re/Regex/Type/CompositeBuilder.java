@@ -17,7 +17,7 @@ public class CompositeBuilder {
     }
 
     public Composite toComposite(String pattern) {
-        Composite composite = new Composite(null, Type.EXPRESSION,new Segment(pattern,0,pattern.length(),0));
+        Composite composite = new Composite(null, Type.EXPRESSION,new Segment(pattern,0,pattern.length()));
         breakExpression(composite);
         return composite;
     }
@@ -62,14 +62,14 @@ public class CompositeBuilder {
 
     private void addEmpty(Composite container, Quantifier quantifier) {
         Construct empty = new Single(container, Type.ERROR,
-                new Segment(quantifier.getPattern(), quantifier.getStart(), quantifier.getStart(),quantifier.getStart()));
+                new Segment(quantifier.getPattern(), quantifier.getStart(), quantifier.getStart()));
         container.addConstruct(empty);                                                              //TODO: creation should be only in ConstructFactory
         container.addConstruct(quantifier, empty);
     }
 
     private void addError(Composite container, Quantifier quantifier) {
         container.addConstruct(new Single(container,Type.ERROR,
-                new Segment(quantifier.getPattern(),quantifier.getStart(),quantifier.getEnd(),quantifier.getStart())));
+                new Segment(quantifier.getPattern(),quantifier.getStart(),quantifier.getEnd())));
     }
 
     private boolean ifPreviousEmptyOrQuantifier() {
