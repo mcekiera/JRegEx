@@ -5,6 +5,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Re/Regex/Composite.java" afterPath="$PROJECT_DIR$/src/Re/Regex/Composite.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Re/Regex/Type/CompositeBuilder.java" afterPath="$PROJECT_DIR$/src/Re/Regex/Type/CompositeBuilder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Re/Regex/ConstructsAbstractFactory.java" afterPath="$PROJECT_DIR$/src/Re/Regex/ConstructsAbstractFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Re/Regex/Test/ConstructsAbstractFactoryTest.java" afterPath="$PROJECT_DIR$/src/Re/Regex/Test/ConstructsAbstractFactoryTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Re/Expression.java" afterPath="$PROJECT_DIR$/src/Re/Expression.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JRegEx.iml" afterPath="$PROJECT_DIR$/JRegEx.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Re/Segment.java" afterPath="$PROJECT_DIR$/src/Re/Segment.java" />
@@ -45,18 +46,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Expression.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Re/Expression.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Segment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Re/Segment.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -84,51 +73,39 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CompositeBuilder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Re/Regex/Type/CompositeBuilder.java">
+      <file leaf-file-name="RegexLib.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Lib/RegexLib.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="64" column="97" selection-start-line="64" selection-start-column="97" selection-end-line="64" selection-end-column="97" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <caret line="17" column="35" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConstructsAbstractFactory.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ConstructsAbstractFactory.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Re/Regex/ConstructsAbstractFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="136" column="30" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.5736677">
+              <caret line="97" column="101" selection-start-line="97" selection-start-column="101" selection-end-line="97" selection-end-column="101" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#10160#10161#0" expanded="true" />
+                <element signature="e#10230#10231#0" expanded="true" />
+                <element signature="e#10291#10292#0" expanded="true" />
+                <element signature="e#10322#10323#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConstructsAbstractFactoryTest.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ConstructsAbstractFactoryTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Re/Regex/Test/ConstructsAbstractFactoryTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="4.583072">
-              <caret line="86" column="29" selection-start-line="86" selection-start-column="5" selection-end-line="86" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Composite.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Re/Regex/Composite.java">
-          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="54" column="20" selection-start-line="54" selection-start-column="20" selection-end-line="54" selection-end-column="20" />
+              <caret line="107" column="64" selection-start-line="107" selection-start-column="64" selection-end-line="107" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#482#483#0" expanded="true" />
-                <element signature="e#528#529#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -209,9 +186,9 @@
         <option value="$PROJECT_DIR$/src/Re/Expression.java" />
         <option value="$PROJECT_DIR$/src/Re/Regex/Composite.java" />
         <option value="$PROJECT_DIR$/src/Re/Regex/ConstructsAbstractFactoryTest.java" />
-        <option value="$PROJECT_DIR$/src/Re/Regex/ConstructsAbstractFactory.java" />
         <option value="$PROJECT_DIR$/src/Re/Regex/Construct.java" />
         <option value="$PROJECT_DIR$/src/Re/Regex/Test/ConstructsAbstractFactoryTest.java" />
+        <option value="$PROJECT_DIR$/src/Re/Regex/ConstructsAbstractFactory.java" />
       </list>
     </option>
   </component>
@@ -219,7 +196,7 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-7" />
+    <option name="x" value="-2" />
     <option name="y" value="-2" />
     <option name="width" value="1374" />
     <option name="height" value="732" />
@@ -348,6 +325,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="JRegEx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="JRegEx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -399,7 +394,7 @@
       <recent name="Re.Regex" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ConstructsAbstractFactoryTest">
+  <component name="RunManager" selected="Application.Unnamed">
     <configuration default="false" name="TestField" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="View.TestField" />
@@ -555,7 +550,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-2" width="1374" height="732" extended-state="0" />
+    <frame x="-2" y="-2" width="1374" height="732" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3265306" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -564,7 +559,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2159864" sideWeight="0.5060423" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3282313" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.41326532" sideWeight="0.4939577" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.41326532" sideWeight="0.4939577" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32779455" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
@@ -936,26 +931,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Lib/RegexLib.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.371875">
-          <caret line="17" column="35" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Re/Regex/Quantifier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#547#548#0" expanded="true" />
-            <element signature="e#596#597#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/Constructs/SequenceBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -975,26 +950,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Re/Regex/Type/CompositeBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="64" column="97" selection-start-line="64" selection-start-column="97" selection-end-line="64" selection-end-column="97" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Re/Expression.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Re/Regex/Composite.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1007,10 +962,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Re/Regex/ConstructsAbstractFactory.java">
+    <entry file="file://$PROJECT_DIR$/src/Re/Regex/Type/CompositeBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="136" column="30" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
+          <caret line="64" column="97" selection-start-line="64" selection-start-column="97" selection-end-line="64" selection-end-column="97" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Re/Expression.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.36363637">
+          <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1029,12 +994,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Re/Regex/Test/ConstructsAbstractFactoryTest.java">
+    <entry file="file://$PROJECT_DIR$/src/Lib/RegexLib.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.583072">
-          <caret line="86" column="29" selection-start-line="86" selection-start-column="5" selection-end-line="86" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="35" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Re/Regex/Quantifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#547#548#0" expanded="true" />
+            <element signature="e#596#597#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Re/Regex/Test/ConstructsAbstractFactoryTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="107" column="64" selection-start-line="107" selection-start-column="64" selection-end-line="107" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Re/Regex/ConstructsAbstractFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5736677">
+          <caret line="97" column="101" selection-start-line="97" selection-start-column="101" selection-end-line="97" selection-end-column="101" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#10160#10161#0" expanded="true" />
+            <element signature="e#10230#10231#0" expanded="true" />
+            <element signature="e#10291#10292#0" expanded="true" />
+            <element signature="e#10322#10323#0" expanded="true" />
           </folding>
         </state>
       </provider>

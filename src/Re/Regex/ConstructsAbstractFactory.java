@@ -88,21 +88,14 @@ public class ConstructsAbstractFactory {
         return new Single(parent, Type.COMPONENT, matched);
     }
 
-    public boolean isBeginningOfGroup(Construct parent, int index) {
-        return parent.getType() != Type.EXPRESSION && parent.isComplex() && index == parent.getStart();
-    }
-    
-    public boolean isEndOfGroup(Construct parent, int index) {
-        return parent.getType() != Type.EXPRESSION && parent.isComplex() && index == parent.getEnd()-1;
-    }
-
-
     public Construct createConstructInCharClass(Construct parent, String pattern, int startIndex) {
         String current = pattern.substring(startIndex);
         if(isBeginningOfGroup(parent, startIndex)) {
             return createInGroupConstruct(parent, pattern, startIndex);
-        } else if(isEndOfGroup(parent, startIndex)){
-            return new Single(parent,Type.COMPONENT,new Segment(pattern,startIndex,startIndex+1));
+        } else if(isEndOfGroup(parent, startIndex)) {
+            return new Single(parent, Type.COMPONENT, new Segment(pattern, startIndex, startIndex + 1));
+        } else if(isLogicalAndConstruct(pattern,startIndex)) {
+            return new Single(parent, Type.COMPONENT, new Segment(pattern, startIndex, startIndex + 2));
         } else if (regexMatch(Type.RANGE, current)) {
             return createRangeConstruct(parent,pattern,startIndex);
         } else if (regexMatch(Type.PREDEFINED, current)) {
@@ -111,6 +104,8 @@ public class ConstructsAbstractFactory {
             return new Single(parent, Type.SPECIFIC_CHAR, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SPECIFIC_CHAR).end()));
         } else if (regexMatch(Type.INCOMPLETE, current)) {
             return new Single(parent, Type.INCOMPLETE, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.INCOMPLETE).end()));
+        } else if(regexMatch(Type.CHAR_CLASS,current)) {
+            return createCharacterClass(parent, pattern,startIndex);
         } else {
             regexMatch(Type.SIMPLE, current);
             return new Single(parent, Type.SIMPLE,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.SIMPLE).end()));
@@ -145,7 +140,7 @@ public class ConstructsAbstractFactory {
 
     private Construct createQuotation(Construct parent,String pattern, int startIndex) {
 
-        if(regexMatch(Type.INCOMPLETE,pattern.substring(startIndex))) {
+        if(regexMatch(Type.INCOMPLETE, pattern.substring(startIndex))) {
             return new Single(parent, Type.INCOMPLETE,new Segment(pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.INCOMPLETE)));
         }
         return new Single(parent, Type.QUOTATION,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.QUOTATION).end()));
@@ -207,10 +202,22 @@ public class ConstructsAbstractFactory {
         return elements[0].compareTo(elements[1])<0;
     }
 
+    public boolean isBeginningOfGroup(Construct parent, int index) {
+        return parent.getType() != Type.EXPRESSION && parent.isComplex() && index == parent.getStart();
+    }
+
+    public boolean isEndOfGroup(Construct parent, int index) {
+        return parent.getType() != Type.EXPRESSION && parent.isComplex() && index == parent.getEnd()-1;
+    }
+
     private boolean isValidInterval(String interval) {
         String temp = interval.substring(1, interval.length() - 1);
         String[] elements = temp.split(",");
         return interval.matches("\\{\\d,?\\}") || elements[0].compareTo(elements[1]) < 0;
+    }
+
+    private boolean isLogicalAndConstruct(String pattern,int startIndex) {
+        return pattern.substring(startIndex).startsWith("&&");
     }
 
     private boolean isValidBackreference(String backreference, String pattern) {
