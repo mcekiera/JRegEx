@@ -1,4 +1,4 @@
-package Model.Regex.Test;
+package Test;
 
 
 import Model.Regex.Type;

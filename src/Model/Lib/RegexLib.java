@@ -12,7 +12,13 @@ import static Model.Regex.Type.*;
  */
 
 public class RegexLib {
+    /**
+     * Single available instance of class.
+     */
     private final static RegexLib INSTANCE = new RegexLib();
+    /**
+     * Map with Type enums as kay, and String appropriate regular expression as Value.
+     */
     private final Map<Type,String> lib;
 
     private RegexLib() {
@@ -39,6 +45,11 @@ public class RegexLib {
         lib.put(INCOMPLETE, "\\\\([xcu]|p(\\{)?|k(<[^>]*)?)");
     }
 
+    /**
+     * Returns String with regex which serves to recognize given type of regular expression constructs in String.
+     * @param type of searched construct
+     * @return appropriate String with pattern.
+     */
     public String getRegEx(Type type) {
         return lib.get(type);
     }
