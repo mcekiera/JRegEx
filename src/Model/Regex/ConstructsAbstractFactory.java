@@ -26,7 +26,7 @@ public class ConstructsAbstractFactory {
         String current = pattern.substring(startIndex);
         Construct construct;
         updateGroupsCount(pattern);
-        if(isBeginningOfGroup(parent, startIndex)) {
+        if(isComponentOfGroup(parent, startIndex)) {
             construct = createInGroupConstruct(parent,pattern,startIndex);
         }else if(regexMatch(Type.BOUNDARY,current)) {
             construct = new Single(parent, Type.BOUNDARY, new Segment(pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.BOUNDARY)));
@@ -43,7 +43,7 @@ public class ConstructsAbstractFactory {
         } else if(regexMatch(Type.SPECIFIC_CHAR,current)) {
             construct = new Single(parent, Type.SPECIFIC_CHAR,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.SPECIFIC_CHAR).end()));
         } else if(regexMatch(Type.QUOTATION,current)) {
-            construct = createQuotation(parent,pattern,startIndex);
+            construct = createQuotation(parent, pattern, startIndex);
         } else if(regexMatch(Type.GROUP,current)) {
             construct = createGroupConstruct(parent,pattern, startIndex);
         } else if(regexMatch(Type.QUANTIFIER,current)) {
@@ -77,25 +77,26 @@ public class ConstructsAbstractFactory {
     }
 
     public Construct createInGroupConstruct(Construct parent, String pattern, int startIndex) {
-        Matcher matcher = Pattern.compile("\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?|\\[").matcher(parent.toString());
+        System.out.println("start index: " + startIndex + " pattern: " + pattern);
+        Matcher matcher = Pattern.compile("\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?|\\[|\\)|]").matcher(parent.getPattern().substring(startIndex));
         matcher.find();
-        int i = matcher.end();
-        Segment matched = new Segment(pattern,parent.getStart() + matcher.start(),parent.getStart() + matcher.end());
+        Segment matched = new Segment(pattern,startIndex + matcher.start(),startIndex + matcher.end());
+        System.out.println(parent.getStart() + matcher.start() + "," + (startIndex + matcher.end()));
         return new Single(parent, Type.COMPONENT, matched);
     }
 
     public Construct createConstructInCharClass(Construct parent, String pattern, int startIndex) {
         String current = pattern.substring(startIndex);
-        if(isBeginningOfGroup(parent, startIndex)) {
+        if(isComponentOfGroup(parent, startIndex)) {
             return createInGroupConstruct(parent, pattern, startIndex);
         } else if(isEndOfGroup(parent, startIndex)) {
             return new Single(parent, Type.COMPONENT, new Segment(pattern, startIndex, startIndex + 1));
-        } else if(isLogicalAndConstruct(pattern,startIndex)) {
+        } else if(isLogicalAndConstruct(pattern, startIndex)) {
             return new Single(parent, Type.COMPONENT, new Segment(pattern, startIndex, startIndex + 2));
-        } else if (isLogicalNotConstruct(pattern,startIndex)) {
+        } else if (isLogicalNotConstruct(pattern, startIndex)) {
             return new Single(parent, Type.COMPONENT, new Segment(pattern, startIndex, startIndex + 1));
         } else if (regexMatch(Type.RANGE, current)) {
-            return createRangeConstruct(parent,pattern,startIndex);
+            return createRangeConstruct(parent, pattern, startIndex);
         } else if (regexMatch(Type.PREDEFINED, current)) {
             return createPredefined(parent,pattern,startIndex);
         } else if (regexMatch(Type.SPECIFIC_CHAR, current)) {
@@ -199,8 +200,9 @@ public class ConstructsAbstractFactory {
         return elements[0].compareTo(elements[1])<0;
     }
 
-    public boolean isBeginningOfGroup(Construct parent, int index) {
-        return parent.getType() != Type.EXPRESSION && parent.isComplex() && index == parent.getStart();
+    public boolean isComponentOfGroup(Construct parent, int index) {
+        return (parent.getType() != Type.EXPRESSION && parent.isComplex() && index == parent.getStart()) ||
+                (parent.getType() != Type.EXPRESSION && parent.isComplex() && index == parent.getEnd()-1);
     }
 
     public boolean isEndOfGroup(Construct parent, int index) {

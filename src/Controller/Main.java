@@ -8,6 +8,7 @@ import View.UserInterface;
 public class Main implements Observer{
     private UserInterface anInterface;
     InputHighlightManager inputHighlightManager;
+    MatchingHighlightManager matchingHighlightManager;
     private Expression expression;
 
     public Main() {
@@ -19,6 +20,7 @@ public class Main implements Observer{
         anInterface.addObserver(this);
         expression = new Expression();
         inputHighlightManager = new InputHighlightManager(anInterface.getInputHighlighter());
+        matchingHighlightManager = new MatchingHighlightManager(anInterface.getMatchingHighlighter());
     }
 
     public static void main(String[] args) {
@@ -29,6 +31,7 @@ public class Main implements Observer{
     public void update(Observed source) {
         expression.set(anInterface.getInputText(),anInterface.getMatchingText());
         inputHighlightManager.process(expression.getRoot());
+        if(expression.isValid()) matchingHighlightManager.process(expression.getOverallMatch());
     }
 }
 

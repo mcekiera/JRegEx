@@ -28,6 +28,14 @@ public class Overall {
         return groups;
     }
 
+    public int groupCount() {
+        return matcher.groupCount();
+    }
+
+    public List<Segment> getMatch(int group) {
+        return matchMap().get(group);
+    }
+
     private void init() {
         groups = new HashMap<>();
         prepareMap();

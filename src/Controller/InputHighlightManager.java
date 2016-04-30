@@ -34,7 +34,7 @@ public class InputHighlightManager{
     private void highlight(Composite composite) {
         for(Construct construct : composite) {
             painter = getColorByType(construct.getType());
-            if(painter!=null) {
+            if(painter!=null && !construct.isComplex()) {
                 System.out.println("INSIDE: " + composite.toString());
                 try {
                     highlighter.addHighlight(construct.getStart(),construct.getEnd(),painter);
@@ -68,7 +68,8 @@ public class InputHighlightManager{
             case BOUNDARY:
                 return painters.get(InputColor.PREDEFINED);
             case COMPONENT:
-                return groupPainters.get(level);
+                int c = level > 12 ? level%12 : level;
+                if(c != 0) return groupPainters.get(c);
             default:
                 return null;
 

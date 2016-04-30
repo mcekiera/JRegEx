@@ -28,7 +28,7 @@ public abstract class Construct {
         this.textual = segment;
         this.type = type;
         this.parent = parent;
-        //System.out.println(getType() + "," + getStart() + "," + getEnd() + "," + toString());
+        System.out.println(getType() + "," + getStart() + "," + getEnd() + "," + toString());
     }
 
     /**

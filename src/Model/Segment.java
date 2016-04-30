@@ -14,7 +14,7 @@ public class Segment {
      */
     private final int end;
     /**
-     * String with text form of captured fragment.
+     * String with text form of text from which segment is taken.
      */
     private final String content;
 

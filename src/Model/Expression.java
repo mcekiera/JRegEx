@@ -29,6 +29,14 @@ public class Expression {
         }
     }
 
+    public Overall getOverallMatch() {
+        return overallMatch;
+    }
+
+    public boolean isValid() {
+        return builder.isValid();
+    }
+
     private Iterator<Construct> elements() {
         return root.iterator();
     }
