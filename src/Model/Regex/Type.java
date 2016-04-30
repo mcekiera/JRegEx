@@ -1,5 +1,10 @@
 package Model.Regex;
 
+/**
+ * Represents categories of regular expression constructs, that could be treated same way on other stages
+ * of processing. There are some obvious categories, as MODE, which contain only construct of same kind (modifiers),
+ * but there are also more complicated categories, as QUOTATION (for simple "/" quote, and complex "\Qxxx\E").
+ */
 public enum Type {
     BOUNDARY(),
     CHAR_CLASS(),
@@ -32,24 +37,6 @@ public enum Type {
 
 
     Type() {
-    }
-
-    public boolean isQuantifier() {
-        return this == QUANTIFIER || this == INTERVAL;
-    }
-
-    public boolean isError() {
-        return this == INVALID_RANGE || this == INVALID_BACKREFERENCE || this == INVALID_INTERVAL ||
-                this == INCOMPLETE || this == UNBALANCED || this == ERROR;
-    }
-
-    public boolean isSequence() {
-        return this == CHAR_CLASS || this == CAPTURING || this == NON_CAPTURING || this == ATOMIC ||
-                this == LOOK_AROUND || this == GROUP;
-    }
-
-    public boolean isSingular() {
-        return (!(isError() || isQuantifier() || isSequence()));
     }
 }
 

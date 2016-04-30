@@ -6,7 +6,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         ConstructsAbstractFactoryTest.class,
         SegmentTest.class,
-        RegexLibTest.class
+        RegexLibTest.class,
+        MatcherLibTest.class
 })
 public class TestSuite {
 }  
