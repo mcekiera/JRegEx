@@ -17,6 +17,7 @@ public class InputField {
     public InputField() {
         field = new JTextField();
         highlighter = field.getHighlighter();
+        field.addFocusListener(new OnFocusBorderChanger());
         config();
     }
 

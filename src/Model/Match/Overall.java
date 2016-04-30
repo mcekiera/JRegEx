@@ -18,7 +18,7 @@ public class Overall {
         try {
             matcher = Pattern.compile(pattern).matcher(text);
         } catch (PatternSyntaxException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         init();
         getMatches(global);
@@ -45,7 +45,7 @@ public class Overall {
                 }
             }
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

@@ -1,3 +1,37 @@
+package Controller;
+
+import Model.Expression;
+import View.Observed;
+import View.Observer;
+import View.UserInterface;
+
+public class Main implements Observer{
+    private UserInterface anInterface;
+    InputHighlightManager inputHighlightManager;
+    private Expression expression;
+
+    public Main() {
+        init();
+    }
+
+    public void init() {
+        anInterface = new UserInterface();
+        anInterface.addObserver(this);
+        expression = new Expression();
+        inputHighlightManager = new InputHighlightManager(anInterface.getInputHighlighter());
+    }
+
+    public static void main(String[] args) {
+        Main main = new Main();
+    }
+
+    @Override
+    public void update(Observed source) {
+        expression.set(anInterface.getInputText(),anInterface.getMatchingText());
+        inputHighlightManager.process(expression.getRoot());
+    }
+}
+
 /**package Controller;
 
 import Model.Constructs.*;

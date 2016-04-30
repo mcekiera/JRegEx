@@ -3,14 +3,11 @@ package View;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Highlighter;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,19 +18,17 @@ public class UserInterface implements Observed {
     private final JTextField lowerField;
     private final JTextArea matchingArea;
     JPanel doubleField;
-    Border border;
 
     private final List<Observer> observerList;
 
     public UserInterface() {
         frame = new JFrame();
-        BorderAdder focusListener = new BorderAdder();
+        OnFocusBorderChanger focusListener = new OnFocusBorderChanger();
 
         InputListener listener = new InputListener();
 
         inputField = new InputField().getField();
         inputField.getDocument().addDocumentListener(listener);
-        inputField.addFocusListener(focusListener);
 
         matchingArea = buildTextArea();
         matchingArea.getDocument().addDocumentListener(listener);
@@ -138,7 +133,7 @@ public class UserInterface implements Observed {
         inputField.setText(text);
     }
 
-    public void setMAtchingText(String text) {
+    public void setMatchingText(String text) {
         matchingArea.setText(text);
     }
 
@@ -196,25 +191,6 @@ public class UserInterface implements Observed {
         @Override
         public void changedUpdate(DocumentEvent e) {
             notifyObservers();
-        }
-    }
-
-    public class BorderAdder implements FocusListener {
-
-        @Override
-        public void focusGained(FocusEvent e) {
-            JComponent component = (JComponent) e.getSource();
-            border = component.getBorder();
-            Border border = BorderFactory.createCompoundBorder(new LineBorder(Color.cyan, 1), new EmptyBorder(4,4,4,4));
-            component.setBorder(border);
-            component.revalidate();
-        }
-
-        @Override
-        public void focusLost(FocusEvent e) {
-            JComponent component = (JComponent) e.getSource();
-            component.setBorder(border);
-            component.revalidate();
         }
     }
 
