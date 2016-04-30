@@ -1,6 +1,6 @@
 package Re.Regex;
 
-import Model.Constructs.Type;
+import Re.Type;
 import Re.Segment;
 
 /**

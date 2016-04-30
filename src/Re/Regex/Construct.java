@@ -1,6 +1,6 @@
 package Re.Regex;
 
-import Model.Constructs.Type;
+import Re.Type;
 import Re.Segment;
 
 /**
@@ -9,8 +9,20 @@ import Re.Segment;
  */
 
 public abstract class Construct {
+    /**
+     * Segment Object that holds a text form of given Construct. It contains String, and int values for start and
+     * end indices of text form within whole pattern.
+     */
     private final Segment textual;
+    /**
+     * Enum Type type is a Object which designate what kind of regular expression construct given Construct object
+     * represent. It serves to distinguish constructs of similar structure, to treat it different on other stages
+     * of expression processing.
+     */
     private final Type type;
+    /**
+     * Construct within which this Construct is placed in pattern.
+     */
     private final Construct parent;
 
     public Construct(Construct parent, Type type, Segment segment) {

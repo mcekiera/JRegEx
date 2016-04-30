@@ -1,13 +1,18 @@
-package Re.Regex.Type;
+package Re.Regex;
 
-import Model.Constructs.Type;
-import Re.Regex.*;
+import Re.Type;
 import Re.Segment;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CompositeBuilder {
     public static final CompositeBuilder INSTANCE = new CompositeBuilder();
     public final ConstructsAbstractFactory factory = ConstructsAbstractFactory.getInstance();
     private Construct previous;
+    private Map<Integer,Construct> groups;
+    private Map<Integer,String> names;
+    private int currentGroup;
 
     private CompositeBuilder() {
     }
@@ -17,12 +22,39 @@ public class CompositeBuilder {
     }
 
     public Composite toComposite(String pattern) {
+        reset();
         Composite composite = new Composite(null, Type.EXPRESSION,new Segment(pattern,0,pattern.length()));
         breakExpression(composite);
         return composite;
     }
 
+    /**
+     * It returns a Map object, containing those Constructs object, which are counted as capturing groups within
+     * given regular expression. Key is a ordinal number of group, including 0 group - the whole pattern. The
+     * map includes also named capturing group, but available by integer, not name String.
+     * @return Map<Integer,Construct>
+     */
+    public Map<Integer,Construct> getGroups() {
+        return groups;
+    }
+
+    /**
+     * It returns a Map object, containing String with name of named capturing groups identified within
+     * given regular expression. The key is a ordinal number of capturing group with name.
+     * @return Map<Integer,Construct>
+     */
+    public Map<Integer,String> getNames() {
+        return names;
+    }
+
+    private void reset() {
+        currentGroup = 0;
+        groups = new HashMap<>();
+        names = new HashMap<>();
+    }
+
     private void breakExpression(Composite container) {
+        groupCheck(container);
         int index = container.getStart();
         Construct construct;
         while(index < container.getEnd()) {
@@ -32,6 +64,25 @@ public class CompositeBuilder {
             index += construct.length();
             previous = construct;
         }
+    }
+
+    private void groupCheck(Composite composite) {
+        if(isGroup(composite)) {
+            addGroup(composite);
+            if(isNamed(composite)) {
+                addName(composite);
+            }
+        }
+    }
+
+    private void addGroup(Construct construct) {
+        groups.put(currentGroup,construct);
+    }
+
+    private void addName(Composite composite) {
+        String name = composite.toString().substring(composite.toString().indexOf('<') + 1,
+                composite.toString().indexOf('>'));
+        names.put(currentGroup,name);
     }
 
     private void processConstruct(Composite container,Construct construct) {
@@ -60,6 +111,12 @@ public class CompositeBuilder {
             }
     }
 
+
+    private void process(Composite container,Composite composite) {
+        container.addConstruct(composite);
+        breakExpression(composite);
+    }
+
     private void addEmpty(Composite container, Quantifier quantifier) {
         Construct empty = new Single(container, Type.ERROR,
                 new Segment(quantifier.getPattern(), quantifier.getStart(), quantifier.getStart()));
@@ -76,9 +133,12 @@ public class CompositeBuilder {
         return previous == null || previous instanceof Quantifier;
     }
 
-    private void process(Composite container,Composite composite) {
-        container.addConstruct(composite);
-        breakExpression(composite);
+    private boolean isGroup(Composite composite) {
+        return composite.getType() ==Type.CAPTURING;
+    }
+
+    private boolean isNamed(Composite composite) {
+        return composite.toString().matches("\\(\\?\\<[^>]+\\>.+");
     }
 
 

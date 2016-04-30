@@ -3,7 +3,7 @@
 import Model.Constructs.Construct;
 import Model.Constructs.Quantifier;
 import Model.Constructs.Sequence;
-import Model.Constructs.Type;
+import Re.Type;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -1,6 +1,7 @@
 package Model.Constructs;
 
 import Model.Matching.Matched;
+import Re.Type;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,6 +4,7 @@ import Model.Constructs.*;
 import Model.Expression.Expression;
 import Model.Matching.GlobalMatching;
 import Model.Matching.Matched;
+import Re.Type;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

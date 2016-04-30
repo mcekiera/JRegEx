@@ -1,4 +1,4 @@
-package Model.Constructs;
+package Re;
 
 public enum Type {
     BOUNDARY(),

@@ -1,6 +1,6 @@
 package Lib;
 
-import Model.Constructs.Type;
+import Re.Type;
 
 import java.util.Map;
 import java.util.TreeMap;

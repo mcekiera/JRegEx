@@ -2,7 +2,7 @@ package Model.Matching;
 
 import Model.Constructs.Construct;
 import Model.Constructs.Sequence;
-import Model.Constructs.Type;
+import Re.Type;
 
 import java.util.*;
 import java.util.regex.Matcher;

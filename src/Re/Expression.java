@@ -3,7 +3,7 @@ package Re;
 import Re.Regex.Composite;
 import Re.Regex.Construct;
 import Re.Regex.ConstructsAbstractFactory;
-import Re.Regex.Type.CompositeBuilder;
+import Re.Regex.CompositeBuilder;
 import Re.Tree.RegExTree;
 
 import javax.swing.*;
@@ -22,7 +22,7 @@ public class Expression {
 
     public static void main(String[] args) {
         ConstructsAbstractFactory factory = ConstructsAbstractFactory.getInstance();
-        String pattern = "a(b(c(\\x{\\0111,\\0377}[a1-9&&[^j-k^\\x45-\\x67\\0111-\\0377\\uAAAA-\\uFFFF$]])))gh(?<=op)(io(po))";
+        String pattern = "\\a\\bc\\d";
         CompositeBuilder builder = CompositeBuilder.getInstance();
         Expression expression = new Expression();
         Composite composite = builder.toComposite(pattern);

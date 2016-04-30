@@ -3,7 +3,7 @@ package Model.Expression;
 import Model.Constructs.Construct;
 import Model.Constructs.Sequence;
 import Model.Constructs.SequenceBuilder;
-import Model.Constructs.Type;
+import Re.Type;
 //import Model.GlobalMatching.DirectMatch;
 import Model.Matching.GlobalMatching;
 import Model.Matching.InClassMatching;

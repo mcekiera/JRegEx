@@ -1,7 +1,7 @@
 package Re.Regex;
 
 import Lib.MatcherLib;
-import Model.Constructs.Type;
+import Re.Type;
 import Re.Segment;
 
 import java.util.regex.Matcher;
@@ -27,7 +27,7 @@ public class ConstructsAbstractFactory {
         String current = pattern.substring(startIndex);
         Construct construct;
         updateGroupsCount(pattern);
-
+        System.out.println("PATTERN: " + pattern);
         if(isBeginningOfGroup(parent, startIndex)) {
             construct = createInGroupConstruct(parent,pattern,startIndex);
         }else if(regexMatch(Type.BOUNDARY,current)) {

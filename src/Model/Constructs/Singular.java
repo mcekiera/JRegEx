@@ -1,6 +1,7 @@
 package Model.Constructs;
 
 import Model.Matching.Matched;
+import Re.Type;
 
 public class Singular extends Construct{
     protected Matched current;

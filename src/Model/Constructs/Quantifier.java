@@ -1,5 +1,7 @@
 package Model.Constructs;
 
+import Re.Type;
+
 public class Quantifier  extends Construct{
     private Construct construct;
 
