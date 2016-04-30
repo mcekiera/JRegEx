@@ -1,8 +1,8 @@
 package Controller;
 
 import Model.Expression;
-import View.Observed;
-import View.Observer;
+import View.Observer.Observed;
+import View.Observer.Observer;
 import View.UserInterface;
 
 public class Main implements Observer{

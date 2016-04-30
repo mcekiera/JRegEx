@@ -1,4 +1,4 @@
-package View;
+package View.Color;
 
 import java.awt.*;
 
