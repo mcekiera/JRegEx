@@ -12,6 +12,9 @@ import java.util.List;
  */
 
 public class Composite extends Construct implements Complex, Iterable<Construct> {
+    /**
+     * List containing Construct object representing internal parts of Composite construct.
+     */
     private final List<Construct> elements;
 
     public Composite(Construct parent, Type type, Segment segment) {

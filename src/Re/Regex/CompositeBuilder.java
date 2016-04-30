@@ -59,7 +59,6 @@ public class CompositeBuilder {
         Construct construct;
         while(index < container.getEnd()) {
             construct = factory.createConstruct(container,container.getPattern(),index);
-            System.out.println(construct.getType() + "," + index);
             processConstruct(container,construct);
             index += construct.length();
             previous = construct;

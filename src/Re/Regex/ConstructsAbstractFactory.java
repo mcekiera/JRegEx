@@ -27,7 +27,6 @@ public class ConstructsAbstractFactory {
         String current = pattern.substring(startIndex);
         Construct construct;
         updateGroupsCount(pattern);
-        System.out.println("PATTERN: " + pattern);
         if(isBeginningOfGroup(parent, startIndex)) {
             construct = createInGroupConstruct(parent,pattern,startIndex);
         }else if(regexMatch(Type.BOUNDARY,current)) {
@@ -55,8 +54,6 @@ public class ConstructsAbstractFactory {
         } else {
             construct = createSimpleConstruct(parent,pattern,startIndex);
         }
-
-        System.out.println("create: " + construct.toString());
         return construct;
     }
 
@@ -200,7 +197,6 @@ public class ConstructsAbstractFactory {
 
     private boolean isValidRange(String range) {
         String[] elements = range.split("-");
-        System.out.println(elements[0].compareTo(elements[1])<0);
         return elements[0].compareTo(elements[1])<0;
     }
 

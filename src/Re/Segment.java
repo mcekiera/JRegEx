@@ -5,15 +5,23 @@ package Re;
  */
 
 public class Segment {
+    /**
+     * Represents start index position of fragment within the whole text.
+     */
     private final int start;
+    /**
+     * Represents end index position of fragment within the whole text.
+     */
     private final int end;
+    /**
+     * String with text form of captured fragment.
+     */
     private final String content;
 
     public Segment(String text, int start, int end) {
         this.start = start;
         this.end = end;
         this.content = text;
-        System.out.println(text + "," + start + "," + end);
     }
 
     /**

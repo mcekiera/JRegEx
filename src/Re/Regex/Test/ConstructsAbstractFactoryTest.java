@@ -119,17 +119,93 @@ public class ConstructsAbstractFactoryTest {
     }
 
     @org.junit.Test
+         public void testCreateInGroupRangeConstruct() throws Exception {
+        String regex = "[a-z1-9\\01-\\0377\\x11-\\xFF\\uAAAA-\\uFFFF]";
+        Segment p = new Segment(regex,0,regex.length());
+        Construct root = new Composite(null, Type.EXPRESSION,p);
+        Construct parent = new Composite(root, Type.CHAR_CLASS,p);
+
+        Segment segment1 = new Segment(regex,1,4);
+        Segment segment2 = new Segment(regex,4,7);
+        Segment segment3 = new Segment(regex,7,16);
+        Segment segment4 = new Segment(regex,16,25);
+        Segment segment5 = new Segment(regex,25,38);
+
+        Construct result1 = new Single(parent,Type.RANGE,segment1);
+        Construct result2 = new Single(parent,Type.RANGE,segment2);
+        Construct result3 = new Single(parent,Type.RANGE,segment3);
+        Construct result4 = new Single(parent,Type.RANGE,segment4);
+        Construct result5 = new Single(parent,Type.RANGE,segment5);
+
+        assertTrue(factory.createConstruct(parent,segment1.getContent(),1).equals(result1));
+        assertTrue(factory.createConstruct(parent,segment2.getContent(),4).equals(result2));
+        assertTrue(factory.createConstruct(parent,segment3.getContent(),7).equals(result3));
+        assertTrue(factory.createConstruct(parent,segment4.getContent(),16).equals(result4));
+        assertTrue(factory.createConstruct(parent,segment5.getContent(),25).equals(result5));
+    }
+
+    @org.junit.Test
+    public void testCreateInGroupInvalidRangeConstruct() throws Exception {
+        String regex = "[z-a9-1\\0377-\\01\\xFF-\\x11\\uFFFF-\\uAAAA]";
+        Segment p = new Segment(regex,0,regex.length());
+        Construct root = new Composite(null, Type.EXPRESSION,p);
+        Construct parent = new Composite(root, Type.CHAR_CLASS,p);
+
+        Segment segment1 = new Segment(regex,1,4);
+        Segment segment2 = new Segment(regex,4,7);
+        Segment segment3 = new Segment(regex,7,16);
+        Segment segment4 = new Segment(regex,16,25);
+        Segment segment5 = new Segment(regex,25,38);
+
+        Construct result1 = new Single(parent,Type.INVALID_RANGE,segment1);
+        Construct result2 = new Single(parent,Type.INVALID_RANGE,segment2);
+        Construct result3 = new Single(parent,Type.INVALID_RANGE,segment3);
+        Construct result4 = new Single(parent,Type.INVALID_RANGE,segment4);
+        Construct result5 = new Single(parent,Type.INVALID_RANGE,segment5);
+
+        assertTrue(factory.createConstruct(parent,segment1.getContent(),1).equals(result1));
+        assertTrue(factory.createConstruct(parent,segment2.getContent(),4).equals(result2));
+        assertTrue(factory.createConstruct(parent,segment3.getContent(),7).equals(result3));
+        assertTrue(factory.createConstruct(parent,segment4.getContent(),16).equals(result4));
+        assertTrue(factory.createConstruct(parent,segment5.getContent(),25).equals(result5));
+    }
+
+    @org.junit.Test
+    public void testCreateInGroupConstruct() throws Exception {
+        String regex = "[a1-9&&[^\\d]]";
+        Segment p = new Segment(regex,0,regex.length());
+        Construct root = new Composite(null, Type.EXPRESSION,p);
+        Construct parent = new Composite(root, Type.CHAR_CLASS,p);
+
+        Segment segment1 = new Segment(regex,1,2);
+        Segment segment2 = new Segment(regex,2,5);
+        Segment segment3 = new Segment(regex,5,7);
+        Segment segment4 = new Segment(regex,7,12);
+        Segment segment5 = new Segment(regex,8,9);
+        Segment segment6 = new Segment(regex,9,11);
+
+        Construct result1 = new Single(parent,Type.SIMPLE,segment1);
+        Construct result2 = new Single(parent,Type.RANGE,segment2);
+        Construct result3 = new Single(parent,Type.COMPONENT,segment3);
+        Construct result4 = new Single(parent,Type.CHAR_CLASS,segment4);
+        Construct result5 = new Single(parent,Type.COMPONENT,segment5);
+        Construct result6 = new Single(parent,Type.PREDEFINED,segment6);
+
+        assertTrue(factory.createConstruct(parent,segment1.getContent(),1).equals(result1));
+        assertTrue(factory.createConstruct(parent,segment2.getContent(),2).equals(result2));
+        assertTrue(factory.createConstruct(parent,segment3.getContent(),5).equals(result3));
+        assertTrue(factory.createConstruct(parent,segment4.getContent(),7).equals(result4));
+        assertTrue(factory.createConstruct(parent,segment5.getContent(),8).equals(result5));
+        assertTrue(factory.createConstruct(parent,segment6.getContent(),9).equals(result6));
+    }
+
+    @org.junit.Test
     public void testCreateCommonConstruct() throws Exception {
 
     }
 
     @org.junit.Test
     public void testCreateGroupConstruct() throws Exception {
-
-    }
-
-    @org.junit.Test
-    public void testCreateInGroupConstruct() throws Exception {
 
     }
 
