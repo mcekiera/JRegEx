@@ -1,7 +1,6 @@
-package Re.Regex;
+package Model.Regex;
 
-import Re.Type;
-import Re.Segment;
+import Model.Segment;
 
 /**
  * Represents single and indivisible Construct object.

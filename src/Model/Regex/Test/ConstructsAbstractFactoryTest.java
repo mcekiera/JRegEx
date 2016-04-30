@@ -1,12 +1,12 @@
-package Re.Regex.Test;
+package Model.Regex.Test;
 
 
-import Re.Type;
-import Re.Regex.Composite;
-import Re.Regex.Construct;
-import Re.Regex.ConstructsAbstractFactory;
-import Re.Regex.Single;
-import Re.Segment;
+import Model.Regex.Type;
+import Model.Regex.Composite;
+import Model.Regex.Construct;
+import Model.Regex.ConstructsAbstractFactory;
+import Model.Regex.Single;
+import Model.Segment;
 import static org.junit.Assert.*;
 
 

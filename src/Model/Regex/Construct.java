@@ -1,7 +1,6 @@
-package Re.Regex;
+package Model.Regex;
 
-import Re.Type;
-import Re.Segment;
+import Model.Segment;
 
 /**
  * Abstract superclass for all logical representations of separate construct of regular expressions. It contains

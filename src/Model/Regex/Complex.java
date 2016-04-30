@@ -1,4 +1,4 @@
-package Re.Regex;
+package Model.Regex;
 
 /**
  * Interface for classes which objects could contain one or more another Construct objects.

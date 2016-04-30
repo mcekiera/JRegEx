@@ -1,11 +1,9 @@
-package View;
+/**package View;
 
-import Model.Constructs.*;
-import Model.Expression.Expression;
-import Model.Matching.GlobalMatching;
-import Model.Matching.Matched;
-import Re.Type;
+import Model.Regex.Construct;
+import Model.Regex.Type;
 
+import javax.sound.midi.Sequence;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -172,3 +170,4 @@ public class TestField {
         TestField f = new TestField();
     }
 }
+   */

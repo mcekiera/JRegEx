@@ -1,4 +1,4 @@
-package Re;
+package Model;
 
 /**
  * Holds section of a given String, for example fragment of content or matched text.

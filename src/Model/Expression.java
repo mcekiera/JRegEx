@@ -1,32 +1,47 @@
-package Re;
+package Model;
 
-import Re.Regex.Composite;
-import Re.Regex.Construct;
-import Re.Regex.ConstructsAbstractFactory;
-import Re.Regex.CompositeBuilder;
-import Re.Tree.RegExTree;
+
+import Model.Match.Overall;
+import Model.Regex.Composite;
+import Model.Regex.CompositeBuilder;
+import Model.Regex.Construct;
+import Model.Tree.RegExTree;
 
 import javax.swing.*;
 import javax.swing.tree.TreeSelectionModel;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class Expression {
-    Composite root;
+    private final CompositeBuilder builder = CompositeBuilder.getInstance();
+    private Overall overallMatch;
+    private Composite root;
 
     public Composite getRoot() {
         return root;
     }
 
-    public void setRoot(Composite composite) {
-        root = composite;
+    public void set(String pattern,String test) {
+        root = builder.toComposite(pattern);
+        if(builder.isValid()) {
+            overallMatch = new Overall(pattern,test,true);
+        }
+    }
+
+    private Iterator<Construct> elements() {
+        return root.iterator();
+    }
+
+    private Map<Integer,List<Segment>> matchMap() {
+        return overallMatch.matchMap();
     }
 
     public static void main(String[] args) {
-        ConstructsAbstractFactory factory = ConstructsAbstractFactory.getInstance();
         String pattern = "\\a\\bc\\d";
         CompositeBuilder builder = CompositeBuilder.getInstance();
         Expression expression = new Expression();
         Composite composite = builder.toComposite(pattern);
-        expression.setRoot(composite);
 
         for(Construct c : composite) {
             System.out.println(c.getType() + "," + c.toString());

@@ -1,8 +1,8 @@
-package Re.Tree;
+package Model.Tree;
 
-import Re.Expression;
-import Re.Regex.Composite;
-import Re.Regex.Construct;
+import Model.Expression;
+import Model.Regex.Composite;
+import Model.Regex.Construct;
 
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultTreeCellRenderer;

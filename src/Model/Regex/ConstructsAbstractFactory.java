@@ -1,8 +1,7 @@
-package Re.Regex;
+package Model.Regex;
 
-import Lib.MatcherLib;
-import Re.Type;
-import Re.Segment;
+import Model.Lib.MatcherLib;
+import Model.Segment;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

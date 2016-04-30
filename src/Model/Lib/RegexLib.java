@@ -1,11 +1,11 @@
-package Lib;
+package Model.Lib;
 
-import Re.Type;
+import Model.Regex.Type;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static Re.Type.*;
+import static Model.Regex.Type.*;
 
 /**
  * Provide regular expression for recognition of particular pattern elements in given String.

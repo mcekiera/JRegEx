@@ -1,6 +1,6 @@
-package Lib;
+package Model.Lib;
 
-import Re.Type;
+import Model.Regex.Type;
 
 import java.util.Map;
 import java.util.TreeMap;

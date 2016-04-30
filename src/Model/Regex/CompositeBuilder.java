@@ -1,7 +1,6 @@
-package Re.Regex;
+package Model.Regex;
 
-import Re.Type;
-import Re.Segment;
+import Model.Segment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,9 +12,7 @@ public class CompositeBuilder {
     private Map<Integer,Construct> groups;
     private Map<Integer,String> names;
     private int currentGroup;
-
-    private CompositeBuilder() {
-    }
+    private boolean valid;
 
     public static CompositeBuilder getInstance() {
         return INSTANCE;
@@ -47,7 +44,12 @@ public class CompositeBuilder {
         return names;
     }
 
+    public boolean isValid() {
+        return valid;
+    }
+
     private void reset() {
+        valid = true;
         currentGroup = 0;
         groups = new HashMap<>();
         names = new HashMap<>();
@@ -72,6 +74,13 @@ public class CompositeBuilder {
                 addName(composite);
             }
         }
+    }
+
+    private void validityCheck(Construct construct) {
+         if(isError(construct)) {
+             valid = false;
+         }
+
     }
 
     private void addGroup(Construct construct) {
@@ -140,6 +149,13 @@ public class CompositeBuilder {
         return composite.toString().matches("\\(\\?\\<[^>]+\\>.+");
     }
 
+    private boolean isError(Construct construct) {
+        return construct.getType() == Type.INCOMPLETE ||
+                construct.getType() == Type.UNBALANCED ||
+                construct.getType() == Type.INVALID_BACKREFERENCE ||
+                construct.getType() == Type.INVALID_INTERVAL ||
+                construct.getType() == Type.INVALID_RANGE;
+    }
 
 
 }

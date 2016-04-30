@@ -1,4 +1,4 @@
-package Re;
+package Model.Regex;
 
 public enum Type {
     BOUNDARY(),
