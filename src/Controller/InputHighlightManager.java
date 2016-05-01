@@ -1,8 +1,6 @@
 package Controller;
 
-import Model.Regex.Composite;
-import Model.Regex.Construct;
-import Model.Regex.Type;
+import Model.Regex.*;
 import View.Color.GroupColor;
 import View.Color.InputColor;
 
@@ -16,8 +14,7 @@ public class InputHighlightManager{
     private final Highlighter highlighter;
     private final Map<InputColor,DefaultHighlighter.DefaultHighlightPainter> painters;
     private final Map<Integer,DefaultHighlighter.DefaultHighlightPainter> groupPainters;
-    private DefaultHighlighter.DefaultHighlightPainter painter;
-    private int level;
+    int count;
 
     public InputHighlightManager(Highlighter highlighter) {
         this.highlighter = highlighter;
@@ -27,30 +24,29 @@ public class InputHighlightManager{
 
     public void process(Composite composite) {
         highlighter.removeAllHighlights();
-        level = 0;
-        highlight(composite);
+        count = 1;
+        highlight(composite, count);
     }
 
-    private void highlight(Composite composite) {
+    private void highlight(Complex composite, int level) {
         for(Construct construct : composite) {
-            painter = getColorByType(construct.getType());
-            if(painter!=null && !construct.isComplex()) {
-                System.out.println("INSIDE: " + composite.toString());
+            DefaultHighlighter.DefaultHighlightPainter painter = getColorByType(construct.getType(),level);    //todo ochydny test logiczny
+            if(painter!=null && (!construct.isComplex() || construct instanceof Quantifier || construct.getType() == Type.CHAR_CLASS)) {
                 try {
                     highlighter.addHighlight(construct.getStart(),construct.getEnd(),painter);
                 } catch (BadLocationException e) {
+
                     e.printStackTrace();
                 }
             }
             if(construct.isComplex() && construct.getType()!=Type.CHAR_CLASS) {
-                level++;
-                highlight((Composite) construct);
-                level--;
+                highlight((Complex) construct, count++);
             }
         }
+
     }
 
-    private DefaultHighlighter.DefaultHighlightPainter getColorByType(Type type) {
+    private DefaultHighlighter.DefaultHighlightPainter getColorByType(Type type, int level) {
         switch (type) {
             case ERROR:
             case INCOMPLETE:
@@ -64,6 +60,8 @@ public class InputHighlightManager{
             case MODE:
                 return painters.get(InputColor.MODE);
             case PREDEFINED:
+            case QUANTIFIER:
+            case INTERVAL:
             case SPECIFIC_CHAR:
             case BOUNDARY:
                 return painters.get(InputColor.PREDEFINED);

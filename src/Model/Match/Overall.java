@@ -18,7 +18,7 @@ public class Overall {
         try {
             matcher = Pattern.compile(pattern).matcher(text);
         } catch (PatternSyntaxException e) {
-            //e.printStackTrace();
+            matcher = Pattern.compile("").matcher("");
         }
         init();
         getMatches(global);

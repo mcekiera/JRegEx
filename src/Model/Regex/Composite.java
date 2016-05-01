@@ -10,7 +10,7 @@ import java.util.List;
  * Represents divisible Construct object, that acts as container and could contain multiple other Construct objects.
  */
 
-public class Composite extends Construct implements Complex, Iterable<Construct> {
+public class Composite extends Construct implements Complex{
     /**
      * List containing Construct object representing internal parts of Composite construct.
      */

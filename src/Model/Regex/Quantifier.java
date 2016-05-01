@@ -10,7 +10,7 @@ import java.util.List;
  * Represents single Construct object that wraps another Construct objects, multiplying its range.
  */
 
-public class Quantifier extends Construct implements Complex, Iterable<Construct> {
+public class Quantifier extends Construct implements Complex{
     private final List<Construct> elements;
 
     public Quantifier(Construct parent, Type type, Segment segment) {
@@ -23,10 +23,7 @@ public class Quantifier extends Construct implements Complex, Iterable<Construct
         return null;
     }
 
-    @Override
-    public int getStart() {
-        return elements.get(0).getStart();
-    }
+
 
     @Override
     public boolean isComplex() {
@@ -35,7 +32,11 @@ public class Quantifier extends Construct implements Complex, Iterable<Construct
 
     @Override
     public void addConstruct(Construct construct) {
-        elements.set(0,construct);
+        if(elements.size() == 0) {
+            elements.add(construct);
+        } else {
+            elements.set(0,construct);
+        }
     }
 
     @Override

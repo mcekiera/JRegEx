@@ -3,8 +3,8 @@ package Model.Regex;
 import Model.Segment;
 
 /**
- * Abstract superclass for all logical representations of separate construct of regular expressions. It contains
- * a tex fragment with individual element, information about its type and position.
+ * Abstract superclass for all logical representations of separate construct in regular expressions. It contains
+ * a text fragment with individual element, with information about its type and position.
  */
 
 public abstract class Construct {

@@ -4,7 +4,7 @@ package Model.Regex;
  * Interface for classes which objects could contain one or more another Construct objects.
  */
 
-public interface Complex{
+public interface Complex extends Iterable<Construct>{
 
     /**
      * Add construct to collection within Complex object.
