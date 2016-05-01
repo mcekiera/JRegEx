@@ -7,6 +7,7 @@ import Controller.Listeners.SelectionHighlighter;
 import Model.Expression;
 import View.Observer.Observed;
 import View.Observer.Observer;
+import View.Part;
 import View.UserInterface;
 
 public class Main implements Observer{
@@ -32,7 +33,8 @@ public class Main implements Observer{
         anInterface = new UserInterface();
         anInterface.addObserver(this);
 
-        anInterface.setInputMouseMotionListener(new MouseHoover(expression));
+        anInterface.setInputMouseMotionListener(new MouseHoover(expression,Part.INPUT));
+        anInterface.setMatchingMouseMotionListener(new MouseHoover(expression, Part.MATCHING));
         inputHighlightManager = new InputHighlightManager(anInterface.getInputHighlighter());
         matchingHighlightManager = new MatchingHighlightManager(anInterface.getMatchingHighlighter());
         anInterface.setInputCaretListener(new SelectionHighlighter(inputHighlightManager));

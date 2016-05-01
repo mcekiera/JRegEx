@@ -1,6 +1,7 @@
 package Controller.Listeners;
 
 import Controller.ToolTipable;
+import View.Part;
 
 import javax.swing.text.JTextComponent;
 import java.awt.event.MouseEvent;
@@ -13,14 +14,16 @@ public class MouseHoover implements MouseMotionListener {
     /**
      * Object from which mouse position is taken.
      */
-    JTextComponent component;
+    private JTextComponent component;
     /**
      * Object from which data about object on given position is taken.
      */
-    ToolTipable toolTipable;
+    private ToolTipable toolTipable;
+    private Part part;
 
-    public MouseHoover(ToolTipable toolTipable) {
+    public MouseHoover(ToolTipable toolTipable, Part part) {
         this.toolTipable = toolTipable;
+        this.part = part;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class MouseHoover implements MouseMotionListener {
     public void mouseMoved(MouseEvent e) {
         try {
             component = (JTextComponent)e.getSource();
-            component.setToolTipText(toolTipable.getInfoFromPosition(component.viewToModel(e.getPoint())));
+            component.setToolTipText(toolTipable.getInfoFromPosition(component.viewToModel(e.getPoint()),part));
         }catch (NullPointerException ex) {
             //ex.printStackTrace();
         }

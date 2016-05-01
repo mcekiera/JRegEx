@@ -7,6 +7,7 @@ import View.Observer.Observer;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -29,12 +30,14 @@ public class UserInterface implements Observed {
 
     public UserInterface() {
         frame = new JFrame();
-        OnFocusBorderChanger focusListener = new OnFocusBorderChanger();
+        OnFocusBorderChanger focusListener = new OnFocusBorderChanger(
+                BorderFactory.createCompoundBorder(new LineBorder(Color.cyan, 1), new EmptyBorder(4,4,4,4)));
 
         InputListener listener = new InputListener();
         field = new InputField();
         inputField = field.getField();
         inputField.getDocument().addDocumentListener(listener);
+        inputField.addFocusListener(focusListener);
 
         matchingArea = buildTextArea();
         matchingArea.getDocument().addDocumentListener(listener);
@@ -115,6 +118,10 @@ public class UserInterface implements Observed {
 
     public void setInputMouseMotionListener(MouseMotionListener listener) {
         inputField.addMouseMotionListener(listener);
+    }
+
+    public void setMatchingMouseMotionListener(MouseMotionListener listener) {
+        matchingArea.addMouseMotionListener(listener);
     }
 
     public void setInputCaretListener(CaretListener listener) {

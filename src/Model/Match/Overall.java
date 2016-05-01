@@ -13,8 +13,10 @@ import java.util.regex.PatternSyntaxException;
 public class Overall {
     private Map<Integer,List<Segment>> groups;
     private Matcher matcher;
+    private String text;
 
     public Overall(String pattern, String text, boolean global) {
+        this.text = text;
         try {
             matcher = Pattern.compile(pattern).matcher(text);
         } catch (PatternSyntaxException e) {
@@ -34,6 +36,17 @@ public class Overall {
 
     public List<Segment> getMatch(int group) {
         return matchMap().get(group);
+    }
+
+    public Segment getMatchByPosition(int position) {
+        for(int i = groupCount(); i >=0; i--) {
+            for(Segment segment : getMatch(i)) {
+                if(segment.getStart() <= position && segment.getEnd() > position) {
+                    return segment;
+                }
+            }
+        }
+        return null;
     }
 
     private void init() {
@@ -61,7 +74,7 @@ public class Overall {
         for (int i = 0; i <= matcher.groupCount(); i++) {
             int start = matcher.start(i) == -1 ? 0 : matcher.start(i);
             int end = matcher.end(i) == -1 ? 0 : matcher.end(i);
-            Segment m = new Segment(matcher.group(), start, end);
+            Segment m = new Segment(text, start, end);
             groups.get(i).add(m);
         }
     }

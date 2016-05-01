@@ -1,6 +1,5 @@
 package View;
 
-import Controller.Listeners.OnFocusBorderChanger;
 import View.Observer.Observed;
 import View.Observer.Observer;
 
@@ -22,7 +21,6 @@ public class InputField implements Observed {
     public InputField() {
         field = new JTextField();
         highlighter = field.getHighlighter();
-        field.addFocusListener(new OnFocusBorderChanger());
         observers = new ArrayList<>();
         config();
     }

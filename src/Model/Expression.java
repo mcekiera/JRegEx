@@ -7,6 +7,7 @@ import Model.Regex.Composite;
 import Model.Regex.CompositeBuilder;
 import Model.Regex.Construct;
 import Model.Tree.RegExTree;
+import View.Part;
 
 import javax.swing.*;
 import javax.swing.tree.TreeSelectionModel;
@@ -97,7 +98,14 @@ public class Expression implements ToolTipable{
     }
 
     @Override
-    public String getInfoFromPosition(int i) {
-        return  getRoot().getConstructFromPosition(i).toString();
+    public String getInfoFromPosition(int i, Part part) {
+        switch (part) {
+            case INPUT:
+                return  getRoot().getConstructFromPosition(i).toString();
+            case MATCHING:
+                return getOverallMatch().getMatchByPosition(i).toString();
+            default:
+                return null;
+        }
     }
 }
