@@ -14,27 +14,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MatchingFieldWrapper{
-    private final JTextArea area;
+    private final JTextArea component;
     private DefaultHighlighter.DefaultHighlightPainter painter;
     private Highlighter highlighter;
 
     public MatchingFieldWrapper() {
-        area = new JTextArea();
+        component = new JTextArea();
         observers = new ArrayList<>();
-        highlighter = area.getHighlighter();
-        area.getDocument().addDocumentListener(new UpdateListener());
-        area.setColumns(35);
-        area.setRows(20);
-        area.setFont(new Font("Arial", Font.BOLD, 20));
-        area.addMouseMotionListener(new CursorHoveringListener());
+        highlighter = component.getHighlighter();
+        component.getDocument().addDocumentListener(new UpdateListener());
+        component.setColumns(35);
+        component.setRows(20);
+        component.setFont(new Font("Arial", Font.BOLD, 20));
+        component.addMouseMotionListener(new CursorHoveringListener());
     }
 
     public String getText() {
-        return area.getText();
+        return component.getText();
     }
 
     public JComponent getField() {
-        return area;
+        return component;
     }
 
     public void highlightFragment(List<Highlight> highlights) {
@@ -90,7 +90,7 @@ public class MatchingFieldWrapper{
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            int mousePosition = area.viewToModel(e.getPoint());
+            int mousePosition = component.viewToModel(e.getPoint());
             for(Highlighter.Highlight h : highlighter.getHighlights()) {
                 if(mousePosition > h.getStartOffset() && mousePosition < h.getEndOffset()) {
                     DefaultHighlighter.DefaultHighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.CYAN);

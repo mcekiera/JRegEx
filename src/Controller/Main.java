@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Expression;
+import Controller.Listeners.MouseHoover;
 import View.Observer.Observed;
 import View.Observer.Observer;
 import View.UserInterface;
@@ -22,7 +23,9 @@ public class Main implements Observer{
         anInterface = new UserInterface();
         anInterface.addObserver(this);
         anInterface.setInputCaretListener(new InputCaretListener());
+
         expression = new Expression();
+        anInterface.setInputMouseMotionListener(new MouseHoover(expression));
         inputHighlightManager = new InputHighlightManager(anInterface.getInputHighlighter());
         matchingHighlightManager = new MatchingHighlightManager(anInterface.getMatchingHighlighter());
     }

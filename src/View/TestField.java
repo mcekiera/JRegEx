@@ -17,7 +17,7 @@ import java.util.List;
 public class TestField {
     JTextField field;
     Highlighter h;
-    JTextArea area;
+    JTextArea component;
     Highlighter h2;
     List<Color> col = new ArrayList<>();
 
@@ -26,9 +26,9 @@ public class TestField {
         field = new JTextField();
         field.getDocument().addDocumentListener(new DocList());
         h = field.getHighlighter();
-        area = new JTextArea(10,20);
-        h2 = area.getHighlighter();
-        f.add(area, BorderLayout.CENTER);
+        component = new JTextArea(10,20);
+        h2 = component.getHighlighter();
+        f.add(component, BorderLayout.CENTER);
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.add(field, BorderLayout.NORTH);
         f.pack();
@@ -52,7 +52,7 @@ public class TestField {
         String pattern = field.getText();
         Sequence ex = SequenceBuilder.getInstance().toComposition(pattern, Type.EXPRESSION);
         dodo(ex);
-        GlobalMatching m = new GlobalMatching(pattern,area.getText());
+        GlobalMatching m = new GlobalMatching(pattern,component.getText());
         for(int i = m.groupCount(); i >=0; i--) {
             for (Matched n : m.getMatches(i)) {
 
@@ -67,7 +67,7 @@ public class TestField {
         System.out.println("----------------------------------");
         printt(ex);
         Expression expression = new Expression();
-        String input = area.getText();         //ex
+        String input = component.getText();         //ex
         expression.getSeparateConstructsMatches(input,ex);
     }
 

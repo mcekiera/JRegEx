@@ -1,5 +1,6 @@
 package View;
 
+import Controller.Listeners.OnFocusBorderChanger;
 import View.Observer.Observed;
 import View.Observer.Observer;
 
@@ -11,6 +12,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Highlighter;
 import java.awt.*;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +54,10 @@ public class UserInterface implements Observed {
        return field;
     }
 
+    public JTextField getinputfiel() {
+        return inputField;
+    }
+
     private void buildInterface() {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,7 +90,6 @@ public class UserInterface implements Observed {
 
     private JScrollPane buildComparingFields() {
         doubleField = new JPanel(new GridLayout(2, 1, 2, 2));
-
         JScrollPane pane = new JScrollPane(doubleField);
         pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -106,6 +111,10 @@ public class UserInterface implements Observed {
 
     public void setMatchCaretListener(CaretListener listener) {
         matchingArea.addCaretListener(listener);
+    }
+
+    public void setInputMouseMotionListener(MouseMotionListener listener) {
+        inputField.addMouseMotionListener(listener);
     }
 
     public void setInputCaretListener(CaretListener listener) {
@@ -201,6 +210,4 @@ public class UserInterface implements Observed {
             notifyObservers();
         }
     }
-
-
 }
