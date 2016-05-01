@@ -1,49 +1,79 @@
 package Controller;
 
 import Model.Regex.*;
+import Model.Regex.Composite;
+import View.Color.ClassColor;
 import View.Color.GroupColor;
 import View.Color.InputColor;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
-import java.util.HashMap;
+import java.awt.*;
 import java.util.Map;
 
 public class InputHighlightManager{
     private final Highlighter highlighter;
     private final Map<InputColor,DefaultHighlighter.DefaultHighlightPainter> painters;
     private final Map<Integer,DefaultHighlighter.DefaultHighlightPainter> groupPainters;
-    int count;
+    DefaultHighlighter.DefaultHighlightPainter painter;;
+    private Construct selected;
+    int count = 0;
+    private Composite current;
 
     public InputHighlightManager(Highlighter highlighter) {
         this.highlighter = highlighter;
-        painters = getInputPainters();
-        groupPainters = getGroupPainters();
+        painters = InputColor.getPainters();
+        groupPainters = GroupColor.getPainters();
     }
 
     public void process(Composite composite) {
+        current = composite;
         highlighter.removeAllHighlights();
-        count = 1;
         highlight(composite, count);
+        count = 0;
+    }
+
+    public void underline(int i) {
+        selected = current.getConstructFromPosition(i);
+        process(current);
     }
 
     private void highlight(Complex composite, int level) {
         for(Construct construct : composite) {
-            DefaultHighlighter.DefaultHighlightPainter painter = getColorByType(construct.getType(),level);    //todo ochydny test logiczny
-            if(painter!=null && (!construct.isComplex() || construct instanceof Quantifier || construct.getType() == Type.CHAR_CLASS)) {
-                try {
-                    highlighter.addHighlight(construct.getStart(),construct.getEnd(),painter);
-                } catch (BadLocationException e) {
-
-                    e.printStackTrace();
-                }
-            }
-            if(construct.isComplex() && construct.getType()!=Type.CHAR_CLASS) {
-                highlight((Complex) construct, count++);
-            }
+            highlightConstruct(construct,level);
+            highlightGroup(construct);
         }
 
+    }
+
+    private void highlightConstruct(Construct construct, int level) {
+        painter = getPainter(construct,level);
+        if(painter!=null && (!construct.isComplex() || construct instanceof Quantifier)) {
+            try {
+                highlighter.addHighlight(construct.getStart(),construct.getEnd(),painter);
+            } catch (BadLocationException e) {
+
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void highlightGroup(Construct construct) {
+        if(construct.isComplex()) {
+            if(construct.getType() != Type.CHAR_CLASS){ count++;}
+            highlight((Complex) construct, count);
+        }
+    }
+
+    private DefaultHighlighter.DefaultHighlightPainter getPainter(Construct construct, int level) {
+        if(selected != null && selected.getParent() == construct.getParent() && construct.getType() == Type.COMPONENT) {
+            return new DefaultHighlighter.DefaultHighlightPainter(Color.CYAN);
+        } else if(construct.getParent().getType() == Type.CHAR_CLASS) {
+            return getColorInClassByType(construct.getType());
+        } else {
+            return getColorByType(construct.getType(), level);
+        }
     }
 
     private DefaultHighlighter.DefaultHighlightPainter getColorByType(Type type, int level) {
@@ -66,29 +96,24 @@ public class InputHighlightManager{
             case BOUNDARY:
                 return painters.get(InputColor.PREDEFINED);
             case COMPONENT:
-                int c = level > 12 ? level%12 : level;
-                if(c != 0) return groupPainters.get(c);
+                int c = level >= GroupColor.values().length ? (level % GroupColor.values().length) : level;
+                return groupPainters.get(c);
             default:
                 return null;
 
         }
     }
 
-    private Map<InputColor,DefaultHighlighter.DefaultHighlightPainter> getInputPainters() {
-        Map<InputColor,DefaultHighlighter.DefaultHighlightPainter> temp = new HashMap<>();
-        for(InputColor color : InputColor.values()) {
-            temp.put(color,new DefaultHighlighter.DefaultHighlightPainter(color.getColor()));
-        }
-        return temp;
-    }
+    public DefaultHighlighter.DefaultHighlightPainter getColorInClassByType(Type type) {
+        switch (type) {
+            case COMPONENT:
+            case RANGE:
+            case PREDEFINED:
+            case SPECIFIC_CHAR:
+                return ClassColor.getPainters().get(ClassColor.SPECIAL);
+            default:
+                return ClassColor.getPainters().get(ClassColor.NORMAL);
 
-    private Map<Integer,DefaultHighlighter.DefaultHighlightPainter> getGroupPainters() {
-        Map<Integer,DefaultHighlighter.DefaultHighlightPainter> temp = new HashMap<>();
-        int i = 0;
-        for(GroupColor color : GroupColor.values()) {
-            temp.put(i,new DefaultHighlighter.DefaultHighlightPainter(color.getColor()));
-            i++;
         }
-        return temp;
     }
 }

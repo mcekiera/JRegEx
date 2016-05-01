@@ -16,6 +16,7 @@ import java.util.List;
 
 public class UserInterface implements Observed {
     private final JFrame frame;
+    private final InputField field;
     private final JTextField inputField;
     private final JTextField upperField;
     private final JTextField lowerField;
@@ -29,8 +30,8 @@ public class UserInterface implements Observed {
         OnFocusBorderChanger focusListener = new OnFocusBorderChanger();
 
         InputListener listener = new InputListener();
-
-        inputField = new InputField().getField();
+        field = new InputField();
+        inputField = field.getField();
         inputField.getDocument().addDocumentListener(listener);
 
         matchingArea = buildTextArea();
@@ -45,6 +46,10 @@ public class UserInterface implements Observed {
         observerList = new ArrayList<>();
 
         buildInterface();
+    }
+
+    public InputField getInputField() {
+       return field;
     }
 
     private void buildInterface() {

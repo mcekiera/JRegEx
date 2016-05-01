@@ -5,10 +5,13 @@ import View.Observer.Observed;
 import View.Observer.Observer;
 import View.UserInterface;
 
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
+
 public class Main implements Observer{
     private UserInterface anInterface;
-    InputHighlightManager inputHighlightManager;
-    MatchingHighlightManager matchingHighlightManager;
+    private InputHighlightManager inputHighlightManager;
+    private MatchingHighlightManager matchingHighlightManager;
     private Expression expression;
 
     public Main() {
@@ -18,6 +21,7 @@ public class Main implements Observer{
     public void init() {
         anInterface = new UserInterface();
         anInterface.addObserver(this);
+        anInterface.setInputCaretListener(new InputCaretListener());
         expression = new Expression();
         inputHighlightManager = new InputHighlightManager(anInterface.getInputHighlighter());
         matchingHighlightManager = new MatchingHighlightManager(anInterface.getMatchingHighlighter());
@@ -27,11 +31,30 @@ public class Main implements Observer{
         Main main = new Main();
     }
 
-    @Override
-    public void update(Observed source) {
+    private void updateView() {
         expression.set(anInterface.getInputText(),anInterface.getMatchingText());
         inputHighlightManager.process(expression.getRoot());
         if(expression.isValid()) matchingHighlightManager.process(expression.getOverallMatch());
+    }
+
+    private void updateHighlight(int i) {
+        inputHighlightManager.underline(i);
+    }
+
+    @Override
+    public void update(Observed source) {
+        if(source == anInterface) {
+            updateView();
+        }
+    }
+
+    public class InputCaretListener implements CaretListener {
+
+        @Override
+        public void caretUpdate(CaretEvent e) {
+            int position = e.getDot();
+            updateHighlight(position);
+        }
     }
 }
 

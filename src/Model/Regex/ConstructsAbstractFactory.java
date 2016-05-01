@@ -77,11 +77,9 @@ public class ConstructsAbstractFactory {
     }
 
     public Construct createInGroupConstruct(Construct parent, String pattern, int startIndex) {
-        System.out.println("start index: " + startIndex + " pattern: " + pattern);
         Matcher matcher = Pattern.compile("\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?|\\[|\\)|]").matcher(parent.getPattern().substring(startIndex));
         matcher.find();
         Segment matched = new Segment(pattern,startIndex + matcher.start(),startIndex + matcher.end());
-        System.out.println(parent.getStart() + matcher.start() + "," + (startIndex + matcher.end()));
         return new Single(parent, Type.COMPONENT, matched);
     }
 

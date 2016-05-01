@@ -1,6 +1,9 @@
 package View.Color;
 
+import javax.swing.text.DefaultHighlighter;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum GroupColor {
     GROUP0(new Color(102,178,255)),
@@ -29,5 +32,15 @@ public enum GroupColor {
 
     public Color getColor() {
         return color;
+    }
+
+    public static Map<Integer,DefaultHighlighter.DefaultHighlightPainter> getPainters() {
+        Map<Integer,DefaultHighlighter.DefaultHighlightPainter> temp = new HashMap<>();
+        int i = 0;
+        for(GroupColor color : GroupColor.values()) {
+            temp.put(i,new DefaultHighlighter.DefaultHighlightPainter(color.getColor()));
+            i++;
+        }
+        return temp;
     }
 }

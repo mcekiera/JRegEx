@@ -67,7 +67,7 @@ public class Overall {
     }
 
     private void prepareMap() {
-        for(int i = 0; i <= 9; i++) {
+        for(int i = 0; i <= matcher.groupCount(); i++) {
             groups.put(i, new ArrayList<>());
         }
     }

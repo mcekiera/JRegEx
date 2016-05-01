@@ -1,6 +1,9 @@
 package View.Color;
 
+import javax.swing.text.DefaultHighlighter;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum InputColor {
     ERROR(new Color(255,80,60)),
@@ -16,5 +19,13 @@ public enum InputColor {
 
     public Color getColor() {
         return color;
+    }
+
+    public static Map<InputColor,DefaultHighlighter.DefaultHighlightPainter> getPainters() {
+        Map<InputColor,DefaultHighlighter.DefaultHighlightPainter> temp = new HashMap<>();
+        for(InputColor color : InputColor.values()) {
+            temp.put(color,new DefaultHighlighter.DefaultHighlightPainter(color.getColor()));
+        }
+        return temp;
     }
 }

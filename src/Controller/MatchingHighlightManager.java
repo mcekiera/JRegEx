@@ -7,19 +7,18 @@ import View.Color.GroupColor;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.PatternSyntaxException;
-
+    //TODO jest problem z nadawaniem kolorów poza te zdefiniowane, nie chce ¿eby kolor poziomu 0 by³ u¿ywany na innych poziomach
+        //TODO ale nie wiem jak inaczej to zrobiæ
 public class MatchingHighlightManager {
     private final Highlighter highlighter;
     private final Map<Integer,DefaultHighlighter.DefaultHighlightPainter> groupPainters;
     private DefaultHighlighter.DefaultHighlightPainter painter;
-    private int level;
 
     public MatchingHighlightManager(Highlighter highlighter) {
         this.highlighter = highlighter;
-        groupPainters = getGroupPainters();
+        groupPainters = GroupColor.getPainters();
     }
 
     public void process(Overall overall) {
@@ -31,23 +30,12 @@ public class MatchingHighlightManager {
         try {
             for(int i = overall.groupCount(); i >= 0; i--){
                 for(Segment matched : overall.getMatch(i)) {
-                    painter = groupPainters.get(i);
+                    painter = groupPainters.get(i)==null ? groupPainters.get(i%12) : groupPainters.get(i);
                     highlighter.addHighlight(matched.getStart(),matched.getEnd(),painter);
                 }
             }
-        }catch (BadLocationException | PatternSyntaxException e) {
-            e.printStackTrace();
+        }catch (BadLocationException | PatternSyntaxException | NullPointerException e) {
+            //e.printStackTrace();
         }
-    }
-
-
-    private Map<Integer,DefaultHighlighter.DefaultHighlightPainter> getGroupPainters() {
-        Map<Integer,DefaultHighlighter.DefaultHighlightPainter> temp = new HashMap<>();
-        int i = 0;
-        for(GroupColor color : GroupColor.values()) {
-            temp.put(i,new DefaultHighlighter.DefaultHighlightPainter(color.getColor()));
-            i++;
-        }
-        return temp;
     }
 }

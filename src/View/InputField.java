@@ -1,23 +1,28 @@
 package View;
 
+import View.Observer.Observed;
+import View.Observer.Observer;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
-public class InputField {
+public class InputField implements Observed {
     private final JTextField field;
     private final Highlighter highlighter;
+    private final List<Observer> observers;
 
     public InputField() {
         field = new JTextField();
         highlighter = field.getHighlighter();
         field.addFocusListener(new OnFocusBorderChanger());
+        observers = new ArrayList<>();
         config();
     }
 
@@ -83,22 +88,16 @@ public class InputField {
         }
     }
 
-    private class TextChanged implements DocumentListener {
-
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-
+    @Override
+    public void notifyObservers() {
+        for(Observer observer : observers) {
+            observer.update(this);
         }
+    }
 
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-
-        }
-
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-
-        }
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
     }
 
     private class ClosureListener extends KeyAdapter {
