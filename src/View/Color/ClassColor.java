@@ -10,6 +10,7 @@ public enum ClassColor {
     SPECIAL(new Color(225,135,49));
 
     Color color;
+    final static Map<ClassColor,DefaultHighlighter.DefaultHighlightPainter> PAINTERS = createPainters();
 
     ClassColor(Color color) {
         this.color = color;
@@ -20,6 +21,10 @@ public enum ClassColor {
     }
 
     public static Map<ClassColor,DefaultHighlighter.DefaultHighlightPainter> getPainters() {
+        return PAINTERS;
+    }
+
+    private static Map<ClassColor,DefaultHighlighter.DefaultHighlightPainter> createPainters() {
         Map<ClassColor,DefaultHighlighter.DefaultHighlightPainter> temp = new HashMap<>();
         int i = 0;
         for(ClassColor color : ClassColor.values()) {

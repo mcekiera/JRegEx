@@ -12,6 +12,7 @@ public enum InputColor {
     PREDEFINED(new Color(100,149,237));
 
     Color color;
+    final static Map<InputColor,DefaultHighlighter.DefaultHighlightPainter> PAINTERS = createPainters();
 
     InputColor(Color color) {
         this.color = color;
@@ -22,6 +23,10 @@ public enum InputColor {
     }
 
     public static Map<InputColor,DefaultHighlighter.DefaultHighlightPainter> getPainters() {
+        return PAINTERS;
+    }
+
+    private static Map<InputColor,DefaultHighlighter.DefaultHighlightPainter> createPainters() {
         Map<InputColor,DefaultHighlighter.DefaultHighlightPainter> temp = new HashMap<>();
         for(InputColor color : InputColor.values()) {
             temp.put(color,new DefaultHighlighter.DefaultHighlightPainter(color.getColor()));

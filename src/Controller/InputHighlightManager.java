@@ -10,12 +10,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.*;
-import java.util.Map;
 
 public class InputHighlightManager{
     private final Highlighter highlighter;
-    private final Map<InputColor,DefaultHighlighter.DefaultHighlightPainter> painters;
-    private final Map<Integer,DefaultHighlighter.DefaultHighlightPainter> groupPainters;
     DefaultHighlighter.DefaultHighlightPainter painter;;
     private Construct selected;
     int count = 0;
@@ -23,8 +20,6 @@ public class InputHighlightManager{
 
     public InputHighlightManager(Highlighter highlighter) {
         this.highlighter = highlighter;
-        painters = InputColor.getPainters();
-        groupPainters = GroupColor.getPainters();
     }
 
     public void process(Composite composite) {
@@ -34,9 +29,13 @@ public class InputHighlightManager{
         count = 0;
     }
 
-    public void underline(int i) {
-        selected = current.getConstructFromPosition(i);
-        process(current);
+    public void process(int i) {
+        try {
+            selected = current.getConstructFromPosition(i);
+            process(current);
+        } catch (NullPointerException e) {
+           //e.printStackTrace();
+        }
     }
 
     private void highlight(Complex composite, int level) {
@@ -67,7 +66,7 @@ public class InputHighlightManager{
     }
 
     private DefaultHighlighter.DefaultHighlightPainter getPainter(Construct construct, int level) {
-        if(selected != null && selected.getParent() == construct.getParent() && construct.getType() == Type.COMPONENT) {
+        if(isComponentOfSelectedComposite(construct)) {
             return new DefaultHighlighter.DefaultHighlightPainter(Color.CYAN);
         } else if(construct.getParent().getType() == Type.CHAR_CLASS) {
             return getColorInClassByType(construct.getType());
@@ -84,20 +83,20 @@ public class InputHighlightManager{
             case INVALID_BACKREFERENCE:
             case INVALID_INTERVAL:
             case INVALID_RANGE:
-                return painters.get(InputColor.ERROR);
+                return InputColor.getPainters().get(InputColor.ERROR);
             case CHAR_CLASS:
-                return painters.get(InputColor.CHAR_CLASS);
+                return InputColor.getPainters().get(InputColor.CHAR_CLASS);
             case MODE:
-                return painters.get(InputColor.MODE);
+                return InputColor.getPainters().get(InputColor.MODE);
             case PREDEFINED:
             case QUANTIFIER:
             case INTERVAL:
             case SPECIFIC_CHAR:
             case BOUNDARY:
-                return painters.get(InputColor.PREDEFINED);
+                return InputColor.getPainters().get(InputColor.PREDEFINED);
             case COMPONENT:
                 int c = level >= GroupColor.values().length ? (level % GroupColor.values().length) : level;
-                return groupPainters.get(c);
+                return GroupColor.getPainters().get(c);
             default:
                 return null;
 
@@ -115,5 +114,10 @@ public class InputHighlightManager{
                 return ClassColor.getPainters().get(ClassColor.NORMAL);
 
         }
+    }
+
+    private boolean isComponentOfSelectedComposite(Construct construct) {
+        return selected != null && selected.getParent() == construct.getParent()
+                && construct.getType() == Type.COMPONENT;
     }
 }

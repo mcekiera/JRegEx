@@ -25,6 +25,7 @@ public enum GroupColor {
 
 
     Color color;
+    final static Map<Integer,DefaultHighlighter.DefaultHighlightPainter> PAINTERS = createPainters();
 
     GroupColor(Color color) {
         this.color = color;
@@ -35,6 +36,10 @@ public enum GroupColor {
     }
 
     public static Map<Integer,DefaultHighlighter.DefaultHighlightPainter> getPainters() {
+        return PAINTERS;
+    }
+
+    private static Map<Integer,DefaultHighlighter.DefaultHighlightPainter> createPainters() {
         Map<Integer,DefaultHighlighter.DefaultHighlightPainter> temp = new HashMap<>();
         int i = 0;
         for(GroupColor color : GroupColor.values()) {

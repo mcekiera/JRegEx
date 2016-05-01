@@ -38,7 +38,7 @@ public class Main implements Observer{
     }
 
     private void updateHighlight(int i) {
-        inputHighlightManager.underline(i);
+        inputHighlightManager.process(i);
     }
 
     @Override
