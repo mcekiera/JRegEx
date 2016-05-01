@@ -1,6 +1,7 @@
 package Model;
 
 
+import Controller.ToolTipable;
 import Model.Match.Overall;
 import Model.Regex.Composite;
 import Model.Regex.CompositeBuilder;
@@ -13,10 +14,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class Expression {
+public class Expression implements ToolTipable{
     private final CompositeBuilder builder = CompositeBuilder.getInstance();
     private Overall overallMatch;
     private Composite root;
+
+    public Expression() {
+        root = new Composite(null,null,null);
+    }
 
     public Composite getRoot() {
         return root;
@@ -89,5 +94,10 @@ public class Expression {
         frame.add(tree);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    @Override
+    public String getInfoFromPosition(int i) {
+        return  getRoot().getConstructFromPosition(i).toString();
     }
 }

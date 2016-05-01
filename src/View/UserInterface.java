@@ -20,8 +20,8 @@ public class UserInterface implements Observed {
     private final JFrame frame;
     private final InputField field;
     private final JTextField inputField;
-    private final JTextField upperField;
-    private final JTextField lowerField;
+    private  JTextField upperField;
+    private  JTextField lowerField;
     private final JTextArea matchingArea;
     JPanel doubleField;
 
@@ -40,10 +40,10 @@ public class UserInterface implements Observed {
         matchingArea.getDocument().addDocumentListener(listener);
         matchingArea.addFocusListener(focusListener);
 
-        upperField = buildComparingField();
-        upperField.addFocusListener(focusListener);
-        lowerField = buildComparingField();
-        lowerField.addFocusListener(focusListener);
+        //upperField = buildComparingField();
+        //upperField.addFocusListener(focusListener);
+        //lowerField = buildComparingField();
+        //lowerField.addFocusListener(focusListener);
 
         observerList = new ArrayList<>();
 
@@ -63,7 +63,7 @@ public class UserInterface implements Observed {
 
         frame.add(buildInputField(), BorderLayout.PAGE_START);
         frame.add(buildMatchingArea(), BorderLayout.CENTER);
-        frame.add(buildComparingFields(), BorderLayout.PAGE_END);
+        //frame.add(buildComparingFields(), BorderLayout.PAGE_END);
 
         frame.pack();
         frame.setVisible(true);

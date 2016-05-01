@@ -1,18 +1,26 @@
 package Controller.Listeners;
 
-import Model.Expression;
-import Model.Regex.Construct;
+import Controller.ToolTipable;
 
 import javax.swing.text.JTextComponent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
+/**
+ * Implementation of MouseMotionListener, which provides dynamic ToolTip addition to given JTextComponent.
+ */
 public class MouseHoover implements MouseMotionListener {
+    /**
+     * Object from which mouse position is taken.
+     */
     JTextComponent component;
-    Expression expression;
+    /**
+     * Object from which data about object on given position is taken.
+     */
+    ToolTipable toolTipable;
 
-    public MouseHoover(Expression expression) {
-        this.expression = expression;
+    public MouseHoover(ToolTipable toolTipable) {
+        this.toolTipable = toolTipable;
     }
 
     @Override
@@ -22,8 +30,7 @@ public class MouseHoover implements MouseMotionListener {
     public void mouseMoved(MouseEvent e) {
         try {
             component = (JTextComponent)e.getSource();
-            Construct construct = expression.getRoot().getConstructFromPosition(component.viewToModel(e.getPoint()));
-            component.setToolTipText(construct.getType() + "," + construct.toString() + "," + construct.getStart() + "," + construct.getEnd());
+            component.setToolTipText(toolTipable.getInfoFromPosition(component.viewToModel(e.getPoint())));
         }catch (NullPointerException ex) {
             //ex.printStackTrace();
         }

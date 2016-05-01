@@ -1,4 +1,4 @@
-package Controller;
+package Controller.HighlightManager;
 
 import Model.Regex.*;
 import Model.Regex.Composite;
@@ -11,7 +11,7 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.*;
 
-public class InputHighlightManager{
+public class InputHighlightManager extends HighlightManager{
     private final Highlighter highlighter;
     DefaultHighlighter.DefaultHighlightPainter painter;;
     private Construct selected;
@@ -34,7 +34,7 @@ public class InputHighlightManager{
             selected = current.getConstructFromPosition(i);
             process(current);
         } catch (NullPointerException e) {
-           //e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -119,5 +119,15 @@ public class InputHighlightManager{
     private boolean isComponentOfSelectedComposite(Construct construct) {
         return selected != null && selected.getParent() == construct.getParent()
                 && construct.getType() == Type.COMPONENT;
+    }
+
+    @Override
+    public void selectionHighlight(int position) {
+        try {
+            selected = current.getConstructFromPosition(position);
+            process(current);
+        } catch (NullPointerException e) {
+            //e.printStackTrace();
+        }
     }
 }
