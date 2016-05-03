@@ -20,13 +20,6 @@ public class Quantifier extends Construct implements Complex{
     }
 
     @Override
-    public String getDescription() {
-        return null;
-    }
-
-
-
-    @Override
     public boolean isComplex() {
         return true;
     }

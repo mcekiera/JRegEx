@@ -1,0 +1,9 @@
+(?=     zero-width positive lookahead for:
+(?!     zero-width negative lookahead for:
+(?<=     zero-width positive lookbehind for:
+(?<!     zero-width negative lookbehind for:
+(     Capturing group.
+(?>     Independent, non-capturing atomic group.
+(?<     Named capturing group.
+(?:     Non-capturing group.
+(?      Non-capturing group with modifier:

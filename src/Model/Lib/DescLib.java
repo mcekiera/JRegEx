@@ -11,10 +11,12 @@ public class DescLib {
     private static final DescLib INSTANCE = new DescLib();
     private final LinkedHashMap<String, String> basic;
     private final LinkedHashMap<String, String> mode;
+    private final LinkedHashMap<String, String> group;
 
     private DescLib() {
         basic = loadElements("descSimple.txt");
         mode = loadElements("descMode.txt");
+        group = loadElements("descGroup.txt");
     }
 
     public static DescLib getInstance() {
@@ -49,49 +51,97 @@ public class DescLib {
                 return describeMode(construct);
             case SPECIFIC_CHAR:
                 return describeSpecificChar(construct);
+            case RANGE:
+                return describeRange(construct);
+            case LOOK_AROUND:
+            case ATOMIC:
+            case CAPTURING:
+            case NON_CAPTURING:
+                return describeLookAround(construct);
             default:
                 return "Match character: " + construct.getText();
         }
     }
 
-    public String describeBackreference(Construct construct) {
+    private String describeBackreference(Construct construct) {
         return "<HTML>" + Type.BACKREFERENCE.toString() + "<br>" + "coœtam</HTML>";
     }
 
-    public String describeSimple(String text) {
+    private String describeSimple(String text) {
         return "<HTML><b>" + text + "</b><i>" + basic.get(text);
     }
 
-    public String describeMode(Construct construct) {
+    private String describeMode(Construct construct) {
         String result = "<HTML>Modifier:";
-        String prefix;
         String pattern = construct.getText();
+        result += getModes(pattern,pattern.indexOf('?')+1,pattern.length()-1);
+        return result + "</html>";
+    }
+
+    private String getModes(String pattern, int start, int end) {
+        String prefix;
         boolean disable = false;
-        for(int i = pattern.indexOf('?')+1; i<pattern.length()-1; i++) {
+        String result = "";
+        for(int i = start; i<end; i++) {
             if (pattern.charAt(i) == '-') {
                 disable = true;
                 continue;
             }
             prefix = disable ?  "<br>" + pattern.charAt(i) + " - Disables " : "<br>" + pattern.charAt(i) + " - Enables ";
-            result += pattern.charAt(i) + prefix + mode.get(String.valueOf(pattern.charAt(i)));
+            result += prefix + mode.get(String.valueOf(pattern.charAt(i)));
         }
-
-        return result + "</html>";
+        return result;
     }
 
-    public String describeSpecificChar(Construct construct) {
+    private String describeSpecificChar(Construct construct) {
         String pattern = construct.getText();
         if(pattern.startsWith("\\0")) {
             return describeSimple("\\0") + " " + pattern;
+        } else if(pattern.startsWith("\\x{")) {
+            try {
+                System.out.println(pattern);
+                return getBold(construct) + basic.get("\\x") + " from range "
+                        + pattern.substring(pattern.indexOf('{')+1,pattern.indexOf('.'))
+                        + " to " + pattern.substring(pattern.lastIndexOf('.')+1, pattern.indexOf('}'));
+            }catch (Exception e) {
+                e.printStackTrace();
+                return "";
+            }
         } else if(pattern.startsWith("\\x")) {
-            return "";
+            return describeSimple("\\x") + " " + pattern;
         } else if(pattern.startsWith("\\u")) {
             return describeSimple("\\u") + " " + pattern;
         } else if(pattern.startsWith("\\c")) {
-            return "<HTML><b>" + pattern + "</b><i>" + basic.get("\\c") + " ctrl + " + pattern.charAt(pattern.length()-1);
+            return getBold(construct) + "<i>" + basic.get("\\c") + " ctrl + " + pattern.charAt(pattern.length()-1);
         } else {
             return describeSimple(pattern);
         }
+    }
+
+    private String describeLookAround(Construct construct) {
+        String result = "";
+        String pattern = construct.getText();
+        for(String prefix : group.keySet()) {
+            if(pattern.startsWith(prefix)) {
+                result = getBold(construct) + " " + group.get(prefix);
+                if(construct.getType() == Type.LOOK_AROUND) {
+                    result += " " + pattern.substring(prefix.length(), pattern.length() - 1);
+                }
+            }
+            if(construct.getType()==Type.NON_CAPTURING) {
+                result += getModes(pattern,pattern.indexOf('?')+1,pattern.indexOf(':'));
+            }
+        }
+        return result;
+    }
+
+    private String describeRange(Construct construct) {
+        String[] values = construct.getText().split("-");
+        return getBold(construct) + " Character from a range: " + construct.getText();
+    }
+
+    private String getBold(Construct construct) {
+        return "<HTML><b>" + construct.getText() + "</b><i>";
     }
 
     public String desc(Type type) {

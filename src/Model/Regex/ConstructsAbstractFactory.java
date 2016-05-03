@@ -45,7 +45,7 @@ public class ConstructsAbstractFactory {
             construct = new Single(parent, Type.COMPONENT,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.COMPONENT).end()));
         } else if(regexMatch(Type.PREDEFINED,current)) {
             construct = createPredefined(parent,pattern,startIndex);
-        } else if(regexMatch(Type.SPECIFIC_CHAR,current)) {
+        } else if(regexMatch(Type.SPECIFIC_CHAR,current)) {    //TODO invalid \x range
             construct = new Single(parent, Type.SPECIFIC_CHAR,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.SPECIFIC_CHAR).end()));
         }else if(regexMatch(Type.BACKREFERENCE,current)) {
             construct = createBackreference(parent, pattern, startIndex);
