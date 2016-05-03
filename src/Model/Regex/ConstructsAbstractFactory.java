@@ -215,9 +215,13 @@ public class ConstructsAbstractFactory {
     }
 
     private boolean isValidInterval(String interval) {
-        String temp = interval.substring(1, interval.length() - 1);
+        if(interval.matches("\\{\\d,?\\}[+?]?")) return true;
+        String temp = interval.substring(1, interval.indexOf('}'));
         String[] elements = temp.split(",");
-        return interval.matches("\\{\\d,?\\}") || elements[0].compareTo(elements[1]) < 0;
+        Integer[] integers = new Integer[2];
+        integers[0] = Integer.valueOf(elements[0]);
+        integers[1] = Integer.valueOf(elements[1]);
+        return integers[0].compareTo(integers[1]) < 0;
     }
 
     private boolean isLogicalAndConstruct(String pattern,int startIndex) {

@@ -69,12 +69,12 @@ $     The end of a line
 ?     Greedy once or not at all,
 *     Greedy zero or more times
 +     Greedy one or more times
-??     Reluctant once or not at all
-*?     Reluctant zero or more times
-+?     Reluctant one or more times
-?+     Possessive once or not at all
-*+     Possessive zero or more times
-++     Possessive one or more times
+??     Reluctant quantifier, once or not at all
+*?     Reluctant quantifier, zero or more times
++?     Reluctant quantifier, one or more times
+?+     Possessive quantifier, once or not at all
+*+     Possessive quantifier, zero or more times
+++     Possessive quantifier, one or more times
 \0     The character with octal value
 \x     The character with hexadecimal value
 \u     The character with hexadecimal value

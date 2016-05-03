@@ -58,6 +58,10 @@ public class DescLib {
             case CAPTURING:
             case NON_CAPTURING:
                 return describeLookAround(construct);
+            case CHAR_CLASS:
+                return describeCharacterClass(construct);
+            case INTERVAL:
+                return describeInterval(construct);
             default:
                 return "Match character: " + construct.getText();
         }
@@ -91,6 +95,14 @@ public class DescLib {
             result += prefix + mode.get(String.valueOf(pattern.charAt(i)));
         }
         return result;
+    }
+
+    private String describeCharacterClass(Construct construct) {
+        if(construct.getText().startsWith("[^")) {
+            return getBold(construct) + " Negative character class.";
+        } else {
+            return getBold(construct) + " Character class";
+        }
     }
 
     private String describeSpecificChar(Construct construct) {
@@ -136,8 +148,32 @@ public class DescLib {
     }
 
     private String describeRange(Construct construct) {
-        String[] values = construct.getText().split("-");
         return getBold(construct) + " Character from a range: " + construct.getText();
+    }
+
+    private String describeInterval(Construct construct) {
+        String pattern = construct.getText();
+        String prefix = "";
+        if(pattern.endsWith("}+")) {
+            prefix = "Possessive interval, ";
+        } else if (pattern.endsWith("}?")) {
+            prefix = "Reluctant interval, ";
+        } else {
+            prefix = "Greedy interval, ";
+        }
+        return prefix + descriveIntervalInterior(pattern.substring(1,pattern.indexOf('}')));
+
+    }
+
+    private String descriveIntervalInterior(String string) {
+        if(!string.contains(",")) {
+            return "exactly " + string + " times.";
+        } else if (string.endsWith(",")) {
+            return "at least " + string.substring(0,string.indexOf(',')) + " times.";
+        } else {
+            String[] split = string.split(",");
+            return "at least " + split[0] + " but not more than " + split[1] + " times.";
+        }
     }
 
     private String getBold(Construct construct) {
