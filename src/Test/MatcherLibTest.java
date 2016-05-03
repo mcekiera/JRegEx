@@ -2,7 +2,7 @@ package Test;
 
 import Model.Lib.MatcherLib;
 import Model.Lib.RegexLib;
-import Model.Regex.Type;
+import Model.Regex.Type.Type;
 import org.junit.Before;
 import org.junit.Test;
 

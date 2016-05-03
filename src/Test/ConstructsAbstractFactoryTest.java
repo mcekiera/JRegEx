@@ -1,7 +1,7 @@
 package Test;
 
 
-import Model.Regex.Type;
+import Model.Regex.Type.Type;
 import Model.Regex.Composite;
 import Model.Regex.Construct;
 import Model.Regex.ConstructsAbstractFactory;

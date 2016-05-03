@@ -5,6 +5,7 @@ import Controller.HighlightManager.MatchingHighlightManager;
 import Controller.Listeners.MouseHoover;
 import Controller.Listeners.SelectionHighlighter;
 import Model.Expression;
+import Model.Tree.RegExTree;
 import View.Observer.Observed;
 import View.Observer.Observer;
 import View.Part;
@@ -42,9 +43,10 @@ public class Main implements Observer{
 
 
     private void updateView() {
-        expression.set(anInterface.getInputText(),anInterface.getMatchingText());
+        expression.set(anInterface.getInputText(), anInterface.getMatchingText());
         inputHighlightManager.process(expression.getRoot());
         if(expression.isValid()) matchingHighlightManager.process(expression.getOverallMatch());
+        anInterface.setTreeModel(new RegExTree(expression));
     }
 
     private void updateHighlight(int i) {

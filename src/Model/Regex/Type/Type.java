@@ -1,4 +1,4 @@
-package Model.Regex;
+package Model.Regex.Type;
 
 /**
  * Represents categories of regular expression constructs, that could be treated same way on other stages

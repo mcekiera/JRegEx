@@ -1,6 +1,7 @@
 package Model.Tree;
 
 import Model.Expression;
+import Model.Regex.Complex;
 import Model.Regex.Composite;
 import Model.Regex.Construct;
 
@@ -22,12 +23,12 @@ public class RegExTree implements TreeModel {
 
     @Override
     public Object getChild(Object parent, int index) {
-        return ((Composite)parent).getConstruct(index);
+        return ((Complex)parent).getConstruct(index);
     }
 
     @Override
     public int getChildCount(Object parent) {
-        return ((Composite)parent).size();
+        return ((Complex)parent).size();
     }
 
     @Override
@@ -55,7 +56,7 @@ public class RegExTree implements TreeModel {
     }
 
     public DefaultTreeCellRenderer getRenderer() {
-        DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+        TreeRenderer renderer = new TreeRenderer();
         renderer.setLeafIcon(null);
         renderer.setOpenIcon(null);
         renderer.setClosedIcon(null);

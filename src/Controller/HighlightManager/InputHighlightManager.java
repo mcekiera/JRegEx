@@ -2,6 +2,7 @@ package Controller.HighlightManager;
 
 import Model.Regex.*;
 import Model.Regex.Composite;
+import Model.Regex.Type.Type;
 import View.Color.ClassColor;
 import View.Color.GroupColor;
 import View.Color.InputColor;
@@ -60,7 +61,7 @@ public class InputHighlightManager extends HighlightManager{
 
     private void highlightGroup(Construct construct) {
         if(construct.isComplex()) {
-            if(construct.getType() != Type.CHAR_CLASS){ count++;}
+            if(construct.getType() != Type.CHAR_CLASS && !(construct instanceof Quantifier)){ count++;}        //TODO boolean ;(
             highlight((Complex) construct, count);
         }
     }

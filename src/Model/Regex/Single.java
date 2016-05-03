@@ -1,5 +1,6 @@
 package Model.Regex;
 
+import Model.Regex.Type.Type;
 import Model.Segment;
 
 /**

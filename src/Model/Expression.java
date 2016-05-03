@@ -6,6 +6,7 @@ import Model.Match.Overall;
 import Model.Regex.Composite;
 import Model.Regex.CompositeBuilder;
 import Model.Regex.Construct;
+import Model.Regex.Type.Type;
 import Model.Tree.RegExTree;
 import View.Part;
 
@@ -21,7 +22,7 @@ public class Expression implements ToolTipable{
     private Composite root;
 
     public Expression() {
-        root = new Composite(null,null,null);
+        root = new Composite(null, Type.EXPRESSION,new Segment("",0,0));
     }
 
     public Composite getRoot() {

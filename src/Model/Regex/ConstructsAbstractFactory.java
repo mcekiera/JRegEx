@@ -1,6 +1,7 @@
 package Model.Regex;
 
 import Model.Lib.MatcherLib;
+import Model.Regex.Type.Type;
 import Model.Segment;
 
 import java.util.regex.Matcher;

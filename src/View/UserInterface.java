@@ -1,6 +1,7 @@
 package View;
 
 import Controller.Listeners.OnFocusBorderChanger;
+import Model.Tree.RegExTree;
 import View.Observer.Observed;
 import View.Observer.Observer;
 
@@ -12,6 +13,7 @@ import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Highlighter;
+import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class UserInterface implements Observed {
     private  JTextField lowerField;
     private final JTextArea matchingArea;
     JPanel doubleField;
+    private JTree tree;
 
     private final List<Observer> observerList;
 
@@ -67,7 +70,7 @@ public class UserInterface implements Observed {
         frame.add(buildInputField(), BorderLayout.PAGE_START);
         frame.add(buildMatchingArea(), BorderLayout.CENTER);
         //frame.add(buildComparingFields(), BorderLayout.PAGE_END);
-
+        frame.add(buildTree(),BorderLayout.EAST);
         frame.pack();
         frame.setVisible(true);
     }
@@ -110,6 +113,21 @@ public class UserInterface implements Observed {
 
         area.setWrapStyleWord(true);
         return area;
+    }
+
+    private JScrollPane buildTree() {
+        tree = new JTree();
+        tree.getSelectionModel().setSelectionMode
+                (TreeSelectionModel.SINGLE_TREE_SELECTION);
+        tree.setModel(null);
+        JScrollPane pane = new JScrollPane(tree);
+        return pane;
+    }
+
+    public void setTreeModel(RegExTree model) {
+        tree.setModel(model);
+        tree.setCellRenderer(model.getRenderer());
+        frame.revalidate();
     }
 
     public void setMatchCaretListener(CaretListener listener) {
