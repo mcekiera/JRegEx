@@ -45,8 +45,10 @@ public class Main implements Observer{
     private void updateView() {
         expression.set(anInterface.getInputText(), anInterface.getMatchingText());
         inputHighlightManager.process(expression.getRoot());
-        if(expression.isValid()) matchingHighlightManager.process(expression.getOverallMatch());
-        anInterface.setTreeModel(new RegExTree(expression));
+        if(expression.isValid()) {
+            matchingHighlightManager.process(expression.getOverallMatch());
+            anInterface.setTreeModel(new RegExTree(expression));
+        }
     }
 
     private void updateHighlight(int i) {

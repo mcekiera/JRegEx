@@ -1,5 +1,6 @@
 package Model.Regex;
 
+import Model.Lib.DescLib;
 import Model.Lib.MatcherLib;
 import Model.Regex.Type.Type;
 import Model.Segment;
@@ -10,17 +11,22 @@ import java.util.regex.Pattern;
 public class ConstructsAbstractFactory {
     private static final ConstructsAbstractFactory INSTANCE = new ConstructsAbstractFactory();
     private final MatcherLib lib = MatcherLib.getInstance();
+    private final DescLib desc = DescLib.getInstance();
     private String currentPattern;
     private int groupCount;
 
     private ConstructsAbstractFactory() {}
 
     public Construct createConstruct(Construct parent, String pattern, int startIndex) {
+        Construct construct;
         if(parent.getType() == Type.CHAR_CLASS) {
-            return createConstructInCharClass(parent,pattern,startIndex);
+            construct = createConstructInCharClass(parent,pattern,startIndex);
         } else {
-            return createCommonConstruct(parent,pattern,startIndex);
+            construct = createCommonConstruct(parent,pattern,startIndex);
         }
+        construct.setDescription(desc.getDescription(construct));
+        System.out.println(construct.getDescription());
+        return construct;
     }
 
     public Construct createCommonConstruct(Construct parent, String pattern, int startIndex) {
@@ -137,7 +143,7 @@ public class ConstructsAbstractFactory {
     }
 
     private Construct createQuotation(Construct parent,String pattern, int startIndex) {
-
+        //TODO add incomplete if just //E
         if(regexMatch(Type.INCOMPLETE, pattern.substring(startIndex))) {
             return new Single(parent, Type.INCOMPLETE,new Segment(pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.INCOMPLETE)));
         }
@@ -258,5 +264,4 @@ public class ConstructsAbstractFactory {
             groupCount = countGroups(pattern);
         }
     }
-
 }

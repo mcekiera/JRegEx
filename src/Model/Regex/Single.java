@@ -13,10 +13,6 @@ public class Single extends Construct {
         super(parent,type,segment);
     }
 
-    @Override
-    public String getDescription() {
-        return null;
-    }
 
     @Override
     public boolean isComplex() {

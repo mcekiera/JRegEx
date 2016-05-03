@@ -25,10 +25,13 @@ public abstract class Construct {
      */
     private final Construct parent;
 
+    private String description;
+
     public Construct(Construct parent, Type type, Segment segment) {
         this.textual = segment;
         this.type = type;
         this.parent = parent;
+        description = "";
         //System.out.println(getType() + "," + getStart() + "," + getEnd() + "," + toString());
     }
 
@@ -69,6 +72,10 @@ public abstract class Construct {
         return textual.toString().length();
     }
 
+    public String getText() {
+        return textual.toString();
+    }
+
     /**
      * @return full version of tested pattern.
      */
@@ -81,7 +88,7 @@ public abstract class Construct {
      */
     @Override
     public String toString() {
-        return textual.toString();
+        return getDescription();
     }
 
     /**
@@ -103,8 +110,13 @@ public abstract class Construct {
     /**
      * @return description of given Construct
      */
-    public abstract String getDescription();
+    public String getDescription() {
+        return description;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
     /**
      * Identify if construct is complex, understood as composed of other constructs.
      * @return true if it is composed of other constructs.

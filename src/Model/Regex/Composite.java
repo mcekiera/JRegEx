@@ -28,11 +28,6 @@ public class Composite extends Construct implements Complex{
     }
 
     @Override
-    public String getDescription() {
-        return null;
-    }
-
-    @Override
     public boolean isComplex() {
         return true;
     }

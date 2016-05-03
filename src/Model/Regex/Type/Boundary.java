@@ -4,7 +4,7 @@ public enum Boundary implements SpecificType {
     BEGINNING_OF_A_LINE("^","The beginning of a line"),
     END_OF_A_LINE("$","The end of a line"),
     WORD_BOUNDARY("\\b","A word boundary"),
-    NONWORD_BOUNDARY("\\B","A non-word boundary"),
+    NON_WORD_BOUNDARY("\\B","A non-word boundary"),
     INPUT_BEGINNING("\\A","The beginning of the input"),
     PREVIOUS_MATCH("\\G","The end of the previous match"),
     FINAL_INPUT_END("\\Z","The end of the input but for the final terminator, if any"),
