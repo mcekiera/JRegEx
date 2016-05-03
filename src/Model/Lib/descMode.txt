@@ -1,0 +1,7 @@
+i     case-insensitive matching.
+d     Unix lines mode.
+m     multiline mode.
+s     dotall mode.
+u     Unicode-aware case folding.
+x     permission whitespace and comments in pattern.
+U     the Unicode version of Predefined character classes and POSIX character classes.

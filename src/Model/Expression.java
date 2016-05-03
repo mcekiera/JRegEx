@@ -31,6 +31,7 @@ public class Expression implements ToolTipable{
 
     public void set(String pattern,String test) {
         root = builder.toComposite(pattern);
+        root.setDescription(pattern);
         if(builder.isValid()) {
             overallMatch = new Overall(pattern,test,true);
         }

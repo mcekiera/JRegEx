@@ -10,20 +10,22 @@ import java.util.LinkedHashMap;
 public class DescLib {
     private static final DescLib INSTANCE = new DescLib();
     private final LinkedHashMap<String, String> basic;
+    private final LinkedHashMap<String, String> mode;
 
     private DescLib() {
-        basic = loadElements();
+        basic = loadElements("descSimple.txt");
+        mode = loadElements("descMode.txt");
     }
 
     public static DescLib getInstance() {
         return INSTANCE;
     }
 
-    private LinkedHashMap<String, String> loadElements(){
+    private LinkedHashMap<String, String> loadElements(String fileName){
         LinkedHashMap<String, String> elements = new LinkedHashMap<String,String>();
         try{
             String line;
-            InputStreamReader stream = new InputStreamReader(getClass().getResourceAsStream("desc.txt"));
+            InputStreamReader stream = new InputStreamReader(getClass().getResourceAsStream(fileName));
             BufferedReader reader = new BufferedReader(stream);
             while((line = reader.readLine()) != null){
                 String[] temp = line.split("    ");
@@ -40,22 +42,56 @@ public class DescLib {
             case BOUNDARY:
             case PREDEFINED:
             case QUANTIFIER:
-                return basic.get(construct.getText());
+                return describeSimple(construct.getText());
             case BACKREFERENCE:
                 return describeBackreference(construct);
             case MODE:
                 return describeMode(construct);
+            case SPECIFIC_CHAR:
+                return describeSpecificChar(construct);
             default:
-                return desc(construct.getType());
+                return "Match character: " + construct.getText();
         }
     }
 
     public String describeBackreference(Construct construct) {
-        return Type.BACKREFERENCE.toString();
+        return "<HTML>" + Type.BACKREFERENCE.toString() + "<br>" + "coœtam</HTML>";
+    }
+
+    public String describeSimple(String text) {
+        return "<HTML><b>" + text + "</b><i>" + basic.get(text);
     }
 
     public String describeMode(Construct construct) {
-        return Type.MODE.toString();
+        String result = "<HTML>Modifier:";
+        String prefix;
+        String pattern = construct.getText();
+        boolean disable = false;
+        for(int i = pattern.indexOf('?')+1; i<pattern.length()-1; i++) {
+            if (pattern.charAt(i) == '-') {
+                disable = true;
+                continue;
+            }
+            prefix = disable ?  "<br>" + pattern.charAt(i) + " - Disables " : "<br>" + pattern.charAt(i) + " - Enables ";
+            result += pattern.charAt(i) + prefix + mode.get(String.valueOf(pattern.charAt(i)));
+        }
+
+        return result + "</html>";
+    }
+
+    public String describeSpecificChar(Construct construct) {
+        String pattern = construct.getText();
+        if(pattern.startsWith("\\0")) {
+            return describeSimple("\\0") + " " + pattern;
+        } else if(pattern.startsWith("\\x")) {
+            return "";
+        } else if(pattern.startsWith("\\u")) {
+            return describeSimple("\\u") + " " + pattern;
+        } else if(pattern.startsWith("\\c")) {
+            return "<HTML><b>" + pattern + "</b><i>" + basic.get("\\c") + " ctrl + " + pattern.charAt(pattern.length()-1);
+        } else {
+            return describeSimple(pattern);
+        }
     }
 
     public String desc(Type type) {

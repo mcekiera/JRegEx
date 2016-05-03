@@ -75,3 +75,7 @@ $     The end of a line
 ?+     Possessive once or not at all
 *+     Possessive zero or more times
 ++     Possessive one or more times
+\0     The character with octal value
+\x     The character with hexadecimal value
+\u     The character with hexadecimal value
+\c     The control character corresponding to
