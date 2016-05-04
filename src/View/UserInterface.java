@@ -1,8 +1,6 @@
 package View;
 
 import Controller.Listeners.OnFocusBorderChanger;
-import Model.Lib.IconLib;
-import Model.Regex.Type.Type;
 import Model.Tree.RegExTree;
 import View.Observer.Observed;
 import View.Observer.Observer;
@@ -48,8 +46,6 @@ public class UserInterface implements Observed {
         matchingArea.getDocument().addDocumentListener(listener);
         matchingArea.addFocusListener(focusListener);
 
-        JLabel l = new JLabel("a",IconLib.getInstance().getIcon(Type.BOUNDARY),SwingConstants.RIGHT);
-        frame.add(l,BorderLayout.SOUTH);
         //upperField = buildComparingField();
         //upperField.addFocusListener(focusListener);
         //lowerField = buildComparingField();

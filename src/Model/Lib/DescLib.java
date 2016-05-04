@@ -44,7 +44,7 @@ public class DescLib {
             case BOUNDARY:
             case PREDEFINED:
             case QUANTIFIER:
-                return describeSimple(construct.getText());
+                return describeSimple(construct,construct.getText());
             case BACKREFERENCE:
                 return describeBackreference(construct);
             case MODE:
@@ -62,16 +62,18 @@ public class DescLib {
                 return describeCharacterClass(construct);
             case INTERVAL:
                 return describeInterval(construct);
+            case EXPRESSION:
+                return "<HTML>" + construct.getText() + "<br>";
             default:
                 return "Match character: " + construct.getText();
         }
     }
 
     private String describeBackreference(Construct construct) {
-        return "<HTML>" + Type.BACKREFERENCE.toString() + "<br>" + "coœtam</HTML>";
+        return "<HTML>" + construct.getText() + "<br>";    //TODo dokonczyæ
     }
 
-    private String describeSimple(String text) {
+    private String describeSimple(Construct c, String text) {
         return "<HTML><b>" + text + "</b><i>" + basic.get(text);
     }
 
@@ -108,7 +110,7 @@ public class DescLib {
     private String describeSpecificChar(Construct construct) {
         String pattern = construct.getText();
         if(pattern.startsWith("\\0")) {
-            return describeSimple("\\0") + " " + pattern;
+            return describeSimple(construct,"\\0") + " " + pattern;
         } else if(pattern.startsWith("\\x{")) {
             try {
                 System.out.println(pattern);
@@ -120,13 +122,13 @@ public class DescLib {
                 return "";
             }
         } else if(pattern.startsWith("\\x")) {
-            return describeSimple("\\x") + " " + pattern;
+            return describeSimple(construct,"\\x") + " " + pattern;
         } else if(pattern.startsWith("\\u")) {
-            return describeSimple("\\u") + " " + pattern;
+            return describeSimple(construct,"\\u") + " " + pattern;
         } else if(pattern.startsWith("\\c")) {
             return getBold(construct) + "<i>" + basic.get("\\c") + " ctrl + " + pattern.charAt(pattern.length()-1);
         } else {
-            return describeSimple(pattern);
+            return describeSimple(construct,pattern);
         }
     }
 
@@ -153,7 +155,7 @@ public class DescLib {
 
     private String describeInterval(Construct construct) {
         String pattern = construct.getText();
-        String prefix = "";
+        String prefix;
         if(pattern.endsWith("}+")) {
             prefix = "Possessive interval, ";
         } else if (pattern.endsWith("}?")) {
@@ -178,9 +180,5 @@ public class DescLib {
 
     private String getBold(Construct construct) {
         return "<HTML><b>" + construct.getText() + "</b><i>";
-    }
-
-    public String desc(Type type) {
-        return type.toString();
     }
 }

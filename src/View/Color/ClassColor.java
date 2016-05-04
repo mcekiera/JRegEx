@@ -7,7 +7,8 @@ import java.util.Map;
 
 public enum ClassColor {
     NORMAL(new Color(255,165,79)),
-    SPECIAL(new Color(225,135,49));
+    SPECIAL(new Color(225,135,49)),
+    ERROR(Color.RED);
 
     Color color;
     final static Map<ClassColor,DefaultHighlighter.DefaultHighlightPainter> PAINTERS = createPainters();

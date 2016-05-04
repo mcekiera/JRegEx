@@ -111,6 +111,8 @@ public class InputHighlightManager extends HighlightManager{
             case PREDEFINED:
             case SPECIFIC_CHAR:
                 return ClassColor.getPainters().get(ClassColor.SPECIAL);
+            case INVALID_RANGE:
+                return ClassColor.getPainters().get(ClassColor.ERROR);
             default:
                 return ClassColor.getPainters().get(ClassColor.NORMAL);
 
