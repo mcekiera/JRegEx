@@ -161,11 +161,11 @@ public class DescLib {
         } else {
             prefix = "Greedy interval, ";
         }
-        return prefix + descriveIntervalInterior(pattern.substring(1,pattern.indexOf('}')));
+        return prefix + describeIntervalInterior(pattern.substring(1, pattern.indexOf('}')));
 
     }
 
-    private String descriveIntervalInterior(String string) {
+    private String describeIntervalInterior(String string) {
         if(!string.contains(",")) {
             return "exactly " + string + " times.";
         } else if (string.endsWith(",")) {
