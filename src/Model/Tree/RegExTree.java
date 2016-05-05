@@ -55,8 +55,8 @@ public class RegExTree implements TreeModel {
 
     }
 
-    public DefaultTreeCellRenderer getRenderer() {
-        TreeRenderer renderer = new TreeRenderer();
+    public DefaultTreeCellRenderer getRenderer(boolean valid) {
+        TreeRenderer renderer = new TreeRenderer(valid);
         return renderer;
     }
 }

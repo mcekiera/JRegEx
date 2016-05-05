@@ -66,7 +66,7 @@ public class CompositeBuilder {
                 break;
             }
             if(index == container.getStart() && construct.getText().equals("|")){
-                container.addConstruct(factory.createEmptyAlterntive(container,container.getPattern(),index));
+                container.addConstruct(factory.createEmptyAlternative(container, container.getPattern(), index));
             }
             validityCheck(construct);
             processConstruct(container,construct);
@@ -75,7 +75,7 @@ public class CompositeBuilder {
         }
         if(previous.getText().equals("|")) {
             System.out.println(container.getType());
-            container.addConstruct(factory.createEmptyAlterntive(container,container.getPattern(),index));
+            container.addConstruct(factory.createEmptyAlternative(container, container.getPattern(), index));
         }
     }
 

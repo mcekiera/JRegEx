@@ -66,6 +66,16 @@ public class DescLib {
                 return "<HTML>" + construct.getText() + "<br>";
             case ALTERNATION:
                 return "ALTERNATIVE " + construct.getText();
+            case UNBALANCED:
+                return "Unbalanced structure on index " + construct.getStart() + ":" + construct.getText();
+            case INCOMPLETE:
+                return "Incomplete structure on index " + construct.getStart() + ":" + construct.getText();
+            case INVALID_BACKREFERENCE:
+                return "Invalid backreference" + ":" + construct.getText();
+            case INVALID_RANGE:
+                return "Invalid range" + ":" + construct.getText();
+            case INVALID_INTERVAL:
+                return "Invalid interval" + ":" + construct.getText();
             default:
                 return "Match character: " + construct.getText();
         }

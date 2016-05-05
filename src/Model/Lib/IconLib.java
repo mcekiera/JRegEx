@@ -24,6 +24,7 @@ public class IconLib {
         icons.put(Type.SPECIFIC_CHAR, new ImageIcon(IconLib.class.getResource("ico/SPECIFIC.gif")));
         icons.put(Type.CHAR_CLASS, new ImageIcon(IconLib.class.getResource("ico/CHARCLASS.gif")));
         icons.put(Type.EXPRESSION, new ImageIcon(IconLib.class.getResource("ico/REGEX.gif")));
+        icons.put(Type.ALTERNATION, new ImageIcon(IconLib.class.getResource("ico/ALTERNATION.gif")));
     }
 
     public static IconLib getInstance() {

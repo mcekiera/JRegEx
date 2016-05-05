@@ -16,15 +16,29 @@ import java.awt.*;
  */
 public class TreeRenderer extends DefaultTreeCellRenderer{
     private IconLib lib = IconLib.getInstance();
+    private boolean valid;
+
+    public TreeRenderer(boolean validation) {
+        this.valid = validation;
+
+    }
 
     @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value,
                                                   boolean arg2, boolean arg3, boolean arg4, int arg5, boolean arg6) {
+        if(valid) {
+            if (((Construct) value).getType() != Type.COMPONENT) {
+                JComponent c = (JComponent) super.getTreeCellRendererComponent(tree, value, arg2, arg3, arg4, arg5, arg6);
+                configNode(((Construct) value).getType(), c);
+                return c;
+            }
+        } else {
+            if (isInvalid(((Construct) value).getType())) {
+                JComponent c = (JComponent) super.getTreeCellRendererComponent(tree, value, arg2, arg3, arg4, arg5, arg6);
+                configNode(((Construct) value).getType(), c);
+                return c;
+            }
 
-        if (((Construct)value).getType() != Type.COMPONENT) {
-            JComponent c = (JComponent) super.getTreeCellRendererComponent(tree, value, arg2, arg3, arg4, arg5, arg6);
-            configNode(((Construct)value).getType(),c);
-            return c;
         }
 
         return new JLabel();
@@ -59,6 +73,7 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
             case NON_CAPTURING:
             case LOOK_AROUND:
             case BACKREFERENCE:
+            case ALTERNATION:
                 c.setBackground(GroupColor.GROUP1.getColor());
                 break;
             case QUOTATION:
@@ -77,5 +92,10 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
         }
         setIcon(lib.getIcon(type));
         return c;
+    }
+
+    public boolean isInvalid(Type type) {
+        return type == Type.UNBALANCED || type == Type.INCOMPLETE || type == Type.INVALID_BACKREFERENCE ||
+                type == Type.INVALID_INTERVAL || type == Type.INVALID_RANGE;
     }
 }

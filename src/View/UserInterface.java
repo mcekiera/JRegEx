@@ -117,16 +117,18 @@ public class UserInterface implements Observed {
 
     private JScrollPane buildTree() {
         tree = new JTree();
+        tree.setBorder(new EmptyBorder(1,1,1,1));
         tree.getSelectionModel().setSelectionMode
                 (TreeSelectionModel.SINGLE_TREE_SELECTION);
         tree.setModel(null);
         JScrollPane pane = new JScrollPane(tree);
+        tree.addFocusListener(new OnFocusBorderChanger(new LineBorder(Color.cyan, 1)));
         return pane;
     }
 
-    public void setTreeModel(RegExTree model) {
+    public void setTreeModel(RegExTree model, boolean valid) {
         tree.setModel(model);
-        tree.setCellRenderer(model.getRenderer());
+        tree.setCellRenderer(model.getRenderer(valid));
         frame.revalidate();
     }
 

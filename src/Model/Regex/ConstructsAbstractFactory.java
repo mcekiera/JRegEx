@@ -91,9 +91,11 @@ public class ConstructsAbstractFactory {
 
     public Construct createInGroupConstruct(Construct parent, String pattern, int startIndex) {
         Matcher matcher = Pattern.compile("\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?|\\[|\\)|]").matcher(parent.getPattern().substring(startIndex));
-        matcher.find();
-        Segment matched = new Segment(pattern,startIndex + matcher.start(),startIndex + matcher.end());
-        return new Single(parent, Type.COMPONENT, matched);
+        if(matcher.find()) {
+            Segment matched = new Segment(pattern, startIndex + matcher.start(), startIndex + matcher.end());
+            return new Single(parent, Type.COMPONENT, matched);
+        }
+        return createEmptyConstruct(parent,pattern,startIndex);
     }
 
     public Construct createConstructInCharClass(Construct parent, String pattern, int startIndex) {
@@ -315,13 +317,17 @@ public class ConstructsAbstractFactory {
         return new Composite(parent,Type.ALTERNATION,new Segment(pattern,startIndex,end));
     }
 
-    public Construct createEmptyAlterntive(Construct parent, String pattern, int index) {
+    public Construct createEmptyAlternative(Construct parent, String pattern, int index) {
         Single single = new Single(parent,Type.SIMPLE,new Segment(pattern,index,index));
         single.setDescription("null");
         Composite alternative = new Composite(parent,Type.ALTERNATION,new Segment(pattern,index,index));
         alternative.setDescription(desc.getDescription(alternative));
         alternative.addConstruct(single);
         return alternative;
+    }
+
+    public Construct createEmptyConstruct(Construct parent, String pattern, int index) {
+        return new Single(parent,Type.SIMPLE,new Segment(pattern,index,index));
     }
 
     //TODO wygl¹da na to ¿e potrzebna jest d³u¿sza metoda ogarniaj¹ca alternatywy, niestety nie ujête wczeœniej w specyfikacji

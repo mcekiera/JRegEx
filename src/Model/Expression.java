@@ -93,7 +93,7 @@ public class Expression implements ToolTipable{
         JTree tree = new JTree();
         tree.setModel(model);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        tree.setCellRenderer(model.getRenderer());
+        tree.setCellRenderer(model.getRenderer(true));
         frame.add(tree);
         frame.pack();
         frame.setVisible(true);
