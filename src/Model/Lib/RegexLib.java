@@ -40,6 +40,7 @@ public class RegexLib {
         lib.put(BACKREFERENCE, "\\\\(?:(\\d+)|k\\<([^>]+)\\>)");
         lib.put(SIMPLE, ".");
         lib.put(RANGE, "\\p{ASCII}-[\\p{ASCII}&&[^]]]|\\\\\\w+-\\\\\\w+");
+        lib.put(ALTERNATION, "^((?:\\\\\\||\\\\\\(|[^(|])+)(?=\\|)");
 
         lib.put(UNBALANCED, "\\((\\?(\\<(\\w+|[=!])?|[:=!>]|[\\w-]+:?)?)?");
         lib.put(INCOMPLETE, "\\\\([xcu]|p(\\{)?|k(<[^>]*)?)");

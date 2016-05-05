@@ -34,17 +34,21 @@ public class ConstructsAbstractFactory {
         Construct construct;
         updateGroupsCount(pattern);
         if(isComponentOfGroup(parent, startIndex)) {
-            construct = createInGroupConstruct(parent,pattern,startIndex);
+            construct = createInGroupConstruct(parent, pattern, startIndex);
+        } else if(regexMatch(Type.COMPONENT, current)) {
+            construct = new Single(parent,Type.COMPONENT,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.COMPONENT).end()));
+        }else if(isFrontalAlternative(parent, pattern, startIndex)) {
+            construct = createFrontalAlternative(parent, pattern, startIndex);
+        }else if(isEndingAlternative(parent, pattern, startIndex)) {
+            construct = createEndingAlternative(parent,pattern,startIndex);
         }else if(regexMatch(Type.BOUNDARY,current)) {
             construct = new Single(parent, Type.BOUNDARY, new Segment(pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.BOUNDARY)));
         } else if(regexMatch(Type.MODE,current)) {
             construct = new Single(parent, Type.MODE,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.MODE ).end()));
         } else if(regexMatch(Type.CHAR_CLASS,current)) {
-            construct = createCharacterClass(parent, pattern,startIndex);
-        } else if(regexMatch(Type.COMPONENT,current)) {
-            construct = new Single(parent, Type.COMPONENT,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.COMPONENT).end()));
+            construct = createCharacterClass(parent, pattern, startIndex);
         } else if(regexMatch(Type.PREDEFINED,current)) {
-            construct = createPredefined(parent,pattern,startIndex);
+            construct = createPredefined(parent, pattern, startIndex);
         } else if(regexMatch(Type.SPECIFIC_CHAR,current)) {    //TODO invalid \x range
             construct = new Single(parent, Type.SPECIFIC_CHAR,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.SPECIFIC_CHAR).end()));
         }else if(regexMatch(Type.BACKREFERENCE,current)) {
@@ -52,7 +56,7 @@ public class ConstructsAbstractFactory {
         } else if(regexMatch(Type.QUOTATION,current)) {
             construct = createQuotation(parent, pattern, startIndex);
         } else if(regexMatch(Type.GROUP,current)) {
-            construct = createGroupConstruct(parent,pattern, startIndex);
+            construct = createGroupConstruct(parent, pattern, startIndex);
         } else if(regexMatch(Type.QUANTIFIER,current)) {
             construct = new Quantifier(parent, Type.QUANTIFIER, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER)));
         } else if(regexMatch(Type.INTERVAL,current)) {
@@ -65,10 +69,12 @@ public class ConstructsAbstractFactory {
 
     public Construct createGroupConstruct(Construct parent, String pattern, int startIndex) {
         String current = extractGroup(pattern.substring(startIndex), '(', ')');
+
         if(current.equals("")) {
             regexMatch(Type.UNBALANCED, pattern.substring(startIndex));
             return new Single(parent, Type.UNBALANCED,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end()));
         }
+
         if (regexMatch(Type.LOOK_AROUND, current)) {
             return new Composite(parent, Type.LOOK_AROUND,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.LOOK_AROUND).end()));
         } else if (regexMatch(Type.ATOMIC, current)) {
@@ -206,8 +212,8 @@ public class ConstructsAbstractFactory {
     }
 
     public boolean isComponentOfGroup(Construct parent, int index) {
-        return (parent.getType() != Type.EXPRESSION && parent.isComplex() && index == parent.getStart()) ||
-                (parent.getType() != Type.EXPRESSION && parent.isComplex() && index == parent.getEnd()-1);
+        return (parent.getType() != Type.EXPRESSION && parent.getType() != Type.ALTERNATION && parent.isComplex() && index == parent.getStart()) ||
+                (parent.getType() != Type.EXPRESSION && parent.getType() != Type.ALTERNATION && parent.isComplex() && index == parent.getEnd()-1);
     }
 
     public boolean isEndOfGroup(Construct parent, int index) {
@@ -268,4 +274,55 @@ public class ConstructsAbstractFactory {
             groupCount = countGroups(pattern);
         }
     }
+
+    private boolean isFrontalAlternative(Construct parent, String pattern, int startIndex) {
+        if(parent.getType() != Type.ALTERNATION) {
+            int level = 0;
+            for (char ch : pattern.substring(startIndex).toCharArray()) {
+                if (ch == '(') {
+                    level++;
+                } else if (ch == ')') {
+                    level--;
+                } else if (ch == '|' && level == 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isEndingAlternative(Construct parent, String pattern, int startIndex) {
+        return parent.getType() != Type.ALTERNATION && startIndex > 0 && pattern.charAt(startIndex-1) == '|';
+    }
+    private Construct createFrontalAlternative(Construct parent,String pattern, int startIndex) {
+        int level = 0;
+        int pos = startIndex;
+        for(char ch :  pattern.substring(startIndex).toCharArray()) {
+            if(ch == '(') {
+                level++;
+            } else if(ch == ')') {
+                level--;
+            } else if(ch == '|' && level ==0) {
+                return new Composite(parent,Type.ALTERNATION,new Segment(pattern,startIndex,pos));
+            }
+            pos++;
+        }
+        return null;
+    }
+
+    public Construct createEndingAlternative(Construct parent,String pattern, int startIndex) {
+        int end = parent.getType() == Type.EXPRESSION ? parent.getEnd() : parent.getEnd() - 1;
+        return new Composite(parent,Type.ALTERNATION,new Segment(pattern,startIndex,end));
+    }
+
+    public Construct createEmptyAlterntive(Construct parent, String pattern, int index) {
+        Single single = new Single(parent,Type.SIMPLE,new Segment(pattern,index,index));
+        single.setDescription("null");
+        Composite alternative = new Composite(parent,Type.ALTERNATION,new Segment(pattern,index,index));
+        alternative.setDescription(desc.getDescription(alternative));
+        alternative.addConstruct(single);
+        return alternative;
+    }
+
+    //TODO wygl¹da na to ¿e potrzebna jest d³u¿sza metoda ogarniaj¹ca alternatywy, niestety nie ujête wczeœniej w specyfikacji
 }

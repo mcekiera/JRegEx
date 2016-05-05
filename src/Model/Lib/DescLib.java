@@ -64,6 +64,8 @@ public class DescLib {
                 return describeInterval(construct);
             case EXPRESSION:
                 return "<HTML>" + construct.getText() + "<br>";
+            case ALTERNATION:
+                return "ALTERNATIVE " + construct.getText();
             default:
                 return "Match character: " + construct.getText();
         }

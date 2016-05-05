@@ -62,10 +62,20 @@ public class CompositeBuilder {
         Construct construct;
         while(index < container.getEnd()) {
             construct = factory.createConstruct(container,container.getPattern(),index);
+            if(previous != null && previous.equals(construct)) {
+                break;
+            }
+            if(index == container.getStart() && construct.getText().equals("|")){
+                container.addConstruct(factory.createEmptyAlterntive(container,container.getPattern(),index));
+            }
             validityCheck(construct);
             processConstruct(container,construct);
             index += construct.length();
             previous = construct;
+        }
+        if(previous.getText().equals("|")) {
+            System.out.println(container.getType());
+            container.addConstruct(factory.createEmptyAlterntive(container,container.getPattern(),index));
         }
     }
 

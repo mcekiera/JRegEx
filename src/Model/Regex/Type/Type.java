@@ -18,6 +18,7 @@ public enum Type {
     BACKREFERENCE(),
     SIMPLE(),
 
+    ALTERNATION(),
     GROUP(),
     ATOMIC(),
     LOOK_AROUND(),
