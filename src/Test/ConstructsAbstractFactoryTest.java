@@ -39,7 +39,7 @@ public class ConstructsAbstractFactoryTest {
         Construct result5 = new Single(parent,Type.PREDEFINED,segment5);
         Construct result6 = new Single(parent,Type.PREDEFINED,segment6);
 
-        assertTrue(factory.createConstruct(parent,segment1.getContent(),0).equals(result1));
+        assertTrue(factory.createConstruct(parent, segment1.getContent(), 0).equals(result1));
         assertTrue(factory.createConstruct(parent,segment2.getContent(),2).equals(result2));
         assertTrue(factory.createConstruct(parent,segment3.getContent(),4).equals(result3));
         assertTrue(factory.createConstruct(parent,segment4.getContent(),6).equals(result4));

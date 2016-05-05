@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
         ConstructsAbstractFactoryTest.class,
         SegmentTest.class,
         RegexLibTest.class,
-        MatcherLibTest.class
+        MatcherLibTest.class,
+        ConstructTest.class
 })
 public class TestSuite {
 }  

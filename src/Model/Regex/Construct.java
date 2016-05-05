@@ -33,7 +33,7 @@ public abstract class Construct {
         this.type = type;
         this.parent = parent;
         description = "";
-        System.out.println(getType() + "," + getStart() + "," + getEnd() + "," + toString());
+        //System.out.println(getType() + "," + getStart() + "," + getEnd() + "," + toString());
     }
 
     /**
@@ -105,7 +105,7 @@ public abstract class Construct {
                 && this.getStart() == ((Construct) object).getStart()
                 && this.getEnd() == ((Construct) object).getEnd()
                 && this.getType() == ((Construct) object).getType()
-                && this.toString().equals(object.toString());
+                && this.getText().equals(((Construct) object).getText());
     }
 
     /**
