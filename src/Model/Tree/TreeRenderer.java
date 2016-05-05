@@ -40,6 +40,7 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
         c.setOpaque(true);
         switch (type) {
             case CHAR_CLASS:
+            case RANGE:
                 c.setBackground(InputColor.CHAR_CLASS.getColor());
                 break;
             case EXPRESSION:
@@ -51,6 +52,7 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
             case PREDEFINED:
             case QUANTIFIER:
             case BOUNDARY:
+            case INTERVAL:
                 c.setBackground(InputColor.PREDEFINED.getColor());
                 break;
             case CAPTURING:

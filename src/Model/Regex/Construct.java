@@ -5,7 +5,8 @@ import Model.Segment;
 
 /**
  * Abstract superclass for all logical representations of separate construct in regular expressions. It contains
- * a text fragment with individual element, with information about its type and position.
+ * a text fragment with individual element, with information about its type and position. Position is defined
+ * by start and end index of fragment of text containing given construct.
  */
 
 public abstract class Construct {
@@ -93,18 +94,18 @@ public abstract class Construct {
 
     /**
      * Compare to another object
-     * @param other anther object ot compere with.
+     * @param object anther object ot compere with.
      * @return true if objects are equal, if are same Class, has same parent, start and end index, type and text form.
      */
     @Override
-    public boolean equals(Object other) {
-        return other != null
-                && other instanceof Construct
-                && this.parent == ((Construct) other).getParent()
-                && this.getStart() == ((Construct) other).getStart()
-                && this.getEnd() == ((Construct) other).getEnd()
-                && this.getType() == ((Construct) other).getType()
-                && this.toString().equals(other.toString());
+    public boolean equals(Object object) {
+        return object != null
+                && object instanceof Construct
+                && this.parent == ((Construct) object).getParent()
+                && this.getStart() == ((Construct) object).getStart()
+                && this.getEnd() == ((Construct) object).getEnd()
+                && this.getType() == ((Construct) object).getType()
+                && this.toString().equals(object.toString());
     }
 
     /**

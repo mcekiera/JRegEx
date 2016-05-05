@@ -5,13 +5,13 @@ import Model.Regex.Type.Type;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.LinkedHashMap;
+import java.util.TreeMap;
 
 public class DescLib {
     private static final DescLib INSTANCE = new DescLib();
-    private final LinkedHashMap<String, String> basic;
-    private final LinkedHashMap<String, String> mode;
-    private final LinkedHashMap<String, String> group;
+    private final TreeMap<String, String> basic;
+    private final TreeMap<String, String> mode;
+    private final TreeMap<String, String> group;
 
     private DescLib() {
         basic = loadElements("descSimple.txt");
@@ -23,8 +23,8 @@ public class DescLib {
         return INSTANCE;
     }
 
-    private LinkedHashMap<String, String> loadElements(String fileName){
-        LinkedHashMap<String, String> elements = new LinkedHashMap<String,String>();
+    private TreeMap<String, String> loadElements(String fileName){
+        TreeMap<String, String> elements = new TreeMap<String,String>();
         try{
             String line;
             InputStreamReader stream = new InputStreamReader(getClass().getResourceAsStream(fileName));
@@ -57,7 +57,7 @@ public class DescLib {
             case ATOMIC:
             case CAPTURING:
             case NON_CAPTURING:
-                return describeLookAround(construct);
+                return describeGrouping(construct);
             case CHAR_CLASS:
                 return describeCharacterClass(construct);
             case INTERVAL:
@@ -70,7 +70,7 @@ public class DescLib {
     }
 
     private String describeBackreference(Construct construct) {
-        return "<HTML>" + construct.getText() + "<br>";    //TODo dokonczyæ
+        return "<HTML>" + construct.getText() + "<br>";    //TODo dokonczyæ, zmieniæ typy logiczne zamiast komponentów
     }
 
     private String describeSimple(Construct c, String text) {
@@ -132,7 +132,7 @@ public class DescLib {
         }
     }
 
-    private String describeLookAround(Construct construct) {
+    private String describeGrouping(Construct construct) {
         String result = "";
         String pattern = construct.getText();
         for(String prefix : group.keySet()) {
@@ -140,10 +140,12 @@ public class DescLib {
                 result = getBold(construct) + " " + group.get(prefix);
                 if(construct.getType() == Type.LOOK_AROUND) {
                     result += " " + pattern.substring(prefix.length(), pattern.length() - 1);
+                    break;
                 }
             }
             if(construct.getType()==Type.NON_CAPTURING) {
                 result += getModes(pattern,pattern.indexOf('?')+1,pattern.indexOf(':'));
+                break;
             }
         }
         return result;
