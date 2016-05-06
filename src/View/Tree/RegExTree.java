@@ -1,5 +1,6 @@
 package View.Tree;
 
+import Controller.HighlightManager.HighlightManager;
 import Model.Expression;
 import Model.Regex.Complex;
 import Model.Regex.Composite;
@@ -55,8 +56,9 @@ public class RegExTree implements TreeModel {
 
     }
 
-    public DefaultTreeCellRenderer getRenderer(boolean valid) {
-        TreeRenderer renderer = new TreeRenderer(valid);
+    public DefaultTreeCellRenderer getRenderer(HighlightManager manager, boolean valid) {
+        TreeRenderer renderer = new TreeRenderer(manager,valid);
         return renderer;
     }
+
 }

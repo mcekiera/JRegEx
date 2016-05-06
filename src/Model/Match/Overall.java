@@ -51,6 +51,36 @@ public class Overall {
         return null;
     }
 
+    public Segment getSegmentByPositon(int position) {
+        for(int i = groupCount(); i >=0; i--) {
+            int match = 0;
+            for(Segment segment : getMatch(i)) {
+                match++;
+                if(segment.getStart() <= position && segment.getEnd() > position) {
+                    return segment;
+                }
+            }
+        }
+        return null;
+    }
+
+    public String getMatchDescription() {
+        StringBuilder result = new StringBuilder();
+        result.append("<html>");
+        for(int k = 0; k < groups.get(0).size();k++) {
+            result.append(("<b>Match #")).append(k + 1).append(":</b><br>");
+            for(int j = 0; j <= groupCount(); j++) {
+                if(groups.get(j).get(k).getDescription().equals("")) {
+                    System.out.println(">" + groups.get(j).get(k).getDescription());
+                }
+                result.append("#").append(j).append("   ").append(groups.get(j).get(k).getDescription()).append("<br>");
+            }
+            result.append("<br>");
+        }
+        result.append("</html>");
+        return result.toString();
+    }
+
     private void init() {
         groups = new HashMap<>();
         prepareMap();
@@ -86,6 +116,8 @@ public class Overall {
             groups.put(i, new ArrayList<>());
         }
     }
+
+
 
 
 

@@ -9,7 +9,8 @@ public enum InputColor {
     ERROR(new Color(255,80,60)),
     CHAR_CLASS(new Color(255,165,79)),
     MODE(new Color(238,130,238)),
-    PREDEFINED(new Color(100,149,237));
+    PREDEFINED(new Color(100,149,237)),
+    SELECTION(Color.CYAN);
 
     Color color;
     final static Map<InputColor,DefaultHighlighter.DefaultHighlightPainter> PAINTERS = createPainters();

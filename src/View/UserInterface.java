@@ -1,7 +1,7 @@
 package View;
 
+import Controller.HighlightManager.HighlightManager;
 import Controller.Listeners.OnFocusBorderChanger;
-import Model.Match.Overall;
 import View.Observer.Observed;
 import View.Observer.Observer;
 import View.Tree.RegExTree;
@@ -46,16 +46,16 @@ public class UserInterface implements Observed {
         inputField.addFocusListener(focusListener);
 
         display = new MatchDisplay();
-        display.getArea().addFocusListener(focusListener);
+        display.getTextPane().addFocusListener(focusListener);
 
         matchingArea = buildTextArea();
         matchingArea.getDocument().addDocumentListener(listener);
         matchingArea.addFocusListener(focusListener);
 
-        //upperField = buildComparingField();
-        //upperField.addFocusListener(focusListener);
-        //lowerField = buildComparingField();
-        //lowerField.addFocusListener(focusListener);
+        upperField = buildComparingField();
+        upperField.addFocusListener(focusListener);
+        lowerField = buildComparingField();
+        lowerField.addFocusListener(focusListener);
 
         observerList = new ArrayList<>();
 
@@ -66,8 +66,8 @@ public class UserInterface implements Observed {
         buildInterface();
     }
 
-    public void setDisplay(Overall overall) {
-        display.set(overall);
+    public void setDisplay(String match) {
+        display.setText(match);
     }
 
     public InputField getInputField() {
@@ -85,18 +85,18 @@ public class UserInterface implements Observed {
         panel.add(buildMatchingArea(), BorderLayout.CENTER);
         frame.add(panel,BorderLayout.CENTER);
         JPanel explainPanel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Explanation:");
+        JLabel label = new JLabel("EXPLANATION:");
         explainPanel.setPreferredSize(new Dimension(200, 400));
-        label.setFont(new Font("Arial", Font.BOLD, 25));
+        label.setFont(new Font("Arial", Font.BOLD, 14));
         explainPanel.add(label, BorderLayout.PAGE_START);
 
         JPanel interior = new JPanel(new GridLayout(2,1));
 
         interior.add(buildTree());
-        interior.add(new JScrollPane(display.getArea()));
+        interior.add(new JScrollPane(display.getTextPane()));
 
         explainPanel.add(interior, BorderLayout.CENTER);
-        //frame.add(buildComparingFields(), BorderLayout.PAGE_END);
+        panel.add(buildComparingFields(), BorderLayout.PAGE_END);
 
         frame.add(explainPanel, BorderLayout.EAST);
         frame.setTitle("Java Regular Expression decomposer ver 1.2");
@@ -106,8 +106,8 @@ public class UserInterface implements Observed {
 
     private JPanel buildInputField() {
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Regular expression:");
-        label.setFont(new Font("Arial", Font.BOLD, 25));
+        JLabel label = new JLabel("REGULAR EXPRESSION:");
+        label.setFont(new Font("Arial", Font.BOLD, 14));
         JScrollPane inputPane = new JScrollPane(inputField);
         inputPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         inputPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -155,9 +155,9 @@ public class UserInterface implements Observed {
         return pane;
     }
 
-    public void setTreeModel(RegExTree model, Model.Regex.Composite constructs, boolean valid) {
+    public void setTreeModel(HighlightManager manager, RegExTree model, boolean valid) {
         tree.setModel(model);
-        tree.setCellRenderer(model.getRenderer(valid));
+        tree.setCellRenderer(model.getRenderer(manager,valid));
         try {
             expandAllNodes(tree);
         }catch (ClassCastException e) {

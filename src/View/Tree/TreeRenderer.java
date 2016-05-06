@@ -1,5 +1,6 @@
 package View.Tree;
 
+import Controller.HighlightManager.HighlightManager;
 import Model.Lib.IconLib;
 import Model.Regex.Construct;
 import Model.Regex.Type.Type;
@@ -17,25 +18,36 @@ import java.awt.*;
 public class TreeRenderer extends DefaultTreeCellRenderer{
     private IconLib lib = IconLib.getInstance();
     private boolean valid;
+    private HighlightManager manager;
+    private Construct selected;
 
-    public TreeRenderer(boolean validation) {
+    public TreeRenderer(HighlightManager manager,boolean validation) {
         this.valid = validation;
-
+        this.manager = manager;
     }
 
     @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value,
                                                   boolean arg2, boolean arg3, boolean arg4, int arg5, boolean arg6) {
+
         if(valid) {
             if (((Construct) value).getType() != Type.COMPONENT) {
                 JComponent c = (JComponent) super.getTreeCellRendererComponent(tree, value, arg2, arg3, arg4, arg5, arg6);
                 configNode(((Construct) value).getType(), c);
+
+                if(arg2) {
+                    c.setBackground(Color.CYAN);
+                    manager.selectionHighlight(((Construct) value).getStart());
+                }
                 return c;
             }
         } else {
             if (isInvalid(((Construct) value).getType())) {
                 JComponent c = (JComponent) super.getTreeCellRendererComponent(tree, value, arg2, arg3, arg4, arg5, arg6);
                 configNode(((Construct) value).getType(), c);
+                if(arg2) {
+                    c.setBackground(Color.CYAN);
+                }
                 return c;
             }
 
@@ -93,6 +105,8 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
         setIcon(lib.getIcon(type));
         return c;
     }
+
+
 
     public boolean isInvalid(Type type) {
         return type == Type.UNBALANCED || type == Type.INCOMPLETE || type == Type.INVALID_BACKREFERENCE ||

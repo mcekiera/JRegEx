@@ -12,16 +12,18 @@ public class SelectionHighlighter implements CaretListener {
     /**
      * Object managing JTextComponent highlighting.
      */
-    private HighlightManager manager;
+    private HighlightManager[] managers;
 
-    public SelectionHighlighter(HighlightManager manager) {
-        this.manager = manager;
+    public SelectionHighlighter(HighlightManager ... managers) {
+        this.managers = managers;
     }
 
     @Override
     public void caretUpdate(CaretEvent e) {
         int position = e.getDot();
-        manager.selectionHighlight(position);
+        for(HighlightManager manager : managers) {
+            manager.selectionHighlight(position);
+        }
     }
 }
 

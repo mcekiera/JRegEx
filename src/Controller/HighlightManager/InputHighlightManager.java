@@ -1,7 +1,9 @@
 package Controller.HighlightManager;
 
-import Model.Regex.*;
+import Model.Regex.Complex;
 import Model.Regex.Composite;
+import Model.Regex.Construct;
+import Model.Regex.Quantifier;
 import Model.Regex.Type.Type;
 import View.Color.ClassColor;
 import View.Color.GroupColor;
@@ -10,7 +12,6 @@ import View.Color.InputColor;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
-import java.awt.*;
 
 /**
  * Controls highlighting of JTextComponent using its Highlighter object. It diverse color of highlight on
@@ -69,11 +70,17 @@ public class InputHighlightManager extends HighlightManager{
      */
     private void highlightConstruct(Construct construct, int group) {
         DefaultHighlighter.DefaultHighlightPainter painter = getPainter(construct, group);
+        if(construct.equals(selected)) {
+            try {
+                highlighter.addHighlight(construct.getStart(),construct.getEnd(), InputColor.getPainters().get(InputColor.SELECTION));
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
+        }
         if(painter !=null && (!construct.isComplex() || construct instanceof Quantifier)) {
             try {
                 highlighter.addHighlight(construct.getStart(),construct.getEnd(), painter);
             } catch (BadLocationException e) {
-
                 e.printStackTrace();
             }
         }
@@ -98,7 +105,7 @@ public class InputHighlightManager extends HighlightManager{
      */
     private DefaultHighlighter.DefaultHighlightPainter getPainter(Construct construct, int group) {
         if(isComponentOfSelectedComposite(construct)) {
-            return new DefaultHighlighter.DefaultHighlightPainter(Color.CYAN);
+            return InputColor.getPainters().get(InputColor.SELECTION);
         } else if(construct.getParent().getType() == Type.CHAR_CLASS) {
             return getColorInClassByType(construct.getType());
         } else {
