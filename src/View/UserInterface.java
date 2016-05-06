@@ -2,6 +2,7 @@ package View;
 
 import Controller.HighlightManager.HighlightManager;
 import Controller.Listeners.OnFocusBorderChanger;
+import Controller.Listeners.FocusChangeUpdate;
 import View.Observer.Observed;
 import View.Observer.Observer;
 import View.Tree.RegExTree;
@@ -44,6 +45,7 @@ public class UserInterface implements Observed {
         inputField = field.getField();
         inputField.getDocument().addDocumentListener(listener);
         inputField.addFocusListener(focusListener);
+        inputField.addFocusListener(new FocusChangeUpdate(this));
 
         display = new MatchDisplay();
         display.getTextPane().addFocusListener(focusListener);
@@ -51,6 +53,7 @@ public class UserInterface implements Observed {
         matchingArea = buildTextArea();
         matchingArea.getDocument().addDocumentListener(listener);
         matchingArea.addFocusListener(focusListener);
+        matchingArea.addFocusListener(new FocusChangeUpdate(this));
 
         upperField = buildComparingField();
         upperField.addFocusListener(focusListener);
@@ -152,6 +155,7 @@ public class UserInterface implements Observed {
         tree.setModel(null);
         JScrollPane pane = new JScrollPane(tree);
         tree.addFocusListener(new OnFocusBorderChanger(new LineBorder(Color.cyan, 1)));
+        tree.addFocusListener(new FocusChangeUpdate(this));
         return pane;
     }
 
