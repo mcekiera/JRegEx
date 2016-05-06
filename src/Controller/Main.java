@@ -5,7 +5,7 @@ import Controller.HighlightManager.MatchingHighlightManager;
 import Controller.Listeners.MouseHoover;
 import Controller.Listeners.SelectionHighlighter;
 import Model.Expression;
-import Model.Tree.RegExTree;
+import View.Tree.RegExTree;
 import View.Observer.Observed;
 import View.Observer.Observer;
 import View.Part;

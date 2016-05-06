@@ -45,7 +45,7 @@ public class DescLib {
             case BOUNDARY:
             case PREDEFINED:
             case QUANTIFIER:
-                return describeSimple(construct,construct.getText());
+                return describeSimple(construct.getText());
             case BACKREFERENCE:
                 return describeBackreference(construct);
             case MODE:
@@ -80,15 +80,15 @@ public class DescLib {
             case INVALID_INTERVAL:
                 return "Invalid interval" + ":" + construct.getText();
             default:
-                return "Match character: " + construct.getText();
+                return null;
         }
     }
 
     private String describeBackreference(Construct construct) {
-        return "<HTML>" + construct.getText() + "<br>";    //TODo dokonczyæ, zmieniæ typy logiczne zamiast komponentów
+        return "<HTML>" + construct.getText() + "<br>";
     }
 
-    private String describeSimple(Construct c, String text) {
+    private String describeSimple(String text) {
         return "<HTML><b>" + text + "</b><i>" + basic.get(text);
     }
 
@@ -125,25 +125,24 @@ public class DescLib {
     private String describeSpecificChar(Construct construct) {
         String pattern = construct.getText();
         if(pattern.startsWith("\\0")) {
-            return describeSimple(construct,"\\0") + " " + pattern;
+            return describeSimple("\\0") + " " + pattern;
         } else if(pattern.startsWith("\\x{")) {
             try {
                 System.out.println(pattern);
-                return getBold(construct) + basic.get("\\x") + " from range "
-                        + pattern.substring(pattern.indexOf('{')+1,pattern.indexOf('.'))
-                        + " to " + pattern.substring(pattern.lastIndexOf('.')+1, pattern.indexOf('}'));
+                return getBold(construct) + basic.get("\\x") + " of value "
+                        + pattern.substring(pattern.indexOf('{')+1, pattern.indexOf('}'));
             }catch (Exception e) {
                 e.printStackTrace();
                 return "";
             }
         } else if(pattern.startsWith("\\x")) {
-            return describeSimple(construct,"\\x") + " " + pattern;
+            return describeSimple("\\x") + " " + pattern;
         } else if(pattern.startsWith("\\u")) {
-            return describeSimple(construct,"\\u") + " " + pattern;
+            return describeSimple("\\u") + " " + pattern;
         } else if(pattern.startsWith("\\c")) {
             return getBold(construct) + "<i>" + basic.get("\\c") + " ctrl + " + pattern.charAt(pattern.length()-1);
         } else {
-            return describeSimple(construct,pattern);
+            return describeSimple(pattern);
         }
     }
 
@@ -197,11 +196,17 @@ public class DescLib {
 
     private String describeComponent(Construct construct) {
         if (group.keySet().contains(construct.getText())) {
-            return "Beggining of " + group.get(construct.getText());
-        } else if (construct.getText() == ")"){
+            return "Beginning of " + group.get(construct.getText());
+        } else if (construct.getText().equals( ")")){
             return "Closing bracket of composite construct";
+        } else if (construct.getText().equals("|")) {
+            return "OR";
         }
-        return "Component of group.";
+            return "Component of group.";
+    }
+
+    public boolean contains(String construct) {
+        return basic.containsKey(construct);
     }
 
     private String getBold(Construct construct) {

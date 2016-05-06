@@ -1,7 +1,7 @@
 package View;
 
 import Controller.Listeners.OnFocusBorderChanger;
-import Model.Tree.RegExTree;
+import View.Tree.RegExTree;
 import View.Observer.Observed;
 import View.Observer.Observer;
 
@@ -71,6 +71,7 @@ public class UserInterface implements Observed {
         frame.add(buildMatchingArea(), BorderLayout.CENTER);
         //frame.add(buildComparingFields(), BorderLayout.PAGE_END);
         frame.add(buildTree(),BorderLayout.EAST);
+        frame.setTitle("Java Regular Expression decomposer ver 1.2");
         frame.pack();
         frame.setVisible(true);
     }

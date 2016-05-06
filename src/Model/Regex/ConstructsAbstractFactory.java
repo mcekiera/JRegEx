@@ -20,7 +20,7 @@ public class ConstructsAbstractFactory {
     public Construct createConstruct(Construct parent, String pattern, int startIndex) {
         Construct construct;
         if(parent.getType() == Type.CHAR_CLASS) {
-            construct = createConstructInCharClass(parent,pattern,startIndex);
+            construct = createConstructInCharClass(parent, pattern, startIndex);
         } else {
             construct = createCommonConstruct(parent,pattern,startIndex);
         }
@@ -49,7 +49,7 @@ public class ConstructsAbstractFactory {
         } else if(regexMatch(Type.PREDEFINED,current)) {
             construct = createPredefined(parent, pattern, startIndex);
         } else if(regexMatch(Type.SPECIFIC_CHAR,current)) {    //TODO invalid \x range
-            construct = new Single(parent, Type.SPECIFIC_CHAR,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.SPECIFIC_CHAR).end()));
+            construct = createSpecificChar(parent,pattern,startIndex);
         }else if(regexMatch(Type.BACKREFERENCE,current)) {
             construct = createBackreference(parent, pattern, startIndex);
         } else if(regexMatch(Type.QUOTATION,current)) {
@@ -111,7 +111,7 @@ public class ConstructsAbstractFactory {
         } else if (regexMatch(Type.PREDEFINED, current)) {
             return createPredefined(parent,pattern,startIndex);
         } else if (regexMatch(Type.SPECIFIC_CHAR, current)) {
-            return new Single(parent, Type.SPECIFIC_CHAR, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SPECIFIC_CHAR).end()));
+            return createSpecificChar(parent,pattern,startIndex);
         } else if (regexMatch(Type.INCOMPLETE, current)) {
             return new Single(parent, Type.INCOMPLETE, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.INCOMPLETE).end()));
         } else if(regexMatch(Type.CHAR_CLASS,current)) {
@@ -127,6 +127,22 @@ public class ConstructsAbstractFactory {
             return new Single(parent, Type.BACKREFERENCE,new Segment(pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end()));
         } else {
             return new Single(parent, Type.INVALID_BACKREFERENCE,new Segment(pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end()));
+        }
+    }
+
+    /**
+     * use "hexa" group of regex, capturing interior part of \x{#####} construct
+     * @param parent
+     * @param pattern
+     * @param startIndex
+     * @return
+     */
+    private Construct createSpecificChar(Construct parent, String pattern, int startIndex) {
+        System.out.println(lib.getMatcher(Type.SPECIFIC_CHAR).group("hexa") + "!!!");
+        if(lib.getMatcher(Type.SPECIFIC_CHAR).group("hexa").matches("(?i)[0-9a-f]{1,5}")) {
+            return new Single(parent, Type.SPECIFIC_CHAR, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SPECIFIC_CHAR).end()));
+        } else {
+            return new Single(parent, Type.INCOMPLETE, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SPECIFIC_CHAR).end()));
         }
     }
 
@@ -158,7 +174,12 @@ public class ConstructsAbstractFactory {
 
     private Construct createPredefined(Construct parent, String pattern, int startIndex) {
         if (lib.getMatcher(Type.PREDEFINED).group().matches("\\\\[dDsSwW]|\\\\[pP](\\{[^}]+})|\\.")) {
-            return new Single(parent, Type.PREDEFINED,new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.PREDEFINED).end()));
+            Single single =  new Single(parent, Type.PREDEFINED,new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.PREDEFINED).end()));
+            if(DescLib.getInstance().contains(single.getText())) {
+                return single;
+            } else {
+                return new Single(parent, Type.INCOMPLETE,new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.PREDEFINED).end()));
+            }
         } else {
             regexMatch(Type.INCOMPLETE, pattern.substring(startIndex));
             return new Single(parent, Type.INCOMPLETE,new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.INCOMPLETE).end()));

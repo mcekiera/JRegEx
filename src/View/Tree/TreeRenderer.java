@@ -1,4 +1,4 @@
-package Model.Tree;
+package View.Tree;
 
 import Model.Lib.IconLib;
 import Model.Regex.Construct;
