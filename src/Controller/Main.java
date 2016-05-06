@@ -5,10 +5,10 @@ import Controller.HighlightManager.MatchingHighlightManager;
 import Controller.Listeners.MouseHoover;
 import Controller.Listeners.SelectionHighlighter;
 import Model.Expression;
-import View.Tree.RegExTree;
 import View.Observer.Observed;
 import View.Observer.Observer;
 import View.Part;
+import View.Tree.RegExTree;
 import View.UserInterface;
 
 import javax.swing.*;

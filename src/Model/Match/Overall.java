@@ -38,11 +38,13 @@ public class Overall {
         return matchMap().get(group);
     }
 
-    public Segment getMatchByPosition(int position) {
+    public String getMatchByPosition(int position) {
         for(int i = groupCount(); i >=0; i--) {
+            int match = 0;
             for(Segment segment : getMatch(i)) {
+                match++;
                 if(segment.getStart() <= position && segment.getEnd() > position) {
-                    return segment;
+                    return "<html>Match <b># " + match + "</b><br>" + "Group <b>#" + i + "</b><br>" + segment.getDescription();
                 }
             }
         }
@@ -77,6 +79,12 @@ public class Overall {
             Segment m = new Segment(text, start, end);
             groups.get(i).add(m);
         }
+        for(int k = 0; k < groups.get(0).size();k++) {
+            for(int j = 0; j <= matcher.groupCount(); j++) {
+                System.out.println(groups.get(j).get(k));
+            }
+        }
+
     }
 
     private void prepareMap() {

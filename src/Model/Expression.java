@@ -55,7 +55,7 @@ public class Expression implements ToolTipable{
             case INPUT:
                 return  getRoot().getConstructFromPosition(i).toString();
             case MATCHING:
-                return getOverallMatch().getMatchByPosition(i).toString();
+                return getOverallMatch().getMatchByPosition(i);
             default:
                 return null;
         }

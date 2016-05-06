@@ -75,7 +75,7 @@ public class CompositeBuilder {
             index += construct.length();
             previous = construct;
         }
-        if(previous.getText().equals("|")) {
+        if(previous != null && previous.getText().equals("|")) {
             //System.out.println(container.getType());
             container.addConstruct(factory.createEmptyAlternative(container, container.getPattern(), index));
         }

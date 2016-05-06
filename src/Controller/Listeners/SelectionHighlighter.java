@@ -6,7 +6,7 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
 /**
- * Caret listener for HighlightManager implementation, serves as a part of color changing on selection process.
+ * Caret listener for HighlightManager implementation, serves as a part of process for color changing on selection.
  */
 public class SelectionHighlighter implements CaretListener {
     /**

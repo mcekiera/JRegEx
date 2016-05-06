@@ -45,6 +45,10 @@ public class Segment {
         return content;
     }
 
+    public String getDescription() {
+        return "[" + start + "," + end + "]" + "    '" + toString() + "'";
+    }
+
     /**
      * @return String form of object. In this case String contains chosen fragment of text, between start
      * and end indices.

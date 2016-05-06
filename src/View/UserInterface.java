@@ -1,9 +1,9 @@
 package View;
 
 import Controller.Listeners.OnFocusBorderChanger;
-import View.Tree.RegExTree;
 import View.Observer.Observed;
 import View.Observer.Observer;
+import View.Tree.RegExTree;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -12,6 +12,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.text.Highlighter;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
@@ -53,6 +54,10 @@ public class UserInterface implements Observed {
 
         observerList = new ArrayList<>();
 
+        UIManager.put("ToolTip.background", new ColorUIResource(255, 247, 200)); //#fff7c8
+        Border border = BorderFactory.createLineBorder(new Color(76,79,83));    //#4c4f53
+        UIManager.put("ToolTip.border", border);
+
         buildInterface();
     }
 
@@ -66,25 +71,32 @@ public class UserInterface implements Observed {
 
     private void buildInterface() {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        frame.add(buildInputField(), BorderLayout.PAGE_START);
-        frame.add(buildMatchingArea(), BorderLayout.CENTER);
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(buildInputField(), BorderLayout.PAGE_START);
+        panel.add(buildMatchingArea(), BorderLayout.CENTER);
+        frame.add(panel,BorderLayout.CENTER);
+        JPanel explainPanel = new JPanel(new BorderLayout());
+        JLabel label = new JLabel("Explanation:");
+        explainPanel.setPreferredSize(new Dimension(200,400));
+        label.setFont(new Font("Arial", Font.BOLD, 25));
+        explainPanel.add(label, BorderLayout.PAGE_START);
+        explainPanel.add(buildTree(),BorderLayout.CENTER);
         //frame.add(buildComparingFields(), BorderLayout.PAGE_END);
-        frame.add(buildTree(),BorderLayout.EAST);
+        frame.add(explainPanel,BorderLayout.EAST);
         frame.setTitle("Java Regular Expression decomposer ver 1.2");
         frame.pack();
         frame.setVisible(true);
     }
 
     private JPanel buildInputField() {
-        JPanel panel = new JPanel(new GridLayout(2, 1));
+        JPanel panel = new JPanel(new BorderLayout());
         JLabel label = new JLabel("Regular expression:");
         label.setFont(new Font("Arial", Font.BOLD, 25));
         JScrollPane inputPane = new JScrollPane(inputField);
         inputPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         inputPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        panel.add(label);
-        panel.add(inputPane);
+        panel.add(label,BorderLayout.NORTH);
+        panel.add(inputPane,BorderLayout.CENTER);
         return panel;
     }
 

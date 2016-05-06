@@ -131,11 +131,13 @@ public class ConstructsAbstractFactory {
     }
 
     /**
-     * use "hexa" group of regex, capturing interior part of \x{#####} construct
-     * @param parent
-     * @param pattern
-     * @param startIndex
-     * @return
+     * Creates Construct object holding specific character representation, defined in hexadecimal, octal or unicode
+     * values. Uses "hexa" named group of regex, capturing interior part("#####") of hexadecimal construct "\x{#####}".
+     * If in-text representation fits specific char form, but contains error, it creates Construct of INCOMPLETE type.
+     * @param parent Object within created Construct object will be placed.
+     * @param pattern Analyzed regular expression in String form
+     * @param startIndex currently analyzed index of pattern
+     * @return new Construct of with SPECIFIC_CHAR or INCOMPLETE type.
      */
     private Construct createSpecificChar(Construct parent, String pattern, int startIndex) {
         if(isHexadecimal(pattern,startIndex)) {
