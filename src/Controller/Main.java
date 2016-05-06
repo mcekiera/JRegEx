@@ -11,6 +11,8 @@ import View.Observer.Observer;
 import View.Part;
 import View.UserInterface;
 
+import javax.swing.*;
+
 public class Main implements Observer{
     private UserInterface anInterface;
     private InputHighlightManager inputHighlightManager;
@@ -23,11 +25,11 @@ public class Main implements Observer{
 
     public void init() {
         expression = new Expression();
-        setUpUserInterface();
+        SwingUtilities.invokeLater(this::setUpUserInterface);
     }
 
     public static void main(String[] args) {
-        Main main = new Main();
+        new Main();
     }
 
     private void setUpUserInterface() {
@@ -52,9 +54,9 @@ public class Main implements Observer{
         }
     }
 
-    private void updateHighlight(int i) {
-        inputHighlightManager.process(i);
-    }
+    //private void updateHighlight(int i) {
+    //    inputHighlightManager.process(i);
+    //}
 
     @Override
     public void update(Observed source) {

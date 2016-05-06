@@ -71,13 +71,4 @@ public class Composite extends Construct implements Complex{
     public int size() {
         return elements.size();
     }
-
-    public boolean equals(Composite composite) {
-        for(int i = 0; i < length(); i++) {
-            if(!getConstructFromPosition(i).equals(composite.getConstructFromPosition(i))){
-                return false;
-            }
-        }
-        return true;
-    }
 }

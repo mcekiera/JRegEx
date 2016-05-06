@@ -33,7 +33,7 @@ public abstract class Construct {
         this.type = type;
         this.parent = parent;
         description = "";
-        //System.out.println(getType() + "," + getStart() + "," + getEnd() + "," + toString());
+        System.out.println(getType() + "," + getStart() + "," + getEnd() + "," + toString());
     }
 
     /**
@@ -93,7 +93,7 @@ public abstract class Construct {
     }
 
     /**
-     * Compare to another object
+     * Compare if given object is equal to another object
      * @param object anther object ot compere with.
      * @return true if objects are equal, if are same Class, has same parent, start and end index, type and text form.
      */
@@ -106,6 +106,16 @@ public abstract class Construct {
                 && this.getEnd() == ((Construct) object).getEnd()
                 && this.getType() == ((Construct) object).getType()
                 && this.getText().equals(((Construct) object).getText());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result += 31 * result + getStart();
+        result += 31 * result + getEnd();
+        result += 31 * result + getType().hashCode();
+        result += 31 * result + getText().hashCode();
+        return result;
     }
 
     /**

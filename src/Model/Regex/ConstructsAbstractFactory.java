@@ -25,7 +25,6 @@ public class ConstructsAbstractFactory {
             construct = createCommonConstruct(parent,pattern,startIndex);
         }
         construct.setDescription(desc.getDescription(construct));
-        System.out.println(construct.getDescription());
         return construct;
     }
 
@@ -69,7 +68,6 @@ public class ConstructsAbstractFactory {
 
     public Construct createGroupConstruct(Construct parent, String pattern, int startIndex) {
         String current = extractGroup(pattern.substring(startIndex), '(', ')');
-
         if(current.equals("")) {
             regexMatch(Type.UNBALANCED, pattern.substring(startIndex));
             return new Single(parent, Type.UNBALANCED,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end()));
@@ -280,7 +278,7 @@ public class ConstructsAbstractFactory {
     private boolean isFrontalAlternative(Construct parent, String pattern, int startIndex) {
         if(parent.getType() != Type.ALTERNATION) {
             int level = 0;
-            for (char ch : pattern.substring(startIndex).toCharArray()) {
+            for (char ch : pattern.substring(startIndex,parent.getEnd()).toCharArray()) {
                 if (ch == '(') {
                     level++;
                 } else if (ch == ')') {
@@ -299,7 +297,7 @@ public class ConstructsAbstractFactory {
     private Construct createFrontalAlternative(Construct parent,String pattern, int startIndex) {
         int level = 0;
         int pos = startIndex;
-        for(char ch :  pattern.substring(startIndex).toCharArray()) {
+        for(char ch :  pattern.substring(startIndex,parent.getEnd()).toCharArray()) {
             if(ch == '(') {
                 level++;
             } else if(ch == ')') {

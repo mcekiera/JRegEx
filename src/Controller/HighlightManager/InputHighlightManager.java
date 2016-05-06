@@ -61,7 +61,7 @@ public class InputHighlightManager extends HighlightManager{
 
     private void highlightGroup(Construct construct) {
         if(construct.isComplex()) {
-            if(construct.getType() != Type.CHAR_CLASS && !(construct instanceof Quantifier)){ count++;}        //TODO boolean ;(
+            if(construct.getType() != Type.CHAR_CLASS && construct.getType() != Type.ALTERNATION && !(construct instanceof Quantifier)){ count++;}        //TODO boolean ;(
             highlight((Complex) construct, count);
         }
     }

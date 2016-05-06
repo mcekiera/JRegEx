@@ -8,9 +8,7 @@ import Model.Segment;
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ConstructTest {
 
@@ -93,5 +91,23 @@ public class ConstructTest {
     public void testIsComplex() throws Exception {
         Construct construct1 = new Single(null, Type.SIMPLE,new Segment("abc",1,2));
         assertFalse(construct1.isComplex());
+    }
+
+    @Test
+    public void hashCodeTest() {
+        String regex = "a\\d\\d(abc)";
+        Construct root = new Composite(null,Type.EXPRESSION,new Segment(regex,0,regex.length()));
+        Construct construct1 = new Single(root, Type.SIMPLE,new Segment(regex,0,1));
+        Construct construct2 = new Single(root, Type.SIMPLE,new Segment(regex,0,1));
+        assertEquals(construct1.hashCode(), construct2.hashCode());
+
+        Construct construct3 = new Single(root, Type.PREDEFINED,new Segment(regex,1,3));
+        Construct construct4 = new Single(root, Type.PREDEFINED,new Segment(regex,1,3));
+        assertEquals(construct3.hashCode(), construct4.hashCode());
+        assertFalse(construct1.hashCode() == construct3.hashCode());
+        Construct construct5 = new Composite(root, Type.CAPTURING,new Segment(regex,5,10));
+        Construct construct6 = new Composite(root, Type.CAPTURING,new Segment(regex,5,10));
+        assertEquals(construct6.hashCode(), construct5.hashCode());
+        assertFalse(construct1.hashCode() == construct5.hashCode());
     }
 }

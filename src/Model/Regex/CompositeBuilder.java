@@ -1,5 +1,6 @@
 package Model.Regex;
 
+import Model.Lib.DescLib;
 import Model.Regex.Type.Type;
 import Model.Segment;
 
@@ -22,6 +23,7 @@ public class CompositeBuilder {
     public Composite toComposite(String pattern) {
         reset();
         Composite composite = new Composite(null, Type.EXPRESSION,new Segment(pattern,0,pattern.length()));
+        composite.setDescription(DescLib.getInstance().getDescription(composite));
         breakExpression(composite);
         return composite;
     }
@@ -74,7 +76,7 @@ public class CompositeBuilder {
             previous = construct;
         }
         if(previous.getText().equals("|")) {
-            System.out.println(container.getType());
+            //System.out.println(container.getType());
             container.addConstruct(factory.createEmptyAlternative(container, container.getPattern(), index));
         }
     }

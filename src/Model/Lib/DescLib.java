@@ -5,13 +5,14 @@ import Model.Regex.Type.Type;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class DescLib {
     private static final DescLib INSTANCE = new DescLib();
-    private final TreeMap<String, String> basic;
-    private final TreeMap<String, String> mode;
-    private final TreeMap<String, String> group;
+    private final Map<String, String> basic;
+    private final Map<String, String> mode;
+    private final Map<String, String> group;
 
     private DescLib() {
         basic = loadElements("descSimple.txt");
@@ -23,8 +24,8 @@ public class DescLib {
         return INSTANCE;
     }
 
-    private TreeMap<String, String> loadElements(String fileName){
-        TreeMap<String, String> elements = new TreeMap<String,String>();
+    private LinkedHashMap<String, String> loadElements(String fileName){
+        LinkedHashMap<String, String> elements = new LinkedHashMap<>();
         try{
             String line;
             InputStreamReader stream = new InputStreamReader(getClass().getResourceAsStream(fileName));
@@ -60,12 +61,14 @@ public class DescLib {
                 return describeGrouping(construct);
             case CHAR_CLASS:
                 return describeCharacterClass(construct);
+            case COMPONENT:
+                return describeComponent(construct);
             case INTERVAL:
                 return describeInterval(construct);
             case EXPRESSION:
-                return "<HTML>" + construct.getText() + "<br>";
+                return "<HTML><b>" + construct.getType() + ":<br>" + construct.getText() + "</b><br>";
             case ALTERNATION:
-                return "ALTERNATIVE " + construct.getText();
+                return "<HTML><b>ALTERNATIVE</b> " + construct.getText();
             case UNBALANCED:
                 return "Unbalanced structure on index " + construct.getStart() + ":" + construct.getText();
             case INCOMPLETE:
@@ -145,20 +148,20 @@ public class DescLib {
     }
 
     private String describeGrouping(Construct construct) {
-        String result = "";
+        String result = "<html>";
         String pattern = construct.getText();
+        int length = 0;
         for(String prefix : group.keySet()) {
-            if(pattern.startsWith(prefix)) {
-                result = getBold(construct) + " " + group.get(prefix);
-                if(construct.getType() == Type.LOOK_AROUND) {
-                    result += " " + pattern.substring(prefix.length(), pattern.length() - 1);
-                    break;
-                }
-            }
-            if(construct.getType()==Type.NON_CAPTURING) {
-                result += getModes(pattern,pattern.indexOf('?')+1,pattern.indexOf(':'));
+            if(construct.getText().startsWith(prefix)) {
+                result += group.get(prefix);
+                length = prefix.length();
                 break;
             }
+        }
+        if(construct.getType()==Type.NON_CAPTURING) {
+            result += getModes(pattern, pattern.indexOf('?') + 1, pattern.indexOf(':'));
+        } else if(construct.getType() == Type.LOOK_AROUND) {
+            result += " for: " + pattern.substring(length,pattern.length()-1);
         }
         return result;
     }
@@ -190,6 +193,15 @@ public class DescLib {
             String[] split = string.split(",");
             return "at least " + split[0] + " but not more than " + split[1] + " times.";
         }
+    }
+
+    private String describeComponent(Construct construct) {
+        if (group.keySet().contains(construct.getText())) {
+            return "Beggining of " + group.get(construct.getText());
+        } else if (construct.getText() == ")"){
+            return "Closing bracket of composite construct";
+        }
+        return "Component of group.";
     }
 
     private String getBold(Construct construct) {
