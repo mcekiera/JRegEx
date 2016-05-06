@@ -12,17 +12,36 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.*;
 
+/**
+ * Controls highlighting of JTextComponent using its Highlighter object. It diverse color of highlight on
+ * Type property of given Construct represented in text.
+ */
 public class InputHighlightManager extends HighlightManager{
+    /**
+     * Highlighter of chosen JTextComponent
+     */
     private final Highlighter highlighter;
-    DefaultHighlighter.DefaultHighlightPainter painter;;
+    /**
+     * Currently selected in text representation of Construct object.
+     */
     private Construct selected;
+    /**
+     * Counter which serves to differentiate highlight color of groups and other complex structures.
+     */
     int count = 0;
+    /**
+     * Composite object which representation in text is currently highlighted.
+     */
     private Composite current;
 
     public InputHighlightManager(Highlighter highlighter) {
         this.highlighter = highlighter;
     }
 
+    /**
+     * Highlights the representation of given Construct in text.
+     * @param composite Composite object
+     */
     public void process(Composite composite) {
         current = composite;
         highlighter.removeAllHighlights();
@@ -30,28 +49,29 @@ public class InputHighlightManager extends HighlightManager{
         count = 0;
     }
 
-    public void process(int i) {
-        try {
-            selected = current.getConstructFromPosition(i);
-            process(current);
-        } catch (NullPointerException e) {
-            //e.printStackTrace();
-        }
-    }
-
-    private void highlight(Complex composite, int level) {
+    /**
+     * Highlights given representation.
+     * @param composite Complex interface implementing object
+     * @param group ordinal number of complex object, serves to color selection
+     */
+    private void highlight(Complex composite, int group) {
         for(Construct construct : composite) {
-            highlightConstruct(construct,level);
+            highlightConstruct(construct,group);
             highlightGroup(construct);
         }
 
     }
 
-    private void highlightConstruct(Construct construct, int level) {
-        painter = getPainter(construct,level);
-        if(painter!=null && (!construct.isComplex() || construct instanceof Quantifier)) {
+    /**
+     * Highlights given representation of construct.
+     * @param construct Construct object
+     * @param group ordinal number of complex object, serves to color selection
+     */
+    private void highlightConstruct(Construct construct, int group) {
+        DefaultHighlighter.DefaultHighlightPainter painter = getPainter(construct, group);
+        if(painter !=null && (!construct.isComplex() || construct instanceof Quantifier)) {
             try {
-                highlighter.addHighlight(construct.getStart(),construct.getEnd(),painter);
+                highlighter.addHighlight(construct.getStart(),construct.getEnd(), painter);
             } catch (BadLocationException e) {
 
                 e.printStackTrace();
@@ -59,6 +79,10 @@ public class InputHighlightManager extends HighlightManager{
         }
     }
 
+    /**
+     * Highlights given representation of construct.
+     * @param construct Construct object
+     */
     private void highlightGroup(Construct construct) {
         if(construct.isComplex()) {
             if(construct.getType() != Type.CHAR_CLASS && construct.getType() != Type.ALTERNATION && !(construct instanceof Quantifier)){ count++;}        //TODO boolean ;(
@@ -66,17 +90,29 @@ public class InputHighlightManager extends HighlightManager{
         }
     }
 
-    private DefaultHighlighter.DefaultHighlightPainter getPainter(Construct construct, int level) {
+    /**
+     * Provide Painter object, with chosen by Construct Type, color.
+     * @param construct object which representation will be highlighted.
+     * @param group ordinal number of complex object, serves to color selection
+     * @return DefaultHighlightPainter object
+     */
+    private DefaultHighlighter.DefaultHighlightPainter getPainter(Construct construct, int group) {
         if(isComponentOfSelectedComposite(construct)) {
             return new DefaultHighlighter.DefaultHighlightPainter(Color.CYAN);
         } else if(construct.getParent().getType() == Type.CHAR_CLASS) {
             return getColorInClassByType(construct.getType());
         } else {
-            return getColorByType(construct.getType(), level);
+            return getColorByType(construct.getType(), group);
         }
     }
 
-    private DefaultHighlighter.DefaultHighlightPainter getColorByType(Type type, int level) {
+    /**
+     * Provide Painter of color selected by Type parameter and int group.
+     * @param type Type representing categories of regular expression constructs
+     * @param group ordinal number of complex object, serves to color selection
+     * @return DefaultHighlightPainter with selected color
+     */
+    private DefaultHighlighter.DefaultHighlightPainter getColorByType(Type type, int group) {
         switch (type) {
             case ERROR:
             case INCOMPLETE:
@@ -96,7 +132,7 @@ public class InputHighlightManager extends HighlightManager{
             case BOUNDARY:
                 return InputColor.getPainters().get(InputColor.PREDEFINED);
             case COMPONENT:
-                int c = level >= GroupColor.values().length ? (level % GroupColor.values().length) : level;
+                int c = group >= GroupColor.values().length ? (group % GroupColor.values().length) : group;
                 return GroupColor.getPainters().get(c);
             default:
                 return null;
@@ -104,6 +140,12 @@ public class InputHighlightManager extends HighlightManager{
         }
     }
 
+    /**
+     * Provide Painter of color selected by Type parameter and int group for construct within character class
+     * constructs.
+     * @param type Type representing categories of regular expression constructs
+     * @return DefaultHighlightPainter with selected color
+     */
     public DefaultHighlighter.DefaultHighlightPainter getColorInClassByType(Type type) {
         switch (type) {
             case COMPONENT:
@@ -119,6 +161,11 @@ public class InputHighlightManager extends HighlightManager{
         }
     }
 
+    /**
+     * Defines, if given Construct is element of selected Composite object.
+     * @param construct Construct object
+     * @return true if given Construct is element of selected Composite object.
+     */
     private boolean isComponentOfSelectedComposite(Construct construct) {
         return selected != null && selected.getParent() == construct.getParent()
                 && construct.getType() == Type.COMPONENT;

@@ -80,7 +80,7 @@ public class DescLib {
             case INVALID_INTERVAL:
                 return "Invalid interval" + ":" + construct.getText();
             default:
-                return null;
+                return "Match character: " + construct.getText();
         }
     }
 
@@ -129,7 +129,7 @@ public class DescLib {
         } else if(pattern.startsWith("\\x{")) {
             try {
                 System.out.println(pattern);
-                return getBold(construct) + basic.get("\\x") + " of value "
+                return getBold(construct) + basic.get("\\x") + " of: "
                         + pattern.substring(pattern.indexOf('{')+1, pattern.indexOf('}'));
             }catch (Exception e) {
                 e.printStackTrace();

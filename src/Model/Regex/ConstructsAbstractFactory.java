@@ -138,12 +138,19 @@ public class ConstructsAbstractFactory {
      * @return
      */
     private Construct createSpecificChar(Construct parent, String pattern, int startIndex) {
-        System.out.println(lib.getMatcher(Type.SPECIFIC_CHAR).group("hexa") + "!!!");
-        if(lib.getMatcher(Type.SPECIFIC_CHAR).group("hexa").matches("(?i)[0-9a-f]{1,5}")) {
-            return new Single(parent, Type.SPECIFIC_CHAR, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SPECIFIC_CHAR).end()));
+        if(isHexadecimal(pattern,startIndex)) {
+            if (lib.getMatcher(Type.SPECIFIC_CHAR).group("hexa").matches("(?i)[0-9a-f]{1,5}")) {
+                return new Single(parent, Type.SPECIFIC_CHAR, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SPECIFIC_CHAR).end()));
+            } else {
+                return new Single(parent, Type.INCOMPLETE, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SPECIFIC_CHAR).end()));
+            }
         } else {
-            return new Single(parent, Type.INCOMPLETE, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SPECIFIC_CHAR).end()));
+            return new Single(parent, Type.SPECIFIC_CHAR, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SPECIFIC_CHAR).end()));
         }
+    }
+
+    public boolean isHexadecimal(String pattern, int startIndex) {
+        return pattern.substring(startIndex).startsWith("\\x{");
     }
 
     private Construct createCharacterClass(Construct parent, String pattern, int startIndex) {

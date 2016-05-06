@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.regex.PatternSyntaxException;
     //TODO jest problem z nadawaniem kolorów poza te zdefiniowane, nie chce ¿eby kolor poziomu 0 by³ u¿ywany na innych poziomach
         //TODO ale nie wiem jak inaczej to zrobiæ
-public class MatchingHighlightManager extends HighlightManager{
+public class MatchingHighlightManager extends HighlightManager implements Runnable{
     private final Highlighter highlighter;
     private final Map<Integer,DefaultHighlighter.DefaultHighlightPainter> groupPainters;
     private DefaultHighlighter.DefaultHighlightPainter painter;
@@ -41,6 +41,11 @@ public class MatchingHighlightManager extends HighlightManager{
 
         @Override
         public void selectionHighlight(int position) {
+
+        }
+
+        @Override
+        public void run() {
 
         }
     }
