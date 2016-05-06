@@ -12,19 +12,19 @@ public class IconLib {
 
     private IconLib() {
         icons = new HashMap<>();
-        icons.put(Type.BACKREFERENCE, new ImageIcon(IconLib.class.getResource("ico/PREDEFINED.gif")));
-        icons.put(Type.BOUNDARY, new ImageIcon(IconLib.class.getResource("ico/BOUNDARY.gif")));
-        icons.put(Type.CAPTURING, new ImageIcon(IconLib.class.getResource("ico/CAPTURING.gif")));
-        icons.put(Type.SIMPLE, new ImageIcon(IconLib.class.getResource("ico/LITERAL.gif")));
-        icons.put(Type.LOOK_AROUND, new ImageIcon(IconLib.class.getResource("ico/LOOKAROUND.gif")));
-        icons.put(Type.MODE, new ImageIcon(IconLib.class.getResource("ico/MODE.gif")));
-        icons.put(Type.PREDEFINED, new ImageIcon(IconLib.class.getResource("ico/BACKREFERENCE.gif")));
-        icons.put(Type.QUANTIFIER, new ImageIcon(IconLib.class.getResource("ico/QUANTIFIER.gif")));
-        icons.put(Type.QUOTATION, new ImageIcon(IconLib.class.getResource("ico/QUOTES.gif")));
-        icons.put(Type.SPECIFIC_CHAR, new ImageIcon(IconLib.class.getResource("ico/SPECIFIC.gif")));
-        icons.put(Type.CHAR_CLASS, new ImageIcon(IconLib.class.getResource("ico/CHARCLASS.gif")));
-        icons.put(Type.EXPRESSION, new ImageIcon(IconLib.class.getResource("ico/REGEX.gif")));
-        icons.put(Type.ALTERNATION, new ImageIcon(IconLib.class.getResource("ico/ALTERNATION.gif")));
+        icons.put(Type.BACKREFERENCE, new ImageIcon(IconLib.class.getResource("ico/PREDEFINED.png")));
+        icons.put(Type.BOUNDARY, new ImageIcon(IconLib.class.getResource("ico/BOUNDARY.png")));
+        icons.put(Type.CAPTURING, new ImageIcon(IconLib.class.getResource("ico/CAPTURING.png")));
+        icons.put(Type.SIMPLE, new ImageIcon(IconLib.class.getResource("ico/LITERAL.png")));
+        icons.put(Type.LOOK_AROUND, new ImageIcon(IconLib.class.getResource("ico/LOOKAROUND.png")));
+        icons.put(Type.MODE, new ImageIcon(IconLib.class.getResource("ico/MODE.png")));
+        icons.put(Type.PREDEFINED, new ImageIcon(IconLib.class.getResource("ico/BACKREFERENCE.png")));
+        icons.put(Type.QUANTIFIER, new ImageIcon(IconLib.class.getResource("ico/QUANTIFIER.png")));
+        icons.put(Type.QUOTATION, new ImageIcon(IconLib.class.getResource("ico/QUOTES.png")));
+        icons.put(Type.SPECIFIC_CHAR, new ImageIcon(IconLib.class.getResource("ico/SPECIFIC.png")));
+        icons.put(Type.CHAR_CLASS, new ImageIcon(IconLib.class.getResource("ico/CHARCLASS.png")));
+        icons.put(Type.EXPRESSION, new ImageIcon(IconLib.class.getResource("ico/REGEX.png")));
+        icons.put(Type.ALTERNATION, new ImageIcon(IconLib.class.getResource("ico/ALTERNATION.png")));
     }
 
     public static IconLib getInstance() {

@@ -44,8 +44,8 @@ public class MatchingHighlightManager extends HighlightManager implements Runnab
 
         @Override
         public void selectionHighlight(int position) {
-            if(overall != null && overall.getSegmentByPositon(position)!=null) {
-                Segment s = overall.getSegmentByPositon(position);
+            if(overall != null && overall.getSegmentByPosition(position)!=null) {
+                Segment s = overall.getSegmentByPosition(position);
                 highlighter.removeAllHighlights();
                 try {
                     highlighter.addHighlight(s.getStart(),s.getEnd(),InputColor.getPainters().get(InputColor.SELECTION));

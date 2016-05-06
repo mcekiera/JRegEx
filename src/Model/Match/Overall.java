@@ -14,6 +14,7 @@ public class Overall {
     private Map<Integer,List<Segment>> groups;
     private Matcher matcher;
     private String text;
+    private Map<Integer,String> named;
 
     public Overall(String pattern, String text, boolean global) {
         this.text = text;
@@ -30,6 +31,10 @@ public class Overall {
         return groups;
     }
 
+    public void setNamed(Map<Integer,String> named) {
+        this.named = named;
+    }
+
     public int groupCount() {
         return matcher.groupCount();
     }
@@ -41,21 +46,23 @@ public class Overall {
     public String getMatchByPosition(int position) {
         for(int i = groupCount(); i >=0; i--) {
             int match = 0;
+            String name = "";
             for(Segment segment : getMatch(i)) {
                 match++;
                 if(segment.getStart() <= position && segment.getEnd() > position) {
-                    return "<html>Match <b># " + match + "</b><br>" + "Group <b>#" + i + "</b><br>" + segment.getDescription();
+                    if(named!=null && named.get(i)!=null) {
+                        name = named.get(i);
+                    }
+                    return "<html>Match <b># " + match + "</b><br>" + "Group <b>#" + (name.equals("") ? i : name) + "</b><br>" + segment.getDescription();
                 }
             }
         }
         return null;
     }
 
-    public Segment getSegmentByPositon(int position) {
+    public Segment getSegmentByPosition(int position) {
         for(int i = groupCount(); i >=0; i--) {
-            int match = 0;
             for(Segment segment : getMatch(i)) {
-                match++;
                 if(segment.getStart() <= position && segment.getEnd() > position) {
                     return segment;
                 }
@@ -67,13 +74,15 @@ public class Overall {
     public String getMatchDescription() {
         StringBuilder result = new StringBuilder();
         result.append("<html>");
+        String name = "";
         for(int k = 0; k < groups.get(0).size();k++) {
             result.append(("<b>Match #")).append(k + 1).append(":</b><br>");
             for(int j = 0; j <= groupCount(); j++) {
-                if(groups.get(j).get(k).getDescription().equals("")) {
-                    System.out.println(">" + groups.get(j).get(k).getDescription());
+                if(named!=null && named.get(j)!=null) {
+                    name = named.get(j);
                 }
-                result.append("#").append(j).append("   ").append(groups.get(j).get(k).getDescription()).append("<br>");
+                result.append("#").append(name.equals("") ? j : name).append("   ")
+                        .append(groups.get(j).get(k).getDescription()).append("<br>");
             }
             result.append("<br>");
         }

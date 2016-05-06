@@ -83,8 +83,11 @@ public class CompositeBuilder {
 
     private void groupCheck(Composite composite) {
         if(isGroup(composite)) {
+            currentGroup++;
+            System.out.println(composite.getText());
             addGroup(composite);
             if(isNamed(composite)) {
+                System.out.println(composite.getText());
                 addName(composite);
             }
         }
@@ -102,8 +105,9 @@ public class CompositeBuilder {
     }
 
     private void addName(Composite composite) {
-        String name = composite.toString().substring(composite.toString().indexOf('<') + 1,
-                composite.toString().indexOf('>'));
+        String name = composite.getText().substring(composite.getText().indexOf('<') + 1,
+                composite.getText().indexOf('>'));
+        System.out.println(name);
         names.put(currentGroup,name);
     }
 
@@ -160,7 +164,7 @@ public class CompositeBuilder {
     }
 
     private boolean isNamed(Composite composite) {
-        return composite.toString().matches("\\(\\?\\<[^>]+\\>.+");
+        return composite.getText().matches("\\(\\?<[^>]+>.+");
     }
 
     private boolean isError(Construct construct) {

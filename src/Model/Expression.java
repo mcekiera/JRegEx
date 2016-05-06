@@ -30,6 +30,7 @@ public class Expression implements ToolTipable{
         root = builder.toComposite(pattern);
         if(builder.isValid()) {
             overallMatch = new Overall(pattern,test,true);
+            overallMatch.setNamed(builder.getNames());
         }
     }
 
