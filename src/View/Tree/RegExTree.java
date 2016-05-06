@@ -11,7 +11,7 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 public class RegExTree implements TreeModel {
-    Expression expression;
+    private  final Expression expression;
     public RegExTree(Expression expression){
         this.expression = expression;
     }

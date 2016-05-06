@@ -79,12 +79,6 @@ public class Overall {
             Segment m = new Segment(text, start, end);
             groups.get(i).add(m);
         }
-        for(int k = 0; k < groups.get(0).size();k++) {
-            for(int j = 0; j <= matcher.groupCount(); j++) {
-                System.out.println(groups.get(j).get(k));
-            }
-        }
-
     }
 
     private void prepareMap() {

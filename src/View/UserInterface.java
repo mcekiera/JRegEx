@@ -1,6 +1,7 @@
 package View;
 
 import Controller.Listeners.OnFocusBorderChanger;
+import Model.Match.Overall;
 import View.Observer.Observed;
 import View.Observer.Observer;
 import View.Tree.RegExTree;
@@ -24,6 +25,7 @@ public class UserInterface implements Observed {
     private final JFrame frame;
     private final InputField field;
     private final JTextField inputField;
+    private final MatchDisplay display;
     private  JTextField upperField;
     private  JTextField lowerField;
     private final JTextArea matchingArea;
@@ -43,6 +45,9 @@ public class UserInterface implements Observed {
         inputField.getDocument().addDocumentListener(listener);
         inputField.addFocusListener(focusListener);
 
+        display = new MatchDisplay();
+        display.getArea().addFocusListener(focusListener);
+
         matchingArea = buildTextArea();
         matchingArea.getDocument().addDocumentListener(listener);
         matchingArea.addFocusListener(focusListener);
@@ -61,6 +66,10 @@ public class UserInterface implements Observed {
         buildInterface();
     }
 
+    public void setDisplay(Overall overall) {
+        display.set(overall);
+    }
+
     public InputField getInputField() {
        return field;
     }
@@ -77,12 +86,19 @@ public class UserInterface implements Observed {
         frame.add(panel,BorderLayout.CENTER);
         JPanel explainPanel = new JPanel(new BorderLayout());
         JLabel label = new JLabel("Explanation:");
-        explainPanel.setPreferredSize(new Dimension(200,400));
+        explainPanel.setPreferredSize(new Dimension(200, 400));
         label.setFont(new Font("Arial", Font.BOLD, 25));
         explainPanel.add(label, BorderLayout.PAGE_START);
-        explainPanel.add(buildTree(),BorderLayout.CENTER);
+
+        JPanel interior = new JPanel(new GridLayout(2,1));
+
+        interior.add(buildTree());
+        interior.add(new JScrollPane(display.getArea()));
+
+        explainPanel.add(interior, BorderLayout.CENTER);
         //frame.add(buildComparingFields(), BorderLayout.PAGE_END);
-        frame.add(explainPanel,BorderLayout.EAST);
+
+        frame.add(explainPanel, BorderLayout.EAST);
         frame.setTitle("Java Regular Expression decomposer ver 1.2");
         frame.pack();
         frame.setVisible(true);
@@ -95,8 +111,8 @@ public class UserInterface implements Observed {
         JScrollPane inputPane = new JScrollPane(inputField);
         inputPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         inputPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        panel.add(label,BorderLayout.NORTH);
-        panel.add(inputPane,BorderLayout.CENTER);
+        panel.add(label, BorderLayout.NORTH);
+        panel.add(inputPane, BorderLayout.CENTER);
         return panel;
     }
 
@@ -112,7 +128,7 @@ public class UserInterface implements Observed {
         JScrollPane pane = new JScrollPane(doubleField);
         pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        pane.setViewportBorder(new EmptyBorder(1,1,1,1));
+        pane.setViewportBorder(new EmptyBorder(1, 1, 1, 1));
         doubleField.add(upperField);
         doubleField.add(lowerField);
         return pane;
@@ -130,7 +146,7 @@ public class UserInterface implements Observed {
 
     private JScrollPane buildTree() {
         tree = new JTree();
-        tree.setBorder(new EmptyBorder(1,1,1,1));
+        tree.setBorder(new EmptyBorder(1, 1, 1, 1));
         tree.getSelectionModel().setSelectionMode
                 (TreeSelectionModel.SINGLE_TREE_SELECTION);
         tree.setModel(null);
@@ -139,10 +155,25 @@ public class UserInterface implements Observed {
         return pane;
     }
 
-    public void setTreeModel(RegExTree model, boolean valid) {
+    public void setTreeModel(RegExTree model, Model.Regex.Composite constructs, boolean valid) {
         tree.setModel(model);
         tree.setCellRenderer(model.getRenderer(valid));
+        try {
+            expandAllNodes(tree);
+        }catch (ClassCastException e) {
+            e.printStackTrace();
+        }
         frame.revalidate();
+    }
+
+    private void expandAllNodes(JTree tree) {
+        int j = tree.getRowCount();
+        int i = 0;
+        while(i < j) {
+            tree.expandRow(i);
+            i += 1;
+            j = tree.getRowCount();
+        }
     }
 
     public void setMatchCaretListener(CaretListener listener) {
