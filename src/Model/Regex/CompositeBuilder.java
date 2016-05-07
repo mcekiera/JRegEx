@@ -24,7 +24,7 @@ public class CompositeBuilder {
         reset();
         Composite composite = new Composite(null, Type.EXPRESSION,new Segment(pattern,0,pattern.length()));
         composite.setDescription(DescLib.getInstance().getDescription(composite));
-        breakExpression(composite);
+        breakExpression(composite, false);
         return composite;
     }
 
@@ -58,20 +58,33 @@ public class CompositeBuilder {
         names = new HashMap<>();
     }
 
-    private void breakExpression(Composite container) {
+    private void breakExpression(Composite container, boolean comments) {
         groupCheck(container);
         int index = container.getStart();
+        boolean commentEnabled = comments;
         Construct construct;
         while(index < container.getEnd()) {
-            construct = factory.createConstruct(container,container.getPattern(),index);
+            construct = factory.createConstruct(container,container.getPattern(),index, commentEnabled);
+
+            if((construct.getType() == Type.MODE || construct.getType() == Type.NON_CAPTURING)) {
+                if (isCommentModePositive(construct)) {
+                    System.out.println("positive");
+                    commentEnabled = true;
+                } else if (isCommentModeNegative(construct)) {
+                    System.out.println("negative");
+                    commentEnabled = false;
+                }
+            }
+
             if(previous != null && previous.equals(construct)) {
                 break;
             }
+
             if(index == container.getStart() && construct.getText().equals("|")){
                 container.addConstruct(factory.createEmptyAlternative(container, container.getPattern(), index));
             }
             validityCheck(construct);
-            processConstruct(container,construct);
+            processConstruct(container,construct, commentEnabled);
             index += construct.length();
             previous = construct;
         }
@@ -111,13 +124,13 @@ public class CompositeBuilder {
         names.put(currentGroup,name);
     }
 
-    private void processConstruct(Composite container,Construct construct) {
+    private void processConstruct(Composite container,Construct construct, boolean comment) {
         if (construct instanceof Single) {
             process(container,(Single)construct);
         } else if (construct instanceof Quantifier) {
             process(container,(Quantifier)construct);
         } else {
-            process(container,(Composite)construct);
+            process(container,(Composite)construct, comment);
         }
     }
 
@@ -138,9 +151,9 @@ public class CompositeBuilder {
     }
 
 
-    private void process(Composite container,Composite composite) {
+    private void process(Composite container,Composite composite, boolean comment) {
         container.addConstruct(composite);
-        breakExpression(composite);
+        breakExpression(composite, comment);
     }
 
     private void addEmpty(Composite container, Quantifier quantifier) {
@@ -173,6 +186,14 @@ public class CompositeBuilder {
                 construct.getType() == Type.INVALID_BACKREFERENCE ||
                 construct.getType() == Type.INVALID_INTERVAL ||
                 construct.getType() == Type.INVALID_RANGE;
+    }
+
+    public boolean isCommentModePositive(Construct construct) {
+        return construct.getText().matches("\\(\\?(?=[^-\\n]*x.*)([imdsuxU]+)[-imdsuxU]*:*.*\\)");
+    }
+
+    public boolean isCommentModeNegative(Construct construct) {
+        return  construct.getText().matches("(\\(\\?[^-\\n]*((?=[^:)\\n]*x[^:)\\n]*)-[imdsuxU]+)).*\\)");
     }
 
 

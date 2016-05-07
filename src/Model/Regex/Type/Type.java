@@ -34,7 +34,9 @@ public enum Type {
     INVALID_RANGE(),
     INVALID_INTERVAL(),
     INVALID_BACKREFERENCE(),
-    ERROR();
+    ERROR(),
+
+    COMMENT();
 
 
     Type() {

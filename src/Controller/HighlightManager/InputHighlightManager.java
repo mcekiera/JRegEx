@@ -137,6 +137,7 @@ public class InputHighlightManager extends HighlightManager{
             case INTERVAL:
             case SPECIFIC_CHAR:
             case BOUNDARY:
+            case BACKREFERENCE:
                 return InputColor.getPainters().get(InputColor.PREDEFINED);
             case COMPONENT:
                 int c = group >= GroupColor.values().length ? (group % GroupColor.values().length) : group;

@@ -45,14 +45,12 @@ public class Main implements Observer{
     }
 
     private void updateView() {
-        if(!(anInterface.getInputText().equals("") && anInterface.getMatchingText().equals(""))) {
-            expression.set(anInterface.getInputText(), anInterface.getMatchingText());
-            inputHighlightManager.process(expression.getRoot());
-            anInterface.setTreeModel(inputHighlightManager, new RegExTree(expression), expression.isValid());
-            if (expression.isValid()) {
-                matchingHighlightManager.process(expression.getOverallMatch());
-                anInterface.setDisplay(expression.getOverallMatch().getMatchDescription());
-            }
+        expression.set(anInterface.getInputText(), anInterface.getMatchingText());
+        inputHighlightManager.process(expression.getRoot());
+        anInterface.setTreeModel(inputHighlightManager, new RegExTree(expression), expression.isValid());
+        if (expression.isValid()) {
+            matchingHighlightManager.process(expression.getOverallMatch());
+            anInterface.setDisplay(expression.getOverallMatch().getMatchDescription());
         }
     }
 

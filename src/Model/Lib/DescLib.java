@@ -48,6 +48,8 @@ public class DescLib {
                 return describeSimple(construct.getText());
             case BACKREFERENCE:
                 return describeBackreference(construct);
+            case QUOTATION:
+                return describeQuotation(construct);
             case MODE:
                 return describeMode(construct);
             case SPECIFIC_CHAR:
@@ -80,12 +82,15 @@ public class DescLib {
             case INVALID_INTERVAL:
                 return "Invalid interval" + ":" + construct.getText();
             default:
-                return "Match character: " + construct.getText();
+                return "<html><b>" + construct.getText() + "</b><i> Match character: " + construct.getText();
         }
     }
 
     private String describeBackreference(Construct construct) {
-        return "<HTML>" + construct.getText() + "<br>";
+    String group = construct.getText().contains("\\k<") ?
+            " named '" + construct.getText().substring(3,construct.getText().length()-1) + "'":
+            " #" + construct.getText().substring(1);
+        return "<HTML><b>" + construct.getText() + "</b><i> Backreference to captured group" + group;
     }
 
     private String describeSimple(String text) {
@@ -144,6 +149,17 @@ public class DescLib {
         } else {
             return describeSimple(pattern);
         }
+    }
+
+    private String describeQuotation(Construct construct) {
+        if(construct.getText().startsWith("\\Q")) {
+            int end = !construct.getText().contains("\\E") ? construct.getText().length() : construct.getText().indexOf("\\E");
+            return "<html><b>" + construct.getText() + " </b><i> Match quotation: "
+                    + construct.getText().substring(2,end);
+        } else {
+            return "<html><b>" + construct.getText() + " </b><i> Literally match: " + construct.getText().substring(1);
+        }
+
     }
 
     private String describeGrouping(Construct construct) {

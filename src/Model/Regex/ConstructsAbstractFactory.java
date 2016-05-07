@@ -17,18 +17,18 @@ public class ConstructsAbstractFactory {
 
     private ConstructsAbstractFactory() {}
 
-    public Construct createConstruct(Construct parent, String pattern, int startIndex) {
+    public Construct createConstruct(Construct parent, String pattern, int startIndex, boolean comment) {
         Construct construct;
         if(parent.getType() == Type.CHAR_CLASS) {
             construct = createConstructInCharClass(parent, pattern, startIndex);
         } else {
-            construct = createCommonConstruct(parent,pattern,startIndex);
+            construct = createCommonConstruct(parent,pattern,startIndex, comment);
         }
         construct.setDescription(desc.getDescription(construct));
         return construct;
     }
 
-    public Construct createCommonConstruct(Construct parent, String pattern, int startIndex) {
+    public Construct createCommonConstruct(Construct parent, String pattern, int startIndex, boolean comment) {
         String current = pattern.substring(startIndex);
         Construct construct;
         updateGroupsCount(pattern);
@@ -59,7 +59,9 @@ public class ConstructsAbstractFactory {
         } else if(regexMatch(Type.QUANTIFIER,current)) {
             construct = new Quantifier(parent, Type.QUANTIFIER, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER)));
         } else if(regexMatch(Type.INTERVAL,current)) {
-            construct = createInterval(parent,pattern,startIndex);
+            construct = createInterval(parent, pattern, startIndex);
+        } else if(isComment(pattern,startIndex,comment)) {
+            construct = new Single(parent, Type.COMMENT, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.COMMENT)));
         } else {
             construct = createSimpleConstruct(parent,pattern,startIndex);
         }
@@ -120,6 +122,10 @@ public class ConstructsAbstractFactory {
             regexMatch(Type.SIMPLE, current);
             return new Single(parent, Type.SIMPLE,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.SIMPLE).end()));
         }
+    }
+
+    private boolean isComment(String pattern, int startIndex, boolean comment) {
+        return comment && regexMatch(Type.COMMENT, pattern.substring(startIndex));
     }
 
     private Construct createBackreference(Construct parent, String pattern, int startIndex) {
@@ -347,7 +353,7 @@ public class ConstructsAbstractFactory {
 
     public Construct createEmptyAlternative(Construct parent, String pattern, int index) {
         Single single = new Single(parent,Type.SIMPLE,new Segment(pattern,index,index));
-        single.setDescription("null");
+        single.setDescription(desc.getDescription(single));
         Composite alternative = new Composite(parent,Type.ALTERNATION,new Segment(pattern,index,index));
         alternative.setDescription(desc.getDescription(alternative));
         alternative.addConstruct(single);
@@ -357,6 +363,4 @@ public class ConstructsAbstractFactory {
     public Construct createEmptyConstruct(Construct parent, String pattern, int index) {
         return new Single(parent,Type.SIMPLE,new Segment(pattern,index,index));
     }
-
-    //TODO wygl¹da na to ¿e potrzebna jest d³u¿sza metoda ogarniaj¹ca alternatywy, niestety nie ujête wczeœniej w specyfikacji
 }

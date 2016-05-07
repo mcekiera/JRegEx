@@ -12,7 +12,7 @@ public class IconLib {
 
     private IconLib() {
         icons = new HashMap<>();
-        icons.put(Type.BACKREFERENCE, new ImageIcon(IconLib.class.getResource("ico/PREDEFINED.png")));
+        icons.put(Type.BACKREFERENCE, new ImageIcon(IconLib.class.getResource("ico/BACKREFERENCE.png")));
         icons.put(Type.BOUNDARY, new ImageIcon(IconLib.class.getResource("ico/BOUNDARY.png")));
         icons.put(Type.CAPTURING, new ImageIcon(IconLib.class.getResource("ico/CAPTURING.png")));
         icons.put(Type.SIMPLE, new ImageIcon(IconLib.class.getResource("ico/LITERAL.png")));
@@ -24,7 +24,8 @@ public class IconLib {
         icons.put(Type.SPECIFIC_CHAR, new ImageIcon(IconLib.class.getResource("ico/SPECIFIC.png")));
         icons.put(Type.CHAR_CLASS, new ImageIcon(IconLib.class.getResource("ico/CHARCLASS.png")));
         icons.put(Type.EXPRESSION, new ImageIcon(IconLib.class.getResource("ico/REGEX.png")));
-        icons.put(Type.ALTERNATION, new ImageIcon(IconLib.class.getResource("ico/ALTERNATION.png")));
+        icons.put(Type.NON_CAPTURING, new ImageIcon(IconLib.class.getResource("ico/NONCAPTURING.png")));
+        icons.put(Type.ATOMIC, new ImageIcon(IconLib.class.getResource("ico/ATOMIC.png")));
     }
 
     public static IconLib getInstance() {

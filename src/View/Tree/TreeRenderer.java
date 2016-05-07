@@ -77,6 +77,7 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
                 break;
             case PREDEFINED:
             case QUANTIFIER:
+            case BACKREFERENCE:
             case BOUNDARY:
             case INTERVAL:
                 c.setBackground(InputColor.PREDEFINED.getColor());
@@ -84,7 +85,6 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
             case CAPTURING:
             case NON_CAPTURING:
             case LOOK_AROUND:
-            case BACKREFERENCE:
             case ALTERNATION:
                 c.setBackground(GroupColor.GROUP1.getColor());
                 break;

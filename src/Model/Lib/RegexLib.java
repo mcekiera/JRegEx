@@ -25,7 +25,7 @@ public class RegexLib {
         lib = new HashMap<>();
         lib.put(BOUNDARY, "\\\\[bBAGZz]|[\\^\\$]");
         lib.put(CHAR_CLASS, "\\[");
-        lib.put(MODE, "\\(\\?[imdsuxU]+-?([imdsuxU]+)?\\)");
+        lib.put(MODE, "\\(\\?([imdsuxU]+(-[imdsuxU]+)?|-[imdsuxU]+)?\\)");
         lib.put(COMPONENT, "\\|");
         lib.put(PREDEFINED, "\\\\[dDsSwWpP](\\{[^}]*\\}?+)?+|\\.");
         lib.put(QUANTIFIER, "([?*+][?+]?)");
@@ -36,7 +36,7 @@ public class RegexLib {
         lib.put(ATOMIC, "\\(\\?\\>.*\\)");
         lib.put(LOOK_AROUND, "\\(\\?([=!]|<[=!]).*\\)");
         lib.put(CAPTURING, "^\\((?:(?!\\?)|\\?(\\<)(?<name>[^>]+)(\\>))(.*)\\)");
-        lib.put(NON_CAPTURING, "\\(\\?([imdsuxU]+(-[imdsuxU]+)?)?:.*\\)");
+        lib.put(NON_CAPTURING, "\\(\\?([imdsuxU]+(-[imdsuxU]+)?|-[imdsuxU]+)?:.*\\)");
         lib.put(BACKREFERENCE, "\\\\(?:(\\d+)|k\\<([^>]+)\\>)");
         lib.put(SIMPLE, ".");
         lib.put(RANGE, "\\p{ASCII}-[\\p{ASCII}&&[^]]]|\\\\\\w+-\\\\\\w+");
@@ -44,6 +44,7 @@ public class RegexLib {
 
         lib.put(UNBALANCED, "\\((\\?(\\<(\\w+|[=!])?|[:=!>]|[\\w-]+:?)?)?");
         lib.put(INCOMPLETE, "\\\\([xcu]|p(\\{)?|k(<[^>]*)?)");
+        lib.put(COMMENT, "#.+");
     }
 
     /**
