@@ -17,18 +17,18 @@ public class ConstructsAbstractFactory {
 
     private ConstructsAbstractFactory() {}
 
-    public Construct createConstruct(Construct parent, String pattern, int startIndex, boolean comment) {
+    public Construct createConstruct(Construct parent, String pattern, int startIndex) {
         Construct construct;
         if(parent.getType() == Type.CHAR_CLASS) {
             construct = createConstructInCharClass(parent, pattern, startIndex);
         } else {
-            construct = createCommonConstruct(parent,pattern,startIndex, comment);
+            construct = createCommonConstruct(parent,pattern,startIndex);
         }
         construct.setDescription(desc.getDescription(construct));
         return construct;
     }
 
-    public Construct createCommonConstruct(Construct parent, String pattern, int startIndex, boolean comment) {
+    public Construct createCommonConstruct(Construct parent, String pattern, int startIndex) {
         String current = pattern.substring(startIndex);
         Construct construct;
         updateGroupsCount(pattern);
@@ -60,8 +60,6 @@ public class ConstructsAbstractFactory {
             construct = new Quantifier(parent, Type.QUANTIFIER, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER)));
         } else if(regexMatch(Type.INTERVAL,current)) {
             construct = createInterval(parent, pattern, startIndex);
-        } else if(isComment(pattern,startIndex,comment)) {
-            construct = new Single(parent, Type.COMMENT, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.COMMENT)));
         } else {
             construct = createSimpleConstruct(parent,pattern,startIndex);
         }

@@ -7,6 +7,11 @@ import Model.Segment;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * TODO pomys� na commenty: utowrzenie nowej factory method, dla construct�w tw�rzonych w modzie ?x - je�eli ?x w��czone
+ * do # u�ywa normalnego a p�niej ucina pattern
+ */
+
 public class CompositeBuilder {
     public static final CompositeBuilder INSTANCE = new CompositeBuilder();
     public final ConstructsAbstractFactory factory = ConstructsAbstractFactory.getInstance();
@@ -24,7 +29,7 @@ public class CompositeBuilder {
         reset();
         Composite composite = new Composite(null, Type.EXPRESSION,new Segment(pattern,0,pattern.length()));
         composite.setDescription(DescLib.getInstance().getDescription(composite));
-        breakExpression(composite, false);
+        breakExpression(composite);
         return composite;
     }
 
@@ -58,23 +63,12 @@ public class CompositeBuilder {
         names = new HashMap<>();
     }
 
-    private void breakExpression(Composite container, boolean comments) {
+    private void breakExpression(Composite container) {
         groupCheck(container);
         int index = container.getStart();
-        boolean commentEnabled = comments;
         Construct construct;
         while(index < container.getEnd()) {
-            construct = factory.createConstruct(container,container.getPattern(),index, commentEnabled);
-
-            if((construct.getType() == Type.MODE || construct.getType() == Type.NON_CAPTURING)) {
-                if (isCommentModePositive(construct)) {
-                    System.out.println("positive");
-                    commentEnabled = true;
-                } else if (isCommentModeNegative(construct)) {
-                    System.out.println("negative");
-                    commentEnabled = false;
-                }
-            }
+            construct = factory.createConstruct(container,container.getPattern(),index);
 
             if(previous != null && previous.equals(construct)) {
                 break;
@@ -84,7 +78,7 @@ public class CompositeBuilder {
                 container.addConstruct(factory.createEmptyAlternative(container, container.getPattern(), index));
             }
             validityCheck(construct);
-            processConstruct(container,construct, commentEnabled);
+            processConstruct(container,construct);
             index += construct.length();
             previous = construct;
         }
@@ -92,6 +86,11 @@ public class CompositeBuilder {
             //System.out.println(container.getType());
             container.addConstruct(factory.createEmptyAlternative(container, container.getPattern(), index));
         }
+    }
+
+    private void breakeExpressionWithComments(Composite composite) {
+
+
     }
 
     private void groupCheck(Composite composite) {
@@ -124,13 +123,13 @@ public class CompositeBuilder {
         names.put(currentGroup,name);
     }
 
-    private void processConstruct(Composite container,Construct construct, boolean comment) {
+    private void processConstruct(Composite container,Construct construct) {
         if (construct instanceof Single) {
             process(container,(Single)construct);
         } else if (construct instanceof Quantifier) {
             process(container,(Quantifier)construct);
         } else {
-            process(container,(Composite)construct, comment);
+            process(container,(Composite)construct);
         }
     }
 
@@ -151,9 +150,9 @@ public class CompositeBuilder {
     }
 
 
-    private void process(Composite container,Composite composite, boolean comment) {
+    private void process(Composite container,Composite composite) {
         container.addConstruct(composite);
-        breakExpression(composite, comment);
+        breakExpression(composite);
     }
 
     private void addEmpty(Composite container, Quantifier quantifier) {

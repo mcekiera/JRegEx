@@ -39,12 +39,12 @@ public class ConstructsAbstractFactoryTest {
         Construct result5 = new Single(parent,Type.PREDEFINED,segment5);
         Construct result6 = new Single(parent,Type.PREDEFINED,segment6);
 
-        assertTrue(factory.createConstruct(parent, segment1.getContent(), 0,false).equals(result1));
-        assertTrue(factory.createConstruct(parent,segment2.getContent(),2,false).equals(result2));
-        assertTrue(factory.createConstruct(parent,segment3.getContent(),4,false).equals(result3));
-        assertTrue(factory.createConstruct(parent,segment4.getContent(),6,false).equals(result4));
-        assertTrue(factory.createConstruct(parent,segment5.getContent(),8,false).equals(result5));
-        assertTrue(factory.createConstruct(parent,segment6.getContent(),10,false).equals(result6));
+        assertTrue(factory.createConstruct(parent, segment1.getContent(), 0).equals(result1));
+        assertTrue(factory.createConstruct(parent,segment2.getContent(),2).equals(result2));
+        assertTrue(factory.createConstruct(parent,segment3.getContent(),4).equals(result3));
+        assertTrue(factory.createConstruct(parent,segment4.getContent(),6).equals(result4));
+        assertTrue(factory.createConstruct(parent,segment5.getContent(),8).equals(result5));
+        assertTrue(factory.createConstruct(parent,segment6.getContent(),10).equals(result6));
     }
 
     @org.junit.Test
@@ -71,14 +71,14 @@ public class ConstructsAbstractFactoryTest {
         Construct result7 = new Single(parent,Type.BOUNDARY,segment7);
         Construct result8 = new Single(parent,Type.BOUNDARY,segment8);
 
-        assertTrue(factory.createConstruct(parent,segment1.getContent(),0,false).equals(result1));
-        assertTrue(factory.createConstruct(parent,segment2.getContent(),2,false).equals(result2));
-        assertTrue(factory.createConstruct(parent,segment3.getContent(),4,false).equals(result3));
-        assertTrue(factory.createConstruct(parent,segment4.getContent(),6,false).equals(result4));
-        assertTrue(factory.createConstruct(parent,segment5.getContent(),8,false).equals(result5));
-        assertTrue(factory.createConstruct(parent,segment6.getContent(),10,false).equals(result6));
-        assertTrue(factory.createConstruct(parent,segment7.getContent(),12,false).equals(result7));
-        assertTrue(factory.createConstruct(parent,segment8.getContent(),13,false).equals(result8));
+        assertTrue(factory.createConstruct(parent,segment1.getContent(),0).equals(result1));
+        assertTrue(factory.createConstruct(parent,segment2.getContent(),2).equals(result2));
+        assertTrue(factory.createConstruct(parent,segment3.getContent(),4).equals(result3));
+        assertTrue(factory.createConstruct(parent,segment4.getContent(),6).equals(result4));
+        assertTrue(factory.createConstruct(parent,segment5.getContent(),8).equals(result5));
+        assertTrue(factory.createConstruct(parent,segment6.getContent(),10).equals(result6));
+        assertTrue(factory.createConstruct(parent,segment7.getContent(),12).equals(result7));
+        assertTrue(factory.createConstruct(parent,segment8.getContent(),13).equals(result8));
     }
 
     @org.junit.Test
@@ -107,15 +107,15 @@ public class ConstructsAbstractFactoryTest {
         Construct result8 = new Single(parent,Type.MODE,segment8);
         Construct result9 = new Single(parent,Type.MODE,segment9);
 
-        assertTrue(factory.createConstruct(parent,segment1.getContent(),0,false).equals(result1));
-        assertTrue(factory.createConstruct(parent,segment2.getContent(),4,false).equals(result2));
-        assertTrue(factory.createConstruct(parent,segment3.getContent(),8,false).equals(result3));
-        assertTrue(factory.createConstruct(parent,segment4.getContent(),12,false).equals(result4));
-        assertTrue(factory.createConstruct(parent,segment5.getContent(),16,false).equals(result5));
-        assertTrue(factory.createConstruct(parent,segment6.getContent(),20,false).equals(result6));
-        assertTrue(factory.createConstruct(parent,segment7.getContent(),24,false).equals(result7));
-        assertTrue(factory.createConstruct(parent,segment8.getContent(),28,false).equals(result8));
-        assertTrue(factory.createConstruct(parent,segment9.getContent(),35,false).equals(result9));
+        assertTrue(factory.createConstruct(parent,segment1.getContent(),0).equals(result1));
+        assertTrue(factory.createConstruct(parent,segment2.getContent(),4).equals(result2));
+        assertTrue(factory.createConstruct(parent,segment3.getContent(),8).equals(result3));
+        assertTrue(factory.createConstruct(parent,segment4.getContent(),12).equals(result4));
+        assertTrue(factory.createConstruct(parent,segment5.getContent(),16).equals(result5));
+        assertTrue(factory.createConstruct(parent,segment6.getContent(),20).equals(result6));
+        assertTrue(factory.createConstruct(parent,segment7.getContent(),24).equals(result7));
+        assertTrue(factory.createConstruct(parent,segment8.getContent(),28).equals(result8));
+        assertTrue(factory.createConstruct(parent,segment9.getContent(),35).equals(result9));
     }
 
     @org.junit.Test
@@ -137,11 +137,11 @@ public class ConstructsAbstractFactoryTest {
         Construct result4 = new Single(parent,Type.RANGE,segment4);
         Construct result5 = new Single(parent,Type.RANGE,segment5);
 
-        assertTrue(factory.createConstruct(parent,segment1.getContent(),1,false).equals(result1));
-        assertTrue(factory.createConstruct(parent,segment2.getContent(),4,false).equals(result2));
-        assertTrue(factory.createConstruct(parent,segment3.getContent(),7,false).equals(result3));
-        assertTrue(factory.createConstruct(parent,segment4.getContent(),16,false).equals(result4));
-        assertTrue(factory.createConstruct(parent,segment5.getContent(),25,false).equals(result5));
+        assertTrue(factory.createConstruct(parent,segment1.getContent(),1).equals(result1));
+        assertTrue(factory.createConstruct(parent,segment2.getContent(),4).equals(result2));
+        assertTrue(factory.createConstruct(parent,segment3.getContent(),7).equals(result3));
+        assertTrue(factory.createConstruct(parent,segment4.getContent(),16).equals(result4));
+        assertTrue(factory.createConstruct(parent,segment5.getContent(),25).equals(result5));
     }
 
     @org.junit.Test
@@ -163,11 +163,11 @@ public class ConstructsAbstractFactoryTest {
         Construct result4 = new Single(parent,Type.INVALID_RANGE,segment4);
         Construct result5 = new Single(parent,Type.INVALID_RANGE,segment5);
 
-        assertTrue(factory.createConstruct(parent,segment1.getContent(),1,false).equals(result1));
-        assertTrue(factory.createConstruct(parent,segment2.getContent(),4,false).equals(result2));
-        assertTrue(factory.createConstruct(parent,segment3.getContent(),7,false).equals(result3));
-        assertTrue(factory.createConstruct(parent,segment4.getContent(),16,false).equals(result4));
-        assertTrue(factory.createConstruct(parent,segment5.getContent(),25,false).equals(result5));
+        assertTrue(factory.createConstruct(parent,segment1.getContent(),1).equals(result1));
+        assertTrue(factory.createConstruct(parent,segment2.getContent(),4).equals(result2));
+        assertTrue(factory.createConstruct(parent,segment3.getContent(),7).equals(result3));
+        assertTrue(factory.createConstruct(parent,segment4.getContent(),16).equals(result4));
+        assertTrue(factory.createConstruct(parent,segment5.getContent(),25).equals(result5));
     }
 
     @org.junit.Test
@@ -191,12 +191,12 @@ public class ConstructsAbstractFactoryTest {
         Construct result5 = new Single(parent,Type.COMPONENT,segment5);
         Construct result6 = new Single(parent,Type.PREDEFINED,segment6);
 
-        assertTrue(factory.createConstruct(parent,segment1.getContent(),1,false).equals(result1));
-        assertTrue(factory.createConstruct(parent,segment2.getContent(),2,false).equals(result2));
-        assertTrue(factory.createConstruct(parent,segment3.getContent(),5,false).equals(result3));
-        assertTrue(factory.createConstruct(parent,segment4.getContent(),7,false).equals(result4));
-        assertTrue(factory.createConstruct(parent,segment5.getContent(),8,false).equals(result5));
-        assertTrue(factory.createConstruct(parent,segment6.getContent(),9,false).equals(result6));
+        assertTrue(factory.createConstruct(parent,segment1.getContent(),1).equals(result1));
+        assertTrue(factory.createConstruct(parent,segment2.getContent(),2).equals(result2));
+        assertTrue(factory.createConstruct(parent,segment3.getContent(),5).equals(result3));
+        assertTrue(factory.createConstruct(parent,segment4.getContent(),7).equals(result4));
+        assertTrue(factory.createConstruct(parent,segment5.getContent(),8).equals(result5));
+        assertTrue(factory.createConstruct(parent,segment6.getContent(),9).equals(result6));
     }
 
     @org.junit.Test
