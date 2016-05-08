@@ -24,7 +24,7 @@ public class ConstructsAbstractFactory {
         } else {
             construct = createCommonConstruct(parent,pattern,startIndex);
         }
-        construct.setDescription(desc.getDescription(construct));
+
         return construct;
     }
 

@@ -46,7 +46,7 @@ public class CompositeBuilder {
     /**
      * It returns a Map object, containing String with name of named capturing groups identified within
      * given regular expression. The key is a ordinal number of capturing group with name.
-     * @return Map<Integer,Construct>
+     * @return Map
      */
     public Map<Integer,String> getNames() {
         return names;
@@ -78,7 +78,8 @@ public class CompositeBuilder {
                 container.addConstruct(factory.createEmptyAlternative(container, container.getPattern(), index));
             }
             validityCheck(construct);
-            processConstruct(container,construct);
+            processConstruct(container, construct);
+            construct.setDescription(DescLib.getInstance().getDescription(construct));
             index += construct.length();
             previous = construct;
         }
@@ -88,18 +89,11 @@ public class CompositeBuilder {
         }
     }
 
-    private void breakeExpressionWithComments(Composite composite) {
-
-
-    }
-
     private void groupCheck(Composite composite) {
         if(isGroup(composite)) {
             currentGroup++;
-            System.out.println(composite.getText());
             addGroup(composite);
             if(isNamed(composite)) {
-                System.out.println(composite.getText());
                 addName(composite);
             }
         }
@@ -119,7 +113,6 @@ public class CompositeBuilder {
     private void addName(Composite composite) {
         String name = composite.getText().substring(composite.getText().indexOf('<') + 1,
                 composite.getText().indexOf('>'));
-        System.out.println(name);
         names.put(currentGroup,name);
     }
 
@@ -186,14 +179,4 @@ public class CompositeBuilder {
                 construct.getType() == Type.INVALID_INTERVAL ||
                 construct.getType() == Type.INVALID_RANGE;
     }
-
-    public boolean isCommentModePositive(Construct construct) {
-        return construct.getText().matches("\\(\\?(?=[^-\\n]*x.*)([imdsuxU]+)[-imdsuxU]*:*.*\\)");
-    }
-
-    public boolean isCommentModeNegative(Construct construct) {
-        return  construct.getText().matches("(\\(\\?[^-\\n]*((?=[^:)\\n]*x[^:)\\n]*)-[imdsuxU]+)).*\\)");
-    }
-
-
 }

@@ -33,7 +33,7 @@ public abstract class Construct {
         this.type = type;
         this.parent = parent;
         description = "";
-        System.out.println(getType() + "," + getStart() + "," + getEnd() + "," + toString());
+        //System.out.println(getType() + "," + getStart() + "," + getEnd() + "," + toString());
     }
 
     /**
@@ -133,4 +133,8 @@ public abstract class Construct {
      * @return true if it is composed of other constructs.
      */
     public abstract boolean isComplex();
+
+    public String getExtendedPattern() {
+        return getPattern().substring(0,getStart()) + "(?<Named>" + getText() + ")" + getPattern().substring(getEnd());
+    }
 }

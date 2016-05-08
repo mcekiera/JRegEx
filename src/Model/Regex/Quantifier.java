@@ -13,10 +13,12 @@ import java.util.List;
 
 public class Quantifier extends Construct implements Complex{
     private final List<Construct> elements;
+    private int start;
 
     public Quantifier(Construct parent, Type type, Segment segment) {
         super(parent,type,segment);
         elements = new ArrayList<>();
+        start = segment.getStart();
     }
 
     @Override
@@ -61,4 +63,15 @@ public class Quantifier extends Construct implements Complex{
     public Iterator<Construct> iterator() {
         return elements.listIterator();
     }
+
+    @Override
+    public String getText() {
+        return elements.get(0).getText() + super.getText();
+    }
+
+    @Override
+    public int getStart() {
+        return elements.isEmpty() ? start : start;
+    }
+
 }

@@ -2,6 +2,7 @@ package Model;
 
 
 import Controller.ToolTipable;
+import Model.Match.Detail;
 import Model.Match.Overall;
 import Model.Regex.Composite;
 import Model.Regex.CompositeBuilder;
@@ -16,6 +17,7 @@ import java.util.Map;
 public class Expression implements ToolTipable{
     private final CompositeBuilder builder = CompositeBuilder.getInstance();
     private Overall overallMatch;
+    private Detail detailMatch;
     private Composite root;
 
     public Expression() {
@@ -31,6 +33,15 @@ public class Expression implements ToolTipable{
         if(builder.isValid()) {
             overallMatch = new Overall(pattern,test,true);
             overallMatch.setNamed(builder.getNames());
+        }
+    }
+
+    public void detail() {
+        try {
+            detailMatch = new Detail(root,
+                    overallMatch.getMatch(0).get(0) == null ? new Segment("", 0, 0) : overallMatch.getMatch(0).get(0));
+        }catch (NullPointerException | IndexOutOfBoundsException e) {
+            //e.printStackTrace();
         }
     }
 

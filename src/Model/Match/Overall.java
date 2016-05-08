@@ -78,7 +78,7 @@ public class Overall {
     public String getMatchDescription() {
         StringBuilder result = new StringBuilder();
         result.append("<html>");
-        String name = "";
+        String name;
         for(int k = 0; k < groups.get(0).size();k++) {
             name = "";
             result.append(("<b>Match #")).append(k + 1).append(":</b><br>");

@@ -28,10 +28,10 @@ public class UserInterface implements Observed {
     private final InputField field;
     private final JTextField inputField;
     private final MatchDisplay display;
-    private  JTextField upperField;
-    private  JTextField lowerField;
+    private JTextField upperField;
+    private JTextField lowerField;
     private final JTextArea matchingArea;
-    JPanel doubleField;
+    private JPanel doubleField;
     private JTree tree;
 
     private final List<Observer> observerList;
@@ -216,7 +216,6 @@ public class UserInterface implements Observed {
 
     public String getDescriptionText() {
         try {
-            System.out.println("doc: " + display.getTextPane().getDocument().getText(0, display.getTextPane().getDocument().getLength()));
             return display.getTextPane().getDocument().getText(0,display.getTextPane().getDocument().getLength()-1);
         } catch (BadLocationException e) {
             e.printStackTrace();

@@ -55,7 +55,9 @@ public class Main implements Observer{
             matchingHighlightManager.process(expression.getOverallMatch());
             anInterface.setDisplay(expression.getOverallMatch().getMatchDescription());
             descriptionHighlightManager.process(anInterface.getDescriptionText(),expression.getOverallMatch());
+            expression.detail();
         }
+
     }
 
     @Override
