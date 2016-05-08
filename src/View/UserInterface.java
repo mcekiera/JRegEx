@@ -15,6 +15,7 @@ import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.plaf.ColorUIResource;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Highlighter;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
@@ -161,7 +162,7 @@ public class UserInterface implements Observed {
 
     public void setTreeModel(HighlightManager manager, RegExTree model, boolean valid) {
         tree.setModel(model);
-        tree.setCellRenderer(model.getRenderer(manager,valid));
+        tree.setCellRenderer(model.getRenderer(manager, valid));
         try {
             expandAllNodes(tree);
         }catch (ClassCastException e) {
@@ -213,6 +214,16 @@ public class UserInterface implements Observed {
         return matchingArea.getText();
     }
 
+    public String getDescriptionText() {
+        try {
+            System.out.println("doc: " + display.getTextPane().getDocument().getText(0, display.getTextPane().getDocument().getLength()));
+            return display.getTextPane().getDocument().getText(0,display.getTextPane().getDocument().getLength()-1);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public String getLowerText() {
         return lowerField.getText();
     }
@@ -244,6 +255,8 @@ public class UserInterface implements Observed {
     public Highlighter getMatchingHighlighter() {
         return matchingArea.getHighlighter();
     }
+
+    public Highlighter getDescriptionHighlighter() {return display.getHighlighter();}
 
     public Highlighter getUpperHighlighter() {
         return upperField.getHighlighter();

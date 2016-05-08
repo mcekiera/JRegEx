@@ -35,6 +35,10 @@ public class Overall {
         this.named = named;
     }
 
+    public Map<Integer,String> getNamed() {
+        return named;
+    }
+
     public int groupCount() {
         return matcher.groupCount();
     }
@@ -81,7 +85,7 @@ public class Overall {
                 if(named!=null && named.get(j)!=null) {
                     name = named.get(j);
                 }
-                result.append("#").append(name.equals("") ? j : name).append("   ")
+                result.append("\u2009#").append(name.equals("") ? j : name).append("   ")
                         .append(groups.get(j).get(k).getDescription()).append("<br>");
             }
             result.append("<br>");

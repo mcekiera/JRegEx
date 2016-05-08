@@ -1,5 +1,6 @@
 package Controller;
 
+import Controller.HighlightManager.DescriptionHighlightManager;
 import Controller.HighlightManager.InputHighlightManager;
 import Controller.HighlightManager.MatchingHighlightManager;
 import Controller.Listeners.MouseHoover;
@@ -17,6 +18,7 @@ public class Main implements Observer{
     private UserInterface anInterface;
     private InputHighlightManager inputHighlightManager;
     private MatchingHighlightManager matchingHighlightManager;
+    private DescriptionHighlightManager descriptionHighlightManager;
     private Expression expression;
 
     public Main() {
@@ -40,6 +42,7 @@ public class Main implements Observer{
         anInterface.setMatchingMouseMotionListener(new MouseHoover(expression, Part.MATCHING));
         inputHighlightManager = new InputHighlightManager(anInterface.getInputHighlighter());
         matchingHighlightManager = new MatchingHighlightManager(anInterface.getMatchingHighlighter());
+        descriptionHighlightManager = new DescriptionHighlightManager(anInterface.getDescriptionHighlighter());
         anInterface.setInputCaretListener(new SelectionHighlighter(inputHighlightManager));
         anInterface.setMatchCaretListener(new SelectionHighlighter(matchingHighlightManager));
     }
@@ -51,6 +54,7 @@ public class Main implements Observer{
         if (expression.isValid()) {
             matchingHighlightManager.process(expression.getOverallMatch());
             anInterface.setDisplay(expression.getOverallMatch().getMatchDescription());
+            descriptionHighlightManager.process(anInterface.getDescriptionText(),expression.getOverallMatch());
         }
     }
 

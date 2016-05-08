@@ -122,10 +122,6 @@ public class ConstructsAbstractFactory {
         }
     }
 
-    private boolean isComment(String pattern, int startIndex, boolean comment) {
-        return comment && regexMatch(Type.COMMENT, pattern.substring(startIndex));
-    }
-
     private Construct createBackreference(Construct parent, String pattern, int startIndex) {
         if(isValidBackreference(lib.getMatcher(Type.BACKREFERENCE).group(), pattern)) {
             return new Single(parent, Type.BACKREFERENCE,new Segment(pattern,startIndex,startIndex + lib.getMatcher(Type.BACKREFERENCE).end()));
