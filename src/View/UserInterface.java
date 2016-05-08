@@ -89,7 +89,7 @@ public class UserInterface implements Observed {
         frame.add(panel,BorderLayout.CENTER);
         JPanel explainPanel = new JPanel(new BorderLayout());
         JLabel label = new JLabel("EXPLANATION:");
-        explainPanel.setPreferredSize(new Dimension(200, 400));
+        explainPanel.setPreferredSize(new Dimension(400, 400));
         label.setFont(new Font("Arial", Font.BOLD, 14));
         explainPanel.add(label, BorderLayout.PAGE_START);
 

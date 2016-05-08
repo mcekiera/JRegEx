@@ -228,7 +228,9 @@ public class ConstructsAbstractFactory {
         char[] strAsChar = pattern.toCharArray();
         int depth = 0;
         for(int index = 0; index < pattern.length(); index++) {
-            if(strAsChar[index]==start) {
+            if(strAsChar[index] == '\\') {
+                index++;
+            } else if(strAsChar[index]==start) {
                 depth++;
             } else if(strAsChar[index]==end) {
                 depth--;
