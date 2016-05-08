@@ -80,6 +80,7 @@ public class Overall {
         result.append("<html>");
         String name = "";
         for(int k = 0; k < groups.get(0).size();k++) {
+            name = "";
             result.append(("<b>Match #")).append(k + 1).append(":</b><br>");
             for(int j = 0; j <= groupCount(); j++) {
                 if(named!=null && named.get(j)!=null) {
