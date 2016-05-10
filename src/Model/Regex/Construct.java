@@ -133,8 +133,4 @@ public abstract class Construct {
      * @return true if it is composed of other constructs.
      */
     public abstract boolean isComplex();
-
-    public String getExtendedPattern() {
-        return getPattern().substring(0,getStart()) + "(?<Named>" + getText() + ")" + getPattern().substring(getEnd());
-    }
 }

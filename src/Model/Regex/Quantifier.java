@@ -71,7 +71,6 @@ public class Quantifier extends Construct implements Complex{
 
     @Override
     public int getStart() {
-        return elements.isEmpty() ? start : start;
+        return elements.isEmpty() ? start : elements.get(0).getStart();
     }
-
 }

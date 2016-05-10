@@ -39,4 +39,5 @@ public interface Complex extends Iterable<Construct>{
      * @return size (number of internal constructs) of given Complex object
      */
     int size();
+
 }
