@@ -57,8 +57,9 @@ public class InputHighlightManager extends HighlightManager{
      */
     private void highlight(Complex composite, int group) {
         for(Construct construct : composite) {
-            highlightConstruct(construct,group);
             highlightGroup(construct);
+            highlightConstruct(construct,group);
+
         }
 
     }
