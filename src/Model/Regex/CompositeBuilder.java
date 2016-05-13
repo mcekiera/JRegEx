@@ -61,6 +61,7 @@ public class CompositeBuilder {
         currentGroup = 0;
         groups = new HashMap<>();
         names = new HashMap<>();
+        previous = null;
     }
 
     private void breakExpression(Composite container) {
@@ -74,7 +75,7 @@ public class CompositeBuilder {
                 break;
             }
 
-            if(index == container.getStart() && construct.getText().equals("|")){
+            if((!construct.isComplex()) && index == container.getStart() && construct.getText().equals("|")){
                 container.addConstruct(factory.createEmptyAlternative(container, container.getPattern(), index));
             }
             validityCheck(construct);

@@ -66,7 +66,7 @@ public class Quantifier extends Construct implements Complex{
 
     @Override
     public String getText() {
-        return elements.get(0).getText() + super.getText();
+            return elements.get(0).getText() + super.getText();
     }
 
     @Override
