@@ -19,11 +19,11 @@ import java.util.regex.Pattern;
  */
 public class Detail {
     /**
-     * Test string
+     * Test string, text matched by checked pattern.
      */
     private Segment matched;
     /**
-     * Map containing constructs as key, and lists of fragments matched by it
+     * Map containing constructs as key, and lists of fragments matched by particular constructs.
      */
     private Map<Construct,List<Segment>> detailMatch;
 
@@ -31,8 +31,6 @@ public class Detail {
         detailMatch = new LinkedHashMap<>();
         this.matched = matched;
         process(composite, matched);
-
-        //print();
     }
 
     /**
@@ -44,18 +42,14 @@ public class Detail {
     public void process(Complex complex, Segment segment) {
         Matcher matcher;
         Segment current;
+        try {
         for(Construct construct : complex) {
-            System.out.println(construct.getType() + "," +construct.getStart() +"," + construct.getEnd() + ": " + construct.getText());
             if(construct.getType() != Type.COMPONENT) {
-                try {
-                    //System.out.println(((Construct)complex).getType() + "," + construct.getType() + "," + construct.getStart());
-                    //System.out.println(segment.toString());
+
                     matcher = Pattern.compile(getAdHocPattern((Construct) complex, construct)).matcher(segment.toString());
                     if (matcher.find()) {
-                        System.out.println(">>" + matcher.pattern());
                         current = new Segment(matched.toString(),
                                 segment.getStart() + matcher.start("NamedGroup"), segment.getStart() + matcher.end("NamedGroup"));
-                        System.out.println(current.getDescription());
                         if(construct.getType() == Type.QUANTIFIER || construct.getType() == Type.INTERVAL) {
                             process((Quantifier)construct,current);
                         } else if (construct.isComplex() && construct.getType()!=Type.CHAR_CLASS) {
@@ -66,19 +60,21 @@ public class Detail {
                         addMatch(construct, null);
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             } else {
                 continue;
             }
+
+        }
+        } catch (Exception e) {
+            //e.printStackTrace();
         }
     }
 
     /**
-     * Match every construct, within given quantifier, on test string.
-     * @param quantifier
-     * @param segment
+     * Match every construct, within given quantifier, on test String, until whole test String is matched. In result
+     * every construct could match more than one fragment.
+     * @param quantifier to decompose and match for elements.
+     * @param segment String matched by whole quantifier.
      */
     public void process(Quantifier quantifier,Segment segment) {
         Construct construct = quantifier.getConstruct(0);

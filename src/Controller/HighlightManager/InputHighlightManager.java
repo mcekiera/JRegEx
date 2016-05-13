@@ -35,8 +35,13 @@ public class InputHighlightManager extends HighlightManager{
      */
     private Composite current;
 
+    private Highlighter.Highlight lastOne;
+    private Highlighter.HighlightPainter backup;
+    private Highlighter.HighlightPainter selection;
+
     public InputHighlightManager(Highlighter highlighter) {
         this.highlighter = highlighter;
+        selection = InputColor.getPainters().get(InputColor.SELECTION);
     }
 
     /**
@@ -185,8 +190,10 @@ public class InputHighlightManager extends HighlightManager{
         try {
             selected = current.getConstructFromPosition(position);
             process(current);
+            Highlighter.Highlight toRemove;
         } catch (NullPointerException e) {
             //e.printStackTrace();
         }
     }
+
 }

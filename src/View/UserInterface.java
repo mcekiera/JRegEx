@@ -1,8 +1,8 @@
 package View;
 
 import Controller.HighlightManager.HighlightManager;
-import Controller.Listeners.OnFocusBorderChanger;
 import Controller.Listeners.FocusChangeUpdate;
+import Controller.Listeners.OnFocusBorderChanger;
 import View.Observer.Observed;
 import View.Observer.Observer;
 import View.Tree.RegExTree;

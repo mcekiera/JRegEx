@@ -22,7 +22,7 @@ public class SelectionHighlighter implements CaretListener {
     public void caretUpdate(CaretEvent e) {
         int position = e.getDot();
         for(HighlightManager manager : managers) {
-            manager.selectionHighlight(position);
+             manager.selectionHighlight(position);
         }
     }
 }

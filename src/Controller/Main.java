@@ -39,7 +39,6 @@ public class Main implements Observer{
     private void setUpUserInterface() {
         anInterface = new UserInterface();
         anInterface.addObserver(this);
-
         anInterface.setInputMouseMotionListener(new MouseHoover(expression, Part.INPUT));
         anInterface.setMatchingMouseMotionListener(new MouseHoover(expression, Part.MATCHING));
         inputHighlightManager = new InputHighlightManager(anInterface.getInputHighlighter());
@@ -65,7 +64,7 @@ public class Main implements Observer{
                 //e.printStackTrace();
             }
             expression.detail();
-            sectionHighlightManager.process(expression.getDetailMatches());
+            sectionHighlightManager.process(expression);
         }
 
     }
