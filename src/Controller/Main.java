@@ -3,6 +3,7 @@ package Controller;
 import Controller.HighlightManager.DescriptionHighlightManager;
 import Controller.HighlightManager.InputHighlightManager;
 import Controller.HighlightManager.MatchingHighlightManager;
+import Controller.HighlightManager.SectionHighlightManager;
 import Controller.Listeners.MouseHoover;
 import Controller.Listeners.SelectionHighlighter;
 import Model.Expression;
@@ -19,6 +20,7 @@ public class Main implements Observer{
     private InputHighlightManager inputHighlightManager;
     private MatchingHighlightManager matchingHighlightManager;
     private DescriptionHighlightManager descriptionHighlightManager;
+    private SectionHighlightManager sectionHighlightManager;
     private Expression expression;
 
     public Main() {
@@ -43,6 +45,7 @@ public class Main implements Observer{
         inputHighlightManager = new InputHighlightManager(anInterface.getInputHighlighter());
         matchingHighlightManager = new MatchingHighlightManager(anInterface.getMatchingHighlighter());
         descriptionHighlightManager = new DescriptionHighlightManager(anInterface.getDescriptionHighlighter());
+        sectionHighlightManager = new SectionHighlightManager(anInterface.getUpperHighlighter(),anInterface.getLowerHighlighter());
         anInterface.setInputCaretListener(new SelectionHighlighter(inputHighlightManager));
         anInterface.setMatchCaretListener(new SelectionHighlighter(matchingHighlightManager));
     }
@@ -54,8 +57,15 @@ public class Main implements Observer{
         if (expression.isValid()) {
             matchingHighlightManager.process(expression.getOverallMatch());
             anInterface.setDisplay(expression.getOverallMatch().getMatchDescription());
-            descriptionHighlightManager.process(anInterface.getDescriptionText(),expression.getOverallMatch());
+            descriptionHighlightManager.process(anInterface.getDescriptionText(), expression.getOverallMatch());
+            try {
+                anInterface.setUpperText(expression.getRoot().getText());
+                anInterface.setLowerText(expression.getOverallMatch().getMatch(0).get(0).toString());
+            } catch (NullPointerException | IndexOutOfBoundsException e) {
+                //e.printStackTrace();
+            }
             expression.detail();
+            sectionHighlightManager.process(expression.getDetailMatches());
         }
 
     }

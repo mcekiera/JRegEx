@@ -72,4 +72,8 @@ public class Expression implements ToolTipable{
                 return null;
         }
     }
+
+    public Map<Construct, List<Segment>> getDetailMatches() {
+        return detailMatch.getDetailMatch();
+    }
 }

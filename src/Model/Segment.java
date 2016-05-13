@@ -19,8 +19,8 @@ public class Segment {
     private final String content;
 
     public Segment(String text, int start, int end) {
-        this.start = start;
-        this.end = end;
+        this.start = start == -1 ? 0 : start;
+        this.end = end == -1 ? 0 : end;
         this.content = text;
     }
 

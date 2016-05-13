@@ -38,8 +38,10 @@ public class ConstructsAbstractFactory {
             construct = new Single(parent,Type.COMPONENT,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.COMPONENT).end()));
         }else if(isFrontalAlternative(parent, pattern, startIndex)) {
             construct = createFrontalAlternative(parent, pattern, startIndex);
+            System.out.println("Alt   " + construct.getStart() + "," + construct.getEnd() + " - " + construct.getText());
         }else if(isEndingAlternative(parent, pattern, startIndex)) {
             construct = createEndingAlternative(parent,pattern,startIndex);
+            System.out.println("Alt   " + construct.getStart() + "," + construct.getEnd() + " - " + construct.getText());
         }else if(regexMatch(Type.BOUNDARY,current)) {
             construct = new Single(parent, Type.BOUNDARY, new Segment(pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.BOUNDARY)));
         } else if(regexMatch(Type.MODE,current)) {
