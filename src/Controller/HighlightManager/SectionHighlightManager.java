@@ -45,12 +45,13 @@ public class SectionHighlightManager {
                         } else {
 
                             pattern.addHighlight(construct.getStart(), construct.getEnd(), painter);
-                            //System.out.println(segment.getStart() + "," + segment.getEnd() + "," + correction);
-                            text.addHighlight(segment.getStart()-correction, segment.getEnd()-correction, painter);
+
+                            text.addHighlight(segment.getStart() - correction, segment.getEnd() - correction, painter);
 
                         }
                     } catch (BadLocationException e) {
                         e.printStackTrace();
+                        System.out.println(construct.getType() + "," + construct.getStart());
                     }
                 }
             }

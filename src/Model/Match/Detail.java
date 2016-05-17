@@ -27,6 +27,8 @@ public class Detail {
      */
     private Map<Construct,List<Segment>> detailMatch;
 
+    private String restrainedPattern = "";
+
     public Detail(Composite composite, Segment matched) {
         detailMatch = new LinkedHashMap<>();
         this.matched = matched;
@@ -46,13 +48,15 @@ public class Detail {
         for(Construct construct : complex) {
             if(construct.getType() != Type.COMPONENT) {
 
-                    matcher = Pattern.compile(getAdHocPattern((Construct) complex, construct)).matcher(segment.toString());
+                    matcher = Pattern.compile(getAdHocPattern((Construct) complex, construct)).matcher(segment.getContent()).region(segment.getStart(),segment.getEnd());;
+                matcher.useTransparentBounds(true);
+
                     if (matcher.find()) {
                         current = new Segment(matched.getContent(),
-                                segment.getStart() + matcher.start("NamedGroup"), segment.getStart() + matcher.end("NamedGroup"));
+                                matcher.start("NamedGroup"), matcher.end("NamedGroup"));
                         if(construct.getType() == Type.QUANTIFIER || construct.getType() == Type.INTERVAL) {
                             process((Quantifier)construct,current);
-                        } else if (construct.isComplex() && construct.getType()!=Type.CHAR_CLASS) {
+                        } else if (construct.isComplex() && construct.getType()!=Type.CHAR_CLASS  && construct.getType() != Type.LOOK_AROUND) {
                             process((Complex) construct, current);
                         }
                         addMatch(construct, current);
@@ -84,7 +88,7 @@ public class Detail {
             while (matcher.find()) {
                 current = new Segment(matched.getContent(),
                         segment.getStart() + matcher.start(), segment.getStart() + matcher.end());
-                if (construct.isComplex() && construct.getType() != Type.CHAR_CLASS) {
+                if (construct.isComplex() && construct.getType() != Type.CHAR_CLASS && construct.getType() != Type.LOOK_AROUND) {
                     process((Complex) construct, current);
                 }
                 addMatch(construct, current);
@@ -138,6 +142,4 @@ public class Detail {
     public Map<Construct, List<Segment>> getDetailMatch() {
         return detailMatch;
     }
-
-
 }
