@@ -70,7 +70,7 @@ public class DescLib {
             case EXPRESSION:
                 return "<HTML><b>" + construct.getType() + ":<br>" + construct.getText() + "</b><br>";
             case ALTERNATION:
-                return "<HTML><b>ALTERNATIVE</b> " + construct.getText();
+                return "<HTML><b>Alternative</b> " + construct.getText();
             case UNBALANCED:
                 return "Unbalanced structure on index " + construct.getStart() + ":" + construct.getText();
             case INCOMPLETE:

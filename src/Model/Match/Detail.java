@@ -27,8 +27,6 @@ public class Detail {
      */
     private Map<Construct,List<Segment>> detailMatch;
 
-    private String restrainedPattern = "";
-
     public Detail(Composite composite, Segment matched) {
         detailMatch = new LinkedHashMap<>();
         this.matched = matched;
@@ -45,11 +43,11 @@ public class Detail {
         Matcher matcher;
         Segment current;
         try {
-        for(Construct construct : complex) {
-            if(construct.getType() != Type.COMPONENT) {
+            for(Construct construct : complex) {
+               if(construct.getType() != Type.COMPONENT) {
 
                     matcher = Pattern.compile(getAdHocPattern((Construct) complex, construct)).matcher(segment.getContent()).region(segment.getStart(),segment.getEnd());;
-                matcher.useTransparentBounds(true);
+                    matcher.useTransparentBounds(true);
 
                     if (matcher.find()) {
                         current = new Segment(matched.getContent(),
@@ -64,11 +62,11 @@ public class Detail {
                         addMatch(construct, null);
                     }
 
-            } else {
-                continue;
-            }
+                } else {
+                    addMatch(construct,new Segment("",0,0));
+                }
 
-        }
+            }
         } catch (Exception e) {
             //e.printStackTrace();
         }

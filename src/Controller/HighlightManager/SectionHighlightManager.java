@@ -40,12 +40,15 @@ public class SectionHighlightManager {
                 DefaultHighlighter.DefaultHighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(r, g, b));
                 for (Segment segment : expression.getDetailMatches().get(construct)) {
                     try {
-                        if (segment == null || (construct.isComplex() && construct.getType() != Type.CHAR_CLASS) || construct.getType() == Type.EXPRESSION) {
-                            pattern.addHighlight(construct.getStart(), construct.getEnd(), new DefaultHighlighter.DefaultHighlightPainter(Color.LIGHT_GRAY));
+                        if (segment == null || (construct.isComplex() && construct.getType() != Type.CHAR_CLASS) || construct.getType() == Type.EXPRESSION || construct.getType() == Type.COMPONENT || construct.getType() == Type.LOGICAL) {
+                            if(construct.getType() == Type.COMPONENT || construct.getType() == Type.LOGICAL) {
+                                pattern.addHighlight(construct.getStart(), construct.getEnd(), new DefaultHighlighter.DefaultHighlightPainter(Color.GRAY));
+                            } else {
+                                pattern.addHighlight(construct.getStart(), construct.getEnd(), new DefaultHighlighter.DefaultHighlightPainter(Color.LIGHT_GRAY));
+                            }
                         } else {
 
                             pattern.addHighlight(construct.getStart(), construct.getEnd(), painter);
-
                             text.addHighlight(segment.getStart() - correction, segment.getEnd() - correction, painter);
 
                         }
