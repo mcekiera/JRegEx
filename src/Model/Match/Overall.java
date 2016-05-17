@@ -15,6 +15,7 @@ public class Overall {
     private Matcher matcher;
     private String text;
     private Map<Integer,String> named;
+    private Segment selected = null;
 
     public Overall(String pattern, String text, boolean global) {
         this.text = text;
@@ -65,14 +66,28 @@ public class Overall {
     }
 
     public Segment getSegmentByPosition(int position) {
-        for(int i = groupCount(); i >=0; i--) {
-            for(Segment segment : getMatch(i)) {
-                if(segment.getStart() <= position && segment.getEnd() > position) {
-                    return segment;
+        if(selected!=null && selected.getStart() <= position && selected.getEnd() > position) {
+            return selected;
+        } else {
+            for (int i = 0; i <= groupCount(); i++) {
+                for (Segment segment : getMatch(i)) {
+                    if (segment.getStart() <= position && segment.getEnd() > position) {
+                        return segment;
+                    }
                 }
             }
+            return null;
         }
-        return null;
+
+    }
+
+    public boolean hasSegment(int position) {
+        try {
+            selected = getSegmentByPosition(position);
+            return true;
+        } catch (NullPointerException e) {
+            return false;
+        }
     }
 
     public String getMatchDescription() {

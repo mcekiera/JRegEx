@@ -10,8 +10,7 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.util.Map;
 import java.util.regex.PatternSyntaxException;
-    //TODO jest problem z nadawaniem kolorów poza te zdefiniowane, nie chce ¿eby kolor poziomu 0 by³ u¿ywany na innych poziomach
-        //TODO ale nie wiem jak inaczej to zrobiæ
+
 public class MatchingHighlightManager extends HighlightManager implements Runnable{
         private final Highlighter highlighter;
         private final Map<Integer,DefaultHighlighter.DefaultHighlightPainter> groupPainters;
@@ -44,8 +43,8 @@ public class MatchingHighlightManager extends HighlightManager implements Runnab
 
         @Override
         public void selectionHighlight(int position) {
-            if(overall != null && overall.getSegmentByPosition(position)!=null) {
-                Segment s = overall.getSegmentByPosition(position);
+            Segment s = overall.getSegmentByPosition(position);
+            if(overall != null && s!=null) {
                 highlighter.removeAllHighlights();
                 try {
                     highlighter.addHighlight(s.getStart(),s.getEnd(),InputColor.getPainters().get(InputColor.SELECTION));

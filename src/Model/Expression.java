@@ -29,18 +29,19 @@ public class Expression implements ToolTipable{
     }
 
     public void set(String pattern,String test) {
-        root = builder.toComposite(pattern);
+        if(!root.getText().equals(pattern)) {
+            root = builder.toComposite(pattern);
+        }
         if(builder.isValid()) {
             overallMatch = new Overall(pattern,test,true);
             overallMatch.setNamed(builder.getNames());
         }
     }
 
-    public void detail() {
+    public void detail(Segment selected) {
         try {
-            detailMatch = new Detail(root,
-                    overallMatch.getMatch(0).get(0) == null ? new Segment("", 0, 0) : overallMatch.getMatch(0).get(0));
-        }catch (NullPointerException | IndexOutOfBoundsException e) {
+            detailMatch = new Detail(root,selected);
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
             //e.printStackTrace();
         }
     }

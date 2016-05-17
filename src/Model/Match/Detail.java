@@ -48,7 +48,7 @@ public class Detail {
 
                     matcher = Pattern.compile(getAdHocPattern((Construct) complex, construct)).matcher(segment.toString());
                     if (matcher.find()) {
-                        current = new Segment(matched.toString(),
+                        current = new Segment(matched.getContent(),
                                 segment.getStart() + matcher.start("NamedGroup"), segment.getStart() + matcher.end("NamedGroup"));
                         if(construct.getType() == Type.QUANTIFIER || construct.getType() == Type.INTERVAL) {
                             process((Quantifier)construct,current);
@@ -82,7 +82,7 @@ public class Detail {
         try {
             Matcher matcher = Pattern.compile(construct.getText()).matcher(segment.toString());
             while (matcher.find()) {
-                current = new Segment(matched.toString(),
+                current = new Segment(matched.getContent(),
                         segment.getStart() + matcher.start(), segment.getStart() + matcher.end());
                 if (construct.isComplex() && construct.getType() != Type.CHAR_CLASS) {
                     process((Complex) construct, current);

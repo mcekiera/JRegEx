@@ -4,9 +4,11 @@ import Controller.HighlightManager.DescriptionHighlightManager;
 import Controller.HighlightManager.InputHighlightManager;
 import Controller.HighlightManager.MatchingHighlightManager;
 import Controller.HighlightManager.SectionHighlightManager;
+import Controller.Listeners.ExampleSelection;
 import Controller.Listeners.MouseHoover;
 import Controller.Listeners.SelectionHighlighter;
 import Model.Expression;
+import Model.Segment;
 import View.Observer.Observed;
 import View.Observer.Observer;
 import View.Part;
@@ -41,30 +43,48 @@ public class Main implements Observer{
         anInterface.addObserver(this);
         anInterface.setInputMouseMotionListener(new MouseHoover(expression, Part.INPUT));
         anInterface.setMatchingMouseMotionListener(new MouseHoover(expression, Part.MATCHING));
+        createHighlightManagers();
+        anInterface.setInputCaretListener(new SelectionHighlighter(inputHighlightManager));
+        anInterface.setMatchCaretListener(new SelectionHighlighter(matchingHighlightManager));
+        anInterface.setMatchCaretListener(new ExampleSelection(this));
+    }
+
+    private void createHighlightManagers() {
         inputHighlightManager = new InputHighlightManager(anInterface.getInputHighlighter());
         matchingHighlightManager = new MatchingHighlightManager(anInterface.getMatchingHighlighter());
         descriptionHighlightManager = new DescriptionHighlightManager(anInterface.getDescriptionHighlighter());
         sectionHighlightManager = new SectionHighlightManager(anInterface.getUpperHighlighter(),anInterface.getLowerHighlighter());
-        anInterface.setInputCaretListener(new SelectionHighlighter(inputHighlightManager));
-        anInterface.setMatchCaretListener(new SelectionHighlighter(matchingHighlightManager));
     }
 
     private void updateView() {
         expression.set(anInterface.getInputText(), anInterface.getMatchingText());
         inputHighlightManager.process(expression.getRoot());
         anInterface.setTreeModel(inputHighlightManager, new RegExTree(expression), expression.isValid());
+
         if (expression.isValid()) {
             matchingHighlightManager.process(expression.getOverallMatch());
             anInterface.setDisplay(expression.getOverallMatch().getMatchDescription());
             descriptionHighlightManager.process(anInterface.getDescriptionText(), expression.getOverallMatch());
-            try {
+
+        }
+    }
+
+    public void updateCompareView(int position) {
+        try {
+            sectionHighlightManager.reset();
+            if(expression.getOverallMatch().hasSegment(position)) {
+                Segment s = expression.getOverallMatch().getSegmentByPosition(position);
+
                 anInterface.setUpperText(expression.getRoot().getText());
-                anInterface.setLowerText(expression.getOverallMatch().getMatch(0).get(0).toString());
-            } catch (NullPointerException | IndexOutOfBoundsException e) {
-                //e.printStackTrace();
+                anInterface.setLowerText(s.toString());
+
+
+
+                expression.detail(s);
+                sectionHighlightManager.process(expression,s.getStart());
             }
-            expression.detail();
-            sectionHighlightManager.process(expression);
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            //e.printStackTrace();
         }
 
     }

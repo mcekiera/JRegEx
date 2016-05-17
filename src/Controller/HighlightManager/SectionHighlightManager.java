@@ -26,7 +26,12 @@ public class SectionHighlightManager {
         selection = InputColor.getPainters().get(InputColor.SELECTION);
     }
 
-    public void process(Expression expression) {
+    public void reset() {
+        pattern.removeAllHighlights();
+        text.removeAllHighlights();
+    }
+
+    public void process(Expression expression, int correction) {
         try {
             for (Construct construct : expression.getDetailMatches().keySet()) {
                 int r = new Random().nextInt(255);
@@ -40,7 +45,8 @@ public class SectionHighlightManager {
                         } else {
 
                             pattern.addHighlight(construct.getStart(), construct.getEnd(), painter);
-                            text.addHighlight(segment.getStart(), segment.getEnd(), painter);
+                            //System.out.println(segment.getStart() + "," + segment.getEnd() + "," + correction);
+                            text.addHighlight(segment.getStart()-correction, segment.getEnd()-correction, painter);
 
                         }
                     } catch (BadLocationException e) {
@@ -49,7 +55,7 @@ public class SectionHighlightManager {
                 }
             }
         } catch (NullPointerException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
 
     }

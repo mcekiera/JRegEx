@@ -109,14 +109,15 @@ public class UserInterface implements Observed {
     }
 
     private JPanel buildInputField() {
-        JPanel panel = new JPanel(new BorderLayout());
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel,BoxLayout.PAGE_AXIS));
         JLabel label = new JLabel("REGULAR EXPRESSION:");
         label.setFont(new Font("Arial", Font.BOLD, 14));
         JScrollPane inputPane = new JScrollPane(inputField);
-        inputPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        inputPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         inputPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        panel.add(label, BorderLayout.NORTH);
-        panel.add(inputPane, BorderLayout.CENTER);
+        panel.add(label);
+        panel.add(inputPane);
         return panel;
     }
 

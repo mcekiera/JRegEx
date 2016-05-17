@@ -29,7 +29,7 @@ public class CompositeBuilder {
         reset();
         Composite composite = new Composite(null, Type.EXPRESSION,new Segment(pattern,0,pattern.length()));
         composite.setDescription(DescLib.getInstance().getDescription(composite));
-        breakExpression(composite);
+        breakExpression(composite,composite.getStart());
         return composite;
     }
 
@@ -64,9 +64,8 @@ public class CompositeBuilder {
         previous = null;
     }
 
-    private void breakExpression(Composite container) {
+    private void breakExpression(Composite container, int index) {
         groupCheck(container);
-        int index = container.getStart();
         Construct construct;
         while(index < container.getEnd()) {
             construct = factory.createConstruct(container,container.getPattern(),index);
@@ -146,7 +145,7 @@ public class CompositeBuilder {
 
     private void process(Composite container,Composite composite) {
         container.addConstruct(composite);
-        breakExpression(composite);
+        breakExpression(composite,composite.getStart());
     }
 
     private void addEmpty(Composite container, Quantifier quantifier) {

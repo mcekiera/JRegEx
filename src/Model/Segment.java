@@ -55,7 +55,7 @@ public class Segment {
      */
     @Override
     public String toString() {
-        return content.substring(start,end);
+            return content.substring(start, end);
     }
 
 }
