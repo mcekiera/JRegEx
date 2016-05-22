@@ -97,7 +97,7 @@ public class Main implements Observer{
         if(source == anInterface) {
             updateView();
         } else if(source == inputHighlightManager) {
-            anInterface.setTreeModel(inputHighlightManager, new RegExTree(expression,inputHighlightManager.getSelected()), expression.isValid());
+            //anInterface.setTreeModel(inputHighlightManager, new RegExTree(expression,inputHighlightManager.getSelected()), expression.isValid());
         }
     }
 }

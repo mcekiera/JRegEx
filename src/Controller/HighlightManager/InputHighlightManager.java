@@ -204,7 +204,8 @@ public class InputHighlightManager extends HighlightManager implements Observed 
     @Override
     public void selectionHighlight(int position) {
         try {
-            process(current,current.getConstructFromPosition(position));
+            selected = current.getConstructFromPosition(position);
+            process(current,selected);
             notifyObservers();
 
         } catch (NullPointerException e) {
