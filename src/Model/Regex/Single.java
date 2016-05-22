@@ -17,4 +17,6 @@ public class Single extends Construct {
     public boolean isComplex() {
         return false;
     }
+
+
 }

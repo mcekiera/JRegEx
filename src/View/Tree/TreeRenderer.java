@@ -19,11 +19,13 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
     private IconLib lib = IconLib.getInstance();
     private boolean valid;
     private HighlightManager manager;
-    private Construct selected;
+    private Construct selected = null;
 
-    public TreeRenderer(HighlightManager manager,boolean validation) {
-        this.valid = validation;
+
+    public TreeRenderer(HighlightManager manager, Construct selected, boolean valid) {
+        this.valid = valid;
         this.manager = manager;
+        this.selected = selected;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
         if(valid) {
             if (((Construct) value).getType() != Type.COMPONENT) {
                 JComponent c = (JComponent) super.getTreeCellRendererComponent(tree, value, arg2, arg3, arg4, arg5, arg6);
-                configNode(((Construct) value).getType(), c);
+                configNode(((Construct) value), c);
 
                 if(arg2) {
                     c.setBackground(Color.CYAN);
@@ -44,9 +46,10 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
         } else {
             if (isInvalid(((Construct) value).getType())) {
                 JComponent c = (JComponent) super.getTreeCellRendererComponent(tree, value, arg2, arg3, arg4, arg5, arg6);
-                configNode(((Construct) value).getType(), c);
+                configNode(((Construct) value), c);
                 if(arg2) {
                     c.setBackground(Color.CYAN);
+                    manager.selectionHighlight(((Construct) value).getStart());
                 }
                 return c;
             }
@@ -58,54 +61,60 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
 
     /**
      * Configure look of given Components, depending on Type of represented Construct.
-     * @param type of Construct represented by node
-     * @param c node component
-     * @return Component with chosen icon and highlight
+     *
      */
-    private Component configNode(Type type, JComponent c) {
+    private Component configNode(Construct construct, JComponent c) {
         c.setOpaque(true);
-        switch (type) {
-            case CHAR_CLASS:
-            case RANGE:
-                c.setBackground(InputColor.CHAR_CLASS.getColor());
-                break;
-            case EXPRESSION:
-                c.setBackground(Color.ORANGE);
-                break;
-            case MODE:
-                c.setBackground(InputColor.MODE.getColor());
-                break;
-            case PREDEFINED:
-            case QUANTIFIER:
-            case BACKREFERENCE:
-            case BOUNDARY:
-            case INTERVAL:
-                c.setBackground(InputColor.PREDEFINED.getColor());
-                break;
-            case CAPTURING:
-            case NON_CAPTURING:
-            case LOOK_AROUND:
-            case ALTERNATION:
-                c.setBackground(GroupColor.GROUP1.getColor());
-                break;
-            case QUOTATION:
-                c.setBackground(Color.LIGHT_GRAY);
-                break;
-            case INVALID_RANGE:
-            case INVALID_BACKREFERENCE:
-            case INVALID_INTERVAL:
-            case INVALID_QUANTIFIER:
-            case UNBALANCED:
-            case INCOMPLETE:
-                c.setBackground(Color.RED);
-                break;
-            default:
-                c.setBackground(Color.WHITE);
-                break;
+        if(construct.equals(selected) && construct.getType()!=Type.EXPRESSION) {
+            c.setBackground(Color.CYAN);
+            setIcon(lib.getIcon(construct.getType()));
+        } else {
+            switch (construct.getType()) {
+                case CHAR_CLASS:
+                case RANGE:
+                    c.setBackground(InputColor.CHAR_CLASS.getColor());
+                    break;
+                case EXPRESSION:
+                    c.setBackground(Color.ORANGE);
+                    break;
+                case MODE:
+                    c.setBackground(InputColor.MODE.getColor());
+                    break;
+                case PREDEFINED:
+                case QUANTIFIER:
+                case BACKREFERENCE:
+                case BOUNDARY:
+                case INTERVAL:
+                    c.setBackground(InputColor.PREDEFINED.getColor());
+                    break;
+                case CAPTURING:
+                case NON_CAPTURING:
+                case LOOK_AROUND:
+                case ALTERNATION:
+                    c.setBackground(GroupColor.GROUP1.getColor());
+                    break;
+                case QUOTATION:
+                    c.setBackground(Color.LIGHT_GRAY);
+                    break;
+                case INVALID_RANGE:
+                case INVALID_BACKREFERENCE:
+                case INVALID_INTERVAL:
+                case INVALID_QUANTIFIER:
+                case UNBALANCED:
+                case INCOMPLETE:
+                    c.setBackground(Color.RED);
+                    break;
+                default:
+                    c.setBackground(Color.WHITE);
+                    break;
+            }
+            setIcon(lib.getIcon(construct.getType()));
         }
-        setIcon(lib.getIcon(type));
+
         return c;
     }
+
+
 
 
 

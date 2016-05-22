@@ -29,13 +29,6 @@ public class CompositeBuilder {
         Composite composite = new Composite(null, Type.EXPRESSION,new Segment(pattern,0,pattern.length()));
         composite.setDescription(DescLib.getInstance().getDescription(composite));
         breakExpression(composite, composite.getStart());
-        System.out.println("_________________________________________________________");
-        for(Construct c : composite) {
-
-            System.out.println(c.getType());
-
-        }
-        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         return composite;
     }
 
@@ -84,7 +77,7 @@ public class CompositeBuilder {
             if((!construct.isComplex()) && index == container.getStart() && construct.getText().equals("|")){
                 container.addConstruct(factory.createEmptyAlternative(container, container.getPattern(), index));
             }
-            validityCheck(construct);
+            validityCheck(construct);       //TODO:bez invalid quantifier!!
             processConstruct(container, construct);
             construct.setDescription(DescLib.getInstance().getDescription(construct));
             index += construct.length();
@@ -167,6 +160,7 @@ public class CompositeBuilder {
                 new Segment(container.getPattern(),quantifier.getStart(),quantifier.getEnd()));
         container.addConstruct(construct);
         construct.setDescription(DescLib.getInstance().getDescription(construct));
+        valid = false;
 
     }
 
@@ -175,7 +169,7 @@ public class CompositeBuilder {
     }
 
     private boolean isGroup(Composite composite) {
-        return composite.getType() ==Type.CAPTURING;
+        return composite.getType() == Type.CAPTURING;
     }
 
     private boolean isNamed(Composite composite) {

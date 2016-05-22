@@ -110,7 +110,7 @@ public class UserInterface implements Observed {
 
     private JPanel buildInputField() {
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel,BoxLayout.PAGE_AXIS));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         JLabel label = new JLabel("REGULAR EXPRESSION:");
         label.setFont(new Font("Arial", Font.BOLD, 14));
         JScrollPane inputPane = new JScrollPane(inputField);
@@ -279,6 +279,11 @@ public class UserInterface implements Observed {
     @Override
     public void addObserver(Observer observer) {
         observerList.add(observer);
+    }
+
+    public void resetCompare() {
+        upperField.setText("");
+        lowerField.setText("");
     }
 
     public class InputListener implements DocumentListener {

@@ -51,6 +51,7 @@ public class Main implements Observer{
 
     private void createHighlightManagers() {
         inputHighlightManager = new InputHighlightManager(anInterface.getInputHighlighter());
+        inputHighlightManager.addObserver(this);
         matchingHighlightManager = new MatchingHighlightManager(anInterface.getMatchingHighlighter());
         descriptionHighlightManager = new DescriptionHighlightManager(anInterface.getDescriptionHighlighter());
         sectionHighlightManager = new SectionHighlightManager(anInterface.getUpperHighlighter(),anInterface.getLowerHighlighter());
@@ -58,6 +59,7 @@ public class Main implements Observer{
 
     private void updateView() {
         expression.set(anInterface.getInputText(), anInterface.getMatchingText());
+        anInterface.resetCompare();
         inputHighlightManager.process(expression.getRoot());
         anInterface.setTreeModel(inputHighlightManager, new RegExTree(expression), expression.isValid());
 
@@ -70,21 +72,22 @@ public class Main implements Observer{
     }
 
     public void updateCompareView(int position) {
-        try {
-            sectionHighlightManager.reset();
-            if(expression.getOverallMatch().hasSegment(position)) {
-                Segment s = expression.getOverallMatch().getSegmentByPosition(position);
+        if(!anInterface.getMatchingText().equals("") && !anInterface.equals("")) {
+            try {
+                sectionHighlightManager.reset();
+                if (expression.getOverallMatch().hasSegment(position)) {
+                    Segment s = expression.getOverallMatch().getSegmentByPosition(position);
 
-                anInterface.setUpperText(expression.getRoot().getText());
-                anInterface.setLowerText(s.toString());
+                    anInterface.setUpperText(expression.getRoot().getText());
+                    anInterface.setLowerText(s.toString());
 
 
-
-                expression.detail(s);
-                sectionHighlightManager.process(expression,s.getStart());
+                    expression.detail(s);
+                    sectionHighlightManager.process(expression, s.getStart());
+                }
+            } catch (NullPointerException | IndexOutOfBoundsException e) {
+                //e.printStackTrace();
             }
-        } catch (NullPointerException | IndexOutOfBoundsException e) {
-            //e.printStackTrace();
         }
 
     }
@@ -93,6 +96,8 @@ public class Main implements Observer{
     public void update(Observed source) {
         if(source == anInterface) {
             updateView();
+        } else if(source == inputHighlightManager) {
+            anInterface.setTreeModel(inputHighlightManager, new RegExTree(expression,inputHighlightManager.getSelected()), expression.isValid());
         }
     }
 }

@@ -13,8 +13,15 @@ import javax.swing.tree.TreePath;
 
 public class RegExTree implements TreeModel {
     private  final Expression expression;
+    private Construct selected = null;
+
     public RegExTree(Expression expression){
         this.expression = expression;
+    }
+
+    public RegExTree(Expression expression, Construct selected){
+        this.expression = expression;
+        this.selected = selected;
     }
 
     @Override
@@ -57,7 +64,7 @@ public class RegExTree implements TreeModel {
     }
 
     public DefaultTreeCellRenderer getRenderer(HighlightManager manager, boolean valid) {
-        TreeRenderer renderer = new TreeRenderer(manager,valid);
+        TreeRenderer renderer = new TreeRenderer(manager,selected,valid);
         return renderer;
     }
 

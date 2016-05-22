@@ -32,7 +32,7 @@ public abstract class Construct {
         this.type = type;
         this.parent = parent;
         description = "";
-        System.out.println(getType());
+        //System.out.println(getType());
     }
 
     /**

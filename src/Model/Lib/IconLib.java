@@ -26,6 +26,12 @@ public class IconLib {
         icons.put(Type.EXPRESSION, new ImageIcon(IconLib.class.getResource("ico/REGEX.png")));
         icons.put(Type.NON_CAPTURING, new ImageIcon(IconLib.class.getResource("ico/NONCAPTURING.png")));
         icons.put(Type.ATOMIC, new ImageIcon(IconLib.class.getResource("ico/ATOMIC.png")));
+        icons.put(Type.INCOMPLETE, new ImageIcon(IconLib.class.getResource("ico/ERROR.png")));
+        icons.put(Type.UNBALANCED, new ImageIcon(IconLib.class.getResource("ico/ERROR.png")));
+        icons.put(Type.INVALID_BACKREFERENCE, new ImageIcon(IconLib.class.getResource("ico/ERROR.png")));
+        icons.put(Type.INVALID_INTERVAL, new ImageIcon(IconLib.class.getResource("ico/ERROR.png")));
+        icons.put(Type.INVALID_RANGE, new ImageIcon(IconLib.class.getResource("ico/ERROR.png")));
+        icons.put(Type.INVALID_QUANTIFIER, new ImageIcon(IconLib.class.getResource("ico/ERROR.png")));
     }
 
     public static IconLib getInstance() {

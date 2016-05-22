@@ -11,7 +11,7 @@ import javax.swing.text.Highlighter;
 import java.util.Map;
 import java.util.regex.PatternSyntaxException;
 
-public class MatchingHighlightManager extends HighlightManager implements Runnable{
+public class MatchingHighlightManager extends HighlightManager{
         private final Highlighter highlighter;
         private final Map<Integer,DefaultHighlighter.DefaultHighlightPainter> groupPainters;
         private DefaultHighlighter.DefaultHighlightPainter painter;
@@ -53,11 +53,6 @@ public class MatchingHighlightManager extends HighlightManager implements Runnab
                 }
                 highlight(overall);
             }
-
-        }
-
-        @Override
-        public void run() {
 
         }
     }
