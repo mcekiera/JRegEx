@@ -2,7 +2,7 @@ package Controller.HighlightManager;
 
 import Model.Expression;
 import Model.Regex.Construct;
-import Model.Regex.Type.Type;
+import Model.Regex.Type;
 import Model.Segment;
 import View.Color.InputColor;
 

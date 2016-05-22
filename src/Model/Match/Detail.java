@@ -4,7 +4,7 @@ import Model.Regex.Complex;
 import Model.Regex.Composite;
 import Model.Regex.Construct;
 import Model.Regex.Quantifier;
-import Model.Regex.Type.Type;
+import Model.Regex.Type;
 import Model.Segment;
 
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package View.Tree;
 import Controller.HighlightManager.HighlightManager;
 import Model.Lib.IconLib;
 import Model.Regex.Construct;
-import Model.Regex.Type.Type;
+import Model.Regex.Type;
 import View.Color.GroupColor;
 import View.Color.InputColor;
 
@@ -94,6 +94,7 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
             case INVALID_RANGE:
             case INVALID_BACKREFERENCE:
             case INVALID_INTERVAL:
+            case INVALID_QUANTIFIER:
             case UNBALANCED:
             case INCOMPLETE:
                 c.setBackground(Color.RED);
@@ -110,6 +111,6 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
 
     public boolean isInvalid(Type type) {
         return type == Type.UNBALANCED || type == Type.INCOMPLETE || type == Type.INVALID_BACKREFERENCE ||
-                type == Type.INVALID_INTERVAL || type == Type.INVALID_RANGE;
+                type == Type.INVALID_INTERVAL || type == Type.INVALID_RANGE || type == Type.INVALID_QUANTIFIER;
     }
 }

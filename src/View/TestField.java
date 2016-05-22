@@ -1,7 +1,7 @@
 /**package View;
 
 import Model.Regex.Construct;
-import Model.Regex.Type.Type;
+import Model.Regex.Type;
 
 import javax.sound.midi.Sequence;
 import javax.swing.*;

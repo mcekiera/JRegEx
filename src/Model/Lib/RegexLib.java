@@ -1,11 +1,11 @@
 package Model.Lib;
 
-import Model.Regex.Type.Type;
+import Model.Regex.Type;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static Model.Regex.Type.Type.*;
+import static Model.Regex.Type.*;
 
 /**
  * Provide regular expression for recognition of particular pattern elements in given String.
@@ -43,7 +43,7 @@ public class RegexLib {
         lib.put(ALTERNATION, "^((?:\\\\\\||\\\\\\(|[^(|])+)(?=\\|)");
 
         lib.put(UNBALANCED, "\\((\\?(\\<(\\w+|[=!])?|[:=!>]|[\\w-]+:?)?)?");
-        lib.put(INCOMPLETE, "\\\\([xcu]|p(\\{)?|k(<[^>]*)?)");
+        lib.put(INCOMPLETE, "\\\\([xcu]|p(\\{)?|k(<[^>]*)?|E)");
         lib.put(COMMENT, "#.+");
     }
 

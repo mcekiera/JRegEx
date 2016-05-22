@@ -4,7 +4,7 @@ import Model.Regex.Complex;
 import Model.Regex.Composite;
 import Model.Regex.Construct;
 import Model.Regex.Quantifier;
-import Model.Regex.Type.Type;
+import Model.Regex.Type;
 import View.Color.ClassColor;
 import View.Color.GroupColor;
 import View.Color.InputColor;
@@ -127,7 +127,7 @@ public class InputHighlightManager extends HighlightManager{
      */
     private DefaultHighlighter.DefaultHighlightPainter getColorByType(Type type, int group) {
         switch (type) {
-            case ERROR:
+            case INVALID_QUANTIFIER:
             case INCOMPLETE:
             case UNBALANCED:
             case INVALID_BACKREFERENCE:

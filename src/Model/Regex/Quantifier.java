@@ -1,6 +1,5 @@
 package Model.Regex;
 
-import Model.Regex.Type.Type;
 import Model.Segment;
 
 import java.util.ArrayList;
@@ -66,7 +65,14 @@ public class Quantifier extends Construct implements Complex{
 
     @Override
     public String getText() {
-            return elements.get(0).getText() + super.getText();
+        String result;
+        try {
+            result = elements.get(0).getText() + super.getText();
+        } catch (IndexOutOfBoundsException e) {
+            //e.printStackTrace();
+            result =  super.getText();
+        }
+        return result;
     }
 
     @Override

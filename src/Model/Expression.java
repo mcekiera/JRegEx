@@ -7,7 +7,7 @@ import Model.Match.Overall;
 import Model.Regex.Composite;
 import Model.Regex.CompositeBuilder;
 import Model.Regex.Construct;
-import Model.Regex.Type.Type;
+import Model.Regex.Type;
 import View.Part;
 
 import java.util.Iterator;

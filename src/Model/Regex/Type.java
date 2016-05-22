@@ -1,4 +1,4 @@
-package Model.Regex.Type;
+package Model.Regex;
 
 /**
  * Represents categories of regular expression constructs, that could be treated same way on other stages
@@ -34,7 +34,7 @@ public enum Type {
     INVALID_RANGE(),
     INVALID_INTERVAL(),
     INVALID_BACKREFERENCE(),
-    ERROR(),
+    INVALID_QUANTIFIER(),
 
     COMMENT();
 

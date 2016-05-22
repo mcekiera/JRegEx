@@ -2,7 +2,6 @@ package Model.Regex;
 
 import Model.Lib.DescLib;
 import Model.Lib.MatcherLib;
-import Model.Regex.Type.Type;
 import Model.Segment;
 
 import java.util.regex.Matcher;
@@ -48,7 +47,7 @@ public class ConstructsAbstractFactory {
             construct = createCharacterClass(parent, pattern, startIndex);
         } else if(regexMatch(Type.PREDEFINED,current)) {
             construct = createPredefined(parent, pattern, startIndex);
-        } else if(regexMatch(Type.SPECIFIC_CHAR,current)) {    //TODO invalid \x range
+        } else if(regexMatch(Type.SPECIFIC_CHAR,current)) {
             construct = createSpecificChar(parent,pattern,startIndex);
         }else if(regexMatch(Type.BACKREFERENCE,current)) {
             construct = createBackreference(parent, pattern, startIndex);
@@ -60,6 +59,8 @@ public class ConstructsAbstractFactory {
             construct = new Quantifier(parent, Type.QUANTIFIER, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER)));
         } else if(regexMatch(Type.INTERVAL,current)) {
             construct = createInterval(parent, pattern, startIndex);
+        }else if(regexMatch(Type.COMMENT,current)) {
+            construct = createComment(parent,pattern,startIndex);
         } else {
             construct = createSimpleConstruct(parent,pattern,startIndex);
         }
@@ -140,7 +141,7 @@ public class ConstructsAbstractFactory {
      * @return new Construct of with SPECIFIC_CHAR or INCOMPLETE type.
      */
     private Construct createSpecificChar(Construct parent, String pattern, int startIndex) {
-        if(isHexadecimal(pattern,startIndex)) {
+        if(isHexadecimal(pattern, startIndex)) {
             if (lib.getMatcher(Type.SPECIFIC_CHAR).group("hexa").matches("(?i)[0-9a-f]{1,5}")) {
                 return new Single(parent, Type.SPECIFIC_CHAR, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SPECIFIC_CHAR).end()));
             } else {
@@ -358,5 +359,9 @@ public class ConstructsAbstractFactory {
 
     public Construct createEmptyConstruct(Construct parent, String pattern, int index) {
         return new Single(parent,Type.SIMPLE,new Segment(pattern,index,index));
+    }
+
+    public Construct createComment(Construct parent, String pattern, int index) {
+        return new Single(parent, Type.COMMENT, new Segment(pattern, index, pattern.length()));
     }
 }

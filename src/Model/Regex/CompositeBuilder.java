@@ -1,7 +1,6 @@
 package Model.Regex;
 
 import Model.Lib.DescLib;
-import Model.Regex.Type.Type;
 import Model.Segment;
 
 import java.util.HashMap;
@@ -29,7 +28,14 @@ public class CompositeBuilder {
         reset();
         Composite composite = new Composite(null, Type.EXPRESSION,new Segment(pattern,0,pattern.length()));
         composite.setDescription(DescLib.getInstance().getDescription(composite));
-        breakExpression(composite,composite.getStart());
+        breakExpression(composite, composite.getStart());
+        System.out.println("_________________________________________________________");
+        for(Construct c : composite) {
+
+            System.out.println(c.getType());
+
+        }
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         return composite;
     }
 
@@ -67,7 +73,8 @@ public class CompositeBuilder {
     private void breakExpression(Composite container, int index) {
         groupCheck(container);
         Construct construct;
-        while(index < container.getEnd()) {
+        int end = container.getEnd();
+        while(index < end) {
             construct = factory.createConstruct(container,container.getPattern(),index);
 
             if(previous != null && previous.equals(construct)) {
@@ -84,7 +91,6 @@ public class CompositeBuilder {
             previous = construct;
         }
         if(previous != null && previous.getText().equals("|")) {
-            //System.out.println(container.getType());
             container.addConstruct(factory.createEmptyAlternative(container, container.getPattern(), index));
         }
     }
@@ -118,7 +124,7 @@ public class CompositeBuilder {
 
     private void processConstruct(Composite container,Construct construct) {
         if (construct instanceof Single) {
-            process(container,(Single)construct);
+            process(container, (Single) construct);
         } else if (construct instanceof Quantifier) {
             process(container,(Quantifier)construct);
         } else {
@@ -135,7 +141,8 @@ public class CompositeBuilder {
                 if(quantifier.getType() == Type.INTERVAL) {
                     addEmpty(container,quantifier);
                 } else {
-                    addError(container,quantifier);
+                    addError(container, quantifier);
+                    System.out.println("Invalid quantifier");
                 }
             } else {
                 container.addConstruct(quantifier, previous);
@@ -145,19 +152,22 @@ public class CompositeBuilder {
 
     private void process(Composite container,Composite composite) {
         container.addConstruct(composite);
-        breakExpression(composite,composite.getStart());
+        breakExpression(composite, composite.getStart());
     }
 
     private void addEmpty(Composite container, Quantifier quantifier) {
-        Construct empty = new Single(container, Type.ERROR,
+        Construct empty = new Single(container, Type.INTERVAL,
                 new Segment(quantifier.getPattern(), quantifier.getStart(), quantifier.getStart()));
-        container.addConstruct(empty);                                                              //TODO: creation should be only in ConstructFactory
+        container.addConstruct(empty);
         container.addConstruct(quantifier, empty);
     }
 
     private void addError(Composite container, Quantifier quantifier) {
-        container.addConstruct(new Single(container,Type.ERROR,
-                new Segment(quantifier.getPattern(),quantifier.getStart(),quantifier.getEnd())));
+        Construct construct = new Single(container,Type.INVALID_QUANTIFIER,
+                new Segment(container.getPattern(),quantifier.getStart(),quantifier.getEnd()));
+        container.addConstruct(construct);
+        construct.setDescription(DescLib.getInstance().getDescription(construct));
+
     }
 
     private boolean ifPreviousEmptyOrQuantifier() {
@@ -177,6 +187,7 @@ public class CompositeBuilder {
                 construct.getType() == Type.UNBALANCED ||
                 construct.getType() == Type.INVALID_BACKREFERENCE ||
                 construct.getType() == Type.INVALID_INTERVAL ||
-                construct.getType() == Type.INVALID_RANGE;
+                construct.getType() == Type.INVALID_RANGE ||
+                construct.getType() == Type.INVALID_QUANTIFIER;
     }
 }

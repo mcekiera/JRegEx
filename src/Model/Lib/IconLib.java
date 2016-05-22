@@ -1,6 +1,6 @@
 package Model.Lib;
 
-import Model.Regex.Type.Type;
+import Model.Regex.Type;
 
 import javax.swing.*;
 import java.util.HashMap;

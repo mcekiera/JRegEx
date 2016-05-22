@@ -3,7 +3,7 @@ package Test;
 import Model.Regex.Composite;
 import Model.Regex.Construct;
 import Model.Regex.Single;
-import Model.Regex.Type.Type;
+import Model.Regex.Type;
 import Model.Segment;
 import org.junit.Before;
 import org.junit.Test;

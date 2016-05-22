@@ -1,7 +1,7 @@
 package Model.Lib;
 
 import Model.Regex.Construct;
-import Model.Regex.Type.Type;
+import Model.Regex.Type;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -44,8 +44,9 @@ public class DescLib {
         switch (construct.getType()) {
             case BOUNDARY:
             case PREDEFINED:
-            case QUANTIFIER:
                 return describeSimple(construct.getText());
+            case QUANTIFIER:
+                return describeQuantifier(construct.getText());
             case BACKREFERENCE:
                 return describeBackreference(construct);
             case QUOTATION:
@@ -72,15 +73,17 @@ public class DescLib {
             case ALTERNATION:
                 return "<HTML><b>Alternative</b> " + construct.getText();
             case UNBALANCED:
-                return "Unbalanced structure on index " + construct.getStart() + ":" + construct.getText();
+                return "Unbalanced structure on index " + construct.getStart() + ":  " + construct.getText();
             case INCOMPLETE:
-                return "Incomplete structure on index " + construct.getStart() + ":" + construct.getText();
+                return "Incomplete structure on index " + construct.getStart() + ":  " + construct.getText();
             case INVALID_BACKREFERENCE:
-                return "Invalid backreference" + ":" + construct.getText();
+                return "Invalid backreference:  " + construct.getText();
             case INVALID_RANGE:
-                return "Invalid range" + ":" + construct.getText();
+                return "Invalid range:  " + construct.getText();
             case INVALID_INTERVAL:
-                return "Invalid interval" + ":" + construct.getText();
+                return "Invalid interval:  " + construct.getText();
+            case INVALID_QUANTIFIER:
+                return "Invalid quantifier on index  " + construct.getStart() + ":  " + construct.getText();
             default:
                 return "<html><b>" + construct.getText() + "</b><i> Match character: " + construct.getText();
         }
@@ -213,13 +216,36 @@ public class DescLib {
     private String describeComponent(Construct construct) {
         if (group.keySet().contains(construct.getText())) {
             return "Beginning of " + group.get(construct.getText());
-        } else if (construct.getText().equals( ")")){
+        } else if (construct.getText().equals(")")){
             return "Closing bracket of composite construct";
         } else if (construct.getText().equals("|")) {
             return "OR";
         }
             return "Component of group.";
     }
+
+    private String describeQuantifier(String construct) {
+        if(construct.endsWith("++")) {
+            return describeSimple("++");
+        } else if(construct.endsWith("+?")) {
+            return describeSimple("+?");
+        } else if(construct.endsWith("+")) {
+            return describeSimple("+");
+        } else if(construct.endsWith("??")) {
+            return describeSimple("??");
+        } else if(construct.endsWith("?+")) {
+            return describeSimple("?+");
+        } else if(construct.endsWith("?")) {
+            return describeSimple("?");
+        } else if(construct.endsWith("*+")) {
+            return describeSimple("*+");
+        } else if(construct.endsWith("*?")) {
+            return describeSimple("*?");
+        } else {
+            return describeSimple("*");
+        }
+    }
+
 
     public boolean contains(String construct) {
         return basic.containsKey(construct);

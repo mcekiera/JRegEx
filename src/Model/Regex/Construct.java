@@ -1,6 +1,5 @@
 package Model.Regex;
 
-import Model.Regex.Type.Type;
 import Model.Segment;
 
 /**
@@ -33,7 +32,7 @@ public abstract class Construct {
         this.type = type;
         this.parent = parent;
         description = "";
-        //System.out.println(getType() + "," + getStart() + "," + getEnd() + "," + toString());
+        System.out.println(getType());
     }
 
     /**

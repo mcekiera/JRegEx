@@ -4,7 +4,7 @@ import Model.Lib.RegexLib;
 import org.junit.Before;
 import org.junit.Test;
 
-import static Model.Regex.Type.Type.*;
+import static Model.Regex.Type.*;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
