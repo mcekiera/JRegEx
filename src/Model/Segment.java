@@ -45,6 +45,9 @@ public class Segment {
         return content;
     }
 
+    /**
+     * @return hard coded description of content of given Segment object.
+     */
     public String getDescription() {
         return "[" + start + "," + end + "]" + "    '" + toString() + "'";
     }

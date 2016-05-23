@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Provides data about how every separate construct within given pattern, match on particular test string.
+ * Provides data about how every separate construct within given pattern match on particular test string.
  */
 public class Detail {
     /**

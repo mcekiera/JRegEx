@@ -10,13 +10,37 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+/**
+ * Provides a data about all matched by given expression fragments within particular test string.
+ */
 public class Overall {
+    /**
+     * Map containing all matched fragments, by all capturing groups - named and standard.
+     */
     private Map<Integer,List<Segment>> groups;
+    /**
+     * Matcher for particular pattern on given test text.
+     */
     private Matcher matcher;
+    /**
+     * Test text for matching.
+     */
     private String text;
+    /**
+     * Map with names for named capturing groups.
+     */
     private Map<Integer,String> named;
+    /**
+     * Object referring to matched fragment currently chosen by User on matching field.
+     */
     private Segment selected = null;
 
+    /**
+     * Constructor of class.
+     * @param pattern currently tested regular expression
+     * @param text currently tested string to match
+     * @param global modifier for single/global match
+     */
     public Overall(String pattern, String text, boolean global) {
         this.text = text;
         try {
@@ -28,26 +52,50 @@ public class Overall {
         getMatches(global);
     }
 
+    /**
+     *
+     * @return Map with matched by pattern fragments.
+     */
     public Map<Integer,List<Segment>> matchMap() {
         return groups;
     }
 
+    /**
+     * Sets map with names for named capturing groups.
+     * @param named map with names.
+     */
     public void setNamed(Map<Integer,String> named) {
         this.named = named;
     }
 
+    /**
+     * @return map with names of named capturing groups.
+     */
     public Map<Integer,String> getNamed() {
         return named;
     }
 
+    /**
+     * @return integer, number of capturing groups in pattern.
+     */
     public int groupCount() {
         return matcher.groupCount();
     }
 
+    /**
+     * Provide results of matching by particular groups.
+     * @param group number of group.
+     * @return List of Segment objects with captured fragments
+     */
     public List<Segment> getMatch(int group) {
         return matchMap().get(group);
     }
 
+    /**
+     * Provide String object representing matched fragment chosen by User.
+     * @param position chosen by mouse click by User.
+     * @return String with matched fragment.
+     */
     public String getMatchByPosition(int position) {
         for(int i = groupCount(); i >=0; i--) {
             int match = 0;
@@ -65,6 +113,11 @@ public class Overall {
         return null;
     }
 
+    /**
+     * Provide Segment object representing matched fragment chosen by User.
+     * @param position chosen by mouse click by User.
+     * @return Segment with matched fragment.
+     */
     public Segment getSegmentByPosition(int position) {
         if(selected!=null && selected.getStart() <= position && selected.getEnd() > position) {
             return selected;
@@ -81,6 +134,11 @@ public class Overall {
 
     }
 
+    /**
+     * Determines if there is matched fragment on given index, within test String.
+     * @param position index in test String
+     * @return true if on given position is matched fragment.
+     */
     public boolean hasSegment(int position) {
         try {
             selected = getSegmentByPosition(position);
@@ -90,6 +148,10 @@ public class Overall {
         }
     }
 
+    /**
+     * Provide explanatory description of given match, providing information about content and start and end index.
+     * @return String with description.
+     */
     public String getMatchDescription() {
         StringBuilder result = new StringBuilder();
         result.append("<html>");
@@ -110,11 +172,18 @@ public class Overall {
         return result.toString();
     }
 
+    /**
+     * Initialize necessary for this object objects.
+     */
     private void init() {
         groups = new HashMap<>();
         prepareMap();
     }
 
+    /**
+     * Depending on passed value, it decide which kind of matching to use: single or global.
+     * @param global flag for global match.
+     */
     private void getMatches(boolean global) {
         try {
             if (global) {
@@ -131,6 +200,9 @@ public class Overall {
         }
     }
 
+    /**
+     * Matches current pattern against current test string.
+     */
     private void findMatches() {
         for (int i = 0; i <= matcher.groupCount(); i++) {
             int start = matcher.start(i) == -1 ? 0 : matcher.start(i);
@@ -140,6 +212,9 @@ public class Overall {
         }
     }
 
+    /**
+     * Prepare groups map, to avoid NullPointerException
+     */
     private void prepareMap() {
         for(int i = 0; i <= matcher.groupCount(); i++) {
             groups.put(i, new ArrayList<>());

@@ -25,6 +25,9 @@ public abstract class Construct {
      */
     private final Construct parent;
 
+    /**
+     * Description of this particular construct.
+     */
     private String description;
 
     public Construct(Construct parent, Type type, Segment segment) {
@@ -72,6 +75,9 @@ public abstract class Construct {
         return textual.toString().length();
     }
 
+    /**
+     * @return simple text form of given construct.
+     */
     public String getText() {
         return textual.toString();
     }
@@ -124,9 +130,14 @@ public abstract class Construct {
         return description;
     }
 
+    /**
+     * Sets description of this Construct object.
+     * @param description String with description.
+     */
     public void setDescription(String description) {
         this.description = description;
     }
+
     /**
      * Identify if construct is complex, understood as composed of other constructs.
      * @return true if it is composed of other constructs.

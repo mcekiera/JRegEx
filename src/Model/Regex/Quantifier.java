@@ -10,8 +10,15 @@ import java.util.List;
  * Represents single Construct object that wraps another Construct objects, multiplying its range.
  */
 
-public class Quantifier extends Construct implements Complex{
+public class Quantifier extends Construct implements Complex {
+    /**
+     * List containing Construct object representing internal parts of Composite construct.
+     */
     private final List<Construct> elements;
+
+    /**
+     * Holds initial start index of construct, hidden by further implementation of getStart() method.
+     */
     private int start;
 
     public Quantifier(Construct parent, Type type, Segment segment) {
