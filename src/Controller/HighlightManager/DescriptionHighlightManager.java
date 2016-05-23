@@ -25,7 +25,7 @@ public class DescriptionHighlightManager{
      * @param description String with description text
      * @param overall OverallMatch object for obtaining groups data
      */
-    public void process(String description, Overall overall) {                                   //TODO random group name creator!!
+    public void process(String description, Overall overall) {
         Matcher matcher = Pattern.compile("(?<=\\u2009)#(?<NumOfGroup>\\w+)(?=\\s*\\[\\d+,\\d+\\])").matcher(description);
         while (matcher.find()) {
             int i = getGroupNumber(matcher.group("NumOfGroup"),overall);

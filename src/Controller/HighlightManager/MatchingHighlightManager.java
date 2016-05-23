@@ -11,29 +11,50 @@ import javax.swing.text.Highlighter;
 import java.util.Map;
 import java.util.regex.PatternSyntaxException;
 
+/**
+ * Controls highlighting of JTextComponent using its Highlighter object. It diverse color of highlight on
+ * particular matches and its elements, on field displaying matching of given pattern.
+ */
 public class MatchingHighlightManager extends HighlightManager{
-        private final Highlighter highlighter;
-        private final Map<Integer,DefaultHighlighter.DefaultHighlightPainter> groupPainters;
-        private DefaultHighlighter.DefaultHighlightPainter painter;
-        private Overall overall = null;
+    /**
+     * Highlighter of chosen JTextComponent
+     */
+    private final Highlighter highlighter;
+    /**
+     * Map of ready-to-use DefaultHighlightPainter objects, which colors chosen for particular Type object.
+     */
+    private final Map<Integer,DefaultHighlighter.DefaultHighlightPainter> groupPainters;
+    /**
+     * Currently processed Overall object, which holds whole matching data for given regular expression.
+     */
+    private Overall overall = null;
 
     public MatchingHighlightManager(Highlighter highlighter) {
         this.highlighter = highlighter;
         groupPainters = GroupColor.getPainters();
     }
 
+    /**
+     * Highlights all matched by given regular expression fragments in JTextComponent.
+     * @param overall
+     */
     public void process(Overall overall) {
         highlighter.removeAllHighlights();
         highlight(overall);
     }
 
+    /**
+     * Highlight all matched fragments: captured groups and whole matches, from given Overall object.
+     * @param overall object with matching data.
+     */
     private void highlight(Overall overall) {
+        DefaultHighlighter.DefaultHighlightPainter painter;
         this.overall = overall;
         try {
             for(int i = overall.groupCount(); i >= 0; i--){
                 for(Segment matched : overall.getMatch(i)) {
-                    painter = groupPainters.get(i)==null ? groupPainters.get(i%12) : groupPainters.get(i);
-                    highlighter.addHighlight(matched.getStart(),matched.getEnd(),painter);
+                    painter = groupPainters.get(i) == null ? groupPainters.get(i % 12) : groupPainters.get(i);
+                    highlighter.addHighlight(matched.getStart(),matched.getEnd(), painter);
                 }
             }
         }catch (BadLocationException | PatternSyntaxException | NullPointerException e) {

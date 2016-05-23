@@ -80,7 +80,6 @@ public class Main implements Observer{
                     anInterface.setUpperText(expression.getRoot().getText());
                     anInterface.setLowerText(s.toString());
 
-
                     expression.detail(s);
                     sectionHighlightManager.process(expression, s.getStart());
                 }

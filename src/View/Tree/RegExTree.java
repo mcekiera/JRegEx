@@ -11,18 +11,19 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
+/**
+ * Tree model by which an Expression object could be displayed as graphic trees.
+ */
 public class RegExTree implements TreeModel {
+    /**
+     * Expression to display.
+     */
     private  final Expression expression;
-    private Construct selected = null;
 
     public RegExTree(Expression expression){
         this.expression = expression;
     }
 
-    public RegExTree(Expression expression, Construct selected){
-        this.expression = expression;
-        this.selected = selected;
-    }
 
     @Override
     public Object getRoot() {
@@ -63,6 +64,13 @@ public class RegExTree implements TreeModel {
 
     }
 
+    /**
+     * Provides a new TreeRenderer object. Method put inside RegExTree, as it has all necessary references, it serves
+     * to limit dependencies of classes which use it.
+     * @param manager HighlightManager object which highlight connected displays.
+     * @param valid determine is given pattern is valid, therefore determine how tree should be displayed.
+     * @return DefaultTreeCellRenderer for RegExTree object.
+     */
     public DefaultTreeCellRenderer getRenderer(HighlightManager manager, boolean valid) {
         TreeRenderer renderer = new TreeRenderer(manager,valid);
         return renderer;

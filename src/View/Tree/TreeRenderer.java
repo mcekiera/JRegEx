@@ -13,8 +13,8 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import java.awt.*;
 
 /**
- * Renders custom look of RegExTree, it paints different icons and highlight text in different color for
- * diverse categories of constructs.
+ * Renders custom look of RegExTree, it paints icons and highlight text in different color for diverse
+ * categories of constructs. Works only with RegExTree objects.
  */
 public class TreeRenderer extends DefaultTreeCellRenderer{
     private IconLib lib = IconLib.getInstance();
@@ -37,7 +37,7 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
 
                 if(arg2) {
                     c.setBackground(Color.CYAN);
-                    if(((Construct) value) instanceof Quantifier) {
+                    if(value instanceof Quantifier) {
                         manager.selectionHighlight(((Construct) value).getEnd()-1);
                     } else {
                         manager.selectionHighlight(((Construct) value).getStart());
@@ -63,7 +63,7 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
 
     /**
      * Configure look of given Components, depending on Type of represented Construct.
-     * @param construct
+     * @param construct Construct object which node representation is modified.
      * @param c JComponent representing node
      * @return modified JComponent
      */

@@ -19,6 +19,9 @@ public class MouseHoover implements MouseMotionListener {
      * Object from which data about object on given position is taken.
      */
     private ToolTipable toolTipable;
+    /**
+     * Serves as tag, indicating from which GUI part signal was given.
+     */
     private Part part;
 
     public MouseHoover(ToolTipable toolTipable, Part part) {
