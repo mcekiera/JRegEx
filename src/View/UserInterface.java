@@ -3,6 +3,7 @@ package View;
 import Controller.HighlightManager.HighlightManager;
 import Controller.Listeners.FocusChangeUpdate;
 import Controller.Listeners.OnFocusBorderChanger;
+import Model.Regex.Construct;
 import View.Observer.Observed;
 import View.Observer.Observer;
 import View.Tree.RegExTree;
@@ -17,10 +18,12 @@ import javax.swing.event.DocumentListener;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Highlighter;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UserInterface implements Observed {
@@ -33,6 +36,7 @@ public class UserInterface implements Observed {
     private final JTextArea matchingArea;
     private JPanel doubleField;
     private JTree tree;
+    private TreePath path;
 
     private final List<Observer> observerList;
 
@@ -162,6 +166,7 @@ public class UserInterface implements Observed {
     }
 
     public void setTreeModel(HighlightManager manager, RegExTree model, boolean valid) {
+        tree.removeAll();
         tree.setModel(model);
         tree.setCellRenderer(model.getRenderer(manager, valid));
         try {
@@ -179,6 +184,26 @@ public class UserInterface implements Observed {
             tree.expandRow(i);
             i += 1;
             j = tree.getRowCount();
+        }
+    }
+
+    public void selectPath(Construct construct) {
+        try {
+            List<Construct> constructs = new ArrayList<>();
+            Construct parent = construct;
+            System.out.println("start");
+            while (parent != null) {
+                constructs.add(parent);
+                System.out.println(parent.getType());
+                parent = parent.getParent();
+            }
+            System.out.println("end");
+            Collections.reverse(constructs);
+            path = new TreePath(constructs.toArray());
+            tree.setSelectionPath(path);
+            frame.revalidate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

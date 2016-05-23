@@ -1,7 +1,6 @@
 package View.Tree;
 
 import Controller.HighlightManager.HighlightManager;
-import Controller.HighlightManager.InputHighlightManager;
 import Model.Lib.IconLib;
 import Model.Regex.Construct;
 import Model.Regex.Type;
@@ -20,11 +19,13 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
     private IconLib lib = IconLib.getInstance();
     private boolean valid;
     private HighlightManager manager;
+    private Construct selected;
 
 
     public TreeRenderer(HighlightManager manager, Construct selected, boolean valid) {
         this.valid = valid;
         this.manager = manager;
+        this.selected = selected;
     }
 
     @Override
@@ -36,7 +37,6 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
                 configNode(((Construct) value), c);
 
                 if(arg2) {
-                    c.setOpaque(true);
                     c.setBackground(Color.CYAN);
                     manager.selectionHighlight(((Construct) value).getStart());
                 }
@@ -47,7 +47,6 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
                 JComponent c = (JComponent) super.getTreeCellRendererComponent(tree, value, arg2, arg3, arg4, arg5, arg6);
                 configNode(((Construct) value), c);
                 if(arg2) {
-                    c.setOpaque(true);
                     c.setBackground(Color.CYAN);
                     manager.selectionHighlight(((Construct) value).getStart());
                 }
@@ -65,9 +64,10 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
      */
     private Component configNode(Construct construct, JComponent c) {
         c.setOpaque(true);
-        if(construct.equals(((InputHighlightManager)manager).getSelected()) && construct.getType()!=Type.EXPRESSION) {
+        if(construct == selected && construct.getType()!=Type.EXPRESSION){
             c.setBackground(Color.CYAN);
             setIcon(lib.getIcon(construct.getType()));
+            //aaaaaselected=null;
         } else {
             switch (construct.getType()) {
                 case CHAR_CLASS:
@@ -111,11 +111,9 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
             setIcon(lib.getIcon(construct.getType()));
         }
 
+
         return c;
     }
-
-
-
 
 
     public boolean isInvalid(Type type) {

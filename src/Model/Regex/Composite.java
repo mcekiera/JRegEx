@@ -36,18 +36,21 @@ public class Composite extends Construct implements Complex{
         elements.add(construct);
     }
 
-    public void addConstruct(Quantifier construct, Construct previous) {
+    public void addConstruct(Quantifier construct, Construct previous, Construct replacement) {
         int index = elements.indexOf(previous);
-        construct.addConstruct(previous);
+        construct.addConstruct(replacement);
         elements.set(index, construct);
     }
 
     @Override
     public Construct getConstructFromPosition(int index) {
+        System.out.println("Index: " + index);
         for(Construct c : this) {
             if(c.getStart() <= index && c.getEnd() > index) {
                 if(c.isComplex()) {
                     return ((Complex)c).getConstructFromPosition(index);
+                } else if(c.getType() == Type.COMPONENT) {
+                    return c.getParent();
                 } else {
                     return c;
                 }

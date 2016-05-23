@@ -138,7 +138,17 @@ public class CompositeBuilder {
                     System.out.println("Invalid quantifier");
                 }
             } else {
-                container.addConstruct(quantifier, previous);
+                Construct replace;
+                if(previous instanceof Composite) {
+                    replace = new Composite(quantifier,previous.getType(),new Segment(previous.getPattern(),previous.getStart(),previous.getEnd()));
+                    for(Construct c : (Composite)previous) {
+                        ((Complex)replace).addConstruct(c);
+                    }
+                } else {
+                    replace = new Single(quantifier,previous.getType(),new Segment(previous.getPattern(),previous.getStart(),previous.getEnd()));
+                }
+                replace.setDescription(DescLib.getInstance().getDescription(replace));
+                container.addConstruct(quantifier, previous,replace);
             }
     }
 
@@ -152,7 +162,7 @@ public class CompositeBuilder {
         Construct empty = new Single(container, Type.INTERVAL,
                 new Segment(quantifier.getPattern(), quantifier.getStart(), quantifier.getStart()));
         container.addConstruct(empty);
-        container.addConstruct(quantifier, empty);
+        container.addConstruct(quantifier, empty, empty);
     }
 
     private void addError(Composite container, Quantifier quantifier) {

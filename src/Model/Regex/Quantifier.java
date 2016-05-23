@@ -36,6 +36,7 @@ public class Quantifier extends Construct implements Complex{
 
     @Override
     public Construct getConstructFromPosition(int index) {
+        System.out.println("Index: " + index);
         if(elements.get(0).getStart() <= index && elements.get(0).getEnd() > index) {
             if(elements.get(0).isComplex()) {
                 return ((Complex)elements.get(0)).getConstructFromPosition(index);
