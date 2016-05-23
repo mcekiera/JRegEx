@@ -206,7 +206,7 @@ public class InputHighlightManager extends HighlightManager implements Observed 
         try {
             selected = current.getConstructFromPosition(position);
             process(current,selected);
-            notifyObservers();
+            //notifyObservers();
 
         } catch (NullPointerException e) {
             //e.printStackTrace();

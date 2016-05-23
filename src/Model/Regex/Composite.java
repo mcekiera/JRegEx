@@ -44,7 +44,6 @@ public class Composite extends Construct implements Complex{
 
     @Override
     public Construct getConstructFromPosition(int index) {
-        System.out.println("Index: " + index);
         for(Construct c : this) {
             if(c.getStart() <= index && c.getEnd() > index) {
                 if(c.isComplex()) {

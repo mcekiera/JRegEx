@@ -56,7 +56,7 @@ public class ConstructsAbstractFactory {
         } else if(regexMatch(Type.GROUP,current)) {
             construct = createGroupConstruct(parent, pattern, startIndex);
         } else if(regexMatch(Type.QUANTIFIER,current)) {
-            construct = new Quantifier(parent, Type.QUANTIFIER, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER)));
+            construct = createQuantifier(parent, pattern, startIndex);
         } else if(regexMatch(Type.INTERVAL,current)) {
             construct = createInterval(parent, pattern, startIndex);
         }else if(regexMatch(Type.COMMENT,current)) {
@@ -121,6 +121,12 @@ public class ConstructsAbstractFactory {
             regexMatch(Type.SIMPLE, current);
             return new Single(parent, Type.SIMPLE,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.SIMPLE).end()));
         }
+    }
+
+    private Construct createQuantifier(Construct parent, String pattern, int startIndex) {
+        Construct construct = new Quantifier(parent, Type.QUANTIFIER, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER)));
+        ((Complex)construct).addConstruct(new Single(construct,Type.COMPONENT,new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER))));
+        return construct;
     }
 
     private Construct createBackreference(Construct parent, String pattern, int startIndex) {

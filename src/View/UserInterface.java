@@ -161,7 +161,7 @@ public class UserInterface implements Observed {
         tree.setModel(null);
         JScrollPane pane = new JScrollPane(tree);
         tree.addFocusListener(new OnFocusBorderChanger(new LineBorder(Color.cyan, 1)));
-        tree.addFocusListener(new FocusChangeUpdate(this));
+        //tree.addFocusListener(new FocusChangeUpdate(this));
         return pane;
     }
 

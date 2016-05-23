@@ -27,25 +27,22 @@ public class Quantifier extends Construct implements Complex{
 
     @Override
     public void addConstruct(Construct construct) {
-        if(elements.size() == 0) {
-            elements.add(construct);
-        } else {
-            elements.set(0,construct);
-        }
+        System.out.println("add: " + construct.getType());
+        elements.add(0,construct);
     }
 
     @Override
     public Construct getConstructFromPosition(int index) {
-        System.out.println("Index: " + index);
-        if(elements.get(0).getStart() <= index && elements.get(0).getEnd() > index) {
-            if(elements.get(0).isComplex()) {
-                return ((Complex)elements.get(0)).getConstructFromPosition(index);
-            } else {
-                return elements.get(0);
+        for(Construct c : this) {
+            if(c.getStart() <= index && c.getEnd() > index) {
+                if(c.isComplex()) {
+                    return ((Complex)c).getConstructFromPosition(index);
+                } else {
+                    return c;
+                }
             }
-        } else {
-            return this;
         }
+        return this;
     }
 
     @Override
