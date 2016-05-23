@@ -8,12 +8,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Provide Matcher objects for capturing particular fragments from given String. Matcher are created from
- * patterns available in RegexLib, but must be reset() to match desired String.
+ * Singleton class. Provide Matcher objects for capturing particular fragments from given String. Matcher are
+ * created from patterns available in RegexLib, but must be reset() to match desired String.
  */
 
 public class MatcherLib {
-    private static final Map<Type,Matcher> lib = new TreeMap<Type, Matcher>();
+    /**
+     * Map with regex for particular regular expression constructs recognition.
+     */
+    private static final Map<Type,Matcher> lib = new TreeMap<>();
+    /**
+     * Only instance of DescLib class.
+     */
     private static final MatcherLib INSTANCE = new MatcherLib();
 
     private MatcherLib() {

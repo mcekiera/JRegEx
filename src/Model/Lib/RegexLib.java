@@ -8,7 +8,7 @@ import java.util.Map;
 import static Model.Regex.Type.*;
 
 /**
- * Provide regular expression for recognition of particular pattern elements in given String.
+ * Singleton class. Provide regular expression for recognition of particular pattern elements in given String.
  */
 
 public class RegexLib {

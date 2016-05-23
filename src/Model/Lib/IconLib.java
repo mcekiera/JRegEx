@@ -6,8 +6,18 @@ import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Singleton class. Provide icons for regular expression types represented by Construct types. Icons are loaded
+ * from files.
+ */
 public class IconLib {
+    /**
+     * Only instance of DescLib class.
+     */
     private static final IconLib INSTANCE = new IconLib();
+    /**
+     * Map containing all loaded icons, with Type object as keys.
+     */
     private final Map<Type,Icon> icons;
 
     private IconLib() {
@@ -34,10 +44,18 @@ public class IconLib {
         icons.put(Type.INVALID_QUANTIFIER, new ImageIcon(IconLib.class.getResource("ico/ERROR.png")));
     }
 
+    /**
+     * @return only instance of class.
+     */
     public static IconLib getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Provide icon chosen for given type of Construct object.
+     * @param type of Construct objects.
+     * @return icon chosen for given type.
+     */
     public Icon getIcon(Type type) {
         return icons.get(type);
     }

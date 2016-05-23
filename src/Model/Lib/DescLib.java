@@ -8,10 +8,26 @@ import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Singleton class. Provide descriptions for regular expression construct represented by Construct objects. Descriptions
+ * are read from text files, some parts are hard coded without option for external modification.
+ */
 public class DescLib {
+    /**
+     * Only instance of DescLib class.
+     */
     private static final DescLib INSTANCE = new DescLib();
+    /**
+     * Map with description for simple constructs.
+     */
     private final Map<String, String> basic;
+    /**
+     * Map with description for modifiers.
+     */
     private final Map<String, String> mode;
+    /**
+     * Map with descriptions for capturing and non-capturing groups, look ahead, look behind, atomic group, with variations
+     */
     private final Map<String, String> group;
 
     private DescLib() {
@@ -20,10 +36,18 @@ public class DescLib {
         group = loadElements("descGroup.txt");
     }
 
+    /**
+     * @return only instance of class.
+     */
     public static DescLib getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Reads date from given file into Map interface implementing object.
+     * @param fileName name of file.
+     * @return Map with read date.
+     */
     private LinkedHashMap<String, String> loadElements(String fileName){
         LinkedHashMap<String, String> elements = new LinkedHashMap<>();
         try{
@@ -40,6 +64,11 @@ public class DescLib {
         return elements;
     }
 
+    /**
+     * Provide a description for given Construct object, based on its Type property.
+     * @param construct object to describe.
+     * @return String with description.
+     */
     public String getDescription(Construct construct) {
         switch (construct.getType()) {
             case BOUNDARY:
@@ -89,6 +118,12 @@ public class DescLib {
         }
     }
 
+    /**
+     * Provide a description for given Construct object representing backreference constructs. Description contains
+     * HTML elements.
+     * @param construct object to describe.
+     * @return String with description.
+     */
     private String describeBackreference(Construct construct) {
     String group = construct.getText().contains("\\k<") ?
             " named '" + construct.getText().substring(3,construct.getText().length()-1) + "'":
@@ -96,10 +131,22 @@ public class DescLib {
         return "<HTML><b>" + construct.getText() + "</b><i> Backreference to captured group" + group;
     }
 
+    /**
+     * Provide a description for given Construct object from 'basic' file. Description contains
+     * HTML elements.
+     * @param text String representation of object to describe.
+     * @return String with description.
+     */
     private String describeSimple(String text) {
         return "<HTML><b>" + text + "</b><i>" + basic.get(text);
     }
 
+    /**
+     * Provide a description for given Construct object representing modifiers constructs. Description contains
+     * HTML elements.
+     * @param construct object to describe.
+     * @return String with description.
+     */
     private String describeMode(Construct construct) {
         String result = "<HTML>Modifier:";
         String pattern = construct.getText();
@@ -107,6 +154,13 @@ public class DescLib {
         return result + "</html>";
     }
 
+    /**
+     * Identify which modifiers are present in Construct object representing modifier.
+     * @param pattern whole regular expression.
+     * @param start index of modifier construct.
+     * @param end index of modifier construct.
+     * @return descriptions of identified modifiers.
+     */
     private String getModes(String pattern, int start, int end) {
         String prefix;
         boolean disable = false;
@@ -122,6 +176,12 @@ public class DescLib {
         return result;
     }
 
+    /**
+     * Provide a description for given Construct object representing character class constructs. Description contains
+     * HTML elements.
+     * @param construct object to describe.
+     * @return String with description.
+     */
     private String describeCharacterClass(Construct construct) {
         if(construct.getText().startsWith("[^")) {
             return getBold(construct) + " Negative character class.";
@@ -130,6 +190,12 @@ public class DescLib {
         }
     }
 
+    /**
+     * Provide a description for given Construct object representing specific character constructs. Description contains
+     * HTML elements.
+     * @param construct object to describe.
+     * @return String with description.
+     */
     private String describeSpecificChar(Construct construct) {
         String pattern = construct.getText();
         if(pattern.startsWith("\\0")) {
@@ -154,6 +220,12 @@ public class DescLib {
         }
     }
 
+    /**
+     * Provide a description for given Construct object representing quatation constructs. Description contains
+     * HTML elements.
+     * @param construct object to describe.
+     * @return String with description.
+     */
     private String describeQuotation(Construct construct) {
         if(construct.getText().startsWith("\\Q")) {
             int end = !construct.getText().contains("\\E") ? construct.getText().length() : construct.getText().indexOf("\\E");
@@ -165,6 +237,12 @@ public class DescLib {
 
     }
 
+    /**
+     * Provide a description for given Construct object representing grouping constructs. Description contains
+     * HTML elements.
+     * @param construct object to describe.
+     * @return String with description.
+     */
     private String describeGrouping(Construct construct) {
         String result = "<html>";
         String pattern = construct.getText();
@@ -184,10 +262,22 @@ public class DescLib {
         return result;
     }
 
+    /**
+     * Provide a description for given Construct object representing range constructs. Description contains
+     * HTML elements.
+     * @param construct object to describe.
+     * @return String with description.
+     */
     private String describeRange(Construct construct) {
         return getBold(construct) + " Character from a range: " + construct.getText();
     }
 
+    /**
+     * Provide a general description for given Construct object representing interval constructs. Description contains
+     * HTML elements.
+     * @param construct object to describe.
+     * @return String with description.
+     */
     private String describeInterval(Construct construct) {
         String pattern = construct.getText();
         String prefix;
@@ -202,6 +292,12 @@ public class DescLib {
 
     }
 
+    /**
+     * Provide a detailed description for given Construct object representing interval constructs. Description contains
+     * HTML elements.
+     * @param string String representation of object to describe.
+     * @return String with description.
+     */
     private String describeIntervalInterior(String string) {
         if(!string.contains(",")) {
             return "exactly " + string + " times.";
@@ -213,6 +309,12 @@ public class DescLib {
         }
     }
 
+    /**
+     * Provide a general description for given Construct object representing component constructs. Description contains
+     * HTML elements.
+     * @param construct object to describe.
+     * @return String with description.
+     */
     private String describeComponent(Construct construct) {
         if (group.keySet().contains(construct.getText())) {
             return "Beginning of " + group.get(construct.getText());
@@ -224,6 +326,12 @@ public class DescLib {
             return "Component of group.";
     }
 
+    /**
+     * Provide a general description for given Construct object representing quantifier constructs. Description contains
+     * HTML elements.
+     * @param construct object to describe.
+     * @return String with description.
+     */
     private String describeQuantifier(String construct) {
         if(construct.endsWith("++")) {
             return describeSimple("++");
@@ -246,11 +354,19 @@ public class DescLib {
         }
     }
 
-
+    /**
+     * Determine if given basic map contains given key.
+     * @param construct key.
+     * @return true if map contains given key.
+     */
     public boolean contains(String construct) {
         return basic.containsKey(construct);
     }
 
+    /**
+     * @param construct which text form will be bold in HTML content.
+     * @return String with bold fragment.
+     */
     private String getBold(Construct construct) {
         return "<HTML><b>" + construct.getText() + "</b><i>";
     }
