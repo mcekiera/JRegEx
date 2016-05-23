@@ -4,20 +4,16 @@ import Model.Regex.*;
 import View.Color.ClassColor;
 import View.Color.GroupColor;
 import View.Color.InputColor;
-import View.Observer.Observed;
-import View.Observer.Observer;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Controls highlighting of JTextComponent using its Highlighter object. It diverse color of highlight on
  * Type property of given Construct represented in text.
  */
-public class InputHighlightManager extends HighlightManager implements Observed {
+public class InputHighlightManager extends HighlightManager {
     /**
      * Highlighter of chosen JTextComponent
      */
@@ -35,16 +31,9 @@ public class InputHighlightManager extends HighlightManager implements Observed 
      */
     private Composite current;
 
-    private List<Observer> observers;
-
-    private Highlighter.Highlight lastOne;
-    private Highlighter.HighlightPainter backup;
-    private Highlighter.HighlightPainter selection;
 
     public InputHighlightManager(Highlighter highlighter) {
         this.highlighter = highlighter;
-        selection = InputColor.getPainters().get(InputColor.SELECTION);
-        observers = new ArrayList<>();
     }
 
     /**
@@ -206,26 +195,9 @@ public class InputHighlightManager extends HighlightManager implements Observed 
         try {
             selected = current.getConstructFromPosition(position);
             process(current,selected);
-            //notifyObservers();
 
         } catch (NullPointerException e) {
             //e.printStackTrace();
         }
-    }
-
-    public Construct getSelected() {
-        return selected;
-    }
-
-    @Override
-    public void notifyObservers() {
-        for(Observer o : observers) {
-            o.update(this);
-        }
-    }
-
-    @Override
-    public void addObserver(Observer observer) {
-        observers.add(observer);
     }
 }

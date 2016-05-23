@@ -51,7 +51,6 @@ public class Main implements Observer{
 
     private void createHighlightManagers() {
         inputHighlightManager = new InputHighlightManager(anInterface.getInputHighlighter());
-        inputHighlightManager.addObserver(this);
         matchingHighlightManager = new MatchingHighlightManager(anInterface.getMatchingHighlighter());
         descriptionHighlightManager = new DescriptionHighlightManager(anInterface.getDescriptionHighlighter());
         sectionHighlightManager = new SectionHighlightManager(anInterface.getUpperHighlighter(),anInterface.getLowerHighlighter());
@@ -96,8 +95,6 @@ public class Main implements Observer{
     public void update(Observed source) {
         if(source == anInterface) {
             updateView();
-        } else if(source == inputHighlightManager) {
-            anInterface.selectPath(inputHighlightManager.getSelected());
         }
     }
 }

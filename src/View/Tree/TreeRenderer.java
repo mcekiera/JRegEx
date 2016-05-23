@@ -3,6 +3,7 @@ package View.Tree;
 import Controller.HighlightManager.HighlightManager;
 import Model.Lib.IconLib;
 import Model.Regex.Construct;
+import Model.Regex.Quantifier;
 import Model.Regex.Type;
 import View.Color.GroupColor;
 import View.Color.InputColor;
@@ -19,13 +20,11 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
     private IconLib lib = IconLib.getInstance();
     private boolean valid;
     private HighlightManager manager;
-    private Construct selected;
 
 
-    public TreeRenderer(HighlightManager manager, Construct selected, boolean valid) {
+    public TreeRenderer(HighlightManager manager, boolean valid) {
         this.valid = valid;
         this.manager = manager;
-        this.selected = selected;
     }
 
     @Override
@@ -38,7 +37,11 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
 
                 if(arg2) {
                     c.setBackground(Color.CYAN);
-                    manager.selectionHighlight(((Construct) value).getStart());
+                    if(((Construct) value) instanceof Quantifier) {
+                        manager.selectionHighlight(((Construct) value).getEnd()-1);
+                    } else {
+                        manager.selectionHighlight(((Construct) value).getStart());
+                    }
                 }
                 return c;
             }
@@ -60,15 +63,12 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
 
     /**
      * Configure look of given Components, depending on Type of represented Construct.
-     *
+     * @param construct
+     * @param c JComponent representing node
+     * @return modified JComponent
      */
-    private Component configNode(Construct construct, JComponent c) {
+    private JComponent configNode(Construct construct, JComponent c) {
         c.setOpaque(true);
-        if(construct == selected && construct.getType()!=Type.EXPRESSION){
-            c.setBackground(Color.CYAN);
-            setIcon(lib.getIcon(construct.getType()));
-            //aaaaaselected=null;
-        } else {
             switch (construct.getType()) {
                 case CHAR_CLASS:
                 case RANGE:
@@ -109,13 +109,14 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
                     break;
             }
             setIcon(lib.getIcon(construct.getType()));
-        }
-
-
         return c;
     }
 
-
+    /**
+     * Determine if given Type object represents error in regualar expressions.
+     * @param type Type object to check
+     * @return true if represents error.
+     */
     public boolean isInvalid(Type type) {
         return type == Type.UNBALANCED || type == Type.INCOMPLETE || type == Type.INVALID_BACKREFERENCE ||
                 type == Type.INVALID_INTERVAL || type == Type.INVALID_RANGE || type == Type.INVALID_QUANTIFIER;

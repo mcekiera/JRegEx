@@ -64,7 +64,7 @@ public class RegExTree implements TreeModel {
     }
 
     public DefaultTreeCellRenderer getRenderer(HighlightManager manager, boolean valid) {
-        TreeRenderer renderer = new TreeRenderer(manager,selected,valid);
+        TreeRenderer renderer = new TreeRenderer(manager,valid);
         return renderer;
     }
 

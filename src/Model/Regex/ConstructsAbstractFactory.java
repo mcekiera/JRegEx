@@ -125,7 +125,6 @@ public class ConstructsAbstractFactory {
 
     private Construct createQuantifier(Construct parent, String pattern, int startIndex) {
         Construct construct = new Quantifier(parent, Type.QUANTIFIER, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER)));
-        ((Complex)construct).addConstruct(new Single(construct,Type.COMPONENT,new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER))));
         return construct;
     }
 
