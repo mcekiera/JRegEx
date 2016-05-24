@@ -135,8 +135,8 @@ public class Overall {
     }
 
     /**
-     * Determines if there is matched fragment on given index, within test String.
-     * @param position index in test String
+     * Determines if on given index of tested String, there is matched fragment.
+     * @param position index of tested String
      * @return true if on given position is matched fragment.
      */
     public boolean hasSegment(int position) {
@@ -149,7 +149,7 @@ public class Overall {
     }
 
     /**
-     * Provide explanatory description of given match, providing information about content and start and end index.
+     * Provide explanatory description of given match, providing information about content, start and end index.
      * @return String with description.
      */
     public String getMatchDescription() {
@@ -173,7 +173,7 @@ public class Overall {
     }
 
     /**
-     * Initialize necessary for this object objects.
+     * Initialize necessary fields.
      */
     private void init() {
         groups = new HashMap<>();
@@ -213,7 +213,7 @@ public class Overall {
     }
 
     /**
-     * Prepare groups map, to avoid NullPointerException
+     * Prepares groups map, to avoid NullPointerException
      */
     private void prepareMap() {
         for(int i = 0; i <= matcher.groupCount(); i++) {

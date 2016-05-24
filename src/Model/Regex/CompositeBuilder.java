@@ -7,23 +7,53 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO pomys� na commenty: utowrzenie nowej factory method, dla construct�w tw�rzonych w modzie ?x - je�eli ?x w��czone
- * do # u�ywa normalnego a p�niej ucina pattern
+ * Singleton class. Breaks String with regular expression into sequence of Construct objects, representing separate
+ * pattern elements. In the process it also retrieves fragments of pattern that contains groups, and String with names
+ * of named capturing groups.
  */
 
 public class CompositeBuilder {
+    /**
+     * Only instance of class.
+     */
     public static final CompositeBuilder INSTANCE = new CompositeBuilder();
+    /**
+     * Instance of factory class for Construct objects creation.
+     */
     public final ConstructsAbstractFactory factory = ConstructsAbstractFactory.getInstance();
+    /**
+     * Previously created Construct object.
+     */
     private Construct previous;
+    /**
+     * Map containing retrieved fragments with grouping constructs.
+     */
     private Map<Integer,Construct> groups;
+    /**
+     * Map containing retrieved names of named capturing groups.
+     */
     private Map<Integer,String> names;
+    /**
+     * Integer representing depth level of currently processing grouping construct.
+     */
     private int currentGroup;
+    /**
+     * Flag variable, determines if given pattern is processed as valid or invalid regular expression.
+     */
     private boolean valid;
 
+    /**
+     * @return only instance of class.
+     */
     public static CompositeBuilder getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Creates Composite object containing Construct objects identified from given String.
+     * @param pattern regular expression to break into separate constructs.
+     * @return Composite object.
+     */
     public Composite toComposite(String pattern) {
         reset();
         Composite composite = new Composite(null, Type.EXPRESSION,new Segment(pattern,0,pattern.length()));
@@ -51,10 +81,17 @@ public class CompositeBuilder {
         return names;
     }
 
+    /**
+     * Determines, if currently processed regular expression is valid.
+     * @return true, if it is valid.
+     */
     public boolean isValid() {
         return valid;
     }
 
+    /**
+     * Removes data about previously processes regular expression from fields.
+     */
     private void reset() {
         valid = true;
         currentGroup = 0;
@@ -63,6 +100,12 @@ public class CompositeBuilder {
         previous = null;
     }
 
+    /**
+     * Recognizes separate regular expression withing given Composite object, which represents more complex construct.
+     * It could start from any index of given String pattern, so it can process whole patterns and its elements.
+     * @param container Object representing complex regular expression element to break into basic constructs.
+     * @param index index ot pattern String to start from.
+     */
     private void breakExpression(Composite container, int index) {
         groupCheck(container);
         Construct construct;
@@ -88,6 +131,10 @@ public class CompositeBuilder {
         }
     }
 
+    /**
+     * Retrieve data about capturing groups and named capturing groups if present.
+     * @param composite object to could contain group.
+     */
     private void groupCheck(Composite composite) {
         if(isGroup(composite)) {
             currentGroup++;
@@ -98,6 +145,11 @@ public class CompositeBuilder {
         }
     }
 
+    /**
+     * Examine, if given element represents error in regular expression. If so, it change whole pattern status to
+     * invalid, and it is processed in that manner further.
+     * @param construct object to examine, if represents error.
+     */
     private void validityCheck(Construct construct) {
          if(isError(construct)) {
              valid = false;
@@ -105,10 +157,18 @@ public class CompositeBuilder {
 
     }
 
+    /**
+     * Adds retrieved group to collection of groups.
+     * @param construct representing group.
+     */
     private void addGroup(Construct construct) {
         groups.put(currentGroup,construct);
     }
 
+    /**
+     * Retrieves and adds retrieved name to collection of names of capturing groups.
+     * @param composite object representing named capturing group, from which name is retrieved.
+     */
     private void addName(Composite composite) {
         String name = composite.getText().substring(composite.getText().indexOf('<') + 1,
                 composite.getText().indexOf('>'));
@@ -125,10 +185,20 @@ public class CompositeBuilder {
         }
     }
 
+    /**
+     * Process simple construct.
+     * @param container Complex regular expression construct.
+     * @param single Separate construct.
+     */
     private void process(Composite container,Single single) {
         container.addConstruct(single);
     }
 
+    /**
+     * Process given construct. Overridden method for processing constructs representing quantifiers.
+     * @param container Complex regular expression construct.
+     * @param quantifier Separate quantifier construct.
+     */
     private void process(Composite container,Quantifier quantifier) {
             if(ifPreviousEmptyOrQuantifier()) {
                 if(quantifier.getType() == Type.INTERVAL) {
@@ -152,12 +222,23 @@ public class CompositeBuilder {
             }
     }
 
-
+    /**
+     * Process given construct. Overridden method for processing constructs representing grouping constructs,
+     * look around constructs.
+     * @param container Complex regular expression construct.
+     * @param composite Separate composite construct.
+     */
     private void process(Composite container,Composite composite) {
         container.addConstruct(composite);
         breakExpression(composite, composite.getStart());
     }
 
+    /**
+     * Java regular expression allows specific situation of multiple intervals, one after another. However, just first
+     * interval has content, every consecutive is empty, and multiply nothing, and in effect always match. This effect
+     * is kept for integrity with Java Pattern class behaviour.
+     * It adds empty Construct into intervals constructs which follow another interval/quantifier.
+     */
     private void addEmpty(Composite container, Quantifier quantifier) {
         Construct empty = new Single(container, Type.INTERVAL,
                 new Segment(quantifier.getPattern(), quantifier.getStart(), quantifier.getStart()));
@@ -165,6 +246,12 @@ public class CompositeBuilder {
         container.addConstruct(quantifier, empty, empty);
     }
 
+    /**
+     * Adds construct representing error in regular expression, instead of quantifier, if it is next consecutive
+     * quantifier.
+     * @param container Composite object, which quantifier is element of.
+     * @param quantifier separate quantifier construct.
+     */
     private void addError(Composite container, Quantifier quantifier) {
         Construct construct = new Single(container,Type.INVALID_QUANTIFIER,
                 new Segment(container.getPattern(),quantifier.getStart(),quantifier.getEnd()));
@@ -174,18 +261,37 @@ public class CompositeBuilder {
 
     }
 
+    /**
+     * Determines, if previous construct is proper for placing inside quantifier.
+     * @return true, if it is not proper for placing inside quantifier.
+     */
     private boolean ifPreviousEmptyOrQuantifier() {
         return previous == null || previous instanceof Quantifier;
     }
 
+    /**
+     * Determines if given Composite object represents capturing group construct.
+     * @param composite Object to examine.
+     * @return true, if object represents capturing group.
+     */
     private boolean isGroup(Composite composite) {
         return composite.getType() == Type.CAPTURING;
     }
 
+    /**
+     * Determines if given Composite object represents named capturing group.
+     * @param composite Object to examine.
+     * @return true, if object represents named capturing group.
+     */
     private boolean isNamed(Composite composite) {
         return composite.getText().matches("\\(\\?<[^>]+>.+");
     }
 
+    /**
+     * Determines if given Construct type represents error in regular expression.
+     * @param construct Object to examine.
+     * @return true, if object type represents error.
+     */
     private boolean isError(Construct construct) {
         return construct.getType() == Type.INCOMPLETE ||
                 construct.getType() == Type.UNBALANCED ||
