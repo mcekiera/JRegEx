@@ -7,11 +7,30 @@ import Model.Segment;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Factory class for creation of Construct objects, which represents separate regular expression constructs. Singleton
+ * class, has only one instance.
+ */
 public class ConstructsAbstractFactory {
+    /**
+     * Only instance of class.
+     */
     private static final ConstructsAbstractFactory INSTANCE = new ConstructsAbstractFactory();
+    /**
+     * Provides matcher for particular constructs recognition.
+     */
     private final MatcherLib lib = MatcherLib.getInstance();
+    /**
+     * Provides descriptions for identified constructs.
+     */
     private final DescLib desc = DescLib.getInstance();
+    /**
+     * String form of currently processed regular expression.
+     */
     private String currentPattern;
+    /**
+     * Counter of capturing grouping constructs.
+     */
     private int groupCount;
 
     private ConstructsAbstractFactory() {}
