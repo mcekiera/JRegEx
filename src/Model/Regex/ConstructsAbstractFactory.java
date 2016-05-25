@@ -143,7 +143,7 @@ public class ConstructsAbstractFactory {
      * @return Construct object of COMPONENT type.
      */
     public Construct createInGroupConstruct(Construct parent, String pattern, int startIndex) {
-        Matcher matcher = Pattern.compile("\\((\\?(\\<\\w+\\>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|\\<))?|\\[|\\)|]").matcher(parent.getPattern().substring(startIndex));
+        Matcher matcher = Pattern.compile("\\((\\?(<\\w+>|[idmsuxU-]+:|[<>!=:]?([=!]+)?|<))?|\\[|\\)|]").matcher(parent.getPattern().substring(startIndex));
         if(matcher.find()) {
             Segment matched = new Segment(pattern, startIndex + matcher.start(), startIndex + matcher.end());
             return new Single(parent, Type.COMPONENT, matched);
@@ -192,8 +192,7 @@ public class ConstructsAbstractFactory {
      * @return Construct object of QUANTIFIER type.
      */
     private Construct createQuantifier(Construct parent, String pattern, int startIndex) {
-        Construct construct = new Quantifier(parent, Type.QUANTIFIER, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER)));
-        return construct;
+        return new Quantifier(parent, Type.QUANTIFIER, new Segment(pattern, startIndex, startIndex + lib.getEndOfLastMatch(Type.QUANTIFIER)));
     }
 
     /**
@@ -449,7 +448,7 @@ public class ConstructsAbstractFactory {
      * @return true if given interval is valid.
      */
     private boolean isValidInterval(String interval) {
-        if(interval.matches("\\{\\d,?\\}[+?]?")) return true;
+        if(interval.matches("\\{\\d,?}[+?]?")) return true;
         String temp = interval.substring(1, interval.indexOf('}'));
         String[] elements = temp.split(",");
         Integer[] integers = new Integer[2];

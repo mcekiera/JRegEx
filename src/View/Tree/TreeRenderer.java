@@ -17,8 +17,17 @@ import java.awt.*;
  * categories of constructs. Works only with RegExTree objects.
  */
 public class TreeRenderer extends DefaultTreeCellRenderer{
+    /**
+     * Provides icon for given constructs categories.
+     */
     private IconLib lib = IconLib.getInstance();
+    /**
+     * Determines if processed regular expression is valid.
+     */
     private boolean valid;
+    /**
+     * Object managing highlighting of other, separate, interconnected display part.
+     */
     private HighlightManager manager;
 
 

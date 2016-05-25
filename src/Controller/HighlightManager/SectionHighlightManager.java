@@ -4,17 +4,18 @@ import Model.Expression;
 import Model.Regex.Construct;
 import Model.Regex.Type;
 import Model.Segment;
+import View.Color.ColorLib;
 import View.Color.InputColor;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.*;
-import java.util.Random;
 
 public class SectionHighlightManager {
     private final Highlighter pattern;
     private final Highlighter text;
+    private final ColorLib lib;
 
     private DefaultHighlighter.DefaultHighlightPainter backup;
     private DefaultHighlighter.DefaultHighlightPainter selection;
@@ -24,20 +25,19 @@ public class SectionHighlightManager {
         this.pattern = pattern;
         this.text = text;
         selection = InputColor.getPainters().get(InputColor.SELECTION);
+        lib = ColorLib.getInstance();
     }
 
     public void reset() {
         pattern.removeAllHighlights();
         text.removeAllHighlights();
+        lib.reset();
     }
 
     public void process(Expression expression, int correction) {
         try {
             for (Construct construct : expression.getDetailMatches().keySet()) {
-                int r = new Random().nextInt(255);
-                int g = new Random().nextInt(255);
-                int b = new Random().nextInt(255);
-                DefaultHighlighter.DefaultHighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(r, g, b));
+                DefaultHighlighter.DefaultHighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(lib.getNextColor());
                 for (Segment segment : expression.getDetailMatches().get(construct)) {
                     try {
                         if (segment == null || (construct.isComplex() && construct.getType() != Type.CHAR_CLASS) || construct.getType() == Type.EXPRESSION || construct.getType() == Type.COMPONENT || construct.getType() == Type.LOGICAL) {

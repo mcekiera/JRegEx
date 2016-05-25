@@ -6,7 +6,6 @@ import View.Observer.Observer;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -15,12 +14,10 @@ import java.util.List;
 
 public class InputField implements Observed {
     private final JTextField field;
-    private final Highlighter highlighter;
     private final List<Observer> observers;
 
     public InputField() {
         field = new JTextField();
-        highlighter = field.getHighlighter();
         observers = new ArrayList<>();
         config();
     }
@@ -36,10 +33,6 @@ public class InputField implements Observed {
 
     public JTextField getField() {
         return field;
-    }
-
-    public Highlighter getHighlighter() {
-        return highlighter;
     }
 
     private boolean backslashesAreBalanced() {
