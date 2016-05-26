@@ -231,8 +231,8 @@ public class UserInterface implements Observed {
      * Configures ToolTip properties of UIManager.
      */
     private void configUIManager() {
-        UIManager.put("ToolTip.background", new ColorUIResource(255, 247, 200)); //#fff7c8
-        Border border = BorderFactory.createLineBorder(new Color(76,79,83));    //#4c4f53
+        UIManager.put("ToolTip.background", new ColorUIResource(255, 247, 200));
+        Border border = BorderFactory.createLineBorder(new Color(76,79,83));
         UIManager.put("ToolTip.border", border);
     }
 
@@ -278,8 +278,7 @@ public class UserInterface implements Observed {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.add(buildCentralPanel(focusListener),BorderLayout.CENTER);
         frame.add(buildSidePanel(), BorderLayout.EAST);
-        frame.setTitle("Java Regular Expression decomposer v" +
-                "er 1.2");
+        frame.setTitle("Java Regular Expression analyzing tool");
         frame.pack();
         frame.setVisible(true);
     }

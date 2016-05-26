@@ -53,7 +53,8 @@ public class SectionHighlightManager {
      * Process given Expression object, by iterating through its components, and retrieve detail match data, to highlight
      * fragments of test text matched by separate constructs within pattern.
      * @param expression to process.
-     * @param correction integer correcting index positions of highlights.
+     * @param correction as matched examples start index could be different than 0, for proper highlighting of
+     *                   separated text the correction of highlights start and end indexes is necessary.
      */
     public void process(Expression expression, int correction) {
         try {

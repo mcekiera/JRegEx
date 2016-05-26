@@ -5,6 +5,10 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Holds colors that are constantly reused in highlighting content of fields. Particular color has specific meaning
+ * in terms of regular expression depth.
+ */
 public enum GroupColor {
     GROUP0(new Color(102,178,255)),
     GROUP1(new Color(102,255,102)),
@@ -23,22 +27,37 @@ public enum GroupColor {
     GROUP14(new Color(153,76,0)),
     GROUP15(new Color(102,0,51));
 
-
+    /**
+     * Specific color.
+     */
     Color color;
+    /**
+     * Map of DefaultHighlightPainter with specific color.
+     */
     final static Map<Integer,DefaultHighlighter.DefaultHighlightPainter> PAINTERS = createPainters();
 
     GroupColor(Color color) {
         this.color = color;
     }
 
+    /**
+     * @return specific color.
+     */
     public Color getColor() {
         return color;
     }
 
+    /**
+     * @return map of DefaultHighlightPainters with chosen colors.
+     */
     public static Map<Integer,DefaultHighlighter.DefaultHighlightPainter> getPainters() {
         return PAINTERS;
     }
 
+    /**
+     * Creates map of DefaultHighlightPainters for given collection of colors.
+     * @return map of DefaultHighlightPainters.
+     */
     private static Map<Integer,DefaultHighlighter.DefaultHighlightPainter> createPainters() {
         Map<Integer,DefaultHighlighter.DefaultHighlightPainter> temp = new HashMap<>();
         int i = 0;
