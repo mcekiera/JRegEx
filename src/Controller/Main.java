@@ -71,7 +71,7 @@ public class Main implements Observer{
     }
 
     public void updateCompareView(int position) {
-        if(!anInterface.getMatchingText().equals("") && !anInterface.equals("")) {
+        if((!anInterface.getMatchingText().equals("")) && (!anInterface.getInputText().equals(""))) {
             try {
                 sectionHighlightManager.reset();
                 if (expression.getOverallMatch().hasSegment(position)) {

@@ -39,32 +39,36 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
     @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value,
                                                   boolean arg2, boolean arg3, boolean arg4, int arg5, boolean arg6) {
-        if(valid) {
-            if (((Construct) value).getType() != Type.COMPONENT) {
-                JComponent c = (JComponent) super.getTreeCellRendererComponent(tree, value, arg2, arg3, arg4, arg5, arg6);
-                configNode(((Construct) value), c);
+        try {
+            if (valid) {
+                if (((Construct) value).getType() != Type.COMPONENT) {
+                    JComponent c = (JComponent) super.getTreeCellRendererComponent(tree, value, arg2, arg3, arg4, arg5, arg6);
+                    configNode(((Construct) value), c);
 
-                if(arg2) {
-                    c.setBackground(Color.CYAN);
-                    if(value instanceof Quantifier) {
-                        manager.selectionHighlight(((Construct) value).getEnd()-1);
-                    } else {
+                    if (arg2) {
+                        c.setBackground(Color.CYAN);
+                        if (value instanceof Quantifier) {
+                            manager.selectionHighlight(((Construct) value).getEnd() - 1);
+                        } else {
+                            manager.selectionHighlight(((Construct) value).getStart());
+                        }
+                    }
+                    return c;
+                }
+            } else {
+                if (isInvalid(((Construct) value).getType())) {
+                    JComponent c = (JComponent) super.getTreeCellRendererComponent(tree, value, arg2, arg3, arg4, arg5, arg6);
+                    configNode(((Construct) value), c);
+                    if (arg2) {
+                        c.setBackground(Color.CYAN);
                         manager.selectionHighlight(((Construct) value).getStart());
                     }
+                    return c;
                 }
-                return c;
-            }
-        } else {
-            if (isInvalid(((Construct) value).getType())) {
-                JComponent c = (JComponent) super.getTreeCellRendererComponent(tree, value, arg2, arg3, arg4, arg5, arg6);
-                configNode(((Construct) value), c);
-                if(arg2) {
-                    c.setBackground(Color.CYAN);
-                    manager.selectionHighlight(((Construct) value).getStart());
-                }
-                return c;
-            }
 
+            }
+        } catch (NullPointerException e) {
+            //e.printStackTrace();
         }
 
         return new JLabel();

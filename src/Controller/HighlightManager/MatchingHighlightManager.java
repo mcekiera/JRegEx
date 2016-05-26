@@ -64,15 +64,19 @@ public class MatchingHighlightManager extends HighlightManager{
 
         @Override
         public void selectionHighlight(int position) {
-            Segment s = overall.getSegmentByPosition(position);
-            if(overall != null && s!=null) {
-                highlighter.removeAllHighlights();
-                try {
-                    highlighter.addHighlight(s.getStart(),s.getEnd(),InputColor.getPainters().get(InputColor.SELECTION));
-                } catch (BadLocationException e) {
-                    e.printStackTrace();
+            try {
+                Segment s = overall.getSegmentByPosition(position);
+                if(overall != null && s!=null) {
+                    highlighter.removeAllHighlights();
+                    try {
+                        highlighter.addHighlight(s.getStart(),s.getEnd(),InputColor.getPainters().get(InputColor.SELECTION));
+                    } catch (BadLocationException e) {
+                        e.printStackTrace();
+                    }
+                    highlight(overall);
                 }
-                highlight(overall);
+            }catch (NullPointerException e) {
+                //e.printStackTrace();
             }
 
         }

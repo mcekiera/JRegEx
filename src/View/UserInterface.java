@@ -3,7 +3,6 @@ package View;
 import Controller.HighlightManager.HighlightManager;
 import Controller.Listeners.FocusChangeUpdate;
 import Controller.Listeners.OnFocusBorderChanger;
-import Model.Regex.Construct;
 import View.Observer.Observed;
 import View.Observer.Observer;
 import View.Tree.RegExTree;
@@ -18,35 +17,31 @@ import javax.swing.event.DocumentListener;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Highlighter;
-import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class UserInterface implements Observed {
     private final JFrame frame;
-    private final InputField field;
     private final JTextField inputField;
     private final MatchDisplay display;
     private JTextField upperField;
     private JTextField lowerField;
     private final JTextArea matchingArea;
-    private JPanel doubleField;
     private JTree tree;
-    private TreePath path;
+    private OnFocusBorderChanger focusListener;
 
     private final List<Observer> observerList;
 
     public UserInterface() {
         frame = new JFrame();
-        OnFocusBorderChanger focusListener = new OnFocusBorderChanger(
+        focusListener = new OnFocusBorderChanger(
                 BorderFactory.createCompoundBorder(new LineBorder(Color.cyan, 1), new EmptyBorder(4,4,4,4)));
 
         InputListener listener = new InputListener();
-        field = new InputField();
+        InputField field = new InputField();
         inputField = field.getField();
         inputField.getDocument().addDocumentListener(listener);
         inputField.addFocusListener(focusListener);
@@ -60,10 +55,7 @@ public class UserInterface implements Observed {
         matchingArea.addFocusListener(focusListener);
         matchingArea.addFocusListener(new FocusChangeUpdate(this));
 
-        upperField = buildComparingField();
-        upperField.addFocusListener(focusListener);
-        lowerField = buildComparingField();
-        lowerField.addFocusListener(focusListener);
+
 
         observerList = new ArrayList<>();
 
@@ -78,69 +70,58 @@ public class UserInterface implements Observed {
         display.setText(match);
     }
 
-    public InputField getInputField() {
-       return field;
-    }
-
-    public JTextField getinputfiel() {
-        return inputField;
-    }
-
     private void buildInterface() {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(buildInputField(), BorderLayout.PAGE_START);
-        panel.add(buildMatchingArea(), BorderLayout.CENTER);
-        frame.add(panel,BorderLayout.CENTER);
-        JPanel explainPanel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("EXPLANATION:");
-        explainPanel.setPreferredSize(new Dimension(400, 400));
-        label.setFont(new Font("Arial", Font.BOLD, 14));
-        explainPanel.add(label, BorderLayout.PAGE_START);
-
-        JPanel interior = new JPanel(new GridLayout(2,1));
-
-        interior.add(buildTree());
-        interior.add(new JScrollPane(display.getTextPane()));
-
-        explainPanel.add(interior, BorderLayout.CENTER);
-        panel.add(buildComparingFields(), BorderLayout.PAGE_END);
-
-        frame.add(explainPanel, BorderLayout.EAST);
-        frame.setTitle("Java Regular Expression decomposer ver 1.2");
+        frame.add(buildCentralPanel(),BorderLayout.CENTER);
+        frame.add(buildSidePanel(), BorderLayout.EAST);
+        frame.setTitle("Java Regular Expression decomposer v" +
+                "er 1.2");
         frame.pack();
         frame.setVisible(true);
     }
 
-    private JPanel buildInputField() {
+    private JPanel buildCentralPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        JLabel label = new JLabel("REGULAR EXPRESSION:");
-        label.setFont(new Font("Arial", Font.BOLD, 14));
-        JScrollPane inputPane = new JScrollPane(inputField);
-        inputPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        inputPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        panel.add(label);
-        panel.add(inputPane);
+        panel.add(buildPanel("REGULAR EXPRESSION:", inputField), BorderLayout.PAGE_START);
+        panel.add(buildPanel("TEXT TO MATCH:", matchingArea), BorderLayout.CENTER);
+        panel.add(buildPanel("SEPARATE CONSTRUCTS MATCHING ANALYSIS:",buildComparingFields()), BorderLayout.PAGE_END);
         return panel;
     }
 
-    private JScrollPane buildMatchingArea() {
-        JScrollPane matchingPane = new JScrollPane(matchingArea);
-        matchingPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        matchingPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        return matchingPane;
+    private JPanel buildSidePanel() {
+        JPanel sidePanel = new JPanel(new GridLayout(2,1,2,2));
+
+        sidePanel.add(buildPanel("EXPLANATION:", buildTree()));
+        sidePanel.add(buildPanel("MATCHED FRAGMENTS:",display.getTextPane()));
+        sidePanel.setPreferredSize(new Dimension(300, 400));
+
+        return sidePanel;
     }
 
-    private JScrollPane buildComparingFields() {
-        doubleField = new JPanel(new GridLayout(2, 1, 2, 2));
-        JScrollPane pane = new JScrollPane(doubleField);
-        pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        pane.setViewportBorder(new EmptyBorder(1, 1, 1, 1));
+    private JPanel buildPanel(String description, JComponent element) {
+        JPanel panel = new JPanel(new BorderLayout());
+        JLabel label = new JLabel(description);
+        label.setFont(new Font("Arial", Font.BOLD, 14));
+
+        JScrollPane scrollPane = new JScrollPane(element);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        panel.add(label, BorderLayout.PAGE_START);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        return panel;
+    }
+
+    private JPanel buildComparingFields() {
+        JPanel doubleField = new JPanel(new GridLayout(2, 1, 2, 2));
+        upperField = buildComparingField();
+        upperField.addFocusListener(focusListener);
+        lowerField = buildComparingField();
+        lowerField.addFocusListener(focusListener);
         doubleField.add(upperField);
         doubleField.add(lowerField);
-        return pane;
+        return doubleField;
     }
 
     private JTextArea buildTextArea() {
@@ -148,21 +129,19 @@ public class UserInterface implements Observed {
         area.setFont(new Font("Arial", Font.PLAIN, 20));
         Border border = new EmptyBorder(5,5,5,5);
         area.setBorder(border);
-
         area.setWrapStyleWord(true);
         return area;
     }
 
-    private JScrollPane buildTree() {
+    private JTree buildTree() {
         tree = new JTree();
         tree.setBorder(new EmptyBorder(1, 1, 1, 1));
         tree.getSelectionModel().setSelectionMode
                 (TreeSelectionModel.SINGLE_TREE_SELECTION);
         tree.setModel(null);
-        JScrollPane pane = new JScrollPane(tree);
         tree.addFocusListener(new OnFocusBorderChanger(new LineBorder(Color.cyan, 1)));
         //tree.addFocusListener(new FocusChangeUpdate(this));
-        return pane;
+        return tree;
     }
 
     public void setTreeModel(HighlightManager manager, RegExTree model, boolean valid) {
@@ -187,26 +166,6 @@ public class UserInterface implements Observed {
         }
     }
 
-    public void selectPath(Construct construct) {
-        try {
-            List<Construct> constructs = new ArrayList<>();
-            Construct parent = construct;
-            System.out.println("start");
-            while (parent != null) {
-                constructs.add(parent);
-                System.out.println(parent.getType());
-                parent = parent.getParent();
-            }
-            System.out.println("end");
-            Collections.reverse(constructs);
-            path = new TreePath(constructs.toArray());
-            tree.setSelectionPath(path);
-            frame.revalidate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void setMatchCaretListener(CaretListener listener) {
         matchingArea.addCaretListener(listener);
     }
@@ -224,11 +183,12 @@ public class UserInterface implements Observed {
     }
 
     private JTextField buildComparingField() {
-        JTextField field = new JTextField();
+        JTextField field = new JTextField(30);
         field.setEditable(false);
         field.setBorder(BorderFactory.createCompoundBorder(new JTextField().getBorder(), new EmptyBorder(3,3,3,3)));
         Font font = new Font("Arial", Font.BOLD, 35);
         field.setFont(font);
+        field.setForeground(Color.BLACK);
         return field;
     }
 
@@ -247,22 +207,6 @@ public class UserInterface implements Observed {
             e.printStackTrace();
         }
         return "";
-    }
-
-    public String getLowerText() {
-        return lowerField.getText();
-    }
-
-    public String getUpperText() {
-        return upperField.getText();
-    }
-
-    public void setInputText(String text) {
-        inputField.setText(text);
-    }
-
-    public void setMatchingText(String text) {
-        matchingArea.setText(text);
     }
 
     public void setUpperText(String text) {
@@ -291,9 +235,6 @@ public class UserInterface implements Observed {
         return lowerField.getHighlighter();
     }
 
-    public void refresh() {
-        doubleField.revalidate();
-    }
     @Override
     public void notifyObservers() {
         for (Observer observer : observerList) {

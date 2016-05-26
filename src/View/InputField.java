@@ -25,7 +25,6 @@ public class InputField implements Observed {
     public void config() {
         Font basic = new Font("Arial",Font.BOLD,25);
         field.setFont(basic);
-        field.setColumns(40);
         field.addKeyListener(new ClosureListener());
         Border border = new EmptyBorder(5,5,5,5);
         field.setBorder(border);
