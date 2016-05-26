@@ -177,10 +177,9 @@ public class ConstructsAbstractFactory {
         } else if (regexMatch(Type.INCOMPLETE, current)) {
             return new Single(parent, Type.INCOMPLETE, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.INCOMPLETE).end()));
         } else if(regexMatch(Type.CHAR_CLASS,current)) {
-            return createCharacterClass(parent, pattern,startIndex);
+            return createCharacterClass(parent, pattern, startIndex);
         } else {
-            regexMatch(Type.SIMPLE, current);
-            return new Single(parent, Type.SIMPLE,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.SIMPLE).end()));
+            return new Single(parent, Type.SIMPLE, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SIMPLE).end()));
         }
     }
 
@@ -272,7 +271,6 @@ public class ConstructsAbstractFactory {
      * @return Construct object of QUOTATION or INCOMPLETE type.
      */
     private Construct createQuotation(Construct parent,String pattern, int startIndex) {
-        //TODO add incomplete if just //E
         if(regexMatch(Type.INCOMPLETE, pattern.substring(startIndex))) {
             return new Single(parent, Type.INCOMPLETE,new Segment(pattern,startIndex,startIndex+lib.getEndOfLastMatch(Type.INCOMPLETE)));
         }
@@ -311,6 +309,8 @@ public class ConstructsAbstractFactory {
     private Construct createSimpleConstruct(Construct parent, String pattern, int startIndex) {
         if(pattern.substring(startIndex, startIndex + 1).matches("[\\[\\(\\)]")) {
             return new Single(parent, Type.UNBALANCED,new Segment(pattern,startIndex,startIndex+1));
+        } else if(pattern.substring(startIndex, startIndex + 1).matches("\\\\")) {
+            return new Single(parent, Type.INCOMPLETE,new Segment(pattern,startIndex,startIndex+1));
         } else {
             regexMatch(Type.SIMPLE, pattern.substring(startIndex));
             return new Single(parent, Type.SIMPLE,new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SIMPLE).end()));
