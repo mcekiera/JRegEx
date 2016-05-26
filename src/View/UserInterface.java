@@ -25,11 +25,11 @@ import java.util.List;
 
 public class UserInterface implements Observed {
     private final JFrame frame;
-    private final JTextField inputField;
-    private final MatchDisplay display;
+    private JTextField inputField;
+    private MatchDisplay display;
     private JTextField upperField;
     private JTextField lowerField;
-    private final JTextArea matchingArea;
+    private JTextArea matchingArea;
     private JTree tree;
     private OnFocusBorderChanger focusListener;
 
@@ -39,35 +39,43 @@ public class UserInterface implements Observed {
         frame = new JFrame();
         focusListener = new OnFocusBorderChanger(
                 BorderFactory.createCompoundBorder(new LineBorder(Color.cyan, 1), new EmptyBorder(4,4,4,4)));
-
-        InputListener listener = new InputListener();
-        InputField field = new InputField();
-        inputField = field.getField();
-        inputField.getDocument().addDocumentListener(listener);
-        inputField.addFocusListener(focusListener);
-        inputField.addFocusListener(new FocusChangeUpdate(this));
-
-        display = new MatchDisplay();
-        display.getTextPane().addFocusListener(focusListener);
-
-        matchingArea = buildTextArea();
-        matchingArea.getDocument().addDocumentListener(listener);
-        matchingArea.addFocusListener(focusListener);
-        matchingArea.addFocusListener(new FocusChangeUpdate(this));
-
-
-
         observerList = new ArrayList<>();
-
-        UIManager.put("ToolTip.background", new ColorUIResource(255, 247, 200)); //#fff7c8
-        Border border = BorderFactory.createLineBorder(new Color(76,79,83));    //#4c4f53
-        UIManager.put("ToolTip.border", border);
-
+        InputListener listener = new InputListener();
+        buildInputField(listener);
+        buildMatchDisplay();
+        buildMatchingArea(listener);
+        configUIManager();
         buildInterface();
     }
 
     public void setDisplay(String match) {
         display.setText(match);
+    }
+
+    public void configUIManager() {
+        UIManager.put("ToolTip.background", new ColorUIResource(255, 247, 200)); //#fff7c8
+        Border border = BorderFactory.createLineBorder(new Color(76,79,83));    //#4c4f53
+        UIManager.put("ToolTip.border", border);
+    }
+
+    private void buildMatchDisplay() {
+        display = new MatchDisplay();
+        display.getTextPane().addFocusListener(focusListener);
+    }
+
+    private void buildInputField(InputListener listener) {
+        InputField field = new InputField();
+        inputField = field.getField();
+        inputField.getDocument().addDocumentListener(listener);
+        inputField.addFocusListener(focusListener);
+        inputField.addFocusListener(new FocusChangeUpdate(this));
+    }
+
+    private void buildMatchingArea(InputListener listener) {
+        matchingArea = buildTextArea();
+        matchingArea.getDocument().addDocumentListener(listener);
+        matchingArea.addFocusListener(focusListener);
+        matchingArea.addFocusListener(new FocusChangeUpdate(this));
     }
 
     private void buildInterface() {
@@ -85,7 +93,7 @@ public class UserInterface implements Observed {
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(buildPanel("REGULAR EXPRESSION:", inputField), BorderLayout.PAGE_START);
         panel.add(buildPanel("TEXT TO MATCH:", matchingArea), BorderLayout.CENTER);
-        panel.add(buildPanel("SEPARATE CONSTRUCTS MATCHING ANALYSIS:",buildComparingFields()), BorderLayout.PAGE_END);
+        panel.add(buildComparingFields(), BorderLayout.PAGE_END);
         return panel;
     }
 
@@ -110,22 +118,32 @@ public class UserInterface implements Observed {
 
         panel.add(label, BorderLayout.PAGE_START);
         panel.add(scrollPane, BorderLayout.CENTER);
+        panel.setBorder(new EmptyBorder(2,2,2,2));
         return panel;
     }
 
     private JPanel buildComparingFields() {
-        JPanel doubleField = new JPanel(new GridLayout(2, 1, 2, 2));
+        JPanel panel = new JPanel(new BorderLayout());
+        JLabel label = new JLabel("MATCHING ANALYSIS");
+        label.setFont(new Font("Arial", Font.BOLD, 14));
+        panel.add(label, BorderLayout.PAGE_START);
+        JPanel doubleField = new JPanel(new GridLayout(2,1));
         upperField = buildComparingField();
         upperField.addFocusListener(focusListener);
+        JScrollPane upperPane = new JScrollPane(upperField);
+        upperPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         lowerField = buildComparingField();
         lowerField.addFocusListener(focusListener);
-        doubleField.add(upperField);
-        doubleField.add(lowerField);
-        return doubleField;
+        JScrollPane lowerPane = new JScrollPane(lowerField);
+        lowerPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        doubleField.add(upperPane);
+        doubleField.add(lowerPane);
+        panel.add(doubleField,BorderLayout.CENTER);
+        return panel;
     }
 
     private JTextArea buildTextArea() {
-        JTextArea area = new JTextArea(15, 40);
+        JTextArea area = new JTextArea(15,50);
         area.setFont(new Font("Arial", Font.PLAIN, 20));
         Border border = new EmptyBorder(5,5,5,5);
         area.setBorder(border);
@@ -140,7 +158,6 @@ public class UserInterface implements Observed {
                 (TreeSelectionModel.SINGLE_TREE_SELECTION);
         tree.setModel(null);
         tree.addFocusListener(new OnFocusBorderChanger(new LineBorder(Color.cyan, 1)));
-        //tree.addFocusListener(new FocusChangeUpdate(this));
         return tree;
     }
 
@@ -183,7 +200,7 @@ public class UserInterface implements Observed {
     }
 
     private JTextField buildComparingField() {
-        JTextField field = new JTextField(30);
+        JTextField field = new JTextField();
         field.setEditable(false);
         field.setBorder(BorderFactory.createCompoundBorder(new JTextField().getBorder(), new EmptyBorder(3,3,3,3)));
         Font font = new Font("Arial", Font.BOLD, 35);
