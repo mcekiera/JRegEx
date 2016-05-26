@@ -41,12 +41,12 @@ public class Main implements Observer{
     private void setUpUserInterface() {
         anInterface = new UserInterface();
         anInterface.addObserver(this);
-        anInterface.setInputMouseMotionListener(new MouseHoover(expression, Part.INPUT));
-        anInterface.setMatchingMouseMotionListener(new MouseHoover(expression, Part.MATCHING));
+        anInterface.addInputMouseMotionListener(new MouseHoover(expression, Part.INPUT));
+        anInterface.addMatchingMouseMotionListener(new MouseHoover(expression, Part.MATCHING));
         createHighlightManagers();
         anInterface.setInputCaretListener(new SelectionHighlighter(inputHighlightManager));
-        anInterface.setMatchCaretListener(new SelectionHighlighter(matchingHighlightManager));
-        anInterface.setMatchCaretListener(new ExampleSelection(this));
+        anInterface.addMatchCaretListener(new SelectionHighlighter(matchingHighlightManager));
+        anInterface.addMatchCaretListener(new ExampleSelection(this));
     }
 
     private void createHighlightManagers() {
