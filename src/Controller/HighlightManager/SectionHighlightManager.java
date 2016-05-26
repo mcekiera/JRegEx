@@ -5,35 +5,56 @@ import Model.Regex.Construct;
 import Model.Regex.Type;
 import Model.Segment;
 import View.Color.ColorLib;
-import View.Color.InputColor;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.*;
 
+/**
+ * Controls highlighting of JTextComponent using its Highlighter object. It diverse color of highlight on
+ * Type property of given Construct represented in text. It controls highlighting of comparing fields.
+ */
 public class SectionHighlightManager {
+    /**
+     * Highlighter of field for pattern.
+     */
     private final Highlighter pattern;
+    /**
+     * Highlighter of field for example matched text.
+     */
     private final Highlighter text;
+    /**
+     * Library of colors.
+     */
     private final ColorLib lib;
 
-    private DefaultHighlighter.DefaultHighlightPainter backup;
-    private DefaultHighlighter.DefaultHighlightPainter selection;
-
-
+    /**
+     * Constructor of class.
+     * @param pattern Highlighter of field displaying regular expression.
+     * @param text Highlighter of field displaying matched text.
+     */
     public SectionHighlightManager(Highlighter pattern, Highlighter text) {
         this.pattern = pattern;
         this.text = text;
-        selection = InputColor.getPainters().get(InputColor.SELECTION);
         lib = ColorLib.getInstance();
     }
 
+    /**
+     * Reset object data to prepare it for new task.
+     */
     public void reset() {
         pattern.removeAllHighlights();
         text.removeAllHighlights();
         lib.reset();
     }
 
+    /**
+     * Process given Expression object, by iterating through its components, and retrieve detail match data, to highlight
+     * fragments of test text matched by separate constructs within pattern.
+     * @param expression to process.
+     * @param correction integer correcting index positions of highlights.
+     */
     public void process(Expression expression, int correction) {
         try {
             for (Construct construct : expression.getDetailMatches().keySet()) {
