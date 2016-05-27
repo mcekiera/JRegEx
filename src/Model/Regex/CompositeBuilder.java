@@ -3,7 +3,9 @@ package Model.Regex;
 import Model.Lib.DescLib;
 import Model.Segment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,6 +43,8 @@ public class CompositeBuilder {
      * Flag variable, determines if given pattern is processed as valid or invalid regular expression.
      */
     private boolean valid;
+
+    private List<Construct> singleChars;
 
     /**
      * @return only instance of class.
@@ -98,6 +102,7 @@ public class CompositeBuilder {
         groups = new HashMap<>();
         names = new HashMap<>();
         previous = null;
+        singleChars = new ArrayList<>();
     }
 
     /**
@@ -108,7 +113,7 @@ public class CompositeBuilder {
      */
     private void breakExpression(Composite container, int index) {
         groupCheck(container);
-        Construct construct;
+        Construct construct = null;
         int end = container.getEnd();
         while(index < end) {
             construct = factory.createConstruct(container,container.getPattern(),index);
@@ -120,15 +125,21 @@ public class CompositeBuilder {
             if((!construct.isComplex()) && index == container.getStart() && construct.getText().equals("|")){
                 container.addConstruct(factory.createEmptyAlternative(container, container.getPattern(), index));
             }
-            validityCheck(construct);       //TODO:bez invalid quantifier!!
-            processConstruct(container, construct);
-            construct.setDescription(DescLib.getInstance().getDescription(construct));
+            validityCheck(construct);
+            if(construct.getType() == Type.SIMPLE) {
+                singleChars.add(construct);
+            } else {
+                singleCheck(container,construct);
+                processConstruct(container, construct);
+                construct.setDescription(DescLib.getInstance().getDescription(construct));
+            }
             index += construct.length();
             previous = construct;
         }
         if(previous != null && previous.getText().equals("|")) {
             container.addConstruct(factory.createEmptyAlternative(container, container.getPattern(), index));
         }
+        singleCheck(container,construct);
     }
 
     /**
@@ -143,6 +154,28 @@ public class CompositeBuilder {
                 addName(composite);
             }
         }
+    }
+
+    private void singleCheck(Composite container, Construct construct) {
+        if(!singleChars.isEmpty()) {
+            Construct sequence = processSingle();
+            sequence.setDescription(DescLib.getInstance().getDescription(sequence));
+            container.addConstruct(sequence);
+            singleChars.clear();
+        }
+    }
+    private Construct processSingle() {
+        if(singleChars.size()==1) {
+            return singleChars.get(0);
+        } else {
+            return combine(singleChars);
+        }
+    }
+
+    private Construct combine(List<Construct> constructs) {
+        int start = constructs.get(0).getStart();
+        int end = constructs.get(constructs.size()-1).getEnd();
+        return new Single(constructs.get(0).getParent(),Type.SIMPLE,new Segment(constructs.get(0).getPattern(),start,end));
     }
 
     /**

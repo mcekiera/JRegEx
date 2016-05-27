@@ -114,7 +114,7 @@ public class DescLib {
             case INVALID_QUANTIFIER:
                 return "Invalid quantifier on index  " + construct.getStart() + ":  " + construct.getText();
             default:
-                return "<html><b>" + construct.getText() + "</b><i> Match character: " + construct.getText();
+                return "<html><b>" + construct.getText() + "</b><i> Match text: " + construct.getText();
         }
     }
 
