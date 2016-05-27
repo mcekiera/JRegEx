@@ -13,40 +13,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Adds to wrapped JTextField additional feature: auto-completion of brackets and observers notifying on user input.
+ * Adds to wrapped JTextArea additional feature: auto-completion of brackets and observers notifying on user input.
  */
-public class InputField implements Observed {
+public class InputArea implements Observed {
     /**
-     * Wrapped JTextField.
+     * Wrapped JTextArea.
      */
-    private final JTextField field;
+    private final JTextArea area;
     /**
      * List of observers.
      */
     private final List<Observer> observers;
 
-    public InputField() {
-        field = new JTextField();
+    public InputArea() {
+        area = new JTextArea();
         observers = new ArrayList<>();
         config();
     }
 
     /**
-     * Configures display properties of field.
+     * Configures display properties of area.
      */
     public void config() {
         Font basic = new Font("Arial",Font.BOLD,25);
-        field.setFont(basic);
-        field.addKeyListener(new ClosureListener());
+        area.setFont(basic);
+        area.addKeyListener(new ClosureListener());
         Border border = new EmptyBorder(5,5,5,5);
-        field.setBorder(border);
+        area.setBorder(border);
     }
 
     /**
-     * @return wrapped field.
+     * @return wrapped area.
      */
-    public JTextField getField() {
-        return field;
+    public JTextArea getArea() {
+        return area;
     }
 
     /**
@@ -54,7 +54,7 @@ public class InputField implements Observed {
      * @return true if backslashes are balanced.
      */
     private boolean backslashesAreBalanced() {
-        String temp = field.getText().substring(0, field.getCaretPosition() < field.getText().length() ? field.getCaretPosition() : field.getText().length());
+        String temp = area.getText().substring(0, area.getCaretPosition() < area.getText().length() ? area.getCaretPosition() : area.getText().length());
         int sum = 0;
         for(char ch : temp.toCharArray()) {
             if(ch=='\\') {
@@ -73,26 +73,26 @@ public class InputField implements Observed {
      */
     private void completeBrackets(char openBracket) {
         char closeBracket = getClosingBracket(openBracket);
-        int pos = field.getCaretPosition();
+        int pos = area.getCaretPosition();
         if(backslashesAreBalanced()) {
             if(textIsSelected()) {
-                field.setText(field.getText().substring(0, field.getSelectionStart()) +
-                        field.getSelectedText() + closeBracket + field.getText().substring(field.getSelectionEnd()));
-                field.setCaretPosition(field.getSelectionEnd());
+                area.setText(area.getText().substring(0, area.getSelectionStart()) +
+                        area.getSelectedText() + closeBracket + area.getText().substring(area.getSelectionEnd()));
+                area.setCaretPosition(area.getSelectionEnd());
             } else {
-                field.setText(field.getText().substring(0, pos) + closeBracket + field.getText().substring(pos));
-                field.setCaretPosition(pos + 1);
+                area.setText(area.getText().substring(0, pos) + closeBracket + area.getText().substring(pos));
+                area.setCaretPosition(pos + 1);
             }
         }
-        field.setCaretPosition(pos);
+        area.setCaretPosition(pos);
     }
 
     /**
-     * Determines if any part of text field content is selected.
+     * Determines if any part of text area content is selected.
      * @return true if is selected.
      */
     private boolean textIsSelected() {
-        return field.getSelectedText()!=null;
+        return area.getSelectedText()!=null;
     }
 
     /**

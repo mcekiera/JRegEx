@@ -36,9 +36,9 @@ public class UserInterface implements Observed {
      */
     private final List<Observer> observerList;
     /**
-     * Self-formatting field for user input of regular expression.
+     * Self-formatting text area for user input of regular expression.
      */
-    private JTextField inputField;
+    private JTextArea inputField;
     /**
      * Display of matching results.
      */
@@ -251,8 +251,8 @@ public class UserInterface implements Observed {
      * @param focusListener added to field.
      */
     private void buildInputField(InputListener listener, OnFocusBorderChanger focusListener) {
-        InputField field = new InputField();
-        inputField = field.getField();
+        InputArea field = new InputArea();
+        inputField = field.getArea();
         inputField.getDocument().addDocumentListener(listener);
         inputField.addFocusListener(focusListener);
         inputField.addFocusListener(new FocusChangeUpdate(this));

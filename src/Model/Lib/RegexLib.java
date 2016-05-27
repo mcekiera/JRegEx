@@ -38,7 +38,7 @@ public class RegexLib {
         lib.put(CAPTURING, "^\\((?:(?!\\?)|\\?(\\<)(?<name>[^>]+)(\\>))(.*)\\)");
         lib.put(NON_CAPTURING, "\\(\\?([imdsuxU]+(-[imdsuxU]+)?|-[imdsuxU]+)?:.*\\)");
         lib.put(BACKREFERENCE, "\\\\(?:(\\d+)|k\\<([^>]+)\\>)");
-        lib.put(SIMPLE, ".");
+        lib.put(SIMPLE, "(?s).");
         lib.put(RANGE, "\\p{ASCII}-[\\p{ASCII}&&[^]]]|\\\\\\w+-\\\\\\w+");
         lib.put(ALTERNATION, "^((?:\\\\\\||\\\\\\(|[^(|])+)(?=\\|)");
 

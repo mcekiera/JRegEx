@@ -43,6 +43,7 @@ public class MatchingHighlightManager extends HighlightManager{
         highlight(overall);
     }
 
+    //TODO tutaj jest coœ nie tak
     /**
      * Highlight all matched fragments: captured groups and whole matches, from given Overall object.
      * @param overall object with matching data.
