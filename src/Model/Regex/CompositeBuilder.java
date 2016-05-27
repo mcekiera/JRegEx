@@ -158,16 +158,29 @@ public class CompositeBuilder {
 
     private void singleCheck(Composite container, Construct construct) {
         if(!singleChars.isEmpty()) {
-            Construct sequence = processSingle();
-            sequence.setDescription(DescLib.getInstance().getDescription(sequence));
-            container.addConstruct(sequence);
-            singleChars.clear();
+            if(construct instanceof Quantifier) {
+                singleChars.remove(singleChars.size() - 1);
+                construct.setDescription(DescLib.getInstance().getDescription(previous));
+                if(!singleChars.isEmpty()) {
+                    Construct sequence = processSingle();
+                    sequence.setDescription(DescLib.getInstance().getDescription(sequence));
+                    container.addConstruct(sequence);
+                    singleChars.clear();
+                }
+                container.addConstruct(previous);
+            } else {
+                Construct sequence = processSingle();
+                sequence.setDescription(DescLib.getInstance().getDescription(sequence));
+                container.addConstruct(sequence);
+                singleChars.clear();
+            }
         }
     }
     private Construct processSingle() {
         if(singleChars.size()==1) {
             return singleChars.get(0);
         } else {
+            System.out.println(singleChars);
             return combine(singleChars);
         }
     }

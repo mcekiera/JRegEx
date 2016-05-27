@@ -288,7 +288,8 @@ public class DescLib {
         } else {
             prefix = "Greedy interval, ";
         }
-        return prefix + describeIntervalInterior(pattern.substring(1, pattern.indexOf('}')));
+
+        return prefix + describeIntervalInterior(pattern.substring(pattern.lastIndexOf('{')+1, pattern.indexOf('}')));
 
     }
 
@@ -300,12 +301,12 @@ public class DescLib {
      */
     private String describeIntervalInterior(String string) {
         if(!string.contains(",")) {
-            return "exactly " + string + " times.";
+            return "repeat exactly " + string + " times.";
         } else if (string.endsWith(",")) {
-            return "at least " + string.substring(0,string.indexOf(',')) + " times.";
+            return "repeat at least " + string.substring(0,string.indexOf(',')) + " times.";
         } else {
             String[] split = string.split(",");
-            return "at least " + split[0] + " but not more than " + split[1] + " times.";
+            return "repeat at least " + split[0] + " but not more than " + split[1] + " times.";
         }
     }
 
