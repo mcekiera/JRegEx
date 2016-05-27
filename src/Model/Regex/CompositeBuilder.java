@@ -156,6 +156,11 @@ public class CompositeBuilder {
         }
     }
 
+    /**
+     * Verify if created object is simple and were all single constructs processed, and process it if not.
+     * @param container currently processed Composite object.
+     * @param construct current object.
+     */
     private void singleCheck(Composite container, Construct construct) {
         if(!singleChars.isEmpty()) {
             if(construct instanceof Quantifier) {
@@ -176,15 +181,25 @@ public class CompositeBuilder {
             }
         }
     }
+
+    /**
+     * Determine how to process single construct, to treat it as single one or string.
+     * @return Construct.
+     */
     private Construct processSingle() {
         if(singleChars.size()==1) {
             return singleChars.get(0);
         } else {
-            System.out.println(singleChars);
             return combine(singleChars);
         }
     }
 
+    /**
+     * Creates one constructs representing literal characters, instead of multiple constructs representing separately
+     * one character.
+     * @param constructs list of single constructs.
+     * @return one Construct object which combine all from the list.
+     */
     private Construct combine(List<Construct> constructs) {
         int start = constructs.get(0).getStart();
         int end = constructs.get(constructs.size()-1).getEnd();
