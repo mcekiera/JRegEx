@@ -1,5 +1,6 @@
-package Model.Lib;
+package Test;
 
+import Model.Lib.DescLib;
 import Model.Regex.Construct;
 import Model.Regex.Single;
 import Model.Regex.Type;
