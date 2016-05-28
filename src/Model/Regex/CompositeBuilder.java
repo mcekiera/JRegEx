@@ -46,6 +46,8 @@ public class CompositeBuilder {
 
     private List<Construct> singleChars;
 
+    private final XModer xModer = XModer.getInstance();
+
     /**
      * @return only instance of class.
      */
@@ -62,6 +64,7 @@ public class CompositeBuilder {
         reset();
         Composite composite = new Composite(null, Type.EXPRESSION,new Segment(pattern,0,pattern.length()));
         composite.setDescription(DescLib.getInstance().getDescription(composite));
+        xModer.process(composite.getText());
         breakExpression(composite, composite.getStart());
         return composite;
     }

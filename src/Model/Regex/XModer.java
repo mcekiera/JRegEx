@@ -9,19 +9,31 @@ import java.util.regex.Pattern;
 public class XModer {
     private final static XModer INSTANCE = new XModer();
     private final Matcher mode = Pattern.compile("\\(\\?([imdsuxU]+(-[imdsuxU]+)?|-[imdsuxU]+)?\\)").matcher("");
-    private final Matcher group = Pattern.compile("\\(\\?([imdsuxU]+(-[imdsuxU]+)?|-[imdsuxU]+)?:.*\\)").matcher("");
+    private final Matcher group = Pattern.compile("(?s)\\(\\?([imdsuxU]+(-[imdsuxU]+)?|-[imdsuxU]+)?:.*\\)").matcher("");
     private boolean[] indices;
     private boolean[] comments;
 
+    public static XModer getInstance() {
+        return INSTANCE;
+    }
 
     public static void main(String[] args) {
         String[] pattern = {"(?x)\\Q2#34\\E#678","(?x)\\Q2#34\\E#678aa\n(?-x)aaaaa(?x:aa(?-x:uu)a#a)bc[abc&&[#abc]]ab#",
-                "(?x)aaaa(?-x:#)bbb#ccccc", "(?x)abc  #  abc\ncde   #   cde\nefg   #   efg"};
+                "(?x)aaaa(?-x:#)bbb#ccccc", "(?x)abc  #  abc\ncde   #   cde\nefg   #   efg", "((?x)abc\\)abc#)\naaa#ccc)\n)#abc",
+        "(?x:aaaaaaaa#bbb\naaaa)#cde"};
+        String[] result = {
+                "FFFFFFFFFFFFTTTT", "FFFFFFFFFFFFTTTTTTFFFFFFFFFFFFFFFFFFFFFFFFFFTTTTTTTTTTTTTTTTTTTTT", "FFFFFFFFFFFFFFFFFFTTTTTT",
+                 "FFFFFFFFFTTTTTTFFFFFFFTTTTTTTFFFFFFFTTTTTTT", "FFFFFFFFFFFFFTTFFFFTTTTTFFFFFF", "FFFFFFFFFFFFTTTTFFFFFFFFFF"
+        };
         XModer XModer = new XModer();
-        for(String p : pattern) {
+        for(int i = 0; i < pattern.length; i++) {
             System.out.println("__________________");
-            System.out.println(p);
-            XModer.process(p);
+            System.out.println(pattern[i]);
+            XModer.process(pattern[i]);
+            if(!XModer.printCommentArray().equals(result[i])) {
+                System.out.println(XModer.printCommentArray());
+                System.out.println(result[i]);
+            }
         }
     }
 
@@ -53,9 +65,6 @@ public class XModer {
             }
 
         }
-        printBooleanArray(indices);
-        System.out.println("COMMENTS:");
-        printBooleanArray(comments);
     }
 
     public boolean isInCommentRange(int index) {
@@ -77,10 +86,20 @@ public class XModer {
     private void findSeparateModifierRange(String pattern, int i, boolean x) {
         int depth = 0;
         for(int r = i; r < pattern.length(); r++) {
-            if(pattern.charAt(r)=='(') {
+            if (pattern.charAt(r)=='\\') {
+                r++;
+            } else if (pattern.charAt(r)=='(') {
                 depth++;
             } else if(pattern.charAt(r) == ')') {
                 depth--;
+            } else if(x && pattern.charAt(r) == '#') {
+                for(int t = r; t < pattern.length(); t++) {
+                    r=t;
+                    indices[r] = x;
+                    if(pattern.charAt(t)=='\n') {
+                        break;
+                    }
+                }
             }
             indices[r] = x;
             if(depth < 0) {
@@ -92,10 +111,20 @@ public class XModer {
     private void findNonCapturingGroupModifierRange(String pattern, int i, boolean x) {
         int depth = 0;
         for(int r = i; r < pattern.length(); r++) {
-            if(pattern.charAt(r)=='(') {
+            if (pattern.charAt(r)=='\\') {
+                r++;
+            } else if(pattern.charAt(r)=='(') {
                 depth++;
             } else if(pattern.charAt(r) == ')') {
                 depth--;
+            } else if(x && pattern.charAt(r) == '#') {
+                for(int t = r; t < pattern.length(); t++) {
+                    r=t;
+                    indices[r] = x;
+                    if(pattern.charAt(t)=='\n') {
+                        break;
+                    }
+                }
             }
             indices[r] = x;
             if(depth == 0) {
@@ -104,15 +133,28 @@ public class XModer {
         }
     }
 
-    private void printBooleanArray(boolean[] arr) {
+    private String printBooleanArray(boolean[] arr) {
+        String result = "";
         for(boolean b : arr) {
             if(b) {
-                System.out.print("T");
+                result += "T";
             } else {
-                System.out.print("F");
+                result += "F";
             }
         }
-        System.out.println();
+        return result;
+    }
+
+    private String printCommentArray() {
+        String result = "";
+        for(boolean b : comments) {
+            if(b) {
+                result += "T";
+            } else {
+                result += "F";
+            }
+        }
+        return result;
     }
 
     private int extractComment(String pattern, int start) {
@@ -182,4 +224,6 @@ public class XModer {
     private boolean inGroupModeHasXModifier() {
         return group.group().substring(0,group.group().indexOf(":")).contains("x");
     }
+
+
 }

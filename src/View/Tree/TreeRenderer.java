@@ -107,6 +107,7 @@ public class TreeRenderer extends DefaultTreeCellRenderer{
                     c.setBackground(GroupColor.GROUP1.getColor());
                     break;
                 case QUOTATION:
+                case COMMENT:
                     c.setBackground(Color.LIGHT_GRAY);
                     break;
                 case INVALID_RANGE:

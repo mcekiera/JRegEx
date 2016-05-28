@@ -46,6 +46,12 @@ public class Detail {
             for(Construct construct : complex) {
                if(construct.getType() != Type.COMPONENT) {
 
+                   if(construct.getType() == Type.COMMENT) {
+                       addMatch(construct, new Segment("", 0, 0));
+                       continue;
+                   }
+
+
                     matcher = Pattern.compile(getAdHocPattern((Construct) complex, construct)).matcher(segment.getContent()).region(segment.getStart(),segment.getEnd());;
                     matcher.useTransparentBounds(true);
 
@@ -68,7 +74,7 @@ public class Detail {
 
             }
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 

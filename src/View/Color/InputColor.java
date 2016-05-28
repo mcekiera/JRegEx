@@ -13,6 +13,7 @@ public enum InputColor {
     CHAR_CLASS(new Color(255,165,79)),
     MODE(new Color(238,130,238)),
     PREDEFINED(new Color(100,149,237)),
+    COMMENT(Color.LIGHT_GRAY),
     SELECTION(Color.CYAN);
 
     /**

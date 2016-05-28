@@ -42,6 +42,7 @@ public class IconLib {
         icons.put(Type.INVALID_INTERVAL, new ImageIcon(IconLib.class.getResource("ico/ERROR.png")));
         icons.put(Type.INVALID_RANGE, new ImageIcon(IconLib.class.getResource("ico/ERROR.png")));
         icons.put(Type.INVALID_QUANTIFIER, new ImageIcon(IconLib.class.getResource("ico/ERROR.png")));
+        icons.put(Type.COMMENT, new ImageIcon(IconLib.class.getResource("ico/COMMENT.png")));
     }
 
     /**

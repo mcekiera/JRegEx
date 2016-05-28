@@ -16,6 +16,8 @@ public class ConstructsAbstractFactory {
      * Only instance of class.
      */
     private static final ConstructsAbstractFactory INSTANCE = new ConstructsAbstractFactory();
+
+    private final XModer xModer = XModer.getInstance();
     /**
      * Provides matcher for particular constructs recognition.
      */
@@ -99,7 +101,10 @@ public class ConstructsAbstractFactory {
             construct = createQuantifier(parent, pattern, startIndex);
         } else if(regexMatch(Type.INTERVAL,current)) {
             construct = createInterval(parent, pattern, startIndex);
+        } else if(xModer.isInCommentRange(startIndex) && regexMatch(Type.COMMENT, current)) {
+            construct = new Single(parent,Type.COMMENT, new Segment(pattern,startIndex,startIndex + lib.getEndOfLastMatch(Type.COMMENT)));
         } else {
+            System.out.println(startIndex + "," + xModer.isInCommentRange(startIndex));
             construct = createSimpleConstruct(parent,pattern,startIndex);
         }
         return construct;
@@ -114,7 +119,8 @@ public class ConstructsAbstractFactory {
      * @return Construct object.
      */
     public Construct createGroupConstruct(Construct parent, String pattern, int startIndex) {
-        String current = extractGroup(pattern.substring(startIndex), '(', ')');
+        String current = extractGroup(pattern, startIndex,'(', ')', true);
+        System.out.println("CuRRENT: " + current);
         if(current.equals("")) {
             regexMatch(Type.UNBALANCED, pattern.substring(startIndex));
             return new Single(parent, Type.UNBALANCED,new Segment(pattern,startIndex,startIndex+lib.getMatcher(Type.UNBALANCED).end()));
@@ -239,7 +245,7 @@ public class ConstructsAbstractFactory {
      * @return Construct object of CHAR_CLASS or INCOMPLETE type.
      */
     private Construct createCharacterClass(Construct parent, String pattern, int startIndex) {
-        String current = extractGroup(pattern.substring(startIndex),'[',']');
+        String current = extractGroup(pattern, startIndex,'[',']', false);
         int end = startIndex + (current.length() == 0 ? 1 : current.length());
         if(current.length()<=2) {
             return new Single(parent, Type.INCOMPLETE,new Segment(pattern,startIndex,end));
@@ -585,19 +591,30 @@ public class ConstructsAbstractFactory {
      * @param end index of examined part.
      * @return String with retrieved grouping construct.
      */
-    private String extractGroup(String pattern, char start, char end) {
-        char[] strAsChar = pattern.toCharArray();
+    private String extractGroup(String pattern, int startIndex, char start, char end, boolean xmode) {
+        char[] strAsChar = pattern.substring(startIndex).toCharArray();
         int depth = 0;
-        for(int index = 0; index < pattern.length(); index++) {
+        for(int index = 0; index < pattern.substring(startIndex).length(); index++) {
             if(strAsChar[index] == '\\') {
                 index++;
             } else if(strAsChar[index]==start) {
                 depth++;
             } else if(strAsChar[index]==end) {
                 depth--;
+            } else if(xmode && strAsChar[index] == '#' && xModer.isInCommentRange(startIndex+index)) {
+                for(int i = index; i < pattern.substring(startIndex).length(); i++) {
+                    System.out.println(pattern.substring(i));
+                    index = i;
+                    if(strAsChar[i] == '\n') {
+                        break;
+                    }
+                }
             }
             if(index!=0 && depth==0){
-                return pattern.substring(0,index+1);
+                return pattern.substring(startIndex,startIndex+index+1);
+            }
+            if(index==pattern.length()-1) {
+                break;
             }
         }
         return "";

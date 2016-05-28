@@ -59,20 +59,21 @@ public class SectionHighlightManager {
     public void process(Expression expression, int correction) {
         try {
             for (Construct construct : expression.getDetailMatches().keySet()) {
-                DefaultHighlighter.DefaultHighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(lib.getNextColor());
+                DefaultHighlighter.DefaultHighlightPainter painter;
                 for (Segment segment : expression.getDetailMatches().get(construct)) {
                     try {
-                        if (segment == null || (construct.isComplex() && construct.getType() != Type.CHAR_CLASS) || construct.getType() == Type.EXPRESSION || construct.getType() == Type.COMPONENT || construct.getType() == Type.LOGICAL) {
+                        if (segment == null || (construct.isComplex() && construct.getType() != Type.CHAR_CLASS)
+                                || construct.getType() == Type.EXPRESSION || construct.getType() == Type.COMPONENT
+                                || construct.getType() == Type.LOGICAL || construct.getType() == Type.COMMENT) {
                             if(construct.getType() == Type.COMPONENT || construct.getType() == Type.LOGICAL) {
                                 pattern.addHighlight(construct.getStart(), construct.getEnd(), new DefaultHighlighter.DefaultHighlightPainter(Color.GRAY));
                             } else {
                                 pattern.addHighlight(construct.getStart(), construct.getEnd(), new DefaultHighlighter.DefaultHighlightPainter(Color.LIGHT_GRAY));
                             }
                         } else {
-
+                            painter = new DefaultHighlighter.DefaultHighlightPainter(lib.getNextColor());
                             pattern.addHighlight(construct.getStart(), construct.getEnd(), painter);
                             text.addHighlight(segment.getStart() - correction, segment.getEnd() - correction, painter);
-
                         }
                     } catch (BadLocationException e) {
                         e.printStackTrace();

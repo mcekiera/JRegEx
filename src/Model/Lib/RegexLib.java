@@ -33,10 +33,10 @@ public class RegexLib {
         lib.put(SPECIFIC_CHAR, "\\\\(0[0-3]?[0-7]?[0-7]|x([1-9A-F]{2}|\\{(?<hexa>[^}]+)\\})|u[1-9A-F]{4}|[tnrfae]|c\\w)");
         lib.put(QUOTATION, "\\\\Q((?:(?!\\\\E).)*)(\\\\E)?|\\\\.");
         lib.put(GROUP, "\\(");
-        lib.put(ATOMIC, "\\(\\?\\>.*\\)");
-        lib.put(LOOK_AROUND, "\\(\\?([=!]|<[=!]).*\\)");
-        lib.put(CAPTURING, "^\\((?:(?!\\?)|\\?(\\<)(?<name>[^>]+)(\\>))(.*)\\)");
-        lib.put(NON_CAPTURING, "\\(\\?([imdsuxU]+(-[imdsuxU]+)?|-[imdsuxU]+)?:.*\\)");
+        lib.put(ATOMIC, "(?s)\\(\\?\\>.*\\)");
+        lib.put(LOOK_AROUND, "(?s)\\(\\?([=!]|<[=!]).*\\)");
+        lib.put(CAPTURING, "(?s)^\\((?:(?!\\?)|\\?(\\<)(?<name>[^>]+)(\\>))(.*)\\)");
+        lib.put(NON_CAPTURING, "(?s)\\(\\?([imdsuxU]+(-[imdsuxU]+)?|-[imdsuxU]+)?:.*\\)");
         lib.put(BACKREFERENCE, "\\\\(?:(\\d+)|k\\<([^>]+)\\>)");
         lib.put(SIMPLE, "(?s).");
         lib.put(RANGE, "\\p{ASCII}-[\\p{ASCII}&&[^]]]|\\\\\\w+-\\\\\\w+");
@@ -44,7 +44,7 @@ public class RegexLib {
 
         lib.put(UNBALANCED, "\\((\\?(\\<(\\w+|[=!])?|[:=!>]|[\\w-]+:?)?)?");
         lib.put(INCOMPLETE, "\\\\([xcu]|p(\\{)?|k(<[^>]*)?|E)");
-        lib.put(COMMENT, "#.+");
+        lib.put(COMMENT, "(\\s)*+#.*(\n)?|\\s+");
     }
 
     /**
