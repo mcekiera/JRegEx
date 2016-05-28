@@ -97,6 +97,8 @@ public class DescLib {
                 return describeComponent(construct);
             case INTERVAL:
                 return describeInterval(construct);
+            case COMMENT:
+                return "<HTML><i>Comment: " + construct.getText();
             case EXPRESSION:
                 return "<HTML><b>" + construct.getType() + ":<br>" + construct.getText() + "</b><br>";
             case ALTERNATION:

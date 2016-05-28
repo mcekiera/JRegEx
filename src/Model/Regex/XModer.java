@@ -20,10 +20,10 @@ public class XModer {
     public static void main(String[] args) {
         String[] pattern = {"(?x)\\Q2#34\\E#678","(?x)\\Q2#34\\E#678aa\n(?-x)aaaaa(?x:aa(?-x:uu)a#a)bc[abc&&[#abc]]ab#",
                 "(?x)aaaa(?-x:#)bbb#ccccc", "(?x)abc  #  abc\ncde   #   cde\nefg   #   efg", "((?x)abc\\)abc#)\naaa#ccc)\n)#abc",
-        "(?x:aaaaaaaa#bbb\naaaa)#cde"};
+        "(?x:aaaaaaaa#bbb\naaaa)#cde","(?x)aaa     aaa"};
         String[] result = {
                 "FFFFFFFFFFFFTTTT", "FFFFFFFFFFFFTTTTTTFFFFFFFFFFFFFFFFFFFFFFFFFFTTTTTTTTTTTTTTTTTTTTT", "FFFFFFFFFFFFFFFFFFTTTTTT",
-                 "FFFFFFFFFTTTTTTFFFFFFFTTTTTTTFFFFFFFTTTTTTT", "FFFFFFFFFFFFFTTFFFFTTTTTFFFFFF", "FFFFFFFFFFFFTTTTFFFFFFFFFF"
+                 "FFFFFFFFFTTTTTTFFFFFFFTTTTTTTFFFFFFFTTTTTTT", "FFFFFFFFFFFFFTTFFFFTTTTTFFFFFF", "FFFFFFFFFFFFTTTTFFFFFFFFFF", "FFFFFFFTTTTTFFF"
         };
         XModer XModer = new XModer();
         for(int i = 0; i < pattern.length; i++) {
@@ -45,7 +45,6 @@ public class XModer {
         for (int i = 0; i < pattern.length(); i++) {
             if (pattern.substring(i).startsWith("\\Q")) {
                 disableRange(i, quotation(pattern, i), indices);
-                System.out.println("QUOTE: " + pattern.substring(i, quotation(pattern, i)));
             } else if (isMode(pattern, i)) {
                 if (modeHasXModifier()) {
                     findSeparateModifierRange(pattern, i, isPositiveModifier());
@@ -56,10 +55,12 @@ public class XModer {
                 }
             } else if (pattern.charAt(i) == '[') {
                 disableRange(i, charClass(pattern, i),indices);
-                System.out.println(pattern.substring(i, charClass(pattern, i)));
             } else if (pattern.charAt(i) == '#' && indices[i]) {
-                System.out.println("COMMENT: " + pattern.substring(i, extractComment(pattern, i)));
                 int result = extractComment(pattern, i);
+                enableRange(i, result, comments);
+                i = result;
+            } else if (Character.isWhitespace(pattern.charAt(i)) && indices[i]) {
+                int result = extractWhitespace(pattern,i);
                 enableRange(i, result, comments);
                 i = result;
             }
@@ -168,6 +169,17 @@ public class XModer {
             }
         }
         return temp;
+    }
+
+    private int extractWhitespace(String pattern, int start) {
+        int end = start;
+        for(int c = start; c < pattern.length(); c++) {
+            end = c;
+            if(!Character.isWhitespace(pattern.charAt(c))) {
+                break;
+            }
+        }
+        return end;
     }
 
     private int quotation(String pattern, int i) {
