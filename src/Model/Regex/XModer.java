@@ -4,56 +4,36 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Determine if in given regular expression pattern occurs ?x modifier.
+ * Determine if in given regular expression pattern occurs ?x modifier. TODO check if \\ is processed correctly
  */
-public class Commentator {
-    boolean[] indices;
-    Matcher mode = Pattern.compile("\\(\\?([imdsuxU]+(-[imdsuxU]+)?|-[imdsuxU]+)?\\)").matcher("");
-    Matcher group = Pattern.compile("\\(\\?([imdsuxU]+(-[imdsuxU]+)?|-[imdsuxU]+)?:.*\\)").matcher("");
+public class XModer {
+    private final static XModer INSTANCE = new XModer();
+    private final Matcher mode = Pattern.compile("\\(\\?([imdsuxU]+(-[imdsuxU]+)?|-[imdsuxU]+)?\\)").matcher("");
+    private final Matcher group = Pattern.compile("\\(\\?([imdsuxU]+(-[imdsuxU]+)?|-[imdsuxU]+)?:.*\\)").matcher("");
+    private boolean[] indices;
+    private boolean[] comments;
+
 
     public static void main(String[] args) {
         String[] pattern = {"(?x)\\Q2#34\\E#678","(?x)\\Q2#34\\E#678aa\n(?-x)aaaaa(?x:aa(?-x:uu)a#a)bc[abc&&[#abc]]ab#",
                 "(?x)aaaa(?-x:#)bbb#ccccc", "(?x)abc  #  abc\ncde   #   cde\nefg   #   efg"};
-        Commentator Commentator = new Commentator();
+        XModer XModer = new XModer();
         for(String p : pattern) {
             System.out.println("__________________");
             System.out.println(p);
-            Commentator.process(p);
+            XModer.process(p);
         }
-    }
-
-    private boolean isMode(String pattern, int index) {
-        return mode.reset(pattern.substring(index)).lookingAt();
-    }
-
-    private boolean modeHasXModifier() {
-        return mode.group().contains("x");
-    }
-
-    private boolean isPositiveModifier() {
-        return !mode.group().substring(0,mode.group().indexOf("x")).contains("-");
-    }
-
-    private boolean isInGroupMode(String pattern, int index) {
-        return group.reset(pattern.substring(index)).lookingAt();
-    }
-
-    private boolean isPositiveInGroupModifier() {
-        return !group.group().substring(0, group.group().indexOf(":")).substring(0,group.group()
-                .substring(0, group.group().indexOf(":")).lastIndexOf("x")).contains("-");
-    }
-
-    private boolean inGroupModeHasXModifier() {
-        return group.group().substring(0,group.group().indexOf(":")).contains("x");
     }
 
     public void process(String pattern) {
 
         indices = new boolean[pattern.length()];
+        comments  = new boolean[pattern.length()];
+
         for (int i = 0; i < pattern.length(); i++) {
             if (pattern.substring(i).startsWith("\\Q")) {
-                disableComments(i, quotation(pattern, i));
-                System.out.println(pattern.substring(i, quotation(pattern, i)));
+                disableRange(i, quotation(pattern, i), indices);
+                System.out.println("QUOTE: " + pattern.substring(i, quotation(pattern, i)));
             } else if (isMode(pattern, i)) {
                 if (modeHasXModifier()) {
                     findSeparateModifierRange(pattern, i, isPositiveModifier());
@@ -61,22 +41,36 @@ public class Commentator {
             } else if (isInGroupMode(pattern, i)) {
                 if (inGroupModeHasXModifier()) {
                     findNonCapturingGroupModifierRange(pattern, i, isPositiveInGroupModifier());
-                } else if (pattern.charAt(i) == '[') {
-                    disableComments(i, charClass(pattern, i));
-                    System.out.println(pattern.substring(i, charClass(pattern, i)));
-                } else if (pattern.charAt(i) == '#' && indices[i]) {
-                    System.out.println(pattern.substring(i, extractComment(pattern, i)));
-                    i = extractComment(pattern, i);
                 }
-
+            } else if (pattern.charAt(i) == '[') {
+                disableRange(i, charClass(pattern, i),indices);
+                System.out.println(pattern.substring(i, charClass(pattern, i)));
+            } else if (pattern.charAt(i) == '#' && indices[i]) {
+                System.out.println("COMMENT: " + pattern.substring(i, extractComment(pattern, i)));
+                int result = extractComment(pattern, i);
+                enableRange(i, result, comments);
+                i = result;
             }
-            printArray();
+
+        }
+        printBooleanArray(indices);
+        System.out.println("COMMENTS:");
+        printBooleanArray(comments);
+    }
+
+    public boolean isInCommentRange(int index) {
+        return comments[index];
+    }
+
+    private void disableRange(int start, int end, boolean[] arr) {
+        for(int q = start; q < end; q++) {
+            arr[q] = false;
         }
     }
 
-    private void disableComments(int start, int end) {
+    private void enableRange(int start, int end, boolean[] arr) {
         for(int q = start; q < end; q++) {
-            indices[q] = false;
+            arr[q] = true;
         }
     }
 
@@ -110,8 +104,8 @@ public class Commentator {
         }
     }
 
-    private void printArray() {
-        for(boolean b : indices) {
+    private void printBooleanArray(boolean[] arr) {
+        for(boolean b : arr) {
             if(b) {
                 System.out.print("T");
             } else {
@@ -162,5 +156,30 @@ public class Commentator {
             result = k+1;
         }
         return result;
+    }
+
+    private boolean isMode(String pattern, int index) {
+        return mode.reset(pattern.substring(index)).lookingAt();
+    }
+
+    private boolean modeHasXModifier() {
+        return mode.group().contains("x");
+    }
+
+    private boolean isPositiveModifier() {
+        return !mode.group().substring(0,mode.group().indexOf("x")).contains("-");
+    }
+
+    private boolean isInGroupMode(String pattern, int index) {
+        return group.reset(pattern.substring(index)).lookingAt();
+    }
+
+    private boolean isPositiveInGroupModifier() {
+        return !group.group().substring(0, group.group().indexOf(":")).substring(0,group.group()
+                .substring(0, group.group().indexOf(":")).lastIndexOf("x")).contains("-");
+    }
+
+    private boolean inGroupModeHasXModifier() {
+        return group.group().substring(0,group.group().indexOf(":")).contains("x");
     }
 }
