@@ -17,5 +17,8 @@ import org.junit.runners.Suite;
         XModerTest.class
 
 })
+/**
+ * Contain reference to all test classes, to allow TestRunner to use every one.
+ */
 public class TestSuite {
 }  
