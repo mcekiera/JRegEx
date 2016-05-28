@@ -57,9 +57,13 @@ public class SectionHighlightManager {
      *                   separated text the correction of highlights start and end indexes is necessary.
      */
     public void process(Expression expression, int correction) {
+        boolean used = true;
+        DefaultHighlighter.DefaultHighlightPainter painter = null;
         try {
             for (Construct construct : expression.getDetailMatches().keySet()) {
-                DefaultHighlighter.DefaultHighlightPainter painter;
+                if(used) {
+                    painter = new DefaultHighlighter.DefaultHighlightPainter(lib.getNextColor());
+                }
                 for (Segment segment : expression.getDetailMatches().get(construct)) {
                     try {
                         if (segment == null || (construct.isComplex() && construct.getType() != Type.CHAR_CLASS)
@@ -70,10 +74,11 @@ public class SectionHighlightManager {
                             } else {
                                 pattern.addHighlight(construct.getStart(), construct.getEnd(), new DefaultHighlighter.DefaultHighlightPainter(Color.LIGHT_GRAY));
                             }
+                            used = false;
                         } else {
-                            painter = new DefaultHighlighter.DefaultHighlightPainter(lib.getNextColor());
                             pattern.addHighlight(construct.getStart(), construct.getEnd(), painter);
                             text.addHighlight(segment.getStart() - correction, segment.getEnd() - correction, painter);
+                            used = true;
                         }
                     } catch (BadLocationException e) {
                         e.printStackTrace();

@@ -185,6 +185,7 @@ public class ConstructsAbstractFactory {
         } else if(regexMatch(Type.CHAR_CLASS,current)) {
             return createCharacterClass(parent, pattern, startIndex);
         } else {
+            regexMatch(Type.SIMPLE,current);
             return new Single(parent, Type.SIMPLE, new Segment(pattern, startIndex, startIndex + lib.getMatcher(Type.SIMPLE).end()));
         }
     }

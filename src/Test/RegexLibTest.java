@@ -19,7 +19,7 @@ public class RegexLibTest {
 
     @Test
     public void testGetRegEx() throws Exception {
-        assertEquals(".",lib.getRegEx(SIMPLE));
+        assertEquals("(?s).",lib.getRegEx(SIMPLE));
     }
 
     @Test

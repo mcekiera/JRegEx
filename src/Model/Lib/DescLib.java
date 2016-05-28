@@ -108,13 +108,13 @@ public class DescLib {
             case INCOMPLETE:
                 return "Incomplete structure on index " + construct.getStart() + ":  " + construct.getText();
             case INVALID_BACKREFERENCE:
-                return "Invalid backreference:  " + construct.getText();
+                return "Invalid backreference on index " + construct.getStart() + ":  " + construct.getText();
             case INVALID_RANGE:
-                return "Invalid range:  " + construct.getText();
+                return "Invalid range on index " + construct.getStart() + ":  " + construct.getText();
             case INVALID_INTERVAL:
-                return "Invalid interval:  " + construct.getText();
+                return "Invalid interval on index " + construct.getStart() + ":  " + construct.getText();
             case INVALID_QUANTIFIER:
-                return "Invalid quantifier on index  " + construct.getStart() + ":  " + construct.getText();
+                return "Invalid quantifier on index " + construct.getStart() + ":  " + construct.getText();
             default:
                 return "<html><b>" + construct.getText() + "</b><i> Match text: " + construct.getText();
         }

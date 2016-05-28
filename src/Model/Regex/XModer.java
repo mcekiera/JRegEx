@@ -13,27 +13,23 @@ public class XModer {
     private boolean[] indices;
     private boolean[] comments;
 
+    private XModer() {
+    }
+
     public static XModer getInstance() {
         return INSTANCE;
     }
 
     public static void main(String[] args) {
-        String[] pattern = {"(?x)\\Q2#34\\E#678","(?x)\\Q2#34\\E#678aa\n(?-x)aaaaa(?x:aa(?-x:uu)a#a)bc[abc&&[#abc]]ab#",
-                "(?x)aaaa(?-x:#)bbb#ccccc", "(?x)abc  #  abc\ncde   #   cde\nefg   #   efg", "((?x)abc\\)abc#)\naaa#ccc)\n)#abc",
-        "(?x:aaaaaaaa#bbb\naaaa)#cde","(?x)aaa     aaa"};
+        String[] pattern = {"(?x)a   #aa"};
         String[] result = {
-                "FFFFFFFFFFFFTTTT", "FFFFFFFFFFFFTTTTTTFFFFFFFFFFFFFFFFFFFFFFFFFFTTTTTTTTTTTTTTTTTTTTT", "FFFFFFFFFFFFFFFFFFTTTTTT",
-                 "FFFFFFFFFTTTTTTFFFFFFFTTTTTTTFFFFFFFTTTTTTT", "FFFFFFFFFFFFFTTFFFFTTTTTFFFFFF", "FFFFFFFFFFFFTTTTFFFFFFFFFF", "FFFFFFFTTTTTFFF"
+                "FFFFFTTTTTT"
         };
         XModer XModer = new XModer();
         for(int i = 0; i < pattern.length; i++) {
             System.out.println("__________________");
             System.out.println(pattern[i]);
             XModer.process(pattern[i]);
-            if(!XModer.printCommentArray().equals(result[i])) {
-                System.out.println(XModer.printCommentArray());
-                System.out.println(result[i]);
-            }
         }
     }
 
@@ -47,11 +43,11 @@ public class XModer {
                 disableRange(i, quotation(pattern, i), indices);
             } else if (isMode(pattern, i)) {
                 if (modeHasXModifier()) {
-                    findSeparateModifierRange(pattern, i, isPositiveModifier());
+                    findModifierRange(pattern, i, isPositiveModifier(), Type.MODE);
                 }
             } else if (isInGroupMode(pattern, i)) {
                 if (inGroupModeHasXModifier()) {
-                    findNonCapturingGroupModifierRange(pattern, i, isPositiveInGroupModifier());
+                    findModifierRange(pattern, i, isPositiveInGroupModifier(), Type.NON_CAPTURING);
                 }
             } else if (pattern.charAt(i) == '[') {
                 disableRange(i, charClass(pattern, i),indices);
@@ -62,10 +58,13 @@ public class XModer {
             } else if (Character.isWhitespace(pattern.charAt(i)) && indices[i]) {
                 int result = extractWhitespace(pattern,i);
                 enableRange(i, result, comments);
-                i = result;
+                i = result-1;
             }
 
         }
+        System.out.println("_______");
+        System.out.println(printArray(indices));
+        System.out.println(printArray(comments));
     }
 
     public boolean isInCommentRange(int index) {
@@ -84,9 +83,10 @@ public class XModer {
         }
     }
 
-    private void findSeparateModifierRange(String pattern, int i, boolean x) {
+    private void findModifierRange(String pattern, int i, boolean x, Type type) {
         int depth = 0;
         for(int r = i; r < pattern.length(); r++) {
+
             if (pattern.charAt(r)=='\\') {
                 r++;
             } else if (pattern.charAt(r)=='(') {
@@ -102,53 +102,19 @@ public class XModer {
                     }
                 }
             }
+
             indices[r] = x;
-            if(depth < 0) {
+            if(type == Type.MODE && depth < 0) {
+                break;
+            }else if(type == Type.NON_CAPTURING && depth == 0) {
                 break;
             }
         }
     }
 
-    private void findNonCapturingGroupModifierRange(String pattern, int i, boolean x) {
-        int depth = 0;
-        for(int r = i; r < pattern.length(); r++) {
-            if (pattern.charAt(r)=='\\') {
-                r++;
-            } else if(pattern.charAt(r)=='(') {
-                depth++;
-            } else if(pattern.charAt(r) == ')') {
-                depth--;
-            } else if(x && pattern.charAt(r) == '#') {
-                for(int t = r; t < pattern.length(); t++) {
-                    r=t;
-                    indices[r] = x;
-                    if(pattern.charAt(t)=='\n') {
-                        break;
-                    }
-                }
-            }
-            indices[r] = x;
-            if(depth == 0) {
-                break;
-            }
-        }
-    }
-
-    private String printBooleanArray(boolean[] arr) {
+    private String printArray(boolean[] arr) {
         String result = "";
         for(boolean b : arr) {
-            if(b) {
-                result += "T";
-            } else {
-                result += "F";
-            }
-        }
-        return result;
-    }
-
-    private String printCommentArray() {
-        String result = "";
-        for(boolean b : comments) {
             if(b) {
                 result += "T";
             } else {
