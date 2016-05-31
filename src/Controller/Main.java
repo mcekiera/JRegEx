@@ -84,9 +84,7 @@ public class Main implements Observer{
      * Updates all displayed data.
      */
     private void updateView() {
-        System.out.println("UPDATE");
         expression.set(theInterface.getInputText(), theInterface.getMatchingText());
-        //theInterface.resetCompare();
         inputHighlightManager.process(expression.getRoot());
         theInterface.setTreeModel(inputHighlightManager, new RegExTree(expression), expression.isValid());
         matchingHighlightManager.reset();
@@ -104,7 +102,6 @@ public class Main implements Observer{
      * @param position position of caret during clicking.
      */
     public void updateCompareView(int position) {
-        System.out.println("UPDATE COMPARE");
         sectionHighlightManager.reset();
         theInterface.resetCompare();
         if((!theInterface.getMatchingText().equals("")) && (!theInterface.getInputText().equals(""))) {
