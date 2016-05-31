@@ -364,7 +364,7 @@ public class UserInterface implements Observed {
         doubleField.add(buildJScrollPane(upperField));
         doubleField.add(buildJScrollPane(lowerField));
 
-        panel.add(buildLabel("MATCHING ANALYSIS"), BorderLayout.PAGE_START);
+        panel.add(buildLabel("MATCHING ANALYSIS:"), BorderLayout.PAGE_START);
         panel.add(doubleField, BorderLayout.CENTER);
         return panel;
     }

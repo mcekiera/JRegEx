@@ -39,8 +39,12 @@ public class MatchingHighlightManager extends HighlightManager{
      * @param overall
      */
     public void process(Overall overall) {
-        highlighter.removeAllHighlights();
+        reset();
         highlight(overall);
+    }
+
+    public void reset() {
+        highlighter.removeAllHighlights();
     }
 
     //TODO tutaj jest coœ nie tak

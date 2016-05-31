@@ -30,9 +30,11 @@ public class IconLib {
         icons.put(Type.MODE, new ImageIcon(IconLib.class.getResource("ico/MODE.png")));
         icons.put(Type.PREDEFINED, new ImageIcon(IconLib.class.getResource("ico/BACKREFERENCE.png")));
         icons.put(Type.QUANTIFIER, new ImageIcon(IconLib.class.getResource("ico/QUANTIFIER.png")));
+        icons.put(Type.INTERVAL, new ImageIcon(IconLib.class.getResource("ico/QUANTIFIER.png")));
         icons.put(Type.QUOTATION, new ImageIcon(IconLib.class.getResource("ico/QUOTES.png")));
         icons.put(Type.SPECIFIC_CHAR, new ImageIcon(IconLib.class.getResource("ico/SPECIFIC.png")));
         icons.put(Type.CHAR_CLASS, new ImageIcon(IconLib.class.getResource("ico/CHARCLASS.png")));
+        icons.put(Type.RANGE, new ImageIcon(IconLib.class.getResource("ico/RANGE.png")));
         icons.put(Type.EXPRESSION, new ImageIcon(IconLib.class.getResource("ico/REGEX.png")));
         icons.put(Type.NON_CAPTURING, new ImageIcon(IconLib.class.getResource("ico/NONCAPTURING.png")));
         icons.put(Type.ATOMIC, new ImageIcon(IconLib.class.getResource("ico/ATOMIC.png")));

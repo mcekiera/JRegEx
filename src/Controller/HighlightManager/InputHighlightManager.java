@@ -43,7 +43,7 @@ public class InputHighlightManager extends HighlightManager {
     public void process(Composite composite) {
         selected = null;
         current = composite;
-        highlighter.removeAllHighlights();
+        reset();
         highlight(composite, count);
         count = 0;
     }
@@ -51,7 +51,7 @@ public class InputHighlightManager extends HighlightManager {
     public void process(Composite composite, Construct selected) {
         this.selected = selected;
         current = composite;
-        highlighter.removeAllHighlights();
+        reset();
         highlight(composite, count);
         count = 0;
     }
@@ -77,24 +77,25 @@ public class InputHighlightManager extends HighlightManager {
      */
     private void highlightConstruct(Construct construct, int group) {
         DefaultHighlighter.DefaultHighlightPainter painter = getPainter(construct, group);
-        if(construct.equals(selected)) {
-            try {
-                highlighter.addHighlight(construct.getStart(),construct.getEnd(), InputColor.getPainters().get(InputColor.SELECTION));
-            } catch (BadLocationException e) {
-                e.printStackTrace();
-            }
-        }
-        if(painter !=null && (!construct.isComplex() || construct instanceof Quantifier)) {
-            try {
-                if(construct instanceof  Quantifier) {
-                    highlighter.addHighlight(((Quantifier)construct).getConstruct(0).getEnd(), construct.getEnd(), painter);
-                } else {
-                    highlighter.addHighlight(construct.getStart(), construct.getEnd(), painter);
+            if (construct.equals(selected) || ((construct.getParent() != null && selected != null && selected.getType() != Type.EXPRESSION) && construct.getParent().equals(selected))) {
+                try {
+                    highlighter.addHighlight(construct.getStart(), construct.getEnd(), InputColor.getPainters().get(InputColor.SELECTION));
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
                 }
-            } catch (BadLocationException e) {
-                e.printStackTrace();
             }
-        }
+
+            if (painter != null && (!construct.isComplex() || construct instanceof Quantifier)) {
+                try {
+                    if (construct instanceof Quantifier) {
+                        highlighter.addHighlight(((Quantifier) construct).getConstruct(0).getEnd(), construct.getEnd(), painter);
+                    } else {
+                        highlighter.addHighlight(construct.getStart(), construct.getEnd(), painter);
+                    }
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+            }
     }
 
     /**
@@ -104,7 +105,8 @@ public class InputHighlightManager extends HighlightManager {
     private void highlightGroup(Construct construct) {
         if(construct.isComplex()) {
             if(construct.getType() != Type.CHAR_CLASS && construct.getType() != Type.ALTERNATION && !(construct instanceof Quantifier)){ count++;}        //TODO boolean ;(
-            highlight((Complex) construct, count);
+            //highlightConstruct(construct, count);
+            highlight((Complex)construct,count);
         }
     }
 
@@ -151,6 +153,7 @@ public class InputHighlightManager extends HighlightManager {
             case BACKREFERENCE:
                 return InputColor.getPainters().get(InputColor.PREDEFINED);
             case COMMENT:
+            case QUOTATION:
                 return InputColor.getPainters().get(InputColor.COMMENT);
             case COMPONENT:
                 int c = group >= GroupColor.values().length ? (group % GroupColor.values().length) : group;
@@ -201,5 +204,9 @@ public class InputHighlightManager extends HighlightManager {
         } catch (NullPointerException e) {
             //e.printStackTrace();
         }
+    }
+
+    public void reset() {
+        highlighter.removeAllHighlights();
     }
 }

@@ -18,11 +18,29 @@ import View.UserInterface;
 import javax.swing.*;
 
 public class Main implements Observer{
-    private UserInterface anInterface;
+    /**
+     * UserInterface object representing GUI.
+     */
+    private UserInterface theInterface;
+    /**
+     * Managing highlighting of input field.
+     */
     private InputHighlightManager inputHighlightManager;
+    /**
+     * Managing highlighting of matching field.
+     */
     private MatchingHighlightManager matchingHighlightManager;
+    /**
+     * Managing highlighting of description field.
+     */
     private DescriptionHighlightManager descriptionHighlightManager;
+    /**
+     * Managing highlighting of comparing field.
+     */
     private SectionHighlightManager sectionHighlightManager;
+    /**
+     * Represents regular expression.
+     */
     private Expression expression;
 
     public Main() {
@@ -38,50 +56,70 @@ public class Main implements Observer{
         new Main();
     }
 
+    /**
+     * Creates and combine GUI elements.
+     */
     private void setUpUserInterface() {
-        anInterface = new UserInterface();
-        anInterface.addObserver(this);
-        anInterface.addInputMouseMotionListener(new MouseHoover(expression, Part.INPUT));
-        anInterface.addMatchingMouseMotionListener(new MouseHoover(expression, Part.MATCHING));
+        theInterface = new UserInterface();
+        theInterface.addObserver(this);
+        theInterface.addInputMouseMotionListener(new MouseHoover(expression, Part.INPUT));
+        theInterface.addMatchingMouseMotionListener(new MouseHoover(expression, Part.MATCHING));
         createHighlightManagers();
-        anInterface.setInputCaretListener(new SelectionHighlighter(inputHighlightManager));
-        anInterface.addMatchCaretListener(new SelectionHighlighter(matchingHighlightManager));
-        anInterface.addMatchCaretListener(new ExampleSelection(this));
+        theInterface.setInputCaretListener(new SelectionHighlighter(inputHighlightManager));
+        theInterface.addMatchCaretListener(new SelectionHighlighter(matchingHighlightManager));
+        theInterface.addMatchCaretListener(new ExampleSelection(this));
     }
 
+    /**
+     * Crates HighlightManager objects.
+     */
     private void createHighlightManagers() {
-        inputHighlightManager = new InputHighlightManager(anInterface.getInputHighlighter());
-        matchingHighlightManager = new MatchingHighlightManager(anInterface.getMatchingHighlighter());
-        descriptionHighlightManager = new DescriptionHighlightManager(anInterface.getDescriptionHighlighter());
-        sectionHighlightManager = new SectionHighlightManager(anInterface.getUpperHighlighter(),anInterface.getLowerHighlighter());
+        inputHighlightManager = new InputHighlightManager(theInterface.getInputHighlighter());
+        matchingHighlightManager = new MatchingHighlightManager(theInterface.getMatchingHighlighter());
+        descriptionHighlightManager = new DescriptionHighlightManager(theInterface.getDescriptionHighlighter());
+        sectionHighlightManager = new SectionHighlightManager(theInterface.getUpperHighlighter(), theInterface.getLowerHighlighter());
     }
 
+    /**
+     * Updates all displayed data.
+     */
     private void updateView() {
-        expression.set(anInterface.getInputText(), anInterface.getMatchingText());
-        anInterface.resetCompare();
+        System.out.println("UPDATE");
+        expression.set(theInterface.getInputText(), theInterface.getMatchingText());
+        //theInterface.resetCompare();
         inputHighlightManager.process(expression.getRoot());
-        anInterface.setTreeModel(inputHighlightManager, new RegExTree(expression), expression.isValid());
+        theInterface.setTreeModel(inputHighlightManager, new RegExTree(expression), expression.isValid());
+        matchingHighlightManager.reset();
 
         if (expression.isValid()) {
             matchingHighlightManager.process(expression.getOverallMatch());
-            anInterface.setDisplay(expression.getOverallMatch().getMatchDescription());
-            descriptionHighlightManager.process(anInterface.getDescriptionText(), expression.getOverallMatch());
+            theInterface.setDisplay(expression.getOverallMatch().getMatchDescription());
+            descriptionHighlightManager.process(theInterface.getDescriptionText(), expression.getOverallMatch());
 
         }
     }
 
+    /**
+     * Updates comparing view after choosing example to analysis.
+     * @param position position of caret during clicking.
+     */
     public void updateCompareView(int position) {
-        if((!anInterface.getMatchingText().equals("")) && (!anInterface.getInputText().equals(""))) {
+        System.out.println("UPDATE COMPARE");
+        sectionHighlightManager.reset();
+        theInterface.resetCompare();
+        if((!theInterface.getMatchingText().equals("")) && (!theInterface.getInputText().equals(""))) {
             try {
                 sectionHighlightManager.reset();
                 if (expression.getOverallMatch().hasSegment(position)) {
                     Segment s = expression.getOverallMatch().getSegmentByPosition(position);
+                    if(!s.getContent().equals("")) {
 
-                    anInterface.setUpperText(expression.getRoot().getText());
-                    anInterface.setLowerText(s.toString());
+                        theInterface.setUpperText(expression.getRoot().getText());
+                        theInterface.setLowerText(s.toString());
 
-                    expression.detail(s);
-                    sectionHighlightManager.process(expression, s.getStart());
+                        expression.detail(s);
+                        sectionHighlightManager.process(expression, s.getStart());
+                    }
                 }
             } catch (NullPointerException | IndexOutOfBoundsException e) {
                 //e.printStackTrace();
@@ -92,7 +130,7 @@ public class Main implements Observer{
 
     @Override
     public void update(Observed source) {
-        if(source == anInterface) {
+        if(source == theInterface) {
             updateView();
         }
     }
