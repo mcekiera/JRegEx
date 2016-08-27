@@ -14,7 +14,8 @@ import org.junit.runners.Suite;
         CompositeBuilderTest.class,
         QuantifierTest.class,
         DescLibTest.class,
-        XModerTest.class
+        XModerFalseTest.class,
+        XModerTrueTest.class
 
 })
 /**
