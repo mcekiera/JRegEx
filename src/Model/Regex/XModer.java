@@ -40,20 +40,6 @@ public class XModer {
         return INSTANCE;
     }
 
-    //*for testing
-    public static void main(String[] args) {
-        String[] pattern = {"(?x)a   #aa"};
-        String[] result = {
-                "FFFFFTTTTTT"
-        };
-        XModer XModer = new XModer();
-        for(int i = 0; i < pattern.length; i++) {
-            System.out.println("__________________");
-            System.out.println(pattern[i]);
-            XModer.process(pattern[i]);
-        }
-    }
-
     /**
      * Analyze pattern structure, searches for positions where x mode apply and where comments occur.
      * @param pattern to analysis.
@@ -65,7 +51,7 @@ public class XModer {
 
         for (int i = 0; i < pattern.length(); i++) {
             if (pattern.substring(i).startsWith("\\Q")) {
-                modifyRange(i, quotation(pattern, i), indices,false);
+                modifyRange(i, quotation(pattern, i), indices, false);
             } else if (isMode(pattern, i)) {
                 if (modeHasXModifier()) {
                     findModifierRange(pattern, i, isPositiveModifier(), Type.MODE);
@@ -78,11 +64,11 @@ public class XModer {
                 modifyRange(i, charClass(pattern, i), indices,false);
             } else if (pattern.charAt(i) == '#' && indices[i]) {
                 int result = extractComment(pattern, i);
-                modifyRange(i, charClass(pattern, i), comments, true);
+                modifyRange(i, result, comments, true);
                 i = result;
             } else if (Character.isWhitespace(pattern.charAt(i)) && indices[i]) {
                 int result = extractWhitespace(pattern,i);
-                modifyRange(i, charClass(pattern, i), comments,true);
+                modifyRange(i, result, comments, true);
                 i = result-1;
             }
 
@@ -93,16 +79,7 @@ public class XModer {
     }
 
     /**
-     * Determine if given index position lay within range of comment construct.
-     * @param index index in pattern String.
-     * @return true if on given index is comment constuct.
-     */
-    public boolean isInCommentRange(int index) {
-        return comments[index];
-    }
-
-    /**
-     * Iterate over boolean array, from start to end index, and change elments values.
+     * Iterate over boolean array, from start to end index, and change elements values.
      * @param start index of array.
      * @param end index of array.
      * @param arr array of booleans.
@@ -111,6 +88,15 @@ public class XModer {
         for(int q = start; q < end; q++) {
             arr[q] = value;
         }
+    }
+
+    /**
+     * Determine if given index position lay within range of comment construct.
+     * @param index index in pattern String.
+     * @return true if on given index is comment constuct.
+     */
+    public boolean isInCommentRange(int index) {
+        return comments[index];
     }
 
     /**
@@ -289,7 +275,6 @@ public class XModer {
         return !group.group().substring(0, group.group().indexOf(":")).substring(0,group.group()
                 .substring(0, group.group().indexOf(":")).lastIndexOf("x")).contains("-");
     }
-
     /**
      * Determines if currently matched non-capturing group with modifiers consist x modifier.
      * @return true if currently matched non-capturing group with modifiers consist x modifier.
@@ -297,4 +282,5 @@ public class XModer {
     private boolean inGroupModeHasXModifier() {
         return group.group().substring(0,group.group().indexOf(":")).contains("x");
     }
+
 }

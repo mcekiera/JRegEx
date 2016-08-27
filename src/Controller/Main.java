@@ -15,6 +15,7 @@ import View.Part;
 import View.Tree.RegExTree;
 import View.UserInterface;
 
+import javax.jnlp.BasicService;
 import javax.swing.*;
 
 public class Main implements Observer{
@@ -43,17 +44,19 @@ public class Main implements Observer{
      */
     private Expression expression;
 
-    public Main() {
-        init();
-    }
+    static BasicService basicService = null;
 
     public void init() {
         expression = new Expression();
-        SwingUtilities.invokeLater(this::setUpUserInterface);
+        setUpUserInterface();
     }
 
     public static void main(String[] args) {
-        new Main();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new Main().init();
+            }
+        });
     }
 
     /**
